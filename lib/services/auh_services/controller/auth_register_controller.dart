@@ -9,7 +9,7 @@ import 'package:skilluxfrontendflutter/models/user.dart';
 
 class GetXAuthController extends GetxController with StateMixin<User> {
   // User API Service
-  APIService authService = Get.find();
+  APIService apiService = Get.find();
   HiveUserPersistence userPersistence = Get.find();
 
   void register(UserRegisterDto userRegisterDto) async {
@@ -19,7 +19,7 @@ class GetXAuthController extends GetxController with StateMixin<User> {
     String path = "auth/register";
 
     ApiResponse response =
-        await authService.postRequest(path, data: userRegisterDto);
+        await apiService.postRequest(path, data: userRegisterDto);
 
     if (response.statusCode == 201) {
       User user = User.fromBody(response.body);
@@ -39,7 +39,7 @@ class GetXAuthController extends GetxController with StateMixin<User> {
     String path = "auth/login";
 
     ApiResponse response =
-        await authService.postRequest(path, data: userLoginDto);
+        await apiService.postRequest(path, data: userLoginDto);
 
     if (response.statusCode == 201) {
       UserLoginResponseDto userLoginResponseDto =
@@ -54,6 +54,19 @@ class GetXAuthController extends GetxController with StateMixin<User> {
       change(user, status: RxStatus.success());
     } else {
       // Set error state with error message
+      change(null, status: RxStatus.error(response.message));
+    }
+  }
+
+  void forgotPassword(String email) async {
+    change(null, status: RxStatus.loading());
+    String path = "auth/forgot-password";
+    ApiResponse response =
+        await apiService.postRequest(path, data: {"email": email});
+
+    if (response.statusCode == 200) {
+      change(null, status: RxStatus.success());
+    }else{
       change(null, status: RxStatus.error(response.message));
     }
   }

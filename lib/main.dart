@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skilluxfrontendflutter/config/theme/theme.dart';
 import 'package:skilluxfrontendflutter/core/utils/register_services.dart';
 
 void main() async {
@@ -17,10 +18,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Skillux',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
