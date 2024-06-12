@@ -5,7 +5,7 @@ import 'package:skilluxfrontendflutter/core/utils/response_data_structure.dart';
 import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_login_dto.dart';
 import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_login_response_dto.dart';
 import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_register_dto.dart';
-import 'package:skilluxfrontendflutter/models/user.dart';
+import 'package:skilluxfrontendflutter/models/user/user.dart';
 
 class GetXAuthController extends GetxController with StateMixin<User> {
   // User API Service

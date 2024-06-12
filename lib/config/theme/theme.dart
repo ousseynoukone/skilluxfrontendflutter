@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/app_bar_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/bottom_sheet_theme.dart';
@@ -14,7 +13,7 @@ class AppTheme {
 
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
-    fontFamily: "Poppins",
+    fontFamily: "SF Pro",
     brightness: Brightness.light,
     primaryColor: ColorsTheme.primary,
     scaffoldBackgroundColor:  ColorsTheme.white,
@@ -29,7 +28,7 @@ class AppTheme {
 
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
-    fontFamily: "Poppins",
+    fontFamily: "SF Pro",
     brightness: Brightness.dark,
     primaryColor: ColorsTheme.primary,
     scaffoldBackgroundColor: ColorsTheme.black,

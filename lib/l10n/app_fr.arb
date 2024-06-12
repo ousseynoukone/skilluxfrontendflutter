@@ -1,0 +1,36 @@
+{
+    "@@locale": "fr",
+    "language": "Francais",
+    "@language": {
+        "description": "Langue sélectionnée"
+    },
+    
+    "twoLanguages": "Cette application dispose de 2 langues",
+    "changeLanguage": "Changer de langue",
+
+    
+    "connectWithYourFolks": "Connectez-vous avec vos amis",
+    "welcomeToSkillux": "Bienvenue sur Skillux, la plateforme où le savoir rencontre la communauté ! Ici, vous pouvez vous connecter avec des personnes partageant les mêmes intérêts, partager votre expertise et apprendre des autres sur divers sujets.",
+    "learnFromOther" : "Apprenez des autres",
+    "getSuggestionBased" : "Obtenez des suggestions basées sur vos centres d'intérêt et votre activité. Utilisez notre fonctionnalité de recherche robuste pour découvrir du contenu et des experts pertinents.",
+    "shareYourKnowledge" : "Partagez votre propre savoir",
+    "postTutorial" : "Publiez des tutoriels, des articles et des guides vidéo pour aider les autres à apprendre. Utilisez notre système de catégorisation et de balisage pour organiser et trouver du contenu facilement.",
+    "next" : "Suivant",
+    "skip" : "Passer",
+    "done" : "Terminé",
+
+
+    "stayEngaged" : "Restez engagé",
+    "participateActively" : "La meilleure façon de profiter pleinement de notre application est de participer activement.",
+    "skill" : "Skill",
+    "ux" : "ux",
+
+
+
+
+    "login":"Se connecter",
+    "register":"S'enregistrer"
+
+
+    
+}

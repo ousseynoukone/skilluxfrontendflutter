@@ -1,23 +1,46 @@
-import 'package:hive/hive.dart';
-import 'package:skilluxfrontendflutter/models/user.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:skilluxfrontendflutter/models/states/app_config_state.dart';
+import 'package:skilluxfrontendflutter/models/user/user.dart';
 
 class HiveUserPersistence {
-  final  String _userBoxName = 'userBox';
+  final  String _userBox = 'userBox';
 
   Future<void> saveUser(User user) async {
-    var box = await Hive.openBox(_userBoxName);
+    var box = await Hive.openBox(_userBox);
     await box.put('user', user);
   }
 
   Future<User> readUser() async {
-    var box = await Hive.openBox(_userBoxName);
+    var box = await Hive.openBox(_userBox);
     final User user = box.get('user');
     return user;
   }
 
   Future<void> deleteUser() async {
-    var box = await Hive.openBox(_userBoxName);
+    var box = await Hive.openBox(_userBox);
     await box.delete('user');
+  }
+
+
+}
+
+class HiveAppStatePersistence {
+  final  String _stateBox = 'stateBox';
+
+  Future<void> saveState(AppConfigState state) async {
+    var box = await Hive.openBox(_stateBox);
+    await box.put('appConfigState', state);
+  }
+
+  Future<AppConfigState> readState() async {
+    var box = await Hive.openBox(_stateBox);
+    final AppConfigState state = box.get('appConfigState') ?? AppConfigState() ;
+    return state;
+  }
+
+  Future<void> deleteState() async {
+    var box = await Hive.openBox(_stateBox);
+    await box.delete('appConfigState');
   }
 
 
