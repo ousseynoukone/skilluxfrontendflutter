@@ -28,8 +28,6 @@ class _PrimaryLayerState extends State<PrimaryLayer> {
 
   @override
   Widget build(BuildContext context) {
-    var _text = context.localizations;
-    TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
       body: Center(
         child: FutureBuilder<void>(
@@ -50,7 +48,7 @@ class _PrimaryLayerState extends State<PrimaryLayer> {
                 if (controller.appConfigState.value.isUserLogged == false) {
                   return const Auth();
                 }
-      
+
                 return const SizedBox.shrink();
               });
             }

@@ -1,36 +1,47 @@
 {
-    "@@locale": "fr",
-    "language": "Francais",
-    "@language": {
-        "description": "Langue sélectionnée"
-    },
-    
-    "twoLanguages": "Cette application dispose de 2 langues",
-    "changeLanguage": "Changer de langue",
+  "@@locale": "fr",
+  "language": "Français",
+  "@language": {
+    "description": "Langue sélectionnée."
+  },
+  "twoLanguages": "Cette application a 2 langues.",
+  "changeLanguage": "Changer de langue.",
+  "connectWithYourFolks": "Connectez-vous avec vos amis.",
+  "welcomeToSkillux": "Bienvenue sur Skillux, la plateforme où la connaissance rencontre la communauté ! Ici, vous pouvez vous connecter avec des personnes partageant les mêmes idées, partager votre expertise et apprendre des autres sur divers sujets.",
+  "learnFromOther": "Apprenez des autres.",
+  "getSuggestionBased": "Obtenez des suggestions basées sur vos intérêts et votre activité. Utilisez notre fonctionnalité de recherche robuste pour découvrir du contenu et des experts pertinents.",
+  "shareYourKnowledge": "Partagez vos connaissances.",
+  "postTutorial": "Publiez des tutoriels, des articles et des guides vidéo pour aider les autres à apprendre. Utilisez notre système de catégorisation et de balisage pour organiser et trouver facilement du contenu.",
+  "next": "Suivant",
+  "skip": "Passer",
+  "done": "Terminé",
+  "stayEngaged": "Restez engagé.",
+  "participateActively": "La meilleure façon de tirer le meilleur parti de notre application est de participer activement.",
+  "skill": "Compétence",
+  "ux": "UX",
+  "login": "Connexion",
+  "register": "S'inscrire",
+  "enterYourEmailOrUsername": "Entrez votre email ou nom d'utilisateur.",
+  "enterYourPassword": "Entrez votre mot de passe.",
+  "password": "Mot de passe",
+  "forgotYour": "Vous avez oublié votre ",
+  "passwordQuestion": "mot de passe ?",
 
-    
-    "connectWithYourFolks": "Connectez-vous avec vos amis",
-    "welcomeToSkillux": "Bienvenue sur Skillux, la plateforme où le savoir rencontre la communauté ! Ici, vous pouvez vous connecter avec des personnes partageant les mêmes intérêts, partager votre expertise et apprendre des autres sur divers sujets.",
-    "learnFromOther" : "Apprenez des autres",
-    "getSuggestionBased" : "Obtenez des suggestions basées sur vos centres d'intérêt et votre activité. Utilisez notre fonctionnalité de recherche robuste pour découvrir du contenu et des experts pertinents.",
-    "shareYourKnowledge" : "Partagez votre propre savoir",
-    "postTutorial" : "Publiez des tutoriels, des articles et des guides vidéo pour aider les autres à apprendre. Utilisez notre système de catégorisation et de balisage pour organiser et trouver du contenu facilement.",
-    "next" : "Suivant",
-    "skip" : "Passer",
-    "done" : "Terminé",
+  "pleaseEnterLogin": "Veuillez entrer votre identifiant.",
+  "passwordRequirements": "Le mot de passe doit contenir au moins une lettre et un chiffre, et comporter au moins 8 caractères.",
 
+  "fullName": "Nom complet",
+  "enterFullName": "Entrez votre nom complet.",
 
-    "stayEngaged" : "Restez engagé",
-    "participateActively" : "La meilleure façon de profiter pleinement de notre application est de participer activement.",
-    "skill" : "Skill",
-    "ux" : "ux",
+  "username": "Nom d'utilisateur",
+  "enterUsername": "Entrez votre nom d'utilisateur.",
+  "usernameRequirement": "Le nom d'utilisateur doit comporter au moins 3 caractères.",
 
+  "email": "Email",
+  "enterEmail": "Entrez votre email.",
+  "emailRequirement": "Email non valide , entrez un email valide.",
 
-
-
-    "login":"Se connecter",
-    "register":"S'enregistrer"
-
-
-    
+  "birth": "Anniversaire",
+  "enterBirth": "Entrez votre date de naissance.",
+  "birthRequirement": "La date de naissance doit être au format JJ/MM/AAAA."
 }

@@ -11,20 +11,20 @@ class InputDecorationAppTheme {
     suffixIconColor: ColorsTheme.tertiary,
     labelStyle:
         const TextStyle().copyWith(fontSize: 14, color: ColorsTheme.black),
-    hintStyle:
-        const TextStyle().copyWith(fontSize: 14, color: ColorsTheme.black),
+    hintStyle: const TextStyle()
+        .copyWith(fontSize: 12, color: ColorsTheme.black.withOpacity(0.5)),
     errorStyle: const TextStyle().copyWith(fontStyle: FontStyle.normal),
     floatingLabelStyle:
         const TextStyle().copyWith(color: ColorsTheme.black.withOpacity(0.8)),
     border: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(width: 1, color: ColorsTheme.tertiary)),
+        borderSide: const BorderSide(width: 1, color: ColorsTheme.white)),
     enabledBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: ColorsTheme.tertiary)),
+        borderSide: const BorderSide(width: 1, color: ColorsTheme.white)),
     focusedBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: ColorsTheme.black)),
+        borderSide: const BorderSide(width: 1, color: ColorsTheme.secondary)),
     errorBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
         borderSide: const BorderSide(width: 1, color: ColorsTheme.error)),
@@ -33,31 +33,33 @@ class InputDecorationAppTheme {
         borderSide: const BorderSide(width: 1, color: ColorsTheme.error2)),
   );
 
-    static InputDecorationTheme darktInputDecorationTheme = InputDecorationTheme(
+  static InputDecorationTheme darktInputDecorationTheme = InputDecorationTheme(
     errorMaxLines: 3,
     prefixIconColor: ColorsTheme.tertiary,
     suffixIconColor: ColorsTheme.tertiary,
     labelStyle:
         const TextStyle().copyWith(fontSize: 14, color: ColorsTheme.white),
-    hintStyle:
-        const TextStyle().copyWith(fontSize: 14, color: ColorsTheme.white),
+    hintStyle: const TextStyle().copyWith(
+        fontSize: 12,
+        color: ColorsTheme.white.withOpacity(0.5),
+        fontWeight: FontWeight.w100),
     errorStyle: const TextStyle().copyWith(fontStyle: FontStyle.normal),
-    floatingLabelStyle:
-        const TextStyle().copyWith(color: ColorsTheme.black.withOpacity(0.8)),
+    floatingLabelStyle: const TextStyle().copyWith(
+        color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.8)),
     border: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(width: 1, color: ColorsTheme.tertiary)),
+        borderSide: const BorderSide(width: 1, color: ColorsTheme.white)),
     enabledBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: ColorsTheme.tertiary)),
+        borderSide: const BorderSide(width: 1, color: ColorsTheme.white)),
     focusedBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: ColorsTheme.white)),
+        borderSide: const BorderSide(width: 1, color: ColorsTheme.secondary)),
     errorBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: ColorsTheme.error)),
+        borderSide: const BorderSide(width: 1, color: ColorsTheme.error2)),
     focusedErrorBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: ColorsTheme.error2)),
+        borderSide: const BorderSide(width: 1, color: ColorsTheme.error)),
   );
 }

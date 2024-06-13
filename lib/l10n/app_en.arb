@@ -1,33 +1,48 @@
 {
-    "@@locale": "en",
-    "language": "English",
-    "@language": {
-        "description": "Selected language"
-    },
-    
-    "twoLanguages": "This app has 2 languages",
-    "changeLanguage": "Change language",
+  "@@locale": "en",
+  "language": "English",
+  "@language": {
+    "description": "Selected language."
+  },
+  "twoLanguages": "This app has 2 languages.",
+  "changeLanguage": "Change language.",
+  "connectWithYourFolks": "Connect with your folks.",
+  "welcomeToSkillux": "Welcome to Skillux, the platform where knowledge meets community! Here, you can connect with like-minded individuals, share your expertise, and learn from others across various subjects.",
+  "learnFromOther": "Learn from others.",
+  "getSuggestionBased": "Get suggestions based on your interests and activity. Use our robust search functionality to discover relevant content and experts.",
+  "shareYourKnowledge": "Share your own knowledge.",
+  "postTutorial": "Post tutorials, articles, and video guides to help others learn. Use our categorization and tagging system to organize and find content easily.",
+  "next": "Next",
+  "skip": "Skip",
+  "done": "Done",
+  "stayEngaged": "Stay engaged.",
+  "participateActively": "The best way to get the most out of our app is to participate actively.",
+  "skill": "Skill",
+  "ux": "UX",
+  "login": "Login",
+  "register": "Register",
+  "enterYourEmailOrUsername": "Enter your email or username.",
+  "enterYourPassword": "Enter your password.",
+  "password": "Password",
+  "forgotYour": "Forgot your ",
+  "passwordQuestion": "password?",
 
+  "pleaseEnterLogin": "Enter your login.",
 
-    "connectWithYourFolks": "Connect with your folks",
-    "welcomeToSkillux": "Welcome to Skillux, the platform where knowledge meets community! Here, you can connect with like-minded individuals, share your expertise, and learn from others across various  subjects.",
-    "learnFromOther" : "Learn from others",
-    "getSuggestionBased" : "Get suggestions based on your interests and activity. Use our robust search functionality to discover relevant content and experts.",
-    "shareYourKnowledge" : "Share your own knowledge",
-    "postTutorial" : "Post tutorials, articles, and video guides to help others learn. Use our categorization and tagging system to organize and find content easily.",
-    "next" : "Next",
-    "skip" : "Skip",
-    "done" : "Done",
+  "passwordRequirements": "Password must contain at least one letter and one digit, and be at least 8 characters long.",
 
+  "fullName": "Full name",
+  "enterFullName": "Enter your full name.",
 
+  "username": "Username",
+  "enterUsername": "Enter your username.",
+  "usernameRequirement": "Username should be at least 3 characters long.",
 
-    "stayEngaged" : "Stay engaged",
-    "participateActively" : "The best way to get the most out of our app is to participate actively.",
-    "skill" : "Skill",
-    "ux" : "ux",
+  "email": "Email",
+  "enterEmail": "Enter your email.",
+  "emailRequirement": "Email not valid , enter a valid email.",
 
-
-    "login":"Login",
-    "register":"Register"
-
+  "birth": "Birthday",
+  "enterBirth": "Enter your birthday.",
+  "birthRequirement": "Birthdate must be in the format MM/DD/YYYY."
 }

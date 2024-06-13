@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/presentations/onBoard/intro_screens/intro_page_1.dart';
 import 'package:skilluxfrontendflutter/presentations/onBoard/intro_screens/intro_page_2.dart';
 import 'package:skilluxfrontendflutter/presentations/onBoard/intro_screens/intro_page_3.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:skilluxfrontendflutter/presentations/features/auth/auth.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -23,20 +25,23 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     TextTheme textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      body: Stack(
+      body: Column(
         children: [
-          PageView(
-            controller: _controller,
-            onPageChanged: (value) {
-              // Check if we are on the last page
-              setState(() {
-                isOnLastPage = (value == numberOfIntroPage - 1);
-              });
-            },
-            children: const [IntroPage1(), IntroPage2(), IntroPage3()],
+          Expanded(
+            child: PageView(
+              controller: _controller,
+              onPageChanged: (value) {
+                // Check if we are on the last page
+                setState(() {
+                  isOnLastPage = (value == numberOfIntroPage - 1);
+                });
+              },
+              children: const [IntroPage1(), IntroPage2(), IntroPage3()],
+            ),
           ),
           Container(
-              alignment: const Alignment(0, 0.75),
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              color: ColorsTheme.primary,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -65,7 +70,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   isOnLastPage
                       ? GestureDetector(
                           onTap: () {
-                            
+                            Get.to(const Auth());
                           },
                           child: Text(context.localizations.done,
                               style: textTheme.labelMedium
