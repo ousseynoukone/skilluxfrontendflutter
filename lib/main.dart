@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
@@ -11,6 +13,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:skilluxfrontendflutter/presentations/layers/primary_layer/primary_layer.dart';
 import 'package:skilluxfrontendflutter/models/states/app_config_state.dart';
+import 'dart:ui';
+
+import 'package:skilluxfrontendflutter/services/mainHelpers/helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +25,7 @@ void main() async {
 
   // Register the adapter
   Hive.registerAdapter(AppConfigStateAdapter());
-  Hive.registerAdapter(UserAdapter());  
+  Hive.registerAdapter(UserAdapter());
 // ---------END---------------------
 
   // Registering some needed getX services
@@ -41,7 +46,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    GeneraleStreamLanguage.languageStream.add(const Locale('en'));
     super.initState();
   }
 
@@ -56,7 +60,7 @@ class _MyAppState extends State<MyApp> {
     return StreamBuilder<Locale>(
       stream: GeneraleStreamLanguage.languageStream.stream,
       builder: (BuildContext context, AsyncSnapshot<Locale> snapshot) {
-        Locale? locale = snapshot.data ?? const Locale('en');
+        Locale? locale = snapshot.data ?? defaultLangage();
 
         return GetMaterialApp(
           title: 'Skillux',

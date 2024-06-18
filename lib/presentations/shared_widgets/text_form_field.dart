@@ -7,26 +7,35 @@ class TextFormFieldComponent extends StatelessWidget {
   final bool obscureText;
   final TextEditingController controller;
   final FormFieldValidator<String>? validator;
-
-  const TextFormFieldComponent({
-    super.key,
-    required this.labelText,
-    required this.hintText,
-    this.obscureText = false,
-    required this.controller,
-    this.validator,
-  });
+  final VoidCallback? ontap;
+  final Widget? suffixIcon;
+  final Widget? prefixIcon;
+  final bool readOnly;
+  const TextFormFieldComponent(
+      {super.key,
+      required this.labelText,
+      required this.hintText,
+      this.suffixIcon,
+      this.prefixIcon,
+      this.obscureText = false,
+      required this.controller,
+      this.validator,
+      this.ontap,
+      this.readOnly = false});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: ontap,
+      readOnly: readOnly,
       controller: controller,
       obscureText: obscureText,
       validator: validator,
       decoration: InputDecoration(
-        labelText: labelText,
-        hintText: hintText,
-      ),
+          labelText: labelText,
+          hintText: hintText,
+          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon),
     );
   }
 }

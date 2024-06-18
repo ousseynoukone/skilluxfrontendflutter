@@ -8,14 +8,20 @@ class BirthDateValidator {
     if (value == null || value.isEmpty) {
       return text?.enterBirth;
     }
-    // Example validation: Check if the input matches a date format
-    final RegExp dateRegex = RegExp(
-      r'^\d{4}-\d{2}-\d{2}$', // Example: YYYY-MM-DD
+
+    // Example validation: Check if the input matches either en format (YYYY-MM-DD) or fr format (DD-MM-YYYY)
+    final RegExp enDateRegex = RegExp(
+      r'^\d{4}-\d{2}-\d{2}$', // English format: YYYY-MM-DD
     );
-    if (!dateRegex.hasMatch(value)) {
+
+    final RegExp frDateRegex = RegExp(
+      r'^\d{2}-\d{2}-\d{4}$', // French format: DD-MM-YYYY
+    );
+
+    if (!enDateRegex.hasMatch(value) &&  !frDateRegex.hasMatch(value)) {
       return text?.birthRequirement;
     }
-    // Additional custom validation logic can be added here if needed
+
     return null; // Return null if the input is valid
   }
 }

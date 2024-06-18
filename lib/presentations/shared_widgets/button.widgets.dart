@@ -7,11 +7,11 @@ class ButtonComponent extends StatelessWidget {
   final EdgeInsets? edgeInsets;
 
   const ButtonComponent({
-    Key? key,
+    super.key,
     required this.text,
     this.edgeInsets,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

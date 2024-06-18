@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/config/validators/login_validator.dart';
@@ -17,6 +19,13 @@ class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _loginController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  bool _isObscure = true;
+
+  void _toggleVisibility() {
+    setState(() {
+      _isObscure = !_isObscure;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +46,7 @@ class _LoginState extends State<Login> {
                   controller: _loginController,
                   hintText: text.enterYourEmailOrUsername,
                   labelText: text.login,
+                  prefixIcon: const Icon(Icons.login_outlined),
                   validator: (value) {
                     var message = LoginValidator.validate(value);
                     if (value == null || message != null) {
@@ -52,7 +62,19 @@ class _LoginState extends State<Login> {
                   controller: _passwordController,
                   hintText: text.enterYourPassword,
                   labelText: text.password,
-                  obscureText: true,
+                  obscureText: _isObscure,
+                  prefixIcon: const Icon(Icons.password_outlined),
+                  suffixIcon: Padding(
+                    padding: const EdgeInsets.only(right: 4.0),
+                    child: IconButton(
+                      icon: _isObscure
+                          ? Icon(Icons.visibility)
+                          : Icon(Icons.visibility_off_outlined),
+                      onPressed: () {
+                        _toggleVisibility();
+                      },
+                    ),
+                  ),
                   validator: (value) {
                     var message = PasswordValidator.validate(value);
                     if (value == null || message != null) {

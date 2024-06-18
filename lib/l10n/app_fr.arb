@@ -17,8 +17,8 @@
   "done": "Terminé",
   "stayEngaged": "Restez engagé.",
   "participateActively": "La meilleure façon de tirer le meilleur parti de notre application est de participer activement.",
-  "skill": "Compétence",
-  "ux": "UX",
+  "skill": "Skill",
+  "ux": "ux",
   "login": "Connexion",
   "register": "S'inscrire",
   "enterYourEmailOrUsername": "Entrez votre email ou nom d'utilisateur.",
@@ -43,5 +43,7 @@
 
   "birth": "Anniversaire",
   "enterBirth": "Entrez votre date de naissance.",
-  "birthRequirement": "La date de naissance doit être au format JJ/MM/AAAA."
+  "birthRequirement": "La date de naissance doit être au format JJ/MM/AAAA.",
+
+  "ok":"Choisir"
 }

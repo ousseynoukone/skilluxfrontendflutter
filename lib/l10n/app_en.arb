@@ -18,7 +18,7 @@
   "stayEngaged": "Stay engaged.",
   "participateActively": "The best way to get the most out of our app is to participate actively.",
   "skill": "Skill",
-  "ux": "UX",
+  "ux": "ux",
   "login": "Login",
   "register": "Register",
   "enterYourEmailOrUsername": "Enter your email or username.",
@@ -44,5 +44,7 @@
 
   "birth": "Birthday",
   "enterBirth": "Enter your birthday.",
-  "birthRequirement": "Birthdate must be in the format MM/DD/YYYY."
+  "birthRequirement": "Birthdate must be in the format MM/DD/YYYY.",
+
+  "ok":"Ok"
 }

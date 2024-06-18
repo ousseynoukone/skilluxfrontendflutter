@@ -66,7 +66,7 @@ class GetXAuthController extends GetxController with StateMixin<User> {
 
     if (response.statusCode == 200) {
       change(null, status: RxStatus.success());
-    }else{
+    } else {
       change(null, status: RxStatus.error(response.message));
     }
   }
