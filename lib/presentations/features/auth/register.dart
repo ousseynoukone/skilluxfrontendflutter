@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:skilluxfrontendflutter/config/validators/birth_validator.dart';
 import 'package:skilluxfrontendflutter/config/validators/email_validator.dart';
 import 'package:skilluxfrontendflutter/config/validators/full_name_validator.dart';
 import 'package:skilluxfrontendflutter/config/validators/password_validator.dart';
 import 'package:skilluxfrontendflutter/config/validators/username_validator.dart';
+import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_register_dto.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/widgets/date_picker.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/button.widgets.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_form_field.dart';
+import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_register_controller.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -24,6 +27,7 @@ class _RegisterState extends State<Register> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _birthController = TextEditingController();
+  final GetXAuthController _getXAuthController = Get.find();
 
   bool _isObscure = true;
 
@@ -137,28 +141,35 @@ class _RegisterState extends State<Register> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ButtonComponent(
-                  onPressed: () {
-                    // Validate the form before submitting
-                    if (_formKey.currentState!.validate()) {
-                      // Form is valid, proceed with registration logic
-                      String fullName = _fullNameController.text.trim();
-                      String username = _usernameController.text.trim();
-                      String email = _emailController.text.trim();
-                      String password = _passwordController.text;
-                      String birthDate = DateFormat('yyyy-MM-dd', 'en')
-                          .format(DateTime.parse(_birthController.text.trim()));
+                child: Obx(() => ButtonComponent(
+                      onPressed: () {
+                        // Validate the form before submitting
+                        if (_formKey.currentState!.validate()) {
+                          // Form is valid, proceed with registration logic
+                          String fullName = _fullNameController.text.trim();
+                          String username = _usernameController.text.trim();
+                          String email = _emailController.text.trim();
+                          String password = _passwordController.text;
+                          String birth = DateFormat('yyyy-MM-dd', 'en').format(
+                              DateTime.parse(_birthController.text.trim()));
 
-                      // Implement your registration logic here
-                      print('Full Name: $fullName');
-                      print('Username: $username');
-                      print('Email: $email');
-                      print('Password: $password');
-                      print('Birth Date: $birthDate');
-                    }
-                  },
-                  text: text.register,
-                ),
+                          // Creating userRegisterDto
+                          UserRegisterDto userRegisterDto = UserRegisterDto(
+                              username: username,
+                              fullName: fullName,
+                              password: password,
+                              birth: birth,
+                              email: email);
+
+                          // Calling register method from _getXAuthController
+                          _getXAuthController.register(userRegisterDto);
+                        }
+                      },
+                      text: text
+                          .register, // Assuming 'text.register' is your localized register button text
+                      isLoading: _getXAuthController.isLoading
+                          .value, // Pass the isLoading state from _getXAuthController
+                    )),
               ),
             ],
           ),

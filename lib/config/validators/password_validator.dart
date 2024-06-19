@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart'; // Import GetX package
+import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 
 class PasswordValidator {
   static String? validate(String? value) {
@@ -19,9 +18,9 @@ class PasswordValidator {
   }
 
   static bool _isValidPassword(String value) {
-    // Password pattern regex
+    // Password pattern regex (at least 8 characters, with at least one letter and one digit)
     final RegExp passwordRegex =
-        RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
+        RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$');
     return passwordRegex.hasMatch(value);
   }
 }

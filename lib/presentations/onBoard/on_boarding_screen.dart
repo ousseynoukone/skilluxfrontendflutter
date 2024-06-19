@@ -70,7 +70,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   isOnLastPage
                       ? GestureDetector(
                           onTap: () {
-                            Get.to(const Auth());
+                            Get.to(() => const Auth());
                           },
                           child: Text(context.localizations.done,
                               style: textTheme.labelMedium

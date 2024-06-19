@@ -1,129 +1,138 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:skilluxfrontendflutter/config/constant/constant.dart';
+import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
 import 'package:skilluxfrontendflutter/core/utils/response_data_structure.dart';
+import 'package:logger/logger.dart';
+import 'package:skilluxfrontendflutter/models/user/user.dart';
 
 class APIService {
-  static final Dio _dio = Dio(BaseOptions(
-    baseUrl: BASE_URL,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    },
-  ));
+  final Logger _logger = Logger();
+  final HiveUserPersistence _hiveUserPersistence = HiveUserPersistence();
+  String? token = "";
 
-  final String? token = "";
+  Future<void> addTokenHeader() async {
+    User _user = await _hiveUserPersistence.readUser();
+    token = _user.token ?? "";
+  }
 
 
-  Future<ApiResponse> getRequest(String path,
-      {Map<String, dynamic>? queryParameters,
-      Options? options,}) async {
+  APIService() {
+    addTokenHeader();
+  }
+
+  Future<ApiResponse> getRequest(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
-      final response = await _dio.get(
-        path,
-        queryParameters: queryParameters,
-        options: options?.copyWith(
-          headers: {'HttpHeaders.authorizationHeader': "Bearer $token"},
-        ),
+      final uri = Uri.parse(BASE_URL + path);
+      final response = await http.get(
+        uri.replace(queryParameters: queryParameters),
+        headers: {'authorization': 'Bearer $token'},
       );
-      return ApiResponse(
-        statusCode: response.statusCode ?? 0,
-        body: response.data,
-      );
-    } on DioException catch (e) {
-      return _handleError(e);
+      return _handleResponse(response);
+    } catch (e) {
+      _logger.e(e.toString());
+      return const ApiResponse(
+          statusCode: 500, body: {'error': 'Internal Server Error'});
     }
   }
 
-  Future<ApiResponse> postRequest(String path,{ data , queryParameters , Options? options}) async {
+  Future<ApiResponse> postRequest(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
-      final response = await _dio.post(
-        path,
-        data: data,
-        queryParameters: queryParameters,
-        options: options?.copyWith(
-          headers: {'HttpHeaders.authorizationHeader': "Bearer $token"},
-        ),
+      final uri = Uri.parse(BASE_URL + path);
+      final response = await http.post(
+        uri.replace(queryParameters: queryParameters),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'authorization': 'Bearer $token',
+        },
+        body: jsonEncode(data),
       );
+      return _handleResponse(response);
+    } catch (e) {
+      _logger.e(e.toString());
       return ApiResponse(
-        statusCode: response.statusCode ?? 0,
-        body: response.data,
-      );
-    } on DioException catch (e) {
-      return _handleError(e);
+          statusCode: 500, body: {'error': 'Internal Server Error'});
     }
   }
 
-  Future<ApiResponse> putRequest(String path,
-      {dynamic data,
-      Map<String, dynamic>? queryParameters,
-      Options? options,}) async {
+  Future<ApiResponse> putRequest(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
-      final response = await _dio.put(
-        path,
-        data: data,
-        queryParameters: queryParameters,
-        options: options?.copyWith(
-          headers: {'HttpHeaders.authorizationHeader': "Bearer $token"},
-        ),
+      final uri = Uri.parse(BASE_URL + path);
+      final response = await http.put(
+        uri.replace(queryParameters: queryParameters),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'authorization': 'Bearer $token',
+        },
+        body: jsonEncode(data),
       );
+      return _handleResponse(response);
+    } catch (e) {
+      _logger.e(e.toString());
       return ApiResponse(
-        statusCode: response.statusCode ?? 0,
-        body: response.data,
-      );
-    } on DioException catch (e) {
-      return _handleError(e);
+          statusCode: 500, body: {'error': 'Internal Server Error'});
     }
   }
 
-  Future<ApiResponse> patchRequest(String path,
-      {dynamic data,
-      Map<String, dynamic>? queryParameters,
-      Options? options}) async {
+  Future<ApiResponse> patchRequest(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
-      final response = await _dio.patch(
-        path,
-        data: data,
-        queryParameters: queryParameters,
-        options: options?.copyWith(
-          headers: {'HttpHeaders.authorizationHeader': "Bearer $token"},
-        ),
+      final uri = Uri.parse(BASE_URL + path);
+      final response = await http.patch(
+        uri.replace(queryParameters: queryParameters),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'authorization': 'Bearer $token',
+        },
+        body: jsonEncode(data),
       );
+      return _handleResponse(response);
+    } catch (e) {
+      _logger.e(e.toString());
       return ApiResponse(
-        statusCode: response.statusCode ?? 0,
-        body: response.data,
-      );
-    } on DioException catch (e) {
-      return _handleError(e);
+          statusCode: 500, body: {'error': 'Internal Server Error'});
     }
   }
 
-  Future<ApiResponse> deleteRequest(String path,
-      {dynamic data,
-      Map<String, dynamic>? queryParameters,
-      Options? options,
-      }) async {
+  Future<ApiResponse> deleteRequest(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
-      final response = await _dio.delete(
-        path,
-        data: data,
-        queryParameters: queryParameters,
-        options: options?.copyWith(
-          headers: {'HttpHeaders.authorizationHeader': "Bearer $token"},
-        ),
-  
+      final uri = Uri.parse(BASE_URL + path);
+      final response = await http.delete(
+        uri.replace(queryParameters: queryParameters),
+        headers: {'authorization': 'Bearer $token'},
       );
+      return _handleResponse(response);
+    } catch (e) {
+      _logger.e(e.toString());
       return ApiResponse(
-        statusCode: response.statusCode ?? 0,
-        body: response.data,
-      );
-    } on DioException catch (e) {
-      return _handleError(e);
+          statusCode: 500, body: {'error': 'Internal Server Error'});
     }
   }
 
-  ApiResponse _handleError(DioException error) {
-    final statusCode = error.response?.statusCode ?? 0;
-    final errorMessage = error.response?.data['error'] ?? 'Unknown error';
-    return ApiResponse(statusCode: statusCode, body: {'error': errorMessage});
+  ApiResponse _handleResponse(http.Response response) {
+    final statusCode = response.statusCode;
+    final body = jsonDecode(response.body);
+    return ApiResponse(statusCode: statusCode ?? 0, body: body);
   }
 }

@@ -98,6 +98,7 @@ class _LoginState extends State<Login> {
                     }
                   },
                   text: text.login,
+                  isLoading: false,
                 ),
               ),
               TextButton(

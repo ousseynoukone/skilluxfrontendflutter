@@ -52,7 +52,9 @@ dependencies:
   #For smooth page indicator on pageView
   smooth_page_indicator: ^1.1.0
 
-
+  #A composable, multi-platform, Future-based API for HTTP requests.
+  http: ^1.2.1
+  
   flutter_localizations:
     sdk: flutter
 

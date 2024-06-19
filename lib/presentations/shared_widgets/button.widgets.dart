@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 
 class ButtonComponent extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final EdgeInsets? edgeInsets;
-
-  const ButtonComponent({
-    super.key,
-    required this.text,
-    this.edgeInsets,
-    required this.onPressed,
-  });
+  final bool isLoading;
+  const ButtonComponent(
+      {super.key,
+      required this.text,
+      this.edgeInsets,
+      required this.onPressed,
+      required this.isLoading});
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +28,15 @@ class ButtonComponent extends StatelessWidget {
           ),
           // Optionally, you can add more styling here such as background color, etc.
         ),
-        onPressed: onPressed,
-        child: Text(
-          text,
-          style: textTheme.bodyMedium, // Adjust text style as needed
-        ),
+        onPressed: isLoading ? null : onPressed,
+        child: isLoading
+            ? const LinearProgressIndicator(
+                color: ColorsTheme.primary,
+              )
+            : Text(
+                text,
+                style: textTheme.bodyMedium, // Adjust text style as needed
+              ),
       ),
     );
   }

@@ -46,5 +46,11 @@
   "enterBirth": "Enter your birthday.",
   "birthRequirement": "Birthdate must be in the format MM/DD/YYYY.",
 
-  "ok":"Ok"
+  "ok":"Ok",
+
+  "alert":"Alert",
+  "error":"Error",
+  "errorUnexpected":"An unexpected error occurred",
+
+  "forgotPasswordEmail":"E-mail message has been sent ,please follow thoses instructions."
 }

@@ -90,7 +90,7 @@ class _DatePickerComponentState extends State<DatePickerComponent> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  
     return TextFormFieldComponent(
       ontap: () {
         // Prevent keyboard

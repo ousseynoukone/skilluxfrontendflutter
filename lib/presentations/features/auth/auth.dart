@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
+import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/widgets/navigation_bar.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/skillux.dart';
+import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_register_controller.dart';
 
 class Auth extends StatefulWidget {
   const Auth({super.key});
@@ -15,6 +18,7 @@ class _AuthState extends State<Auth> {
   Widget build(BuildContext context) {
     var text = context.localizations;
     TextTheme textTheme = Theme.of(context).textTheme;
+    final GetXAuthController _getXAuthController = Get.put(GetXAuthController());
 
     return Scaffold(
       body: SafeArea(
@@ -30,6 +34,12 @@ class _AuthState extends State<Auth> {
                 title: Text(text.stayEngaged, style: textTheme.titleSmall),
                 subtitle:
                     Text(text.participateActively, style: textTheme.bodySmall),
+              ),
+
+                            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Obx(() => _getXAuthController.isLoading.value ? const LinearProgressIndicator(color: ColorsTheme.primary,) : const SizedBox.shrink()
+                    ),
               ),
               const Expanded(child: TopNavigationBar())
             ],
