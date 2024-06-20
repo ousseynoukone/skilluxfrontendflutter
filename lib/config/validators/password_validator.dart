@@ -20,7 +20,7 @@ class PasswordValidator {
   static bool _isValidPassword(String value) {
     // Password pattern regex (at least 8 characters, with at least one letter and one digit)
     final RegExp passwordRegex =
-        RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$');
+RegExp(r'^(?=.*\d)(?=.*[a-z])[a-zA-Z\d]{8,}$');
     return passwordRegex.hasMatch(value);
   }
 }

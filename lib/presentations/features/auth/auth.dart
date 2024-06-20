@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
-import 'package:skilluxfrontendflutter/presentations/features/auth/widgets/navigation_bar.dart';
+import 'package:skilluxfrontendflutter/presentations/features/auth/widgets/navigation_bar/navigation_bar.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/skillux.dart';
 import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_register_controller.dart';
 
@@ -18,7 +18,8 @@ class _AuthState extends State<Auth> {
   Widget build(BuildContext context) {
     var text = context.localizations;
     TextTheme textTheme = Theme.of(context).textTheme;
-    final GetXAuthController _getXAuthController = Get.put(GetXAuthController());
+    final GetXAuthController _getXAuthController =
+        Get.put(GetXAuthController());
 
     return Scaffold(
       body: SafeArea(
@@ -26,6 +27,7 @@ class _AuthState extends State<Auth> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
                   alignment: const Alignment(0, 1),
@@ -35,11 +37,34 @@ class _AuthState extends State<Auth> {
                 subtitle:
                     Text(text.participateActively, style: textTheme.bodySmall),
               ),
+              Obx(
+                () => _getXAuthController.isSuccess.value
+                    ? Container(
+                        color: Theme.of(context)
+                            .primaryColor, // Set background color to primary color
 
-                            Padding(
+                        child: ListTile(
+                          title: Text(text.activateAccount,
+                              style: textTheme.headlineSmall
+                                  ?.copyWith(color: ColorsTheme.white)),
+                          leading: const Icon(
+                            Icons.info_outline,
+                            color: ColorsTheme.white,
+                          ),
+                          subtitle: Text(text.emailMessage,
+                              style: textTheme.bodySmall
+                                  ?.copyWith(color: ColorsTheme.white)),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+              ),
+              Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Obx(() => _getXAuthController.isLoading.value ? const LinearProgressIndicator(color: ColorsTheme.primary,) : const SizedBox.shrink()
-                    ),
+                child: Obx(() => _getXAuthController.isLoading.value
+                    ? const LinearProgressIndicator(
+                        color: ColorsTheme.primary,
+                      )
+                    : const SizedBox.shrink()),
               ),
               const Expanded(child: TopNavigationBar())
             ],

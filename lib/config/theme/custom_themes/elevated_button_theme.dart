@@ -12,8 +12,8 @@ class ElevatedButtonAppTheme {
               foregroundColor: ColorsTheme.white,
               backgroundColor: ColorsTheme.primary,
               disabledBackgroundColor: ColorsTheme.tertiary,
-              disabledForegroundColor: ColorsTheme.tertiary,
-              side: const BorderSide(color: ColorsTheme.primary),
+              disabledForegroundColor: ColorsTheme.white,
+              side: const BorderSide(color: ColorsTheme.white),
               padding: const EdgeInsets.all(8),
               textStyle: const TextStyle(
                   fontSize: 16,
@@ -29,8 +29,8 @@ class ElevatedButtonAppTheme {
               foregroundColor: ColorsTheme.white,
               backgroundColor: ColorsTheme.primary,
               disabledBackgroundColor: ColorsTheme.tertiary,
-              disabledForegroundColor: ColorsTheme.tertiary,
-              side: const BorderSide(color: ColorsTheme.primary),
+              disabledForegroundColor: ColorsTheme.white,
+              side: const BorderSide(color: ColorsTheme.black),
               padding: const EdgeInsets.all(8),
               textStyle: const TextStyle(
                   fontSize: 16,

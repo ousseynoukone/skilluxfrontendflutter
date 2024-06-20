@@ -52,5 +52,6 @@
   "error":"Error",
   "errorUnexpected":"An unexpected error occurred",
 
-  "forgotPasswordEmail":"E-mail message has been sent ,please follow thoses instructions."
+  "emailMessage":"E-mail message has been sent, please follow thoses instructions.",
+  "activateAccount":"Activate your account."
 }

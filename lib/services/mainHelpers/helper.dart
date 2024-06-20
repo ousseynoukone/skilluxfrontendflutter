@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-Locale defaultLangage() {
+String defaultLangage() {
   if (kIsWeb) {
-    return const Locale('en');
+    return  'en';
   }
   if (defaultTargetPlatform == TargetPlatform.iOS ||
       defaultTargetPlatform == TargetPlatform.android ||
@@ -16,11 +16,11 @@ Locale defaultLangage() {
     String defaultLocale =
         Platform.localeName; // Returns locale string in the form 'en_US'
     if (defaultLocale.contains('en') || defaultLocale.isEmpty) {
-      return const Locale('en');
+      return 'en';
     } else {
-      return const Locale('fr');
+      return 'fr';
     }
   } else {
-    return const Locale('en');
+    return 'en';
   }
 }

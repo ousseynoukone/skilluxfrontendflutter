@@ -60,7 +60,7 @@ class _MyAppState extends State<MyApp> {
     return StreamBuilder<Locale>(
       stream: GeneraleStreamLanguage.languageStream.stream,
       builder: (BuildContext context, AsyncSnapshot<Locale> snapshot) {
-        Locale? locale = snapshot.data ?? defaultLangage();
+        Locale? locale = snapshot.data ?? Locale(defaultLangage());
 
         return GetMaterialApp(
           title: 'Skillux',

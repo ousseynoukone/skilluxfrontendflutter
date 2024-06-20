@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:skilluxfrontendflutter/config/constant/constant.dart';
 import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
@@ -8,28 +9,34 @@ import 'package:skilluxfrontendflutter/models/user/user.dart';
 
 class APIService {
   final Logger _logger = Logger();
-  final HiveUserPersistence _hiveUserPersistence = HiveUserPersistence();
+  final HiveUserPersistence _hiveUserPersistence = Get.find();
   String? token = "";
 
-  Future<void> addTokenHeader() async {
-    User _user = await _hiveUserPersistence.readUser();
-    token = _user.token ?? "";
+  Future<void> _initializeToken() async {
+    try {
+      var user = await _hiveUserPersistence.readUser();
+      token = user?.token ?? "";
+    } catch (e) {
+      _logger.e("Error initializing token: $e");
+      token = "";
+    }
   }
 
-
-  APIService() {
-    addTokenHeader();
+  Map<String, String> _setHeadersToken() {
+    return {'authorization': 'Bearer $token'};
   }
 
   Future<ApiResponse> getRequest(
     String path, {
     Map<String, dynamic>? queryParameters,
   }) async {
+    await _ensureTokenIsReady();
     try {
-      final uri = Uri.parse(BASE_URL + path);
+      final uri =
+          Uri.parse(BASE_URL + path).replace(queryParameters: queryParameters);
       final response = await http.get(
-        uri.replace(queryParameters: queryParameters),
-        headers: {'authorization': 'Bearer $token'},
+        uri,
+        headers: _setHeadersToken(),
       );
       return _handleResponse(response);
     } catch (e) {
@@ -44,21 +51,23 @@ class APIService {
     dynamic data,
     Map<String, dynamic>? queryParameters,
   }) async {
+    await _ensureTokenIsReady();
     try {
-      final uri = Uri.parse(BASE_URL + path);
+      final uri =
+          Uri.parse(BASE_URL + path).replace(queryParameters: queryParameters);
       final response = await http.post(
-        uri.replace(queryParameters: queryParameters),
+        uri,
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'authorization': 'Bearer $token',
+          ..._setHeadersToken(),
         },
         body: jsonEncode(data),
       );
       return _handleResponse(response);
     } catch (e) {
       _logger.e(e.toString());
-      return ApiResponse(
+      return const ApiResponse(
           statusCode: 500, body: {'error': 'Internal Server Error'});
     }
   }
@@ -68,21 +77,23 @@ class APIService {
     dynamic data,
     Map<String, dynamic>? queryParameters,
   }) async {
+    await _ensureTokenIsReady();
     try {
-      final uri = Uri.parse(BASE_URL + path);
+      final uri =
+          Uri.parse(BASE_URL + path).replace(queryParameters: queryParameters);
       final response = await http.put(
-        uri.replace(queryParameters: queryParameters),
+        uri,
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'authorization': 'Bearer $token',
+          ..._setHeadersToken(),
         },
         body: jsonEncode(data),
       );
       return _handleResponse(response);
     } catch (e) {
       _logger.e(e.toString());
-      return ApiResponse(
+      return const ApiResponse(
           statusCode: 500, body: {'error': 'Internal Server Error'});
     }
   }
@@ -92,21 +103,23 @@ class APIService {
     dynamic data,
     Map<String, dynamic>? queryParameters,
   }) async {
+    await _ensureTokenIsReady();
     try {
-      final uri = Uri.parse(BASE_URL + path);
+      final uri =
+          Uri.parse(BASE_URL + path).replace(queryParameters: queryParameters);
       final response = await http.patch(
-        uri.replace(queryParameters: queryParameters),
+        uri,
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'authorization': 'Bearer $token',
+          ..._setHeadersToken(),
         },
         body: jsonEncode(data),
       );
       return _handleResponse(response);
     } catch (e) {
       _logger.e(e.toString());
-      return ApiResponse(
+      return const ApiResponse(
           statusCode: 500, body: {'error': 'Internal Server Error'});
     }
   }
@@ -116,23 +129,36 @@ class APIService {
     dynamic data,
     Map<String, dynamic>? queryParameters,
   }) async {
+    await _ensureTokenIsReady();
     try {
-      final uri = Uri.parse(BASE_URL + path);
+      final uri =
+          Uri.parse(BASE_URL + path).replace(queryParameters: queryParameters);
       final response = await http.delete(
-        uri.replace(queryParameters: queryParameters),
-        headers: {'authorization': 'Bearer $token'},
+        uri,
+        headers: _setHeadersToken(),
+        body: jsonEncode(data),
       );
       return _handleResponse(response);
     } catch (e) {
       _logger.e(e.toString());
-      return ApiResponse(
+      return const ApiResponse(
           statusCode: 500, body: {'error': 'Internal Server Error'});
     }
   }
 
+  Future<void> _ensureTokenIsReady() async {
+    await _initializeToken();
+  }
+
   ApiResponse _handleResponse(http.Response response) {
-    final statusCode = response.statusCode;
-    final body = jsonDecode(response.body);
-    return ApiResponse(statusCode: statusCode ?? 0, body: body);
+    try {
+      final statusCode = response.statusCode;
+      final body = jsonDecode(response.body);
+      return ApiResponse(statusCode: statusCode, body: body);
+    } catch (e) {
+      _logger.e("Error parsing response: $e");
+      return const ApiResponse(
+          statusCode: 500, body: {'error': 'Internal Server Error'});
+    }
   }
 }

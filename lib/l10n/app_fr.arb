@@ -51,6 +51,9 @@
   "error":"Erreur",
   "errorUnexpected":"Une erreur s'est produite, veuillez réessayer.",
 
-  "forgotPasswordEmail":"Un e-mail vous a été envoyé , veuillez suivre les instructions qui y sont mentionnés."
+  "emailMessage":"Un e-mail vous a été envoyé, veuillez suivre les instructions qui y sont mentionnés.",
+
+  "activateAccount":"Activez votre compte."
+
 
 }
