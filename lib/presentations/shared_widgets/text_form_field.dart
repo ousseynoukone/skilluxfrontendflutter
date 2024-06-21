@@ -11,17 +11,23 @@ class TextFormFieldComponent extends StatelessWidget {
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final bool readOnly;
-  const TextFormFieldComponent(
-      {super.key,
-      required this.labelText,
-      required this.hintText,
-      this.suffixIcon,
-      this.prefixIcon,
-      this.obscureText = false,
-      required this.controller,
-      this.validator,
-      this.ontap,
-      this.readOnly = false});
+  final FocusNode? focusNode;
+  final void Function(String)? onFieldSubmitted;
+
+  const TextFormFieldComponent({
+    Key? key,
+    required this.labelText,
+    required this.hintText,
+    this.suffixIcon,
+    this.prefixIcon,
+    this.obscureText = false,
+    required this.controller,
+    this.validator,
+    this.ontap,
+    this.readOnly = false,
+    this.focusNode,
+    this.onFieldSubmitted,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +37,14 @@ class TextFormFieldComponent extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       validator: validator,
+      focusNode: focusNode,
+      onFieldSubmitted: onFieldSubmitted,
       decoration: InputDecoration(
-          labelText: labelText,
-          hintText: hintText,
-          prefixIcon: prefixIcon,
-          suffixIcon: suffixIcon),
+        labelText: labelText,
+        hintText: hintText,
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
+      ),
     );
   }
 }

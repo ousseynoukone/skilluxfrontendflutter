@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
-import 'package:skilluxfrontendflutter/presentations/shared_widgets/button.widgets.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_form_field.dart';
 
 class DatePickerComponent extends StatefulWidget {
@@ -14,14 +11,18 @@ class DatePickerComponent extends StatefulWidget {
   final String labelText;
   final String hintText;
   final FormFieldValidator<String>? validator;
+  final FocusNode? focusNode;
+  final void Function(String)? onFieldSubmitted;
 
   const DatePickerComponent({
-    super.key,
+    Key? key,
     required this.datePickerController,
     required this.hintText,
     required this.validator,
     required this.labelText,
-  });
+    this.focusNode,
+    this.onFieldSubmitted,
+  }) : super(key: key);
 
   @override
   _DatePickerComponentState createState() => _DatePickerComponentState();
@@ -90,7 +91,7 @@ class _DatePickerComponentState extends State<DatePickerComponent> {
   }
 
   @override
-  Widget build(BuildContext context) {  
+  Widget build(BuildContext context) {
     return TextFormFieldComponent(
       ontap: () {
         // Prevent keyboard
@@ -104,6 +105,8 @@ class _DatePickerComponentState extends State<DatePickerComponent> {
       controller: widget.datePickerController,
       readOnly: true,
       validator: widget.validator,
+      focusNode: widget.focusNode,
+      onFieldSubmitted: widget.onFieldSubmitted,
     );
   }
 }

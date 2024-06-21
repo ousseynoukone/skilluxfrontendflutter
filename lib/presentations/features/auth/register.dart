@@ -29,12 +29,41 @@ class _RegisterState extends State<Register> {
   final TextEditingController _birthController = TextEditingController();
   final GetXAuthController _getXAuthController = Get.find();
 
+  final FocusNode _fullNameFocusNode = FocusNode();
+  final FocusNode _usernameFocusNode = FocusNode();
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
+  final FocusNode _birthFocusNode = FocusNode();
+
   bool _isObscure = true;
 
   void _toggleVisibility() {
     setState(() {
       _isObscure = !_isObscure;
     });
+  }
+
+  @override
+  void dispose() {
+    _fullNameController.dispose();
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _birthController.dispose();
+    _fullNameFocusNode.dispose();
+    _usernameFocusNode.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _birthFocusNode.dispose();
+    super.dispose();
+  }
+
+  void _clearControllers() {
+    _fullNameController.clear();
+    _usernameController.clear();
+    _emailController.clear();
+    _passwordController.clear();
+    _birthController.clear();
   }
 
   @override
@@ -54,6 +83,7 @@ class _RegisterState extends State<Register> {
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: TextFormFieldComponent(
                   controller: _fullNameController,
+                  focusNode: _fullNameFocusNode,
                   hintText: text.enterFullName,
                   prefixIcon: const Icon(Icons.person_outlined),
                   labelText: text.fullName,
@@ -64,12 +94,16 @@ class _RegisterState extends State<Register> {
                     }
                     return null; // Return null if the input is valid
                   },
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus(_usernameFocusNode);
+                  },
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: TextFormFieldComponent(
                   controller: _usernameController,
+                  focusNode: _usernameFocusNode,
                   hintText: text.enterUsername,
                   prefixIcon: const Icon(Icons.person_outlined),
                   labelText: text.username,
@@ -80,12 +114,16 @@ class _RegisterState extends State<Register> {
                     }
                     return null; // Return null if the input is valid
                   },
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus(_emailFocusNode);
+                  },
                 ),
               ),
               Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: DatePickerComponent(
                       datePickerController: _birthController,
+                      focusNode: _birthFocusNode,
                       hintText: text.enterBirth,
                       labelText: text.birth,
                       validator: (value) {
@@ -93,13 +131,18 @@ class _RegisterState extends State<Register> {
                         if (value == null || message != null) {
                           return message;
                         }
+                        return null;
+                      },
+                      onFieldSubmitted: (_) {
+                        FocusScope.of(context).requestFocus(_emailFocusNode);
                       })),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: TextFormFieldComponent(
-                  prefixIcon: const Icon(Icons.email_outlined),
                   controller: _emailController,
+                  focusNode: _emailFocusNode,
                   hintText: text.enterEmail,
+                  prefixIcon: const Icon(Icons.email_outlined),
                   labelText: text.email,
                   validator: (value) {
                     // Use LoginValidator for email validation
@@ -109,12 +152,16 @@ class _RegisterState extends State<Register> {
                     }
                     return null; // Return null if the input is valid
                   },
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus(_passwordFocusNode);
+                  },
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: TextFormFieldComponent(
                   controller: _passwordController,
+                  focusNode: _passwordFocusNode,
                   hintText: text.enterYourPassword,
                   labelText: text.password,
                   obscureText: _isObscure,
@@ -163,6 +210,11 @@ class _RegisterState extends State<Register> {
 
                           // Calling register method from _getXAuthController
                           _getXAuthController.register(userRegisterDto);
+
+                          if (_getXAuthController.isSuccess.value) {
+                            _clearControllers();
+                            FocusScope.of(context).unfocus();
+                          }
                         }
                       },
                       text: text

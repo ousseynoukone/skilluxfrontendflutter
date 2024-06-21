@@ -21,6 +21,28 @@ class _LoginState extends State<Login> {
   TextEditingController _passwordController = TextEditingController();
   bool _isObscure = true;
 
+  late FocusNode _loginFocus;
+  late FocusNode _passwordFocus;
+
+  @override
+  void initState() {
+    super.initState();
+    _loginFocus = FocusNode();
+    _passwordFocus = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _loginFocus.dispose();
+    _passwordFocus.dispose();
+    super.dispose();
+  }
+
+  void clearControllers() {
+    _loginController.clear();
+    _passwordController.clear();
+  }
+
   void _toggleVisibility() {
     setState(() {
       _isObscure = !_isObscure;
@@ -43,6 +65,7 @@ class _LoginState extends State<Login> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: TextFormFieldComponent(
+                  focusNode: _loginFocus,
                   controller: _loginController,
                   hintText: text.enterYourEmailOrUsername,
                   labelText: text.login,
@@ -59,6 +82,7 @@ class _LoginState extends State<Login> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: TextFormFieldComponent(
+                  focusNode: _passwordFocus,
                   controller: _passwordController,
                   hintText: text.enterYourPassword,
                   labelText: text.password,
