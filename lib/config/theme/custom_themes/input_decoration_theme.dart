@@ -7,8 +7,8 @@ class InputDecorationAppTheme {
 
   static InputDecorationTheme lightInputDecorationTheme = InputDecorationTheme(
     errorMaxLines: 3,
-    prefixIconColor: ColorsTheme.tertiary,
-    suffixIconColor: ColorsTheme.tertiary,
+    prefixIconColor: ColorsTheme.black,
+    suffixIconColor: ColorsTheme.black,
     labelStyle:
         const TextStyle().copyWith(fontSize: 14, color: ColorsTheme.black),
     hintStyle: const TextStyle()
@@ -18,10 +18,10 @@ class InputDecorationAppTheme {
         const TextStyle().copyWith(color: ColorsTheme.black.withOpacity(0.8)),
     border: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: ColorsTheme.white)),
+        borderSide: const BorderSide(width: 1, color: ColorsTheme.black)),
     enabledBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(width: 1, color: ColorsTheme.white)),
+        borderSide: const BorderSide(width: 1, color: ColorsTheme.black)),
     focusedBorder: const OutlineInputBorder().copyWith(
         borderRadius: BorderRadius.circular(14),
         borderSide: const BorderSide(width: 1, color: ColorsTheme.secondary)),

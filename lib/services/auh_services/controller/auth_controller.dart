@@ -76,7 +76,7 @@ class GetXAuthController extends GetxController {
   void login(UserLoginDto userLoginDto) async {
     // Set loading state
 
-    String path = "auth/login";
+    String path = "auth/login/${defaultLangage()}";
     isLoading.value = true;
     try {
       ApiResponse response =
@@ -87,7 +87,7 @@ class GetXAuthController extends GetxController {
             UserLoginResponseDto.fromBody(response.body);
 
         User? user = await userPersistence.readUser();
-        _logger.d(user!.toJson());
+        user ??= userLoginResponseDto.user;
 
         user?.token = userLoginResponseDto.token;
         user?.expire = userLoginResponseDto.expire;

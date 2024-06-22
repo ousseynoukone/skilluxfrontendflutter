@@ -30,6 +30,8 @@ class _ResetAccountState extends State<ResetAccount> {
     TextTheme textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false, // Add this line
+
       appBar: AppBar(
         title: Text(text.resetAccount),
       ),

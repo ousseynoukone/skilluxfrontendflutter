@@ -192,6 +192,8 @@ class _RegisterState extends State<Register> {
                       onPressed: () {
                         // Validate the form before submitting
                         if (_formKey.currentState!.validate()) {
+                          FocusScope.of(context).unfocus();
+
                           // Form is valid, proceed with registration logic
                           String fullName = _fullNameController.text.trim();
                           String username = _usernameController.text.trim();

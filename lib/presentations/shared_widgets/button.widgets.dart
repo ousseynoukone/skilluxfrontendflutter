@@ -39,7 +39,6 @@ class ButtonComponent extends StatelessWidget {
               )
             : Text(
                 text,
-                style: textTheme.bodyMedium, // Adjust text style as needed
               ),
       ),
     );

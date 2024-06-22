@@ -11,12 +11,12 @@ class ElevatedButtonAppTheme {
               elevation: 0,
               foregroundColor: ColorsTheme.white,
               backgroundColor: ColorsTheme.primary,
-              disabledBackgroundColor: ColorsTheme.grey,
+              disabledBackgroundColor: ColorsTheme.tertiary,
               disabledForegroundColor: ColorsTheme.white,
               side: const BorderSide(color: ColorsTheme.white),
               padding: const EdgeInsets.all(8),
               textStyle: const TextStyle(
-                  fontSize: 16,
+                  fontSize: 14,
                   color: ColorsTheme.white,
                   fontWeight: FontWeight.w600),
               shape: RoundedRectangleBorder(
@@ -28,12 +28,12 @@ class ElevatedButtonAppTheme {
               elevation: 0,
               foregroundColor: ColorsTheme.white,
               backgroundColor: ColorsTheme.primary,
-              disabledBackgroundColor: ColorsTheme.grey,
+              disabledBackgroundColor: ColorsTheme.tertiary,
               disabledForegroundColor: ColorsTheme.white,
               side: const BorderSide(color: ColorsTheme.black),
               padding: const EdgeInsets.all(8),
               textStyle: const TextStyle(
-                  fontSize: 16,
+                  fontSize: 14,
                   color: ColorsTheme.white,
                   fontWeight: FontWeight.w600),
               shape: RoundedRectangleBorder(

@@ -122,6 +122,8 @@ class _LoginState extends State<Login> {
                       onPressed: () {
                         // Validate the form before submitting
                         if (_formKey.currentState!.validate()) {
+                          FocusScope.of(context).unfocus();
+
                           // Form is valid, proceed with login logic
                           String login = _loginController.text.trim();
                           String password = _passwordController.text;
