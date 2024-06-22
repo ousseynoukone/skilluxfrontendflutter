@@ -1,11 +1,12 @@
 class UserLoginDto {
-  final String username;
+  final String? username;
   final String password;
   final String? email;
 
-  UserLoginDto({required this.username, required this.password, required this.email});
+  UserLoginDto(
+      {required this.username, required this.password, required this.email});
 
-    // Method to convert UserRegisterDto object to JSON
+  // Method to convert UserRegisterDto object to JSON
   Map<String, dynamic> toBody() {
     return {
       'username': username,

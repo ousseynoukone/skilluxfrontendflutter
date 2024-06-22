@@ -30,8 +30,12 @@ class ButtonComponent extends StatelessWidget {
         ),
         onPressed: isLoading ? null : onPressed,
         child: isLoading
-            ? const LinearProgressIndicator(
-                color: ColorsTheme.primary,
+            ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  color: ColorsTheme.primary,
+                ),
               )
             : Text(
                 text,

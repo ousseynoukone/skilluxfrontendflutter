@@ -1,12 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/config/validators/login_validator.dart';
 import 'package:skilluxfrontendflutter/config/validators/password_validator.dart';
+import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_login_dto.dart';
+import 'package:skilluxfrontendflutter/presentations/features/auth/helper/resend_activation_email.dart';
+import 'package:skilluxfrontendflutter/presentations/features/auth/reset_password.dart';
+import 'package:skilluxfrontendflutter/presentations/features/auth/helper/helper.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/button.widgets.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_form_field.dart';
+import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_controller.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -17,6 +23,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GetXAuthController _getXAuthController = Get.find();
   TextEditingController _loginController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   bool _isObscure = true;
@@ -109,48 +116,92 @@ class _LoginState extends State<Login> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ButtonComponent(
-                  onPressed: () {
-                    // Validate the form before submitting
-                    if (_formKey.currentState!.validate()) {
-                      // Form is valid, proceed with login logic
-                      String login = _loginController.text.trim();
-                      String password = _passwordController.text;
-                      // Implement your login functionality here
-                      print('Login: $login, Password: $password');
-                    }
-                  },
-                  text: text.login,
-                  isLoading: false,
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  // Implement forgot password logic here
-                },
-                child: RichText(
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: text.forgotYour,
-                        style: textTheme.bodySmall,
-                      ),
-                      TextSpan(
-                        text: text.passwordQuestion,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: ColorsTheme.primary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Obx(
+                    () => ButtonComponent(
+                      onPressed: () {
+                        // Validate the form before submitting
+                        if (_formKey.currentState!.validate()) {
+                          // Form is valid, proceed with login logic
+                          String login = _loginController.text.trim();
+                          String password = _passwordController.text;
+                          late UserLoginDto loginDto;
+
+                          if (AuthHelper.isUsername(login)) {
+                            loginDto = UserLoginDto(
+                                password: password, username: login, email: "");
+                          } else {
+                            loginDto = UserLoginDto(
+                                password: password, email: login, username: "");
+                          }
+
+                          _getXAuthController.login(loginDto);
+                        }
+                      },
+                      text: text.login,
+                      isLoading: _getXAuthController.isLoading.value,
+                    ),
+                  )),
+              bottomComponent(text, textTheme, _getXAuthController)
             ],
           ),
         ),
       ),
     );
   }
+}
+
+Widget bottomComponent(var text, var textTheme, var getXAuthController) {
+  return Padding(
+    padding: const EdgeInsets.only(top: 4.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        InkWell(
+          onTap: () {
+            Get.bottomSheet(const ResetAccount());
+          },
+          child: RichText(
+            text: TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                  text: text.forgotYour,
+                  style: textTheme.bodySmall,
+                ),
+                TextSpan(
+                  text: text.passwordQuestion,
+                  style: textTheme.bodySmall.copyWith(
+                    color: ColorsTheme.primary, // Adjust color as needed
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Obx(
+          () => !getXAuthController.isLoading.value
+              ? InkWell(
+                  onTap: () {
+                    resendActivationEmail();
+                  },
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.email_outlined,
+                        color: ColorsTheme.primary, // Adjust color as needed
+                      ),
+                      const SizedBox(width: 8), // Adjust spacing as needed
+                      Text(
+                        text.resendActivationEmail,
+                        style: textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                )
+              : const SizedBox.shrink(),
+        ),
+      ],
+    ),
+  );
 }

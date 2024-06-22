@@ -1,7 +1,7 @@
 class UserLoginResponseDto {
   final int id;
   String token;
-  int expire;
+  String expire;
 
   UserLoginResponseDto({
     required this.id,
@@ -12,7 +12,7 @@ class UserLoginResponseDto {
   // Static method to create UserLoginResponseDto object from JSON
   static UserLoginResponseDto fromBody(Map<String, dynamic> json) {
     return UserLoginResponseDto(
-      id: json['user']['id'],
+      id: json['id'],
       token: json['token'],
       expire: json['expire'],
     );

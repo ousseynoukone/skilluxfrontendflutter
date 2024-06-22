@@ -36,11 +36,12 @@
 
   "username": "Username",
   "enterUsername": "Enter your username.",
-  "usernameRequirement": "Username should be at least 3 characters long.",
+  "usernameRequirement": "Username should be at least 3 characters long, all lowercase.",
 
   "email": "Email",
   "enterEmail": "Enter your email.",
   "emailRequirement": "Email not valid , enter a valid email.",
+  "existingEmail": "Please use an existing email for verification.",
 
   "birth": "Birthday",
   "enterBirth": "Enter your birthday.",
@@ -53,5 +54,14 @@
   "errorUnexpected":"An unexpected error occurred",
 
   "emailMessage":"E-mail message has been sent, please follow thoses instructions.",
-  "activateAccount":"Activate your account."
+  "activateAccount":"Activate your account.",
+  "resendActivationEmail":"Resend activation email",
+
+  "emailMessageFutur":"Please fill and submit this field bellow, an email will be sent to you.",
+  "sendEmail":"Send email",
+  "resetAccount":"Reset your account's password",
+
+  "createAccount":"Look like you have'nt created an account yet."
+
+
 }

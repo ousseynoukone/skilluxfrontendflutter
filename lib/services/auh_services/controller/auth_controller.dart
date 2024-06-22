@@ -1,7 +1,4 @@
-import 'dart:js_interop';
-
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/core/api_service/api_service.dart';
 import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
@@ -23,6 +20,8 @@ class GetXAuthController extends GetxController {
   HiveUserPersistence userPersistence = Get.find();
   RxBool isLoading = false.obs;
   RxBool isSuccess = false.obs;
+  RxBool sucessResetEmail = false.obs;
+
   final Logger _logger = Logger();
   final text = Get.context?.localizations;
   final NavigationBarController _navigationBarController = Get.find();
@@ -33,11 +32,10 @@ class GetXAuthController extends GetxController {
 
     String path = "auth/register/${defaultLangage()}";
     try {
-      ApiResponse response = await apiService
-          .postRequest(path, data: {...userRegisterDto.toBody()});
+      ApiResponse response =
+          await apiService.postRequest(path, data: userRegisterDto.toBody());
       // Handle the response
       if (response.statusCode == 201) {
-        _logger.d(response.body);
         Map<String, dynamic> userData = response.body['user'];
         User user = User.fromBody(userData);
         await userPersistence.saveUser(user);
@@ -61,10 +59,6 @@ class GetXAuthController extends GetxController {
               _logger.w("Unexpected error format for key: $key, value: $value");
             }
           });
-        } else if (response.body is String) {
-          // Single error message
-          Get.snackbar(text!.error, response.body,
-              snackPosition: SnackPosition.BOTTOM);
         } else {
           // Handle unexpected error format
           Get.snackbar(text!.error, text!.errorUnexpected,
@@ -84,69 +78,90 @@ class GetXAuthController extends GetxController {
 
     String path = "auth/login";
     isLoading.value = true;
+    try {
+      ApiResponse response =
+          await apiService.postRequest(path, data: userLoginDto.toBody());
 
-    ApiResponse response =
-        await apiService.postRequest(path, data: userLoginDto);
+      if (response.statusCode == 200) {
+        UserLoginResponseDto userLoginResponseDto =
+            UserLoginResponseDto.fromBody(response.body);
 
-    if (response.statusCode == 201) {
-      UserLoginResponseDto userLoginResponseDto =
-          UserLoginResponseDto.fromBody(response.body);
-      User? user = await userPersistence.readUser();
-      user!.token = userLoginResponseDto.token;
-      user.expire = userLoginResponseDto.expire;
+        User? user = await userPersistence.readUser();
+        _logger.d(user!.toJson());
 
-      await userPersistence.saveUser(user);
-
-      // Set success state with user data
-    } else {
-      // Handle errors
-      if (response.body.containsKey('error')) {
-        Map<String, dynamic> errors = response.body['error'];
-
-        // Iterate over the errors and display them
-        errors.forEach((key, value) {
-          if (value is String) {
-            // Display each error message, you can use a dialog, snackbar, or any other method
-            Get.snackbar(text!.error, value,
-                snackPosition: SnackPosition.BOTTOM);
-          }
-        });
-      } else {
-        // Handle unexpected error format
-        Get.snackbar(text!.error, text!.errorUnexpected,
+        user?.token = userLoginResponseDto.token;
+        user?.expire = userLoginResponseDto.expire;
+        await userPersistence.saveUser(user!);
+        Get.snackbar("SUCESS", "LOGIN SUCESS",
             snackPosition: SnackPosition.BOTTOM);
-      }
-    }
+        // Set success state with user data
+      } else {
+        if (response.body is Map<String, dynamic>) {
+          // Multiple errors
+          Map<String, dynamic> errors = response.body;
 
+          Get.snackbar(text!.error, errors['error'],
+              snackPosition: SnackPosition.BOTTOM);
+        }
+      }
+
+      isLoading.value = false;
+    } catch (e) {
+      _logger.e(e);
+    }
+  }
+
+  void sendActivationEmail(String email) async {
     isLoading.value = true;
+
+    String path = "auth/verify-email/${email}/${defaultLangage()}";
+    try {
+      ApiResponse response = await apiService.getRequest(path);
+
+      if (response.statusCode == 200) {
+        Get.back();
+        isSuccess.value = true;
+      } else {
+        if (response.body is Map<String, dynamic>) {
+          // Multiple errors
+          Map<String, dynamic> errors = response.body;
+          if (response.statusCode == 403) {
+            Get.back();
+          }
+          Get.snackbar(text!.error, errors['error'],
+              snackPosition: SnackPosition.BOTTOM);
+        }
+      }
+      isLoading.value = false;
+    } catch (e) {
+      _logger.e(e);
+    }
   }
 
   void forgotPassword(String email) async {
+    isLoading.value = true;
+
     String path = "auth/forgot-password";
-    ApiResponse response =
-        await apiService.postRequest(path, data: {"email": email});
+    try {
+      ApiResponse response =
+          await apiService.postRequest(path, data: {"email": email});
 
-    if (response.statusCode == 200) {
-      Get.snackbar(text!.alert, text!.emailMessage,
-          snackPosition: SnackPosition.BOTTOM);
-    } else {
-      // Handle errors
-      if (response.body.containsKey('error')) {
-        Map<String, dynamic> errors = response.body['error'];
-
-        // Iterate over the errors and display them
-        errors.forEach((key, value) {
-          if (value is String) {
-            // Display each error message, you can use a dialog, snackbar, or any other method
-            Get.snackbar(text!.error, value,
-                snackPosition: SnackPosition.BOTTOM);
-          }
-        });
+      if (response.statusCode == 200) {
+        sucessResetEmail.value = true;
+        isSuccess.value = true;
+        Get.back();
       } else {
-        // Handle unexpected error format
-        Get.snackbar(text!.error, text!.errorUnexpected,
-            snackPosition: SnackPosition.BOTTOM);
+        if (response.body is Map<String, dynamic>) {
+          // Multiple errors
+          Map<String, dynamic> errors = response.body;
+
+          Get.snackbar(text!.error, errors['error'],
+              snackPosition: SnackPosition.BOTTOM);
+        }
       }
+      isLoading.value = false;
+    } catch (e) {
+      _logger.e(e);
     }
   }
 }

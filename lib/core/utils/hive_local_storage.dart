@@ -25,7 +25,6 @@ class HiveUserPersistence {
   }
 }
 
-
 class HiveAppStatePersistence {
   final String _stateBox = 'stateBox';
 

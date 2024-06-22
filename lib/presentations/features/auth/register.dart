@@ -11,7 +11,7 @@ import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_register_dto.d
 import 'package:skilluxfrontendflutter/presentations/features/auth/widgets/date_picker.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/button.widgets.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_form_field.dart';
-import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_register_controller.dart';
+import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_controller.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -141,7 +141,7 @@ class _RegisterState extends State<Register> {
                 child: TextFormFieldComponent(
                   controller: _emailController,
                   focusNode: _emailFocusNode,
-                  hintText: text.enterEmail,
+                  hintText: text.existingEmail,
                   prefixIcon: const Icon(Icons.email_outlined),
                   labelText: text.email,
                   validator: (value) {

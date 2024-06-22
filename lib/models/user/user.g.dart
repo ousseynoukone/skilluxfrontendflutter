@@ -19,7 +19,7 @@ class UserAdapter extends TypeAdapter<User> {
     return User(
       isAdmin: fields[0] as bool?,
       token: fields[1] as String?,
-      expire: fields[2] as int?,
+      expire: fields[2] as String?,
       isActive: fields[3] as bool?,
       preferredTags: (fields[4] as List?)?.cast<String>(),
       id: fields[5] as int,

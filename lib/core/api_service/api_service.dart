@@ -154,6 +154,7 @@ class APIService {
     try {
       final statusCode = response.statusCode;
       final body = jsonDecode(response.body);
+      
       return ApiResponse(statusCode: statusCode, body: body);
     } catch (e) {
       _logger.e("Error parsing response: $e");

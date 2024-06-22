@@ -4,7 +4,7 @@ import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart'
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/widgets/navigation_bar/navigation_bar.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/skillux.dart';
-import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_register_controller.dart';
+import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_controller.dart';
 
 class Auth extends StatefulWidget {
   const Auth({super.key});
@@ -44,7 +44,10 @@ class _AuthState extends State<Auth> {
                             .primaryColor, // Set background color to primary color
 
                         child: ListTile(
-                          title: Text(text.activateAccount,
+                          title: Text(
+                              _getXAuthController.sucessResetEmail.value
+                                  ? text.resetAccount
+                                  : text.activateAccount,
                               style: textTheme.headlineSmall
                                   ?.copyWith(color: ColorsTheme.white)),
                           leading: const Icon(

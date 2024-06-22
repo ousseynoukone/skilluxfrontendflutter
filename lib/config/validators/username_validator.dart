@@ -18,6 +18,11 @@ class UsernameValidator {
 
   static bool _isValidUsername(String value) {
     // Custom validation logic for username (e.g., minimum length)
-    return value.length >= 3;
+    // Check that the username is all lowercase and has at least 3 characters
+    return value.length >= 3 && _isAllLowercase(value);
+  }
+
+  static bool _isAllLowercase(String value) {
+    return value == value.toLowerCase();
   }
 }

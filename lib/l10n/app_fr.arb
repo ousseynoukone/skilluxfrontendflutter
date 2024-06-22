@@ -35,11 +35,12 @@
 
   "username": "Nom d'utilisateur",
   "enterUsername": "Entrez votre nom d'utilisateur.",
-  "usernameRequirement": "Le nom d'utilisateur doit comporter au moins 3 caractères.",
+  "usernameRequirement": "Le nom d'utilisateur doit comporter au moins 3 caractères, tout en minuscule.",
 
   "email": "Email",
   "enterEmail": "Entrez votre email.",
   "emailRequirement": "Email non valide , entrez un email valide.",
+  "existingEmail": "Veuillez utiliser un email existant pour verification.",
 
   "birth": "Anniversaire",
   "enterBirth": "Entrez votre date de naissance.",
@@ -53,7 +54,16 @@
 
   "emailMessage":"Un e-mail vous a été envoyé, veuillez suivre les instructions qui y sont mentionnés.",
 
-  "activateAccount":"Activez votre compte."
+  "activateAccount":"Activez votre compte.",
+
+  "resendActivationEmail":"Ré-envoyer un e-mail d'activation",
+  "emailMessageFutur":"Veillez remplir le champs ci-dessous , un email vous sera envoyé.",
+  "sendEmail":"Envoyer l'email",
+  "resetAccount":"Reset your account's password",
+
+  "createAccount":"Il semblerez que vous n'aillez pas encore crée de compte."
+
+
 
 
 }

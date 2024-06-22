@@ -11,7 +11,7 @@ class User {
   String? token;
 
   @HiveField(2)
-  int? expire;
+  String? expire;
 
   @HiveField(3)
   final bool? isActive;
