@@ -36,11 +36,14 @@ class _DatePickerComponentState extends State<DatePickerComponent> {
       context: context,
       builder: (BuildContext context) {
         return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: ColorsTheme.tertiary,
+          ),
           height: Get.height / 2.5,
-          color: Theme.of(context).primaryColor,
           child: Column(
             children: <Widget>[
-              Container(
+              SizedBox(
                 height: Get.height / 3.3,
                 child: CupertinoDatePicker(
                   mode: CupertinoDatePickerMode.date,

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/core/api_service/api_service.dart';
+import 'package:skilluxfrontendflutter/core/state_managment/app_state_managment.dart';
 import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
 import 'package:skilluxfrontendflutter/core/utils/response_data_structure.dart';
 import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_login_dto.dart';
@@ -12,6 +13,7 @@ import 'package:skilluxfrontendflutter/presentations/features/auth/login.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/widgets/navigation_bar/navigation_bar_controller.dart';
+import 'package:skilluxfrontendflutter/presentations/layers/secondary_layer/secondary_layer.dart';
 import 'package:skilluxfrontendflutter/services/mainHelpers/helper.dart';
 
 class GetXAuthController extends GetxController {
@@ -21,16 +23,17 @@ class GetXAuthController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isSuccess = false.obs;
   RxBool sucessResetEmail = false.obs;
-
   final Logger _logger = Logger();
   final text = Get.context?.localizations;
   final NavigationBarController _navigationBarController = Get.find();
+  final AppStateManagment _appStateManagmentController =
+      Get.find<AppStateManagment>();
 
   void register(UserRegisterDto userRegisterDto) async {
     // Set loading state
     isLoading.value = true;
 
-    String path = "auth/register/${defaultLangage()}";
+    String path = "auth/register/${await defaultLangage()}";
     try {
       ApiResponse response =
           await apiService.postRequest(path, data: userRegisterDto.toBody());
@@ -76,7 +79,7 @@ class GetXAuthController extends GetxController {
   void login(UserLoginDto userLoginDto) async {
     // Set loading state
 
-    String path = "auth/login/${defaultLangage()}";
+    String path = "auth/login/${await defaultLangage()}";
     isLoading.value = true;
     try {
       ApiResponse response =
@@ -92,8 +95,8 @@ class GetXAuthController extends GetxController {
         user?.token = userLoginResponseDto.token;
         user?.expire = userLoginResponseDto.expire;
         await userPersistence.saveUser(user!);
-        Get.snackbar("SUCESS", "LOGIN SUCESS",
-            snackPosition: SnackPosition.BOTTOM);
+        _appStateManagmentController.updateState(isUserLogged: true);
+        Get.to(() => const SecondaryLayer());
         // Set success state with user data
       } else {
         if (response.body is Map<String, dynamic>) {
@@ -114,7 +117,7 @@ class GetXAuthController extends GetxController {
   void sendActivationEmail(String email) async {
     isLoading.value = true;
 
-    String path = "auth/verify-email/${email}/${defaultLangage()}";
+    String path = "auth/verify-email/${email}/${await defaultLangage()}";
     try {
       ApiResponse response = await apiService.getRequest(path);
 

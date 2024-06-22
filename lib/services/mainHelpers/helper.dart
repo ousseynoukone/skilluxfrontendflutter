@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
+import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
+import 'package:skilluxfrontendflutter/models/settings/setting.dart';
 
-String defaultLangage() {
+String defaultLocalLangage() {
   if (kIsWeb) {
-    return  'en';
+    return 'en';
   }
   if (defaultTargetPlatform == TargetPlatform.iOS ||
       defaultTargetPlatform == TargetPlatform.android ||
@@ -23,4 +26,10 @@ String defaultLangage() {
   } else {
     return 'en';
   }
+}
+
+Future<String> defaultLangage() async {
+  final HiveSettingsPersistence _hiveSettingsPersistence = Get.find();
+  Setting? settings = await _hiveSettingsPersistence.readSettings();
+  return settings?.lang ?? defaultLocalLangage();
 }

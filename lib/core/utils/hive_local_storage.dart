@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:skilluxfrontendflutter/models/settings/setting.dart';
 import 'package:skilluxfrontendflutter/models/states/app_config_state.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:logger/logger.dart';
@@ -48,14 +49,14 @@ class HiveAppStatePersistence {
 class HiveSettingsPersistence {
   final String _settingsBoxName = 'settingsBox';
 
-  Future<void> saveSettings(Map<String, dynamic> settings) async {
+  Future<void> saveSettings(Setting settings) async {
     var box = await Hive.openBox(_settingsBoxName);
     await box.put('settings', settings);
   }
 
-  Future<Map<String, dynamic>?> readSettings() async {
+  Future<Setting?> readSettings() async {
     var box = await Hive.openBox(_settingsBoxName);
-    final Map<String, dynamic>? settings = box.get('settings');
+    final Setting ? settings = box.get('settings');
     return settings;
   }
 

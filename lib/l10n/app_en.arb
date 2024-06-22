@@ -61,7 +61,21 @@
   "sendEmail":"Send email",
   "resetAccount":"Reset your account's password",
 
-  "createAccount":"Look like you have'nt created an account yet."
+  "createAccount":"Look like you have'nt created an account yet.",
 
+
+
+  "home":"Home",
+  "profile":"Profile",
+  "discovery":"Discovery",
+  "search":"Search",
+
+
+  "logout":"Logout",
+  "settings":"Settings",
+
+  "dark_mode": "Dark Mode",
+  "change_language": "Change Language",
+  "delete_account": "Delete Account"
 
 }

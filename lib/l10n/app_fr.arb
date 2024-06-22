@@ -61,7 +61,21 @@
   "sendEmail":"Envoyer l'email",
   "resetAccount":"Reset your account's password",
 
-  "createAccount":"Il semblerez que vous n'aillez pas encore crée de compte."
+  "createAccount":"Il semblerez que vous n'aillez pas encore crée de compte.",
+
+  "home":"Accueil",
+  "profile":"Profile",
+  "discovery":"Découvrir",
+  "search":"Rechercher",
+
+
+  "logout":"Se déconnecter",
+  "settings":"Paramètre",
+
+  
+  "dark_mode": "Mode Sombre",
+  "change_language": "Changer la langue",
+  "delete_account": "Supprimer le compte"
 
 
 
