@@ -18,16 +18,15 @@ class IntroPage1 extends StatelessWidget {
           ListTile(
             title: Text(
               context.localizations.connectWithYourFolks,
-              style: textTheme.titleMedium,
             ),
             subtitle: Text(context.localizations.welcomeToSkillux),
             titleTextStyle: Theme.of(context)
                 .textTheme
                 .titleMedium
-                ?.copyWith(color: ColorsTheme.white), 
+                ?.copyWith(color: ColorsTheme.white),
             subtitleTextStyle: Theme.of(context)
                 .textTheme
-                .labelSmall
+                .labelMedium
                 ?.copyWith(color: ColorsTheme.white),
           )
         ],

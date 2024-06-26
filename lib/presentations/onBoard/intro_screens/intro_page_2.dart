@@ -24,7 +24,7 @@ class IntroPage2 extends StatelessWidget {
                 ?.copyWith(color: ColorsTheme.white),
             subtitleTextStyle: Theme.of(context)
                 .textTheme
-                .labelSmall
+                .labelMedium
                 ?.copyWith(color: ColorsTheme.white),
           )
         ],

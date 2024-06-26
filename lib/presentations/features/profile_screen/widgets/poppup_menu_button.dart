@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/settings/settings.dart';
+import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_controller.dart';
 
 class PoppupMenuButton extends StatefulWidget {
   const PoppupMenuButton({super.key});
@@ -15,6 +16,7 @@ class _PoppupMenuButtonState extends State<PoppupMenuButton> {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     var text = context.localizations;
+    GetXAuthController authController = GetXAuthController();
 
     return PopupMenuButton(
       icon: const Icon(Icons.more_vert),
@@ -22,7 +24,7 @@ class _PoppupMenuButtonState extends State<PoppupMenuButton> {
         if (value == "settings") {
           Get.to(Settings());
         } else if (value == "logout") {
-          // add desired output
+          authController.logout();
         }
       },
       itemBuilder: (BuildContext context) => <PopupMenuEntry>[

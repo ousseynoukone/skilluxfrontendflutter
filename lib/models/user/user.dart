@@ -7,49 +7,42 @@ class User {
   @HiveField(0)
   final bool? isAdmin;
 
+
   @HiveField(1)
-  String? token;
-
-  @HiveField(2)
-  String? expire;
-
-  @HiveField(3)
   final bool? isActive;
 
-  @HiveField(4)
+  @HiveField(2)
   List<String>? preferredTags;
 
-  @HiveField(5)
+  @HiveField(3)
   final int id;
 
-  @HiveField(6)
+  @HiveField(4)
   final String username;
 
-  @HiveField(7)
+  @HiveField(5)
   String fullName;
 
-  @HiveField(8)
+  @HiveField(6)
   String email;
 
-  @HiveField(9)
+  @HiveField(7)
   final String birth;
 
-  @HiveField(10)
+  @HiveField(8)
   final String? updatedAt;
 
-  @HiveField(11)
+  @HiveField(9)
   final String? createdAt;
 
-  @HiveField(12)
+  @HiveField(10)
   String? profession;
 
-  @HiveField(13)
+  @HiveField(11)
   String? profilePicture;
 
   User({
     this.isAdmin,
-    this.token,
-    this.expire,
     this.isActive,
     this.preferredTags,
     required this.id,
@@ -83,8 +76,6 @@ class User {
   Map<String, dynamic> toJson() {
     return {
       'isAdmin': isAdmin,
-      'token': token,
-      'expire': expire,
       'isActive': isActive,
       'preferredTags': preferredTags,
       'id': id,
@@ -98,4 +89,35 @@ class User {
       'profilePicture': profilePicture,
     };
   }
-}
+
+User copyWith({
+    bool? isAdmin,
+    String? token,
+    String? expire,
+    bool? isActive,
+    List<String>? preferredTags,
+    int? id,
+    String? username,
+    String? fullName,
+    String? email,
+    String? birth,
+    String? updatedAt,
+    String? createdAt,
+    String? profession,
+    String? profilePicture,
+  }) {
+    return User(
+      isAdmin: isAdmin ?? this.isAdmin,
+      isActive: isActive ?? this.isActive,
+      preferredTags: preferredTags ?? this.preferredTags,
+      id: id ?? this.id,
+      username: username ?? this.username,
+      fullName: fullName ?? this.fullName,
+      email: email ?? this.email,
+      birth: birth ?? this.birth,
+      updatedAt: updatedAt ?? this.updatedAt,
+      createdAt: createdAt ?? this.createdAt,
+      profession: profession ?? this.profession,
+      profilePicture: profilePicture ?? this.profilePicture,
+    );
+  }}

@@ -3,12 +3,14 @@ import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart'
 import 'package:skilluxfrontendflutter/core/api_service/api_service.dart';
 import 'package:skilluxfrontendflutter/core/state_managment/app_state_managment.dart';
 import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
-import 'package:skilluxfrontendflutter/core/utils/response_data_structure.dart';
+import 'package:skilluxfrontendflutter/core/api_service/response_data_structure.dart';
 import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_login_dto.dart';
 import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_login_response_dto.dart';
 import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_register_dto.dart';
 import 'package:skilluxfrontendflutter/models/dtos/response_dto.dart';
+import 'package:skilluxfrontendflutter/models/internal_models/tokens/token.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
+import 'package:skilluxfrontendflutter/presentations/features/auth/auth.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/login.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:logger/logger.dart';
@@ -20,6 +22,8 @@ class GetXAuthController extends GetxController {
   // User API Service
   APIService apiService = Get.find();
   HiveUserPersistence userPersistence = Get.find();
+  HiveTokenPersistence tokenPersistence = Get.find();
+
   RxBool isLoading = false.obs;
   RxBool isSuccess = false.obs;
   RxBool sucessResetEmail = false.obs;
@@ -91,10 +95,13 @@ class GetXAuthController extends GetxController {
 
         User? user = await userPersistence.readUser();
         user ??= userLoginResponseDto.user;
+        await userPersistence.saveUser(user);
+        Token token = Token(
+            accessToken: userLoginResponseDto.accessToken,
+            accessTokenExpire: userLoginResponseDto.accessTokenExpire,
+            refreshToken: userLoginResponseDto.refreshToken);
+        tokenPersistence.saveToken(token);
 
-        user?.token = userLoginResponseDto.token;
-        user?.expire = userLoginResponseDto.expire;
-        await userPersistence.saveUser(user!);
         _appStateManagmentController.updateState(isUserLogged: true);
         Get.to(() => const SecondaryLayer());
         // Set success state with user data
@@ -160,6 +167,32 @@ class GetXAuthController extends GetxController {
 
           Get.snackbar(text!.error, errors['error'],
               snackPosition: SnackPosition.BOTTOM);
+        }
+      }
+      isLoading.value = false;
+    } catch (e) {
+      _logger.e(e);
+    }
+  }
+
+  void logout() async {
+    isLoading.value = true;
+
+    String path = "auth/logout";
+    try {
+      ApiResponse response = await apiService.getRequest(path);
+
+      if (response.statusCode == 200) {
+        await tokenPersistence.deleteToken();
+        Get.to(() => const Auth());
+      } else {
+        if (response.body is Map<String, dynamic>) {
+          // Multiple errors
+          Map<String, dynamic> errors = response.body;
+
+          Get.snackbar(text!.error, errors['error'],
+              snackPosition: SnackPosition.BOTTOM);
+          _logger.e(errors);
         }
       }
       isLoading.value = false;
