@@ -31,11 +31,6 @@ class EmailValidator {
       caseSensitive: false,
       multiLine: false,
     );
-    return emailRegex.hasMatch(value);
-  }
-
-  static bool _isValidUsername(String value) {
-    // Custom validation logic for username (e.g., minimum length)
-    return value.length >= 3;
+    return emailRegex.hasMatch(value) && !value.contains(RegExp(r'[A-Z]'));
   }
 }

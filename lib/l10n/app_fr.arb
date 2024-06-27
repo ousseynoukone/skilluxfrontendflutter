@@ -39,7 +39,7 @@
 
   "email": "Email",
   "enterEmail": "Entrez votre email.",
-  "emailRequirement": "Email non valide , entrez un email valide.",
+  "emailRequirement": "Email non valide , entrez un email valide, tout en minuscule.",
   "existingEmail": "Veuillez utiliser un email existant pour verification.",
 
   "birth": "Anniversaire",
@@ -75,9 +75,9 @@
   
   "dark_mode": "Mode Sombre",
   "change_language": "Changer la langue",
-  "delete_account": "Supprimer le compte"
+  "delete_account": "Supprimer le compte",
 
 
-
+  "reconnectMessage": "Vous devez vous reconnecter à nouveau."
 
 }

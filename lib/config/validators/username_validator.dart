@@ -23,6 +23,6 @@ class UsernameValidator {
   }
 
   static bool _isAllLowercase(String value) {
-    return value == value.toLowerCase();
+    return value.length >= 3 && !value.contains(RegExp(r'[A-Z]'));
   }
 }

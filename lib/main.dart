@@ -10,18 +10,13 @@ import 'package:skilluxfrontendflutter/core/utils/registry/register_services.dar
 import 'package:skilluxfrontendflutter/l10n/l10n.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:skilluxfrontendflutter/models/internal_models/settings/setting.dart';
-import 'package:skilluxfrontendflutter/models/user/user.dart';
-import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/settings/settings.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:skilluxfrontendflutter/presentations/layers/primary_layer.dart';
-import 'package:skilluxfrontendflutter/models/internal_models/states/app_config_state.dart';
-import 'dart:ui';
-
-import 'package:skilluxfrontendflutter/services/mainHelpers/helper.dart';
-import 'package:skilluxfrontendflutter/services/profile_services/controllers/settings_controller.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
 
 //-----INITIALIZING HIVE-----------
   await Hive.initFlutter();

@@ -40,7 +40,7 @@
 
   "email": "Email",
   "enterEmail": "Enter your email.",
-  "emailRequirement": "Email not valid , enter a valid email.",
+  "emailRequirement": "Email not valid, enter a valid email with all lowercase.",
   "existingEmail": "Please use an existing email for verification.",
 
   "birth": "Birthday",
@@ -76,6 +76,7 @@
 
   "dark_mode": "Dark Mode",
   "change_language": "Change Language",
-  "delete_account": "Delete Account"
+  "delete_account": "Delete Account",
 
+  "reconnectMessage": "You should log in again."
 }

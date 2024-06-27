@@ -23,9 +23,7 @@ Future<void> registerGetServices() async {
   Get.put(HiveAppStatePersistence());
   Get.put(AppStateManagment());
 
-  // Create instance of TokenManager and wait for initialization
-  final tokenManagerController = Get.put(TokenManager());
-  await tokenManagerController.onInit();
+  Get.put(TokenManager());
 
   Get.put(APIService());
 

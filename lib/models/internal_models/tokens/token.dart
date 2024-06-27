@@ -13,17 +13,22 @@ class Token {
   @HiveField(2)
   String accessTokenExpire;
 
+  @HiveField(3)
+  String refreshTokenExpire;
+
   Token({
     required this.accessToken,
     required this.refreshToken,
     required this.accessTokenExpire,
+    required this.refreshTokenExpire,
   });
 
   factory Token.fromBody(Map<String, dynamic> body) {
     return Token(
       accessToken: body["access_token"],
       refreshToken: body["refresh_token"],
-      accessTokenExpire: body["access_token_expire"],
+      refreshTokenExpire: body["refresh_token_expire"],
+      accessTokenExpire: body["access_token_expire"]
     );
   }
 

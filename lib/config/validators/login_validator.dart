@@ -30,7 +30,7 @@ class LoginValidator {
   }
 
   static bool _isValidEmail(String value) {
-    // More thorough email validation using regex
+    // More thorough email validation using regex and check for no capital letters
     final RegExp emailRegex = RegExp(
       r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
       r'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-'
@@ -42,11 +42,11 @@ class LoginValidator {
       caseSensitive: false,
       multiLine: false,
     );
-    return emailRegex.hasMatch(value);
+    return emailRegex.hasMatch(value) && !value.contains(RegExp(r'[A-Z]'));
   }
 
   static bool _isValidUsername(String value) {
-    // Custom validation logic for username (e.g., minimum length)
-    return value.length >= 3;
+    // Custom validation logic for username (e.g., minimum length and no capital letters)
+    return value.length >= 3 && !value.contains(RegExp(r'[A-Z]'));
   }
 }

@@ -40,5 +40,6 @@ class BottomAppNavigationBarTheme {
     showUnselectedLabels: true,
     type: BottomNavigationBarType.fixed,
     enableFeedback: true,
+    
   );
 }

@@ -17,13 +17,19 @@ class APIService {
   }) async {
     try {
       await _tokenManager.refreshTokenIfNeeded();
-      final uri =
-          Uri.parse(BASE_URL + path).replace(queryParameters: queryParameters);
-      final response = await http.get(
-        uri,
-        headers: _setHeadersToken(),
-      );
-      return _handleResponse(response);
+
+      if (!_tokenManager.abortRequest) {
+        final uri = Uri.parse(BASE_URL + path)
+            .replace(queryParameters: queryParameters);
+        final response = await http.get(
+          uri,
+          headers: _setHeadersToken(),
+        );
+        return _handleResponse(response);
+      } else {
+        return const ApiResponse(
+            statusCode: 401, body: {'error': 'Refresh Token Expired'});
+      }
     } catch (e) {
       _logger.e(e.toString());
       return const ApiResponse(
@@ -38,18 +44,23 @@ class APIService {
   }) async {
     try {
       await _tokenManager.refreshTokenIfNeeded();
-      final uri =
-          Uri.parse(BASE_URL + path).replace(queryParameters: queryParameters);
-      final response = await http.post(
-        uri,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          ..._setHeadersToken(),
-        },
-        body: jsonEncode(data),
-      );
-      return _handleResponse(response);
+      if (!_tokenManager.abortRequest) {
+        final uri = Uri.parse(BASE_URL + path)
+            .replace(queryParameters: queryParameters);
+        final response = await http.post(
+          uri,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            ..._setHeadersToken(),
+          },
+          body: jsonEncode(data),
+        );
+        return _handleResponse(response);
+      } else {
+        return const ApiResponse(
+            statusCode: 401, body: {'error': 'Refresh Token Expired'});
+      }
     } catch (e) {
       _logger.e(e.toString());
       return const ApiResponse(
@@ -64,18 +75,24 @@ class APIService {
   }) async {
     try {
       await _tokenManager.refreshTokenIfNeeded();
-      final uri =
-          Uri.parse(BASE_URL + path).replace(queryParameters: queryParameters);
-      final response = await http.put(
-        uri,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          ..._setHeadersToken(),
-        },
-        body: jsonEncode(data),
-      );
-      return _handleResponse(response);
+
+      if (!_tokenManager.abortRequest) {
+        final uri = Uri.parse(BASE_URL + path)
+            .replace(queryParameters: queryParameters);
+        final response = await http.put(
+          uri,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            ..._setHeadersToken(),
+          },
+          body: jsonEncode(data),
+        );
+        return _handleResponse(response);
+      } else {
+        return const ApiResponse(
+            statusCode: 401, body: {'error': 'Refresh Token Expired'});
+      }
     } catch (e) {
       _logger.e(e.toString());
       return const ApiResponse(
@@ -90,18 +107,24 @@ class APIService {
   }) async {
     try {
       await _tokenManager.refreshTokenIfNeeded();
-      final uri =
-          Uri.parse(BASE_URL + path).replace(queryParameters: queryParameters);
-      final response = await http.patch(
-        uri,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          ..._setHeadersToken(),
-        },
-        body: jsonEncode(data),
-      );
-      return _handleResponse(response);
+
+      if (!_tokenManager.abortRequest) {
+        final uri = Uri.parse(BASE_URL + path)
+            .replace(queryParameters: queryParameters);
+        final response = await http.patch(
+          uri,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            ..._setHeadersToken(),
+          },
+          body: jsonEncode(data),
+        );
+        return _handleResponse(response);
+      } else {
+        return const ApiResponse(
+            statusCode: 401, body: {'error': 'Refresh Token Expired'});
+      }
     } catch (e) {
       _logger.e(e.toString());
       return const ApiResponse(
@@ -116,14 +139,20 @@ class APIService {
   }) async {
     try {
       await _tokenManager.refreshTokenIfNeeded();
-      final uri =
-          Uri.parse(BASE_URL + path).replace(queryParameters: queryParameters);
-      final response = await http.delete(
-        uri,
-        headers: _setHeadersToken(),
-        body: jsonEncode(data),
-      );
-      return _handleResponse(response);
+
+      if (!_tokenManager.abortRequest) {
+        final uri = Uri.parse(BASE_URL + path)
+            .replace(queryParameters: queryParameters);
+        final response = await http.delete(
+          uri,
+          headers: _setHeadersToken(),
+          body: jsonEncode(data),
+        );
+        return _handleResponse(response);
+      } else {
+        return const ApiResponse(
+            statusCode: 401, body: {'error': 'Refresh Token Expired'});
+      }
     } catch (e) {
       _logger.e(e.toString());
       return const ApiResponse(
@@ -132,7 +161,7 @@ class APIService {
   }
 
   Map<String, String> _setHeadersToken() {
-    return {'authorization': 'Bearer ${_tokenManager.token}'};
+    return {'authorization': 'Bearer ${_tokenManager.token.accessToken}'};
   }
 
   ApiResponse _handleResponse(http.Response response) {

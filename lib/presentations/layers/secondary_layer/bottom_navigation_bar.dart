@@ -42,6 +42,7 @@ class _BottomNavigationBarComponentState
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(
+          
             currentIndex: _currentIndex,
             onTap: (index) {
               setState(() {

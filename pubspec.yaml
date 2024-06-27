@@ -62,7 +62,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   google_fonts: ^6.2.1
-
+  #The Flutter plugin that help you can choose dates and years with rounded calendars and customizable themes.
+  flutter_rounded_date_picker: 3.0.4
+  #Customize Flutter's default white native splash screen with background color and splash image. Supports dark mode, full screen, and more.
+  flutter_native_splash: ^2.4.0
 
 dev_dependencies:
   flutter_test:
@@ -80,10 +83,34 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
-  #The Flutter plugin that help you can choose dates and years with rounded calendars and customizable themes.
-  flutter_rounded_date_picker: 3.0.4
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+  #A package which simplifies the task of updating your Flutter app's launcher icon.
+  flutter_launcher_icons: "^0.13.1"
+  # #Helps you to change or rename your flutter project BundleId and AppName for Ios, Android, MacOS and Linux platforms
+  # flutter pub global activate rename
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logos/skillux_logo_no_bg.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/logos/skillux_logo_no_bg.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/logos/skillux_logo_no_bg.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/logos/skillux_logo_no_bg.png"
+
+
 
 # The following section is specific to Flutter packages.
 flutter:

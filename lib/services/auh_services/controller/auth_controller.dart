@@ -16,6 +16,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/widgets/navigation_bar/navigation_bar_controller.dart';
 import 'package:skilluxfrontendflutter/presentations/layers/secondary_layer/secondary_layer.dart';
+import 'package:skilluxfrontendflutter/services/auh_services/helpers/helpers.dart';
 import 'package:skilluxfrontendflutter/services/mainHelpers/helper.dart';
 
 class GetXAuthController extends GetxController {
@@ -23,6 +24,7 @@ class GetXAuthController extends GetxController {
   APIService apiService = Get.find();
   HiveUserPersistence userPersistence = Get.find();
   HiveTokenPersistence tokenPersistence = Get.find();
+  final AppStateManagment _appStateManagement = Get.find();
 
   RxBool isLoading = false.obs;
   RxBool isSuccess = false.obs;
@@ -97,13 +99,14 @@ class GetXAuthController extends GetxController {
         user ??= userLoginResponseDto.user;
         await userPersistence.saveUser(user);
         Token token = Token(
+            refreshTokenExpire: userLoginResponseDto.refreshTokenExpire,
             accessToken: userLoginResponseDto.accessToken,
             accessTokenExpire: userLoginResponseDto.accessTokenExpire,
             refreshToken: userLoginResponseDto.refreshToken);
-        tokenPersistence.saveToken(token);
-
+        await tokenPersistence.saveToken(token);
+        // update app login state
         _appStateManagmentController.updateState(isUserLogged: true);
-        Get.to(() => const SecondaryLayer());
+        Get.off(() => const SecondaryLayer());
         // Set success state with user data
       } else {
         if (response.body is Map<String, dynamic>) {
@@ -183,8 +186,10 @@ class GetXAuthController extends GetxController {
       ApiResponse response = await apiService.getRequest(path);
 
       if (response.statusCode == 200) {
-        await tokenPersistence.deleteToken();
-        Get.to(() => const Auth());
+        await localLogout();
+      } else if (response.statusCode == 401) {
+        Get.snackbar(text!.alert, text!.reconnectMessage,
+            snackPosition: SnackPosition.BOTTOM);
       } else {
         if (response.body is Map<String, dynamic>) {
           // Multiple errors

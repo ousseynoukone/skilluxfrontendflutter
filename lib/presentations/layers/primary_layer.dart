@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
@@ -39,6 +40,8 @@ class _PrimaryLayerState extends State<PrimaryLayer> {
             } else if (snapshot.hasError) {
               return const Text('Error loading state');
             } else {
+              FlutterNativeSplash.remove();
+
               return Obx(() {
                 // IF APP IS LAUNCHED FOR THE FIRST TIME
                 if (controller.appConfigState.value.isAppFirstLaunch == true) {
