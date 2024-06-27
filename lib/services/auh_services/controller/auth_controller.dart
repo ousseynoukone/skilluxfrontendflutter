@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/core/api_service/api_service.dart';
@@ -7,15 +8,13 @@ import 'package:skilluxfrontendflutter/core/api_service/response_data_structure.
 import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_login_dto.dart';
 import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_login_response_dto.dart';
 import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_register_dto.dart';
-import 'package:skilluxfrontendflutter/models/dtos/response_dto.dart';
 import 'package:skilluxfrontendflutter/models/internal_models/tokens/token.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
-import 'package:skilluxfrontendflutter/presentations/features/auth/auth.dart';
-import 'package:skilluxfrontendflutter/presentations/features/auth/login.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/widgets/navigation_bar/navigation_bar_controller.dart';
 import 'package:skilluxfrontendflutter/presentations/layers/secondary_layer/secondary_layer.dart';
+import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
 import 'package:skilluxfrontendflutter/services/auh_services/helpers/helpers.dart';
 import 'package:skilluxfrontendflutter/services/mainHelpers/helper.dart';
 
@@ -62,16 +61,23 @@ class GetXAuthController extends GetxController {
           errors.forEach((key, value) {
             if (value is String) {
               // Display each error message
-              Get.snackbar(text!.error, value,
-                  snackPosition: SnackPosition.BOTTOM);
+
+              showCustomSnackbar(
+                  title: text!.error,
+                  message: value,
+                  icon: Icons.error,
+                  duration: const Duration(seconds: 7));
             } else {
               _logger.w("Unexpected error format for key: $key, value: $value");
             }
           });
         } else {
           // Handle unexpected error format
-          Get.snackbar(text!.error, text!.errorUnexpected,
-              snackPosition: SnackPosition.BOTTOM);
+          showCustomSnackbar(
+              title: text!.error,
+              message: text!.errorUnexpected,
+              icon: Icons.error,
+              duration: const Duration(seconds: 7));
         }
       }
 
@@ -113,8 +119,11 @@ class GetXAuthController extends GetxController {
           // Multiple errors
           Map<String, dynamic> errors = response.body;
 
-          Get.snackbar(text!.error, errors['error'],
-              snackPosition: SnackPosition.BOTTOM);
+          showCustomSnackbar(
+            title: text!.error,
+            message: errors['error'],
+            icon: Icons.error,
+          );
         }
       }
 
@@ -141,10 +150,14 @@ class GetXAuthController extends GetxController {
           if (response.statusCode == 403) {
             Get.back();
           }
-          Get.snackbar(text!.error, errors['error'],
-              snackPosition: SnackPosition.BOTTOM);
+          showCustomSnackbar(
+            title: text!.error,
+            message: errors['error'],
+            icon: Icons.error,
+          );
         }
       }
+
       isLoading.value = false;
     } catch (e) {
       _logger.e(e);
@@ -167,9 +180,11 @@ class GetXAuthController extends GetxController {
         if (response.body is Map<String, dynamic>) {
           // Multiple errors
           Map<String, dynamic> errors = response.body;
-
-          Get.snackbar(text!.error, errors['error'],
-              snackPosition: SnackPosition.BOTTOM);
+          showCustomSnackbar(
+            title: text!.error,
+            message: errors['error'],
+            icon: Icons.error,
+          );
         }
       }
       isLoading.value = false;
@@ -188,15 +203,21 @@ class GetXAuthController extends GetxController {
       if (response.statusCode == 200) {
         await localLogout();
       } else if (response.statusCode == 401) {
-        Get.snackbar(text!.alert, text!.reconnectMessage,
-            snackPosition: SnackPosition.BOTTOM);
+        showCustomSnackbar(
+            title: text!.alert,
+            message: text!.reconnectMessage,
+            icon: Icons.warning,
+            duration: const Duration(seconds: 7));
       } else {
         if (response.body is Map<String, dynamic>) {
           // Multiple errors
           Map<String, dynamic> errors = response.body;
 
-          Get.snackbar(text!.error, errors['error'],
-              snackPosition: SnackPosition.BOTTOM);
+          showCustomSnackbar(
+            title: text!.error,
+            message: errors['error'],
+            icon: Icons.error,
+          );
           _logger.e(errors);
         }
       }
