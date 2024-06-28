@@ -24,6 +24,7 @@ class _TopNavigationBarState extends State<TopNavigationBar>
     super.initState();
     _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
     listenRegisterState();
+    listenTabController();
   }
 
   @override
@@ -37,6 +38,17 @@ class _TopNavigationBarState extends State<TopNavigationBar>
     _navigationBarController.index.listen((newIndex) {
       _tabController.index = newIndex;
     });
+  }
+
+  void listenTabController() {
+    // Listen manual tab switch and update index from navigationBarController
+    _tabController.addListener(_handleTabIndexChange);
+  }
+
+  void _handleTabIndexChange() {
+    if (_tabController.indexIsChanging) {
+      _navigationBarController.index.value = _tabController.index;
+    }
   }
 
   @override

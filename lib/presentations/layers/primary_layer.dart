@@ -9,6 +9,7 @@ import 'package:skilluxfrontendflutter/presentations/features/auth/auth.dart';
 import 'package:skilluxfrontendflutter/presentations/layers/secondary_layer/secondary_layer.dart';
 import 'package:skilluxfrontendflutter/presentations/onBoard/on_boarding_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/loading.dart';
+import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_controller.dart';
 
 class PrimaryLayer extends StatefulWidget {
   const PrimaryLayer({super.key});
@@ -19,7 +20,8 @@ class PrimaryLayer extends StatefulWidget {
 
 class _PrimaryLayerState extends State<PrimaryLayer> {
   final AppStateManagment controller = Get.find<AppStateManagment>();
-
+  final GetXAuthController _getXAuthController =
+      Get.put(GetXAuthController(), permanent: true);
   late Future<void> _initStateFuture;
 
   @override

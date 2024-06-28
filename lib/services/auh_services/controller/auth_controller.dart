@@ -37,8 +37,10 @@ class GetXAuthController extends GetxController {
   void register(UserRegisterDto userRegisterDto) async {
     // Set loading state
     isLoading.value = true;
+    isSuccess.value = false;
 
     String path = "auth/register/${await defaultLangage()}";
+
     try {
       ApiResponse response =
           await apiService.postRequest(path, data: userRegisterDto.toBody());
@@ -61,11 +63,10 @@ class GetXAuthController extends GetxController {
           errors.forEach((key, value) {
             if (value is String) {
               // Display each error message
-
               showCustomSnackbar(
                   title: text!.error,
                   message: value,
-                  icon: Icons.error,
+                  snackType: SnackType.error,
                   duration: const Duration(seconds: 7));
             } else {
               _logger.w("Unexpected error format for key: $key, value: $value");
@@ -76,7 +77,7 @@ class GetXAuthController extends GetxController {
           showCustomSnackbar(
               title: text!.error,
               message: text!.errorUnexpected,
-              icon: Icons.error,
+              snackType: SnackType.error,
               duration: const Duration(seconds: 7));
         }
       }
@@ -89,7 +90,8 @@ class GetXAuthController extends GetxController {
   }
 
   void login(UserLoginDto userLoginDto) async {
-    // Set loading state
+    //Remove activate account message
+    isSuccess.value = false;
 
     String path = "auth/login/${await defaultLangage()}";
     isLoading.value = true;
@@ -122,7 +124,7 @@ class GetXAuthController extends GetxController {
           showCustomSnackbar(
             title: text!.error,
             message: errors['error'],
-            icon: Icons.error,
+            snackType: SnackType.error,
           );
         }
       }
@@ -153,7 +155,7 @@ class GetXAuthController extends GetxController {
           showCustomSnackbar(
             title: text!.error,
             message: errors['error'],
-            icon: Icons.error,
+            snackType: SnackType.error,
           );
         }
       }
@@ -183,8 +185,79 @@ class GetXAuthController extends GetxController {
           showCustomSnackbar(
             title: text!.error,
             message: errors['error'],
-            icon: Icons.error,
+            snackType: SnackType.error,
           );
+        }
+      }
+      isLoading.value = false;
+    } catch (e) {
+      _logger.e(e);
+    }
+  }
+
+  void changePassword(String newPassword, oldPassword) async {
+    isLoading.value = true;
+
+    String path = "auth/change-password";
+    try {
+      ApiResponse response = await apiService.postRequest(path,
+          data: {"oldPassword": oldPassword, "newPassword": newPassword});
+
+      if (response.statusCode == 201) {
+        Get.back();
+        showCustomSnackbar(
+          title: text!.info,
+          message: text!.changePasswordSuccess,
+          snackType: SnackType.info,
+          snackPosition: SnackPosition.BOTTOM,
+          duration: Duration(seconds: 7),
+        );
+      } else {
+        if (response.body is Map<String, dynamic>) {
+          // Multiple errors
+          Map<String, dynamic> errors = response.body;
+          showCustomSnackbar(
+              title: text!.error,
+              message: errors['error'],
+              snackType: SnackType.error,
+              duration: Duration(seconds: 7),
+              snackPosition: SnackPosition.BOTTOM);
+        }
+      }
+      isLoading.value = false;
+    } catch (e) {
+      _logger.e(e);
+    }
+  }
+
+  void deleteAccount(String password) async {
+    isLoading.value = true;
+
+    String path = "auth/delete-account";
+    try {
+      ApiResponse response =
+          await apiService.postRequest(path, data: {"password": password});
+
+      if (response.statusCode == 201) {
+        Get.back();
+        localLogout();
+        showCustomSnackbar(
+          title: text!.info,
+          message: text!.deleteAccountSucess,
+          snackType: SnackType.warning,
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 7),
+        );
+      } else {
+        if (response.body is Map<String, dynamic>) {
+          // Multiple errors
+          Map<String, dynamic> errors = response.body;
+          showCustomSnackbar(
+              title: text!.error,
+              message: errors['error'],
+              snackType: SnackType.error,
+              duration: const Duration(seconds: 7),
+              snackPosition: SnackPosition.BOTTOM);
         }
       }
       isLoading.value = false;
@@ -206,7 +279,7 @@ class GetXAuthController extends GetxController {
         showCustomSnackbar(
             title: text!.alert,
             message: text!.reconnectMessage,
-            icon: Icons.warning,
+            snackType: SnackType.warning,
             duration: const Duration(seconds: 7));
       } else {
         if (response.body is Map<String, dynamic>) {
@@ -216,7 +289,7 @@ class GetXAuthController extends GetxController {
           showCustomSnackbar(
             title: text!.error,
             message: errors['error'],
-            icon: Icons.error,
+            snackType: SnackType.error,
           );
           _logger.e(errors);
         }

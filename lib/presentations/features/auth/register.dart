@@ -8,6 +8,7 @@ import 'package:skilluxfrontendflutter/config/validators/full_name_validator.dar
 import 'package:skilluxfrontendflutter/config/validators/password_validator.dart';
 import 'package:skilluxfrontendflutter/config/validators/username_validator.dart';
 import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_register_dto.dart';
+import 'package:skilluxfrontendflutter/presentations/features/auth/helper/helper.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/widgets/date_picker.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/button.widgets.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_form_field.dart';
@@ -199,8 +200,8 @@ class _RegisterState extends State<Register> {
                           String username = _usernameController.text.trim();
                           String email = _emailController.text.trim();
                           String password = _passwordController.text;
-                          String birth = DateFormat('yyyy-MM-dd', 'en').format(
-                              DateTime.parse(_birthController.text.trim()));
+                          String birth = AuthHelper.formatBirthDate(
+                              _birthController.text.trim());
 
                           // Creating userRegisterDto
                           UserRegisterDto userRegisterDto = UserRegisterDto(

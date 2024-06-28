@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
+import 'package:skilluxfrontendflutter/presentations/features/auth/change_password.dart';
+import 'package:skilluxfrontendflutter/presentations/features/auth/delete_account.dart';
 import 'package:skilluxfrontendflutter/services/profile_services/controllers/settings_controller.dart';
 
 class Settings extends StatelessWidget {
@@ -28,7 +30,7 @@ class Settings extends StatelessWidget {
                 )),
           ),
           ListTile(
-            title: Text(text.change_language),
+            title: Text(text.changeLanguage),
             trailing: DropdownButton<String>(
               dropdownColor: Get.isDarkMode
                   ? ColorsTheme.tertiaryMidDarker
@@ -52,13 +54,20 @@ class Settings extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: Text(text.delete_account),
-            trailing: IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () {
-                settingsController.deleteAccount();
-              },
+            onTap: () {
+              Get.bottomSheet(const ChangePassword());
+            },
+            title: Text(text.changePassword),
+            trailing: const Icon(
+              Icons.lock,
             ),
+          ),
+          ListTile(
+            onTap: () {
+              Get.bottomSheet(const DeleteAccount());
+            },
+            title: Text(text.deleteAccount),
+            trailing: const Icon(Icons.delete),
           ),
         ],
       ),

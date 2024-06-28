@@ -18,8 +18,7 @@ class _AuthState extends State<Auth> {
   Widget build(BuildContext context) {
     var text = context.localizations;
     TextTheme textTheme = Theme.of(context).textTheme;
-    final GetXAuthController _getXAuthController =
-        Get.put(GetXAuthController());
+    final GetXAuthController _getXAuthController = Get.find();
 
     return Scaffold(
       body: SafeArea(
@@ -33,9 +32,9 @@ class _AuthState extends State<Auth> {
                   alignment: const Alignment(0, 1),
                   child: const Skillux(heightDivider: 4, widthDivider: 2)),
               ListTile(
-                title: Text(text.stayEngaged, style: textTheme.titleSmall),
+                title: Text(text.stayEngaged, style: textTheme.headlineSmall),
                 subtitle:
-                    Text(text.participateActively, style: textTheme.bodySmall),
+                    Text(text.participateActively, style: textTheme.bodyMedium),
               ),
               Obx(
                 () => _getXAuthController.isSuccess.value

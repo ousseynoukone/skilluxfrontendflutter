@@ -23,6 +23,7 @@
   "register": "Register",
   "enterYourEmailOrUsername": "Enter your email or username.",
   "enterYourPassword": "Enter your password.",
+
   "password": "Password",
   "forgotYour": "Forgot your ",
   "passwordQuestion": "password?",
@@ -36,7 +37,7 @@
 
   "username": "Username",
   "enterUsername": "Enter your username.",
-  "usernameRequirement": "Username should be at least 3 characters long, all lowercase.",
+  "usernameRequirement": "Username should be at least 3 characters long, all lowercase , no spaces.",
 
   "email": "Email",
   "enterEmail": "Enter your email.",
@@ -48,6 +49,8 @@
   "birthRequirement": "Birthdate must be in the format MM/DD/YYYY.",
 
   "ok":"Ok",
+  "yes": "Yes",
+  "no": "No",
 
   "alert":"Alert",
   "error":"Error",
@@ -74,9 +77,31 @@
   "logout":"Logout",
   "settings":"Settings",
 
-  "dark_mode": "Dark Mode",
-  "change_language": "Change Language",
-  "delete_account": "Delete Account",
+  "areYouSureLogOut": "Are you sure you want to log out?",
+  "confirmLogOut": "Confirm log out",
 
-  "reconnectMessage": "You should log in again."
+
+  "dark_mode": "Dark Mode",
+  "changePassword": "Change your password",
+
+  "deleteAccount": "Delete your account",
+  "deleteAccountSucess":"Account successfully deleted!",
+  "confirmDeleteAccount": "Confirm Account Deletion",
+  "areYouSureDeleteAccount": "Are you sure you want to delete your account?",
+
+  "confirmPasswordChange": "Confirm Password Change",
+  "areYouSureChangePassword": "Are you sure you want to change your password?",
+  "reconnectMessage": "You should log in again.",
+
+  "changePasswordSuccess": "Password successfully changed!",
+  "info": "Info",
+
+  "oldPassword": "Old password",
+  "newPassword": "New password",
+
+  "enterYourOldPassword": "Enter your old password.",
+  "enterYourNewPassword": "Enter your new password."
+
+
+
 }

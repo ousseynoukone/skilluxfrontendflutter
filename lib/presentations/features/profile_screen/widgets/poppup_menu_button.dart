@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/settings/settings.dart';
+import 'package:skilluxfrontendflutter/presentations/shared_widgets/confirm_dialog.dart';
 import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_controller.dart';
 
 class PoppupMenuButton extends StatefulWidget {
@@ -24,7 +25,15 @@ class _PoppupMenuButtonState extends State<PoppupMenuButton> {
         if (value == "settings") {
           Get.to(Settings());
         } else if (value == "logout") {
-          authController.logout();
+          Get.dialog(
+            ConfirmationDialog(
+              title: text.confirmLogOut,
+              content: text.areYouSureLogOut,
+              onConfirm: () {
+                authController.logout();
+              },
+            ),
+          );
         }
       },
       itemBuilder: (BuildContext context) => <PopupMenuEntry>[

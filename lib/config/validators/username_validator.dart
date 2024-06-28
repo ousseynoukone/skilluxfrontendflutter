@@ -18,11 +18,15 @@ class UsernameValidator {
 
   static bool _isValidUsername(String value) {
     // Custom validation logic for username (e.g., minimum length)
-    // Check that the username is all lowercase and has at least 3 characters
-    return value.length >= 3 && _isAllLowercase(value);
+    // Check that the username is all lowercase, has at least 3 characters, and contains no spaces
+    return value.length >= 3 && _isAllLowercase(value) && !_containsSpace(value);
   }
 
   static bool _isAllLowercase(String value) {
-    return value.length >= 3 && !value.contains(RegExp(r'[A-Z]'));
+    return !value.contains(RegExp(r'[A-Z]'));
+  }
+
+  static bool _containsSpace(String value) {
+    return value.contains(' ');
   }
 }

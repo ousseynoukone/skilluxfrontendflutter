@@ -58,7 +58,5 @@ class SettingsController extends GetxController {
     await _hiveSettingsPersistence.saveSettings(settings);
   }
 
-  void deleteAccount() {
-    // Add your account deletion logic here
-  }
+
 }

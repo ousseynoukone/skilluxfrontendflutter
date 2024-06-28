@@ -53,6 +53,7 @@ class _DatePickerComponentState extends State<DatePickerComponent> {
                   onDateTimeChanged: (DateTime newDate) {
                     setState(() {
                       _selectedDate = newDate;
+                      
                     });
                   },
                 ),
