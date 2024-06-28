@@ -20,21 +20,10 @@ class Skillux extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image.asset(
-          "assets/logos/skillux_logo_no_bg.png",
+          "assets/logos/skillux_splash.png",
           width: Get.width / widthDivider,
           height: Get.width / heightDivider,
         ),
-        RichText(
-            text: TextSpan(children: <TextSpan>[
-          TextSpan(
-              text: text.skill,
-              style:
-                  textTheme.titleLarge?.copyWith(color: ColorsTheme.primary)),
-          TextSpan(
-              text: text.ux,
-              style:
-                  textTheme.titleLarge?.copyWith(color: ColorsTheme.secondary)),
-        ]))
       ],
     );
   }
