@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
@@ -13,15 +14,20 @@ class SettingsController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
     // Initialize reactive variables
-    isDarkMode = false.obs; // Default to light mode
+    isDarkMode = isSystemDarkMode().obs; // Initialize with system theme mode
     selectedLocale = ''.obs; // Default language
 
     // Load settings from persistent storage
     await loadSettings();
   }
 
-  Future<void> loadSettings() async {
+  bool isSystemDarkMode() {
+    final brightness =
+        WidgetsBinding.instance.platformDispatcher.platformBrightness;
+    return brightness == Brightness.dark;
+  }
 
+  Future<void> loadSettings() async {
     // Load settings from persistent storage
     Setting? settings = await _hiveSettingsPersistence.readSettings();
     if (settings != null) {
@@ -29,13 +35,12 @@ class SettingsController extends GetxController {
         isDarkMode.value = settings.themeMode!;
         Get.changeThemeMode(
             isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
-      }
-    }
-        // Initialize selectedLocale with default language
+      } 
+    } 
+
+    // Initialize selectedLocale with default language
     selectedLocale.value = await defaultLangage();
-
     Get.updateLocale(Locale(selectedLocale.value));
-
   }
 
   void toggleTheme() {
@@ -57,6 +62,4 @@ class SettingsController extends GetxController {
     );
     await _hiveSettingsPersistence.saveSettings(settings);
   }
-
-
 }

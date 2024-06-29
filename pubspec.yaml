@@ -54,6 +54,9 @@ dependencies:
 
   #A composable, multi-platform, Future-based API for HTTP requests.
   http: ^1.2.1
+
+  # A rich text editor built for the modern Android, iOS, web and desktop platforms. It is the WYSIWYG editor and a Quill component for Flutter.
+  flutter_quill: ^9.4.9
   
   flutter_localizations:
     sdk: flutter
