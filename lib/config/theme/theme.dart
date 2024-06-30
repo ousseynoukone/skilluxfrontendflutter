@@ -15,12 +15,14 @@ import 'package:skilluxfrontendflutter/config/theme/custom_themes/input_decorati
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/outline_button_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/swtich_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/text_theme.dart';
+import 'package:skilluxfrontendflutter/config/theme/sheme_colors.dart';
 
 class AppTheme {
   // PRIVATE
   AppTheme._();
 
   static ThemeData lightTheme = ThemeData(
+    colorScheme: AppColorScheme.lightColorScheme,
     splashColor: Colors.transparent,
     useMaterial3: true,
     fontFamily: "SF Pro",
@@ -43,6 +45,7 @@ class AppTheme {
   );
 
   static ThemeData darkTheme = ThemeData(
+      colorScheme: AppColorScheme.darkColorScheme,
       splashColor: Colors.transparent,
       useMaterial3: true,
       fontFamily: "SF Pro",
