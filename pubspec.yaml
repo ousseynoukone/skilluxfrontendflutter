@@ -69,6 +69,15 @@ dependencies:
   flutter_rounded_date_picker: 3.0.4
   #Customize Flutter's default white native splash screen with background color and splash image. Supports dark mode, full screen, and more.
   flutter_native_splash: ^2.4.0
+  
+  #A rich text editor built for the modern Android, iOS, web and desktop platforms. It is the WYSIWYG editor and a Quill component for Flutter.
+  dotted_border: ^2.1.0
+  #A text field that allows an input of tags inside the textfield
+  textfield_tags: ^3.0.1
+
+  #Lite version of smart_select package, zero dependencies, an easy way to provide a single or multiple choice chips.
+  chips_choice: ^3.0.1
+
 
 dev_dependencies:
   flutter_test:

@@ -5,7 +5,7 @@
     "description": "Langue sélectionnée."
   },
   "twoLanguages": "Cette application a 2 langues.",
-  "changeLanguage": "Changer de langue.",
+  "changeLanguage": "Changer de langue",
   "connectWithYourFolks": "Connectez-vous avec vos amis.",
   "welcomeToSkillux": "Bienvenue sur Skillux, la plateforme où la connaissance rencontre la communauté ! Ici, vous pouvez vous connecter avec des personnes partageant les mêmes idées, partager votre expertise et apprendre des autres sur divers sujets.",
   "learnFromOther": "Apprenez des autres.",
@@ -46,7 +46,7 @@
   "enterBirth": "Entrez votre date de naissance.",
   "birthRequirement": "La date de naissance doit être au format JJ/MM/AAAA.",
 
-  "ok":"Choisir",
+  "ok":"OK",
   "yes": "Oui",
   "no": "Non",
 
@@ -77,6 +77,8 @@
   "confirmLogOut": "Confirmation de déconnection",
 
   "areYouSureLogOut": "Êtes-vous sûr de vouloir vous déconnecter ?",
+  "personalizeYourFeed":"Personnalisez votre flux !",
+  "personalizeMessage":"Bienvenue sur la page de personnalisation de l'expérience. Veuillez sélectionner des tags pour personnaliser votre contenu.",
 
   
   "dark_mode": "Mode Sombre",
@@ -97,7 +99,18 @@
   "enterYourOldPassword": "Saisir votre ancien mot de passe.",
   "oldPassword": "Ancien mot de passe",
   "newPassword": "Nouveau mot de passe",
-  "enterYourNewPassword": "Saisir votre nouveau mot de passe."
+  "enterYourNewPassword": "Saisir votre nouveau mot de passe.",
+
+  "createPublication":"Crée une publication",
 
 
+  "addCoverPhoto":"Ajouter une photo de couverture",
+  "addMedia":"Ajouter une photo ou une video",
+  "title":"Titre",
+
+  
+  "tags":"Tags",
+  "addTags":"Ajouter des tags, sépare le avec ' , ' ou un espace pour confirmer.",
+
+  "userPrefSaved":"Préférences sauvegardés !"
 }

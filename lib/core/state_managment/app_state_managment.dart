@@ -8,7 +8,7 @@ import 'package:skilluxfrontendflutter/models/internal_models/states/app_config_
 class AppStateManagment extends GetxController {
   final HiveAppStatePersistence _hiveAppStatePersistence = Get.find();
   Rx<AppConfigState> appConfigState = AppConfigState().obs;
-  
+
   @override
   Future<void> onInit() async {
     appConfigState.value = await _hiveAppStatePersistence.readState();
@@ -18,11 +18,14 @@ class AppStateManagment extends GetxController {
   updateState({
     bool? isAppFirstLaunch,
     bool? isUserLogged,
+    bool? isUserTagsPreferenceSaved,
   }) {
     appConfigState.update((value) {
       value?.isAppFirstLaunch =
           isAppFirstLaunch ?? appConfigState.value.isAppFirstLaunch;
       value?.isUserLogged = isUserLogged ?? appConfigState.value.isUserLogged;
+      value?.isUserTagsPreferenceSaved = isUserTagsPreferenceSaved ??
+          appConfigState.value.isUserTagsPreferenceSaved;
     });
 
     // Save the updated state back to persistence

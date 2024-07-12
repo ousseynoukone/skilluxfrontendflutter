@@ -10,7 +10,7 @@ import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_login_dto.dart
 import 'package:skilluxfrontendflutter/presentations/features/auth/helper/resend_activation_email.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/reset_password.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/helper/helper.dart';
-import 'package:skilluxfrontendflutter/presentations/shared_widgets/button.widgets.dart';
+import 'package:skilluxfrontendflutter/presentations/shared_widgets/button.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_form_field.dart';
 import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_controller.dart';
 

@@ -5,7 +5,7 @@
     "description": "Selected language."
   },
   "twoLanguages": "This app has 2 languages.",
-  "changeLanguage": "Change language.",
+  "changeLanguage": "Change language",
   "connectWithYourFolks": "Connect with your folks.",
   "welcomeToSkillux": "Welcome to Skillux, the platform where knowledge meets community! Here, you can connect with like-minded individuals, share your expertise, and learn from others across various subjects.",
   "learnFromOther": "Learn from others.",
@@ -48,7 +48,7 @@
   "enterBirth": "Enter your birthday.",
   "birthRequirement": "Birthdate must be in the format MM/DD/YYYY.",
 
-  "ok":"Ok",
+  "ok":"OK",
   "yes": "Yes",
   "no": "No",
 
@@ -66,6 +66,10 @@
 
   "createAccount":"Look like you have'nt created an account yet.",
 
+
+  "personalizeYourFeed":"Personalize your feed!",
+  "personalizeMessage":"Welcome to the personalized experience page. Please select some tags to tailor your content.",
+  "userPrefSaved":"Preferences saved!",
 
 
   "home":"Home",
@@ -100,7 +104,18 @@
   "newPassword": "New password",
 
   "enterYourOldPassword": "Enter your old password.",
-  "enterYourNewPassword": "Enter your new password."
+  "enterYourNewPassword": "Enter your new password.",
+
+  "createPublication":"Create a publication",
+
+  "addCoverPhoto":"Add cover photo",
+  "addMedia":"add  photo or video",
+  "title":"Title",
+
+  "tags":"Tags",
+  "addTags":"Add tags , separed it by ',' or space to confirm."
+
+
 
 
 
