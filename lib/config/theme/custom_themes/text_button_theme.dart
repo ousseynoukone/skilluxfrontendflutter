@@ -9,15 +9,15 @@ class TextAppButtonTheme {
     style: TextButton.styleFrom(
       elevation: 1,
       backgroundColor: ColorsTheme.tertiary,
+      iconColor: ColorsTheme.secondary,
       textStyle: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w800,
+        fontSize: 14,
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14),
       ),
     ).copyWith(
-      foregroundColor: WidgetStateProperty.all(ColorsTheme.black),
+      foregroundColor: WidgetStateProperty.all(ColorsTheme.tertiaryDarker),
     ),
   );
 
@@ -26,12 +26,12 @@ class TextAppButtonTheme {
       elevation: 1,
       backgroundColor: ColorsTheme.tertiaryDarker,
       textStyle: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w800,
+        fontSize: 14,
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14),
       ),
+      iconColor: ColorsTheme.secondary,
     ).copyWith(
       foregroundColor: WidgetStateProperty.all(ColorsTheme.tertiary),
     ),

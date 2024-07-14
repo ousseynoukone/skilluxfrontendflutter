@@ -73,7 +73,7 @@ dependencies:
   #Customize Flutter's default white native splash screen with background color and splash image. Supports dark mode, full screen, and more.
   flutter_native_splash: ^2.4.0
   
-  #A rich text editor built for the modern Android, iOS, web and desktop platforms. It is the WYSIWYG editor and a Quill component for Flutter.
+  #A  text editor built for the modern Android, iOS, web and desktop platforms. It is the WYSIWYG editor and a Quill component for Flutter.
   dotted_border: ^2.1.0
   #A text field that allows an input of tags inside the textfield
   textfield_tags: ^3.0.1

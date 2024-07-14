@@ -7,35 +7,39 @@ class ButtonComponent extends StatelessWidget {
   final VoidCallback onPressed;
   final EdgeInsets? edgeInsets;
   final bool isLoading;
+  final bool applyTheme;
+
   const ButtonComponent(
       {super.key,
       required this.text,
       this.edgeInsets,
       required this.onPressed,
-      required this.isLoading});
+      this.applyTheme = false,
+      this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
-    TextTheme textTheme = Theme.of(context).textTheme;
+    final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
+      padding: edgeInsets ??
+          const EdgeInsets.symmetric(horizontal: 32.0, vertical: 9.0),
+      backgroundColor: applyTheme
+          ? Theme.of(context).colorScheme.onPrimary
+          : ColorsTheme.primary,
+    );
 
     return SizedBox(
       width: double.infinity, // Make the button take full width
       child: ElevatedButton(
-        style: ButtonStyle(
-          padding: WidgetStateProperty.all<EdgeInsets>(
-            edgeInsets ??
-                const EdgeInsets.symmetric(horizontal: 32.0, vertical: 9.0),
-          ),
-          // Optionally, you can add more styling here such as background color, etc.
-        ),
+        style: buttonStyle,
         onPressed: isLoading ? null : onPressed,
         child: isLoading
-            ? const SizedBox(
+            ? SizedBox(
                 height: 20,
                 width: 20,
                 child: CircularProgressIndicator(
-                  color: ColorsTheme.primary,
-                ),
+                    color: applyTheme
+                        ? Theme.of(context).colorScheme.primary
+                        : ColorsTheme.primary),
               )
             : Text(
                 text,

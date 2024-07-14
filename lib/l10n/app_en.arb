@@ -84,6 +84,7 @@
   "areYouSureLogOut": "Are you sure you want to log out?",
   "confirmLogOut": "Confirm log out",
 
+  "optionalField":"This field is optional.",
 
   "dark_mode": "Dark Mode",
   "changePassword": "Change your password",
@@ -109,13 +110,21 @@
   "createPublication":"Create a publication",
 
   "addCoverPhoto":"Add cover photo",
-  "addMedia":"add  photo or video",
+  "addMedia":"add photo or video",
   "title":"Title",
 
   "tags":"Tags",
-  "addTags":"Add tags , separed it by ',' or space to confirm."
+  "addTags":"Add tags , separed it by ',' or space to confirm.",
+
+  "save":"Save",
+  "addSection":"Add section",
+  "preview":"Preview",
+
+  "createSection":"Create a section"
+  
 
 
+  
 
 
 

@@ -24,8 +24,8 @@
   "enterYourEmailOrUsername": "Entrez votre email ou nom d'utilisateur.",
   "enterYourPassword": "Entrez votre mot de passe.",
   "password": "Mot de passe",
-  "forgotYour": "Vous avez oublié votre ",
-  "passwordQuestion": "mot de passe ?",
+  "forgotYour": "Mot de passe ",
+  "passwordQuestion": "oublié ?",
 
   "pleaseEnterLogin": "Veuillez entrer votre identifiant.",
   "passwordRequirements": "Le mot de passe doit contenir au moins une lettre et un chiffre, et comporter au moins 8 caractères.",
@@ -101,7 +101,9 @@
   "newPassword": "Nouveau mot de passe",
   "enterYourNewPassword": "Saisir votre nouveau mot de passe.",
 
-  "createPublication":"Crée une publication",
+  "createPublication":"Créer une publication",
+
+  "optionalField":"Ce champ est optionnel.",
 
 
   "addCoverPhoto":"Ajouter une photo de couverture",
@@ -112,5 +114,13 @@
   "tags":"Tags",
   "addTags":"Ajouter des tags, sépare le avec ' , ' ou un espace pour confirmer.",
 
-  "userPrefSaved":"Préférences sauvegardés !"
+  "userPrefSaved":"Préférences sauvegardés !",
+
+  "save":"Sauvegarder",
+  "addSection":"Ajouter une section",
+  "preview":"Prévisualiser",
+
+
+  "createSection":"Créer une section"
+
 }

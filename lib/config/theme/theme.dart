@@ -25,7 +25,7 @@ class AppTheme {
 
   static ThemeData lightTheme = ThemeData(
       textSelectionTheme: const TextSelectionThemeData(
-          cursorColor: ColorsTheme.tertiaryDarker,
+          cursorColor: ColorsTheme.tertiaryDark,
           selectionColor: ColorsTheme.secondary),
       colorScheme: AppColorScheme.lightColorScheme,
       splashColor: Colors.transparent,
