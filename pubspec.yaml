@@ -55,6 +55,9 @@ dependencies:
   #A composable, multi-platform, Future-based API for HTTP requests.
   http: ^1.2.1
 
+  #A free and unlimited Google Translate API for Dart. You can use it for translate strings and text for educational purpose.
+  translator: ^1.0.0
+
   # A rich text editor built for the modern Android, iOS, web and desktop platforms. It is the WYSIWYG editor and a Quill component for Flutter.
   flutter_quill: ^9.4.9
   

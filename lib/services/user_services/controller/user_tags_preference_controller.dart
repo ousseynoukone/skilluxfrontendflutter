@@ -7,6 +7,7 @@ import 'package:skilluxfrontendflutter/core/state_managment/app_state_managment.
 import 'package:skilluxfrontendflutter/models/tag/tag.dart';
 import 'package:skilluxfrontendflutter/presentations/layers/secondary_layer/secondary_layer.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
+import 'package:skilluxfrontendflutter/services/translator_services/translator_service.dart';
 
 class GetXUserTagsPreference extends GetxController with StateMixin<List<Tag>> {
   // User API Service
@@ -16,6 +17,7 @@ class GetXUserTagsPreference extends GetxController with StateMixin<List<Tag>> {
   final Logger _logger = Logger();
   final text = Get.context?.localizations;
   List<Tag> tags = [];
+  final TranslatorService _translatorService = Get.find();
 
   void getTagsPreferences() async {
     String path = "basic/tags";
@@ -32,6 +34,7 @@ class GetXUserTagsPreference extends GetxController with StateMixin<List<Tag>> {
         }
         tags = (data as List).map((tag) => Tag.fromBody(tag)).toList();
         if (tags.isNotEmpty) {
+          tags = await _translatorService.translateTags(tags);
           change(tags, status: RxStatus.success());
         }
       }
