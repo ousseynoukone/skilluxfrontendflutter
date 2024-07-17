@@ -108,6 +108,7 @@
   "enterYourNewPassword": "Enter your new password.",
 
   "createPublication":"Create a publication",
+  "mendatoryContent":"The content of the section is mendatory!",
 
   "addCoverPhoto":"Add cover photo",
   "addMedia":"add photo or video",
@@ -119,7 +120,7 @@
   "save":"Save",
   "addSection":"Add section",
   "preview":"Preview",
-
+  "section":"Section",
   "createSection":"Create a section"
   
 

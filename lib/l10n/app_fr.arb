@@ -104,6 +104,7 @@
   "createPublication":"Créer une publication",
 
   "optionalField":"Ce champ est optionnel.",
+  "mendatoryContent":"Le contenu du section est obligatoire!",
 
 
   "addCoverPhoto":"Ajouter une photo de couverture",
@@ -119,8 +120,7 @@
   "save":"Sauvegarder",
   "addSection":"Ajouter une section",
   "preview":"Prévisualiser",
-
-
+  "section":"Section",
   "createSection":"Créer une section"
 
 }

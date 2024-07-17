@@ -4,8 +4,8 @@ import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 
 class IconTextButton extends StatelessWidget {
   final IconData icon;
-  final String label;
-  final VoidCallback onPressed;
+  final String ? label;
+  final VoidCallback ? onPressed;
   final Color? textColor;
   final EdgeInsets? padding;
   final double? iconSize;
@@ -15,7 +15,7 @@ class IconTextButton extends StatelessWidget {
   const IconTextButton({
     Key? key,
     required this.icon,
-    required this.label,
+    this.label,
     required this.onPressed,
     this.textColor,
     this.padding,
@@ -39,7 +39,7 @@ class IconTextButton extends StatelessWidget {
               child: CircularProgressIndicator(color: ColorsTheme.primary),
             )
           : Text(
-              label,
+              label ?? "",
               style: TextStyle(
                 color: textColor ??
                     Theme.of(context).textTheme.labelSmall?.backgroundColor,
