@@ -104,9 +104,10 @@ class GetXAuthController extends GetxController {
         UserLoginResponseDto userLoginResponseDto =
             UserLoginResponseDto.fromBody(response.body);
 
-        User? user = await userPersistence.readUser();
-        user ??= userLoginResponseDto.user;
-        await userPersistence.saveUser(user);
+        // User? user = await userPersistence.readUser();
+        // user ??= userLoginResponseDto.user;
+
+        await userPersistence.saveUser(userLoginResponseDto.user);
         Token token = Token(
             refreshTokenExpire: userLoginResponseDto.refreshTokenExpire,
             accessToken: userLoginResponseDto.accessToken,
@@ -121,7 +122,7 @@ class GetXAuthController extends GetxController {
         if (_appStateManagmentController
                 .appConfigState.value.isUserTagsPreferenceSaved ==
             false) {
-          Get.off(const TagsPreferencesScreen());
+          Get.off(() => const TagsPreferencesScreen());
         } else {
           Get.off(() => const SecondaryLayer());
         }

@@ -14,7 +14,7 @@ class Post {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final int? userId;
-  final List<Section>? sections;
+  final String content;
 
   // For future purpose
   final XFile? headerImageIMG;
@@ -30,7 +30,7 @@ class Post {
     this.createdAt,
     this.updatedAt,
     this.userId,
-    this.sections,
+    required this.content,
     this.headerImageIMG,
   });
 
@@ -46,10 +46,7 @@ class Post {
       createdAt: body['createdAt'] != null ? DateTime.parse(body['createdAt']) : null,
       updatedAt: body['updatedAt'] != null ? DateTime.parse(body['updatedAt']) : null,
       userId: body['userId'],
-      sections: (body['sections'] != null)
-          ? List<Section>.from(
-              body['sections'].map((section) => Section.fromBody(section)))
-          : null,
+      content: body['content'] ,
       headerImageIMG: null,
     );
   }
@@ -61,7 +58,7 @@ class Post {
       'headerImage': headerImageUrl,
       'tags': tags,
       'userId': userId,
-      'sections': sections?.map((section) => section.toBody()).toList(),
+      'content':content,
     };
   }
 

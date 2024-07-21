@@ -4,6 +4,7 @@ import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 
 class IconTextButton extends StatelessWidget {
   final IconData icon;
+  final Color ? iconColor;
   final String ? label;
   final VoidCallback ? onPressed;
   final Color? textColor;
@@ -16,6 +17,7 @@ class IconTextButton extends StatelessWidget {
     Key? key,
     required this.icon,
     this.label,
+    this.iconColor,
     required this.onPressed,
     this.textColor,
     this.padding,
@@ -31,6 +33,7 @@ class IconTextButton extends StatelessWidget {
       icon: Icon(
         icon,
         size: iconSize,
+        color: iconColor,
       ),
       label: isLoading
           ? const SizedBox(

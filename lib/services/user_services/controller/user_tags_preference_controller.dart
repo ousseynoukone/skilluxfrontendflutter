@@ -53,7 +53,7 @@ class GetXUserTagsPreference extends GetxController with StateMixin<List<Tag>> {
       if (response.statusCode == 201) {
         showCustomSnackbar(title: text!.info, message: text!.userPrefSaved);
         await _appStateManagment.updateState(isUserTagsPreferenceSaved: true);
-        Get.off(const SecondaryLayer());
+        Get.off(() => const SecondaryLayer());
       }
     } catch (e) {
       _logger.e(e);

@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/models/post/post.dart';
-import 'package:skilluxfrontendflutter/models/post/sub_models/section.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/helpers/image_handling.dart';
-import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/add_post_widget/add_media.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/add_post_widget/bottom_nav_bar.dart';
-import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_image.dart';
-import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_section.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_section_builder.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/tags_text_field.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_field.dart';
@@ -26,7 +21,7 @@ class AddPostScreen extends StatefulWidget {
 }
 
 class _AddPostScreenState extends State<AddPostScreen>
-    with ImagePickerMixin {
+    with ImagePickerMixin, SectionBuilderMixin, RouteAware {
   var _stringTagController = StringTagController();
   final Logger _logger = Logger();
   AddPostSysService addPostSysService = Get.put(AddPostSysService());
@@ -39,7 +34,16 @@ class _AddPostScreenState extends State<AddPostScreen>
     _stringTagController = StringTagController();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    ObserverUtils.routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
 
+  @override
+  didPushNext() {
+    savePost();
+  }
 
   // Create a new post and broadcast it
   void savePost() {
@@ -47,11 +51,19 @@ class _AddPostScreenState extends State<AddPostScreen>
         title: _titleController.text,
         tags: _stringTagController.getTags!,
         headerImageIMG: pickedImage,
-        sections: addSectionSysService.sections);
+        content: addSectionSysService.content.value);
     addPostSysService.addPost(newpost);
   }
 
- 
+  // Create a new post and broadcast it
+  void saveDraft() {
+    // Post newpost = Post(
+    //     title: _titleController.text,
+    //     tags: _stringTagController.getTags!,
+    //     headerImageIMG: pickedImage,
+    //     content: addSectionSysService.content.value);
+    // addPostSysService.addPost(newpost);
+  }
 
   @override
   void dispose() {
@@ -74,7 +86,7 @@ class _AddPostScreenState extends State<AddPostScreen>
             child: Center(
               child: Column(
                 children: [
-                  buildImageWidget(context, text.addMedia),
+                  buildImageWidget(context, text.addCoverPhoto),
                   const SizedBox(height: 22),
                   TextFieldComponent(
                     controller: _titleController,
@@ -85,12 +97,12 @@ class _AddPostScreenState extends State<AddPostScreen>
                     stringTagController: _stringTagController,
                   ),
                   const SizedBox(height: 22),
-                  sectionBuilder(addSectionSysService.sections)
+                  sectionBuilder()
                 ],
               ),
             ),
           ),
         ),
-        bottomNavigationBar: bottomNavBar(savePost));
+        bottomNavigationBar: bottomNavBar(saveDraft));
   }
 }

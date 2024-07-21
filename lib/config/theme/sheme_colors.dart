@@ -14,7 +14,7 @@ class AppColorScheme {
       onSurface: Colors.black,
       onTertiary: ColorsTheme.white);
 
-  static ColorScheme darkColorScheme = ColorScheme(
+  static ColorScheme darkColorScheme = const ColorScheme(
       brightness: Brightness.dark,
       primary: ColorsTheme.tertiaryDarker,
       onPrimary: ColorsTheme.tertiaryDark,

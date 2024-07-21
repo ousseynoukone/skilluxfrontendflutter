@@ -8,11 +8,13 @@ import 'package:skilluxfrontendflutter/presentations/shared_widgets/outline_butt
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_post_sys_service.dart';
+import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_section_sys_service.dart';
 
-Widget bottomNavBar(VoidCallback savePost) {
+Widget bottomNavBar(VoidCallback saveDraft) {
   final colorScheme = Theme.of(Get.context!).colorScheme;
   var text = AppLocalizations.of(Get.context!);
   AddPostSysService addPostSysService = Get.find();
+  AddSectionSysService addSectionSysService = Get.find();
 
   return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -23,15 +25,19 @@ Widget bottomNavBar(VoidCallback savePost) {
             icon: Icons.save,
             label: text!.save,
             onPressed: () {
-              savePost();
+              saveDraft();
             },
           ),
-          IconTextButton(
-            icon: Icons.add,
-            label: text.addSection,
-            onPressed: () {
-              Get.to(() => const AddSection());
-            },
+          Obx(
+            () => addSectionSysService.content.value.isEmpty
+                ? IconTextButton(
+                    icon: Icons.add,
+                    label: text.addSection,
+                    onPressed: () {
+                      Get.to(() => const AddSection());
+                    },
+                  )
+                : const SizedBox.shrink(),
           ),
           IconTextButton(
             icon: Icons.visibility,

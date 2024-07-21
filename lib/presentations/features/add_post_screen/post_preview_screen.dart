@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
+import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
 import 'package:skilluxfrontendflutter/models/post/post.dart';
+import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_image.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_section.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_section_builder.dart';
+import 'package:skilluxfrontendflutter/presentations/features/user_components/user_preview.dart';
 
 class PostPreview extends StatefulWidget {
   final Post post;
@@ -14,26 +17,57 @@ class PostPreview extends StatefulWidget {
   State<PostPreview> createState() => _PostPreviewState();
 }
 
-class _PostPreviewState extends State<PostPreview> {
+class _PostPreviewState extends State<PostPreview> with SectionBuilderMixin {
+  User? user;
+  final HiveUserPersistence _hiveUserPersistence = Get.find();
+
+  Future<void> _getUser() async {
+    user = await _hiveUserPersistence.readUser();
+    if (mounted) setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     var text = context.localizations;
     var themeText = context.textTheme;
 
-    Widget displayTitle() {
-      return Text(widget.post.title, style: themeText.titleMedium);
+    Widget displayPostMinimalAttribute() {
+      return Column(
+        children: [
+          user != null
+              ? displayUserPreview(user!)
+              : const CircularProgressIndicator(),
+          Container(
+            alignment: Alignment.topLeft,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            child: Text(widget.post.title, style: themeText.headlineMedium),
+          ),
+          if (widget.post.headerImageIMG != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: displayImage(widget.post.headerImageIMG!, () {},
+                  isDraft: false),
+            ),
+        ],
+      );
     }
 
-    Widget _displayPost() {
+    Widget displayPost() {
       return SingleChildScrollView(
         child: Column(
           children: [
-            displayTitle(),
-            if (widget.post.headerImageIMG != null)
-              displayImage(widget.post.headerImageIMG!, () {}, isDraft: false),
-            if (widget.post.sections != null)
-              sectionBuilder(widget.post.sections!,
-                  draftMode: false, isPreview: true)
+            displayPostMinimalAttribute(),
+            if (widget.post.content.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: sectionBuilderForViewAndPreview(),
+              )
           ],
         ),
       );
@@ -43,7 +77,7 @@ class _PostPreviewState extends State<PostPreview> {
       appBar: AppBar(
         title: Text(text.preview),
       ),
-      body: _displayPost(),
+      body: displayPost(),
     );
   }
 }

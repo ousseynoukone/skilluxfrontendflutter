@@ -121,6 +121,10 @@
   "addSection":"Ajouter une section",
   "preview":"Prévisualiser",
   "section":"Section",
-  "createSection":"Créer une section"
+  "createSection":"Créer une section",
+
+
+  
+  "quillEditorPlaceholder":"Ecrivez votre contenu ici..."
 
 }

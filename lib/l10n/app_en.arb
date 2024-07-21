@@ -121,7 +121,9 @@
   "addSection":"Add section",
   "preview":"Preview",
   "section":"Section",
-  "createSection":"Create a section"
+  "createSection":"Create a section",
+
+  "quillEditorPlaceholder":"Writte your content here..."
   
 
 

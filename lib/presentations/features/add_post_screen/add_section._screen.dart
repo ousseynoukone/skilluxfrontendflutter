@@ -8,7 +8,7 @@ import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart'
 import 'package:skilluxfrontendflutter/models/post/sub_models/section.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/helpers/image_handling.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/add_post_widget/add_media.dart';
-import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/add_section_widget/text_area.dart';
+import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/add_section_widget/quillEditor.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_image.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_button.dart';
@@ -17,7 +17,9 @@ import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_section_sys_service.dart';
 
 class AddSection extends StatefulWidget {
-  const AddSection({super.key});
+  final bool editMode;
+
+  const AddSection({super.key,  this.editMode = false});
 
   @override
   State<AddSection> createState() => _AddSectionState();
@@ -30,6 +32,17 @@ class _AddSectionState extends State<AddSection> with ImagePickerMixin {
   AddSectionSysService addSectionSysService = Get.find();
 
   @override
+  void initState() {
+    super.initState();
+
+    if (widget.editMode) {
+      _controller.document =
+          Document.fromJson(jsonDecode(addSectionSysService.content.value));
+        
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     var text = context.localizations;
     var themeText = context.textTheme;
@@ -38,23 +51,11 @@ class _AddSectionState extends State<AddSection> with ImagePickerMixin {
         appBar: AppBar(
           title: Text(text.createSection),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                TextFieldComponent(
-                  controller: _titleController,
-                  labelText: text.title,
-                  hintText: text.optionalField,
-                ),
-                buildImageWidget(context, text.addMedia),
-                const Divider(),
-                TextArea(
-                  controller: _controller,
-                ),
-              ],
-            ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Quilleditor(
+            controller: _controller,
+            displayMode: false,
           ),
         ),
         bottomNavigationBar: SizedBox(
@@ -66,26 +67,16 @@ class _AddSectionState extends State<AddSection> with ImagePickerMixin {
                 icon: Icons.save,
                 label: text.save,
                 onPressed: () async {
-                  Image? image;
-                  if (pickedImage != null) {
-                    image = getImageFromXfile(pickedImage!);
-                  }
-
                   if (!_controller.document.isEmpty()) {
                     String jsonString =
                         jsonEncode(_controller.document.toDelta().toJson());
-                    Section section = Section(
-                      content: jsonString,
-                      image: image,
-                      title: _titleController.text,
-                    );
 
-                    addSectionSysService.addSection(section);
+                    addSectionSysService.content.value = jsonString;
                     Get.back();
                   } else {
                     showCustomSnackbar(
-                        title: text!.alert,
-                        message: text!.mendatoryContent,
+                        title: text.alert,
+                        message: text.mendatoryContent,
                         snackType: SnackType.warning,
                         duration: const Duration(seconds: 7));
                   }

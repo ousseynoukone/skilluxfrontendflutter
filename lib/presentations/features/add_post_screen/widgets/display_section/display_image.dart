@@ -41,7 +41,7 @@ Widget displayImage(XFile pickedImage, VoidCallback onDelete,
           return SizedBox(
             width: constraints.maxWidth, // Use full width of parent
             child: AspectRatio(
-              aspectRatio: 16 / 9, // You can adjust this ratio as needed
+              aspectRatio: 16 / 4, // You can adjust this ratio as needed
               child: ClipRRect(
                 borderRadius:
                     BorderRadius.circular(8), // Optional: for rounded corners
