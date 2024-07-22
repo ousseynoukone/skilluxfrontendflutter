@@ -25,11 +25,12 @@ mixin SectionBuilderMixin<T extends StatefulWidget> on State<T> {
   }
 
   Widget sectionForViewAndPreview(String content) {
+    var colorScheme = Theme.of(context).colorScheme;
+
     QuillController controller = QuillController(
-      document: Document.fromJson(jsonDecode(content)),
-      selection: const TextSelection.collapsed(offset: 0),
-      readOnly: true
-    );
+        document: Document.fromJson(jsonDecode(content)),
+        selection: const TextSelection.collapsed(offset: 0),
+        readOnly: true);
 
     return Container(
       decoration: const BoxDecoration(
@@ -38,6 +39,7 @@ mixin SectionBuilderMixin<T extends StatefulWidget> on State<T> {
       child: Quilleditor(
         controller: controller,
         scrollable: false,
+        bgColor: colorScheme.primary,
       ),
     );
   }

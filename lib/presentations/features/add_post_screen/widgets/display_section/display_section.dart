@@ -66,7 +66,7 @@ class _DisplaySectionState extends State<DisplaySection> {
           child: IconTextButton(
               icon: Icons.delete,
               iconColor: ColorsTheme.primary,
-              label: "Delete",
+              label: text.delete,
               onPressed: () {
                 setState(() {
                   addSectionSysService.clearContent();
@@ -79,7 +79,7 @@ class _DisplaySectionState extends State<DisplaySection> {
           padding: const EdgeInsets.only(top: 8, left: 8),
           alignment: Alignment.topRight,
           child: IconTextButton(
-              label: 'Edit',
+              label: text.edit,
               iconColor: ColorsTheme.secondary,
               icon: Icons.edit,
               onPressed: () {

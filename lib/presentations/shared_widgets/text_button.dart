@@ -14,7 +14,7 @@ class IconTextButton extends StatelessWidget {
   final bool isLoading;
 
   const IconTextButton({
-    Key? key,
+    super.key,
     required this.icon,
     this.label,
     this.iconColor,
@@ -24,7 +24,7 @@ class IconTextButton extends StatelessWidget {
     this.iconSize,
     this.fontSize,
     this.isLoading = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

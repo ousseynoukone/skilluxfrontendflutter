@@ -50,7 +50,7 @@ class _TagsTextFieldComponentState extends State<TagsTextFieldComponent> {
                     text.tags,
                     style: themeText.bodyMedium?.copyWith(
                         color: colorScheme.onSecondary,
-                        fontWeight: FontWeight.w700),
+                        fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 4.0),
                   TextField(
@@ -69,13 +69,14 @@ class _TagsTextFieldComponentState extends State<TagsTextFieldComponent> {
                         borderSide:
                             BorderSide(color: ColorsTheme.secondary, width: 2),
                       ),
+                      hintStyle: themeText.bodySmall, 
                       hintText:
                           inputFieldValues.tags.isNotEmpty ? '' : text.addTags,
                       suffixIcon: IconButton(
                           onPressed: () {
                             widget.stringTagController.clearTags();
                           },
-                          icon: Icon(Icons.close)),
+                          icon: const Icon(Icons.close)),
                       prefixIconConstraints:
                           BoxConstraints(maxWidth: _distanceToField * 0.75),
                       prefixIcon: inputFieldValues.tags.isNotEmpty

@@ -80,6 +80,10 @@
   "personalizeYourFeed":"Personnalisez votre flux !",
   "personalizeMessage":"Bienvenue sur la page de personnalisation de l'expérience. Veuillez sélectionner des tags pour personnaliser votre contenu.",
 
+  "add":"Ajouter",
+  "edit":"Modifier",
+  "delete":"Supprimer",
+  "update":"Mettre-à-jour",
   
   "dark_mode": "Mode Sombre",
   "changePassword": "Changer votre mot de passe",
@@ -104,7 +108,7 @@
   "createPublication":"Créer une publication",
 
   "optionalField":"Ce champ est optionnel.",
-  "mendatoryContent":"Le contenu du section est obligatoire!",
+  "mendatoryContent":"Le contenu du section est obligatoire !",
 
 
   "addCoverPhoto":"Ajouter une photo de couverture",
@@ -122,9 +126,15 @@
   "preview":"Prévisualiser",
   "section":"Section",
   "createSection":"Créer une section",
+  "nothingToShow":"Veillez vous assurer que tout les champs (section inclut) ne sont pas vides !",
 
 
   
-  "quillEditorPlaceholder":"Ecrivez votre contenu ici..."
+  "quillEditorPlaceholder":"Ecrivez votre contenu ici...",
 
+
+  
+  "lessThanOneMinuteRead": "Moins d'une minute de lecture",
+  "oneMinuteRead": "1 minute de lecture",
+  "minuteRead": "minutes de lecture"
 }

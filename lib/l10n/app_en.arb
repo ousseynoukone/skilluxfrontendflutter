@@ -94,6 +94,11 @@
   "confirmDeleteAccount": "Confirm Account Deletion",
   "areYouSureDeleteAccount": "Are you sure you want to delete your account?",
 
+  "add":"Add",
+  "edit":"Edit",
+  "delete":"Delete",
+  "update":"Update",
+
   "confirmPasswordChange": "Confirm Password Change",
   "areYouSureChangePassword": "Are you sure you want to change your password?",
   "reconnectMessage": "You should log in again.",
@@ -123,12 +128,14 @@
   "section":"Section",
   "createSection":"Create a section",
 
-  "quillEditorPlaceholder":"Writte your content here..."
-  
+  "quillEditorPlaceholder":"Writte your content here...",
+  "nothingToShow":"Please make sure all fields (section included) are'nt empty!",
 
 
   
 
-
+  "lessThanOneMinuteRead":"Less than 1 min read",
+  "oneMinuteRead":"1 min read",
+  "minuteRead":"mins read"
 
 }

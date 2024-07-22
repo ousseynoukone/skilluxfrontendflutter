@@ -103,6 +103,6 @@ class _AddPostScreenState extends State<AddPostScreen>
             ),
           ),
         ),
-        bottomNavigationBar: bottomNavBar(saveDraft));
+        bottomNavigationBar: bottomNavBar(saveDraft,updatePostStream: savePost));
   }
 }

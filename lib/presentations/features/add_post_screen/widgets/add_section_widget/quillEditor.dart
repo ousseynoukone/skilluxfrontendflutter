@@ -11,14 +11,16 @@ class Quilleditor extends StatelessWidget {
   final bool displayMode;
   final bool expanded;
   final bool scrollable;
+  final Color? bgColor;
 
   const Quilleditor({
-    Key? key,
+    super.key,
     required this.controller,
+    this.bgColor,
     this.displayMode = false,
     this.scrollable = true,
     this.expanded = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class Quilleditor extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: colorScheme.onPrimary,
+        color:bgColor?? colorScheme.onPrimary,
       ),
       child: QuillEditor.basic(
         configurations: _getEditorConfigurations(

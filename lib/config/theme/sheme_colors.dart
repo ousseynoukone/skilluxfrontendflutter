@@ -4,7 +4,7 @@ import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 class AppColorScheme {
   static ColorScheme lightColorScheme = const ColorScheme(
       brightness: Brightness.light,
-      primary: ColorsTheme.white,
+      primary: ColorsTheme.ligtGrey,
       onPrimary: ColorsTheme.tertiary,
       secondary: ColorsTheme.tertiaryLightDark,
       onSecondary: ColorsTheme.tertiaryDark,

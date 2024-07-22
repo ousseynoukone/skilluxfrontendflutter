@@ -51,9 +51,11 @@ DefaultStyles getDefaultStyles() {
           const VerticalSpacing(8, 0), const VerticalSpacing(0, 0), null, null),
       h2: DefaultListBlockStyle(textTheme.titleMedium!,
           const VerticalSpacing(8, 0), const VerticalSpacing(0, 0), null, null),
-      h3: DefaultListBlockStyle(
-          textTheme.titleSmall!,
-          const VerticalSpacing(8, 0),
+      h3: DefaultListBlockStyle(textTheme.titleSmall!,
+          const VerticalSpacing(8, 0), const VerticalSpacing(0, 0), null, null),
+      placeHolder: DefaultListBlockStyle(
+          textTheme.bodySmall!,
+          const VerticalSpacing(0, 0),
           const VerticalSpacing(0, 0),
           null,
           null));

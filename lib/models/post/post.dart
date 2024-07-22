@@ -1,7 +1,4 @@
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
-import 'package:skilluxfrontendflutter/models/post/sub_models/section.dart';
 
 class Post {
   final int? id;
@@ -9,9 +6,9 @@ class Post {
   final int? readNumber;
   final int? votesNumber;
   final bool? isPublished;
-  final String ? headerImageUrl;
+  final String? headerImageUrl;
   final List<String> tags;
-  final DateTime? createdAt;
+   DateTime? createdAt;
   final DateTime? updatedAt;
   final int? userId;
   final String content;
@@ -27,7 +24,7 @@ class Post {
     this.isPublished = false,
     this.headerImageUrl,
     required this.tags,
-    this.createdAt,
+    this.createdAt ,
     this.updatedAt,
     this.userId,
     required this.content,
@@ -46,7 +43,7 @@ class Post {
       createdAt: body['createdAt'] != null ? DateTime.parse(body['createdAt']) : null,
       updatedAt: body['updatedAt'] != null ? DateTime.parse(body['updatedAt']) : null,
       userId: body['userId'],
-      content: body['content'] ,
+      content: body['content'],
       headerImageIMG: null,
     );
   }
@@ -58,9 +55,7 @@ class Post {
       'headerImage': headerImageUrl,
       'tags': tags,
       'userId': userId,
-      'content':content,
+      'content': content,
     };
   }
-
-
 }
