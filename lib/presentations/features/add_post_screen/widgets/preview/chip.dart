@@ -26,7 +26,7 @@ Widget getChip(String label, IconData? icon) {
     ),
     backgroundColor: colorScheme.primary, // Light blue background
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(12),
       side: BorderSide(color: colorScheme.primary), // Light border
     ),
   );
