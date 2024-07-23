@@ -77,28 +77,23 @@ class _AddPostScreenState extends State<AddPostScreen>
       if (result != 0) {
         if (result == -1) {
           showCustomSnackbar(
-            title: text.alert,
-            message: text.bulkSaveAvoided,
-            snackType: SnackType.warning,
-            duration: const Duration(seconds: 5)
-          );
+              title: text.alert,
+              message: text.bulkSaveAvoided,
+              snackType: SnackType.warning,
+              duration: const Duration(seconds: 5));
         } else {
           showCustomSnackbar(
-            title: text.info,
-            message: text.draftSaved,
-            snackType: SnackType.success,
-                        duration: const Duration(seconds: 3)
-
-          );
+              title: text.info,
+              message: text.draftSaved,
+              snackType: SnackType.success,
+              duration: const Duration(seconds: 3));
         }
       } else {
         showCustomSnackbar(
-          title: text.error,
-          message: text.somethingWentWrong,
-          snackType: SnackType.error,
-                      duration: const Duration(seconds: 5)
-
-        );
+            title: text.error,
+            message: text.somethingWentWrong,
+            snackType: SnackType.error,
+            duration: const Duration(seconds: 5));
       }
     }
   }

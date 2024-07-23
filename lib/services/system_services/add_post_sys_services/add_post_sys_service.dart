@@ -6,6 +6,7 @@ class AddPostSysService extends GetxController {
   // Observable Post object
   Rx<Post?> post = Rx<Post?>(null);
 
+  final isLoading = false.obs;
 
   void addPost(Post newpost) {
     post.value = newpost;

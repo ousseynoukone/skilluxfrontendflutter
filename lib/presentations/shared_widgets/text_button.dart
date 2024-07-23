@@ -4,9 +4,9 @@ import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 
 class IconTextButton extends StatelessWidget {
   final IconData icon;
-  final Color ? iconColor;
-  final String ? label;
-  final VoidCallback ? onPressed;
+  final Color? iconColor;
+  final String? label;
+  final VoidCallback? onPressed;
   final Color? textColor;
   final EdgeInsets? padding;
   final double? iconSize;
@@ -29,12 +29,14 @@ class IconTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton.icon(
-      onPressed: onPressed,
-      icon: Icon(
-        icon,
-        size: iconSize,
-        color: iconColor,
-      ),
+      onPressed: isLoading ? null : onPressed,
+      icon: isLoading
+          ? null
+          : Icon(
+              icon,
+              size: iconSize,
+              color: iconColor,
+            ),
       label: isLoading
           ? const SizedBox(
               height: 20,
