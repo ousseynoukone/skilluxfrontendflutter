@@ -13,7 +13,7 @@ import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/wi
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_section_builder.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/preview/chip.dart';
 import 'package:skilluxfrontendflutter/presentations/features/helpers/reading_time_calculator/reading_time_calculator.dart';
-import 'package:skilluxfrontendflutter/presentations/features/helpers/time_format/time_format.dart';
+import 'package:skilluxfrontendflutter/presentations/features/helpers/time_format/time_ago_format.dart';
 import 'package:skilluxfrontendflutter/presentations/features/user_components/user_preview.dart';
 import 'package:skilluxfrontendflutter/services/mainHelpers/helper.dart';
 
@@ -38,16 +38,11 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
   @override
   void initState() {
     super.initState();
-    initiatingPostCreatedAt();
     _getUser();
     controller = QuillController(
       document: Document.fromJson(jsonDecode(widget.post.content)),
       selection: const TextSelection.collapsed(offset: 0),
     );
-  }
-
-  initiatingPostCreatedAt() {
-    widget.post.createdAt = DateTime.now();
   }
 
   @override

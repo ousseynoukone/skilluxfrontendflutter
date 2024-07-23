@@ -36,12 +36,9 @@ Future<void> registerGetServices() async {
   // For handling Auth Top Navigation Bar
   Get.put(NavigationBarController());
 
-
-
   // For handling Translation
   Get.put(TranslatorService());
 
-
-
-  
+  //Handling post drafts
+  Get.put(HivePostsPersistence());
 }

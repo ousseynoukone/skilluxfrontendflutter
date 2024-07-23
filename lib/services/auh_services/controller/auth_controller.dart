@@ -8,7 +8,7 @@ import 'package:skilluxfrontendflutter/core/api_service/response_data_structure.
 import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_login_dto.dart';
 import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_login_response_dto.dart';
 import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_register_dto.dart';
-import 'package:skilluxfrontendflutter/models/internal_models/tokens/token.dart';
+import 'package:skilluxfrontendflutter/models/internal_hive_models/tokens/token.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
 
 import 'package:logger/logger.dart';

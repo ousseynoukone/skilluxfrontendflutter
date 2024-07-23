@@ -17,8 +17,9 @@ class TextFieldComponent extends StatelessWidget {
   final void Function(String)? onFieldSubmitted;
   final void Function(String)?
       onChanged; // Changed to accept a String parameter
+
   const TextFieldComponent({
-    Key? key,
+    super.key,
     required this.labelText,
     required this.controller,
     this.decoration,
@@ -32,7 +33,7 @@ class TextFieldComponent extends StatelessWidget {
     this.readOnly = false,
     this.focusNode,
     this.onFieldSubmitted,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +60,12 @@ class TextFieldComponent extends StatelessWidget {
                 color: colorScheme.onSecondary, fontWeight: FontWeight.w600),
             enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: colorScheme.onSurface),
+            ),
+            errorBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: colorScheme.error),
+            ),
+            focusedErrorBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: colorScheme.error),
             ),
             focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: ColorsTheme.secondary, width: 2),

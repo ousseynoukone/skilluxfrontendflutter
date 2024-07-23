@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
-import 'package:skilluxfrontendflutter/models/internal_models/states/app_config_state.dart';
+import 'package:skilluxfrontendflutter/models/internal_hive_models/states/app_config_state.dart';
 
 class AppStateManagment extends GetxController {
   final HiveAppStatePersistence _hiveAppStatePersistence = Get.find();

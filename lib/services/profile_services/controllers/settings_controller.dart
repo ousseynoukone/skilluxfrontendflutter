@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
-import 'package:skilluxfrontendflutter/models/internal_models/settings/setting.dart';
+import 'package:skilluxfrontendflutter/models/internal_hive_models/settings/setting.dart';
 import 'package:skilluxfrontendflutter/services/mainHelpers/helper.dart';
 
 class SettingsController extends GetxController {

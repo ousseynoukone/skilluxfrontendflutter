@@ -1,17 +1,20 @@
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:skilluxfrontendflutter/models/internal_models/settings/setting.dart';
-import 'package:skilluxfrontendflutter/models/internal_models/states/app_config_state.dart';
-import 'package:skilluxfrontendflutter/models/internal_models/tokens/token.dart';
+import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
+import 'package:skilluxfrontendflutter/models/internal_hive_models/settings/setting.dart';
+import 'package:skilluxfrontendflutter/models/internal_hive_models/states/app_config_state.dart';
+import 'package:skilluxfrontendflutter/models/internal_hive_models/tokens/token.dart';
+import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:logger/logger.dart';
+import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
 
 class HiveUserPersistence extends GetxController {
   final String _userBox = 'userBox';
   final Logger _logger = Logger();
-  var box ;  
+  var box;
 
-    @override
+  @override
   Future<void> onInit() async {
     box = await Hive.openBox(_userBox);
     super.onInit();
@@ -26,20 +29,17 @@ class HiveUserPersistence extends GetxController {
     return user;
   }
 
-
   Future<void> deleteUser() async {
     await box.delete('user');
   }
 }
 
-
-
 class HiveTokenPersistence extends GetxController {
   final String _tokenBox = 'tokenBox';
   final Logger _logger = Logger();
-  var box ;  
+  var box;
 
-    @override
+  @override
   Future<void> onInit() async {
     box = await Hive.openBox(_tokenBox);
     super.onInit();
@@ -54,14 +54,10 @@ class HiveTokenPersistence extends GetxController {
     return token;
   }
 
-
-
   Future<void> deleteToken() async {
     await box.delete('token');
   }
 }
-
-
 
 class HiveAppStatePersistence {
   final String _stateBox = 'stateBox';
@@ -100,5 +96,63 @@ class HiveSettingsPersistence {
   Future<void> deleteSettings() async {
     var box = await Hive.openBox(_settingsBoxName);
     await box.delete('settings');
+  }
+}
+
+class HivePostsPersistence extends GetxController {
+  final String _postsBox = 'postBox';
+  final Logger _logger = Logger();
+
+  late Box<Post> box;
+
+  @override
+  Future<void> onInit() async {
+    box = await Hive.openBox<Post>(_postsBox);
+    super.onInit();
+  }
+
+  bool _postExists(Post post) {
+    return box.values.any((existingPost) =>
+        existingPost.title == post.title ||
+        existingPost.content == post.content);
+  }
+
+  Future<int> addPost(Post post) async {
+    try {
+      if (_postExists(post)) {
+        return -1;
+      }
+      int key = await box.add(post);
+      //update the post with its key
+      await box.put(key, post.copyWith(id: key));
+
+      return key;
+    } catch (e) {
+      _logger.e(e.toString());
+    }
+
+    return 0;
+  }
+
+  Future<void> savePosts(Post post, dynamic key) async {
+    await box.put(key, post);
+  }
+
+  Future<List<Post>> readAllPosts() async {
+    final List<Post> posts = box.values.toList();
+    return posts;
+  }
+
+  Future<Post?> readOnePost(dynamic key) async {
+    final Post? post = box.get(key);
+    return post;
+  }
+
+  Future<void> deleteOnePost(dynamic key) async {
+    await box.delete(key);
+  }
+
+  Future<void> deleteAllPosts() async {
+    await box.clear();
   }
 }

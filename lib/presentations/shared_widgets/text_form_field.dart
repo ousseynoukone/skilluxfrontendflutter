@@ -15,7 +15,7 @@ class TextFormFieldComponent extends StatelessWidget {
   final void Function(String)? onFieldSubmitted;
 
   const TextFormFieldComponent({
-    Key? key,
+    super.key,
     required this.labelText,
     required this.hintText,
     this.suffixIcon,
@@ -27,7 +27,7 @@ class TextFormFieldComponent extends StatelessWidget {
     this.readOnly = false,
     this.focusNode,
     this.onFieldSubmitted,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

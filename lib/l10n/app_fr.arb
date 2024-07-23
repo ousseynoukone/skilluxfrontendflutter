@@ -126,15 +126,28 @@
   "preview":"Prévisualiser",
   "section":"Section",
   "createSection":"Créer une section",
-  "nothingToShow":"Veillez vous assurer que tout les champs (section inclut) ne sont pas vides !",
+  "nothingToShow":"Veillez vous assurer que tout les champs (section inclut) sont correctement remplis !",
 
 
   
   "quillEditorPlaceholder":"Ecrivez votre contenu ici...",
 
+  "dateUnknown":"Date inconnue",
+  "postTitleRequirement": "Le titre de la publication doit contenir au moins 2 caractères et ne pas dépasser 100 caractères !"  ,
+  "postTitle":"Le titre de la publication est obligatoire !",
 
-  
+  "somethingWentWrong": "Une erreur s'est produite. Veuillez réessayer.",
+
   "lessThanOneMinuteRead": "Moins d'une minute de lecture",
   "oneMinuteRead": "1 minute de lecture",
-  "minuteRead": "minutes de lecture"
+  "minuteRead": "minutes de lecture",
+
+  "draft":"Broullions",
+  "noDraft":"Aucun broullion trouvé",
+
+  "draftSaved": "Brouillon enregistré !",  
+  "bulkSaveAvoided": "Le post existe déjà. Ajout évité."  
+
+
+
 }

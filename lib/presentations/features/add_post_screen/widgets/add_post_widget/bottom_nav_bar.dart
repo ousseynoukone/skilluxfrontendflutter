@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skilluxfrontendflutter/config/validators/post_title_validator.dart';
 import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/add_section._screen.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/post_preview_screen.dart';
@@ -16,10 +17,12 @@ Widget bottomNavBar(VoidCallback saveDraft, {VoidCallback? updatePostStream}) {
   var text = AppLocalizations.of(Get.context!);
   AddPostSysService addPostSysService = Get.find();
   AddSectionSysService addSectionSysService = Get.find();
+  bool isLoading = false;
 
   isPostNotEmpty() {
     var post = addPostSysService.post.value;
     if (post?.title != null &&
+        PostTitleValidator.validate(post?.title) == null &&
         post!.title.isNotEmpty &&
         post.tags.isNotEmpty &&
         post.content.isNotEmpty &&
@@ -37,8 +40,11 @@ Widget bottomNavBar(VoidCallback saveDraft, {VoidCallback? updatePostStream}) {
           IconTextButton(
             icon: Icons.save,
             label: text!.save,
+            isLoading: isLoading,
             onPressed: () {
+              isLoading = true;
               saveDraft();
+              isLoading = false;
             },
           ),
           Obx(

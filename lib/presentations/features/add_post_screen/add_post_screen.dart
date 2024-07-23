@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
+import 'package:skilluxfrontendflutter/config/validators/post_title_validator.dart';
+import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
 import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/helpers/image_handling.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/add_post_widget/bottom_nav_bar.dart';
+import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/add_post_widget/poppup_menu_button.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_section_builder.dart';
+import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/tags_text_field.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_field.dart';
 import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_post_sys_service.dart';
@@ -24,9 +28,14 @@ class _AddPostScreenState extends State<AddPostScreen>
     with ImagePickerMixin, SectionBuilderMixin, RouteAware {
   var _stringTagController = StringTagController();
   final Logger _logger = Logger();
-  AddPostSysService addPostSysService = Get.put(AddPostSysService());
+  final AddPostSysService _addPostSysService = Get.put(AddPostSysService());
   final TextEditingController _titleController = TextEditingController();
-  AddSectionSysService addSectionSysService = Get.put(AddSectionSysService());
+  final AddSectionSysService _addSectionSysService =
+      Get.put(AddSectionSysService());
+  final HivePostsPersistence _hivePostsPersistence =
+      Get.put(HivePostsPersistence());
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  var text = Get.context!.localizations;
 
   @override
   void initState() {
@@ -46,23 +55,47 @@ class _AddPostScreenState extends State<AddPostScreen>
   }
 
   // Create a new post and broadcast it
-  void savePost() {
-    Post newpost = Post(
+  Future<void> savePost() async {
+    Post newPost = Post(
         title: _titleController.text,
         tags: _stringTagController.getTags!,
         headerImageIMG: pickedImage,
-        content: addSectionSysService.content.value);
-    addPostSysService.addPost(newpost);
+        createdAt: DateTime.now(),
+        content: _addSectionSysService.content.value);
+    bool result = await newPost.convertXFileImageToBinary();
+    if (result) {
+      _addPostSysService.addPost(newPost);
+    }
   }
 
-  // Create a new post and broadcast it
-  void saveDraft() {
-    // Post newpost = Post(
-    //     title: _titleController.text,
-    //     tags: _stringTagController.getTags!,
-    //     headerImageIMG: pickedImage,
-    //     content: addSectionSysService.content.value);
-    // addPostSysService.addPost(newpost);
+  // Save post as draft
+  Future<void> saveDraft() async {
+    await savePost();
+    if (_addPostSysService.post.value != null) {
+      int result =
+          await _hivePostsPersistence.addPost(_addPostSysService.post.value!);
+      if (result != 0) {
+        if (result == -1) {
+          showCustomSnackbar(
+            title: text.alert,
+            message: text.bulkSaveAvoided,
+            snackType: SnackType.warning,
+          );
+        } else {
+          showCustomSnackbar(
+            title: text.info,
+            message: text.draftSaved,
+            snackType: SnackType.success,
+          );
+        }
+      } else {
+        showCustomSnackbar(
+          title: text.error,
+          message: text.somethingWentWrong,
+          snackType: SnackType.error,
+        );
+      }
+    }
   }
 
   @override
@@ -73,12 +106,10 @@ class _AddPostScreenState extends State<AddPostScreen>
 
   @override
   Widget build(BuildContext context) {
-    var text = context.localizations;
-    var themeText = context.textTheme;
-
     return Scaffold(
         appBar: AppBar(
           title: Text(text.createPublication),
+          actions: const [PoppupMenuButton()],
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -88,9 +119,22 @@ class _AddPostScreenState extends State<AddPostScreen>
                 children: [
                   buildImageWidget(context, text.addCoverPhoto),
                   const SizedBox(height: 22),
-                  TextFieldComponent(
-                    controller: _titleController,
-                    labelText: text.title,
+                  Form(
+                    key: _formKey,
+                    child: TextFieldComponent(
+                      controller: _titleController,
+                      labelText: text.title,
+                      validator: (value) {
+                        var message = PostTitleValidator.validate(value);
+                        if (value == null || message != null) {
+                          return message;
+                        }
+                        return null; // Return null if the input is valid
+                      },
+                      onChanged: (value) {
+                        _formKey.currentState!.validate();
+                      },
+                    ),
                   ),
                   const SizedBox(height: 22),
                   TagsTextFieldComponent(
@@ -103,6 +147,7 @@ class _AddPostScreenState extends State<AddPostScreen>
             ),
           ),
         ),
-        bottomNavigationBar: bottomNavBar(saveDraft,updatePostStream: savePost));
+        bottomNavigationBar:
+            bottomNavBar(saveDraft, updatePostStream: savePost));
   }
 }
