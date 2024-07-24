@@ -64,7 +64,7 @@ class _AddPostScreenState extends State<AddPostScreen>
 // Function that allow a post draft to be displayed here
   fillPostFields() async {
     Post? post = _addPostSysService.post.value;
-    if (_addPostSysService.isPostNotEmpty()) {
+    if (_addPostSysService.isPostNotEmpty(checkHeaderImage: false)) {
       await post.convertBinaryToXFileImage();
       _titleController.text = post.title;
       pickedImage = post.headerImageIMG;

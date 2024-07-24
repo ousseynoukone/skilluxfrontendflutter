@@ -156,4 +156,25 @@ class Post {
       headerBinaryImage: headerImageBinary ?? headerBinaryImage,
     );
   }
+
+  void dump() {
+  _logger.d('Post Dump:');
+  _logger.d('ID: $id');
+  _logger.d('Title: $title');
+  _logger.d('Read Number: $readNumber');
+  _logger.d('Votes Number: $votesNumber');
+  _logger.d('Is Published: $isPublished');
+  _logger.d('Header Image URL: $headerImageUrl');
+  _logger.d('Tags: $tags');
+  _logger.d('Created At: ${createdAt?.toIso8601String() ?? "Not set"}');
+  _logger.d('Updated At: ${updatedAt?.toIso8601String() ?? "Not set"}');
+  _logger.d('User ID: $userId');
+  _logger.d('Content: $content');
+  _logger.d('Header Image (XFile): ${headerImageIMG?.path ?? "Not set"}');
+  _logger.d('Header Binary Image: ${headerBinaryImage != null ? "Present" : "Not present"}');
+  if (headerBinaryImage != null) {
+    _logger.d('  Binary Image Path: ${headerBinaryImage!.xFileImagePath ?? "Not set"}');
+    _logger.d('  Binary Image Data: ${headerBinaryImage!.binaryImage != null ? "${headerBinaryImage!.binaryImage!.length} bytes" : "Not set"}');
+  }
+}
 }

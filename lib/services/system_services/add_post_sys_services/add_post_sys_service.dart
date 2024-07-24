@@ -25,36 +25,45 @@ class AddPostSysService extends GetxController {
     );
   }
 
-  bool isPostNotEmpty({bool showError = false}) {
-    var text = Get.context!.localizations;
+bool isPostNotEmpty({
+  bool showError = false,
+  bool checkTitle = true,
+  bool checkTags = true,
+  bool checkContent = true,
+  bool checkHeaderImage = true,
+}) {
+  var text = Get.context!.localizations;
 
-    bool result = post.value.title.isNotEmpty &&
-        PostTitleValidator.validate(post.value.title) == null &&
-        post.value.tags.isNotEmpty &&
-        post.value.content.isNotEmpty &&
-        post.value.headerImageIMG != null;
+  bool result = true;
 
-    if (!result && showError) {
-      showCustomSnackbar(
-        title: text.alert,
-        message: text.nothingToShow,
-        snackType: SnackType.warning,
-      );
-    }
-
-    return result;
+  if (checkTitle) {
+    result = result && post.value.title.isNotEmpty && 
+             PostTitleValidator.validate(post.value.title) == null;
   }
 
-  void dumpPostValue() {
-    _logger.d('Post Dump:');
-    _logger.d('Title: ${post.value.title}');
-    _logger.d('Content: ${post.value.content}');
-    _logger.d('Tags: ${post.value.tags}');
-    _logger.d(
-        'Header Image: ${post.value.headerImageIMG != null ? "Present" : "Not present"}');
-
-    // Add any other fields you want to log
+  if (checkTags) {
+    result = result && post.value.tags.isNotEmpty;
   }
+
+  if (checkContent) {
+    result = result && post.value.content.isNotEmpty;
+  }
+
+  if (checkHeaderImage) {
+    result = result && post.value.headerImageIMG != null;
+  }
+
+  if (!result && showError) {
+    showCustomSnackbar(
+      title: text.alert,
+      message: text.nothingToShow,
+      snackType: SnackType.warning,
+    );
+  }
+
+  return result;
+}
+
 
   isContentEmpty() {
     return post.value.content.isNotEmpty;
