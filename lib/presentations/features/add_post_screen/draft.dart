@@ -9,6 +9,7 @@ import 'package:intl/intl.dart'; // Add this for date formatting
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/preview/chip.dart';
 import 'package:skilluxfrontendflutter/presentations/features/helpers/time_format/time_format.dart';
+import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_post_sys_service.dart';
 
 class Draft extends StatefulWidget {
   const Draft({Key? key}) : super(key: key);
@@ -22,11 +23,17 @@ class _DraftState extends State<Draft> {
   List<Post> posts = [];
   bool isLoading = true;
   final Logger _logger = Logger();
+  final AddPostSysService _addPostSysService = Get.find();
 
   @override
   void initState() {
     super.initState();
     getDraftPosts();
+  }
+
+  void displayDraftPost(Post post) {
+    _addPostSysService.addPost(post);
+    Get.back();
   }
 
   void getDraftPosts() async {
@@ -88,8 +95,7 @@ class _DraftState extends State<Draft> {
                             },
                             icon: const Icon(Icons.delete)),
                         onTap: () {
-                          // Handle tap on post
-                          print('Tapped on post: ${post.title}');
+                          displayDraftPost(post);
                         },
                         tileColor: colorScheme.primary);
                   },

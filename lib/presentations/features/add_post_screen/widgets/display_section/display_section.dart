@@ -7,8 +7,7 @@ import 'package:skilluxfrontendflutter/models/post/sub_models/section.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/add_section._screen.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/add_section_widget/quillEditor.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_button.dart';
-
-import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_section_sys_service.dart';
+import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_post_sys_service.dart';
 import '../../../../../config/theme/colors.dart';
 
 class DisplaySection extends StatefulWidget {
@@ -24,7 +23,7 @@ class DisplaySection extends StatefulWidget {
 
 class _DisplaySectionState extends State<DisplaySection> {
   late QuillController _controller;
-  AddSectionSysService addSectionSysService = Get.find();
+  final AddPostSysService _addPostSysService = Get.find();
 
   @override
   void dispose() {
@@ -69,7 +68,7 @@ class _DisplaySectionState extends State<DisplaySection> {
               label: text.delete,
               onPressed: () {
                 setState(() {
-                  addSectionSysService.clearContent();
+                  _addPostSysService.clearContent();
                 });
               }));
     }

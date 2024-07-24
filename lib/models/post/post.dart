@@ -41,7 +41,7 @@ class Post {
   final int? userId;
 
   @HiveField(10)
-  final String content;
+  String content;
 
   @HiveField(11)
   BinaryImage? headerBinaryImage;
@@ -60,7 +60,7 @@ class Post {
     this.createdAt,
     this.updatedAt,
     this.userId,
-    required this.content,
+    this.content = "",
     this.headerImageIMG,
     this.headerBinaryImage,
   });
@@ -112,8 +112,7 @@ class Post {
 
   Future<bool> convertBinaryToXFileImage() async {
     try {
-      if (headerBinaryImage?.binaryImage != null &&
-          headerBinaryImage?.xFileImagePath != null) {
+      if (headerBinaryImage?.binaryImage != null) {
         headerImageIMG = await ImageConverter.uint8ListToXFile(
             headerBinaryImage!.binaryImage!,
             headerBinaryImage!.xFileImagePath!);

@@ -119,6 +119,10 @@ class HivePostsPersistence extends GetxController {
 
   Future<int> addPost(Post post) async {
     try {
+      if (post.id != null) {
+        await box.put(post.id, post);
+        return -2;
+      }
       if (_postExists(post)) {
         return -1;
       }
@@ -129,17 +133,27 @@ class HivePostsPersistence extends GetxController {
       return key;
     } catch (e) {
       _logger.e(e.toString());
+      return 0;
     }
-
-    return 0;
   }
 
-  Future<void> savePosts(Post post, dynamic key) async {
-    await box.put(key, post);
+  Future<int> savePosts(Post post) async {
+    try {
+      await box.put(post.id, post);
+      return 1;
+    } catch (e) {
+      _logger.e(e.toString());
+      return 0;
+    }
   }
 
   Future<List<Post>> readAllPosts() async {
     final List<Post> posts = box.values.toList();
+    if (posts.isNotEmpty) {
+      // Sort the posts by createdAt in descending order
+      posts.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+    }
+
     return posts;
   }
 

@@ -5,23 +5,24 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/add_section_widget/quillEditor.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_section.dart';
-import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_section_sys_service.dart';
+import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_post_sys_service.dart';
 
 mixin SectionBuilderMixin<T extends StatefulWidget> on State<T> {
-  AddSectionSysService addSectionSysService = Get.find();
+  final AddPostSysService _addPostSysService = Get.find();
 
   Widget sectionBuilder({bool expanded = true}) {
     return Obx(() => Padding(
         padding: const EdgeInsets.only(bottom: 16.0),
-        child: addSectionSysService.content.value.isNotEmpty
+        child: _addPostSysService.isContentEmpty()
             ? DisplaySection(
-                content: addSectionSysService.content.value, expanded: expanded)
+                content: _addPostSysService.post.value.content,
+                expanded: expanded)
             : const SizedBox.shrink()));
   }
 
   Widget sectionBuilderForViewAndPreview() {
     return Obx(
-        () => sectionForViewAndPreview(addSectionSysService.content.value));
+        () => sectionForViewAndPreview(_addPostSysService.post.value.content));
   }
 
   Widget sectionForViewAndPreview(String content) {

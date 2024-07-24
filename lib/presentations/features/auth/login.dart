@@ -24,8 +24,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GetXAuthController _getXAuthController = Get.find();
-  TextEditingController _loginController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _loginController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool _isObscure = true;
 
   late FocusNode _loginFocus;
@@ -99,8 +99,8 @@ class _LoginState extends State<Login> {
                     padding: const EdgeInsets.only(right: 4.0),
                     child: IconButton(
                       icon: _isObscure
-                          ? Icon(Icons.visibility)
-                          : Icon(Icons.visibility_off_outlined),
+                          ? const Icon(Icons.visibility)
+                          : const Icon(Icons.visibility_off_outlined),
                       onPressed: () {
                         _toggleVisibility();
                       },
@@ -178,7 +178,7 @@ Widget bottomComponent(var text, var textTheme, var getXAuthController) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildForgotPasswordText(text, textTheme),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               _buildResendActivationEmail(text, textTheme, getXAuthController),
             ],
           );
@@ -226,12 +226,12 @@ Widget _buildResendActivationEmail(
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
+                const Icon(
                   Icons.email_outlined,
                   color: ColorsTheme.primary,
                   size: 16,
                 ),
-                SizedBox(width: 4),
+                const SizedBox(width: 4),
                 Flexible(
                   child: Text(
                     text.resendActivationEmail,
@@ -243,6 +243,6 @@ Widget _buildResendActivationEmail(
               ],
             ),
           )
-        : SizedBox.shrink(),
+        : const SizedBox.shrink(),
   );
 }

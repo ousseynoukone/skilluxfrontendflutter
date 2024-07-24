@@ -41,7 +41,7 @@ class IconTextButton extends StatelessWidget {
           ? const SizedBox(
               height: 20,
               width: 20,
-              child: CircularProgressIndicator(color: ColorsTheme.primary),
+              child: CircularProgressIndicator(color: ColorsTheme.secondary),
             )
           : Text(
               label ?? "",

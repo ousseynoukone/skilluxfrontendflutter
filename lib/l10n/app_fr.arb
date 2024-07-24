@@ -146,6 +146,9 @@
   "noDraft":"Aucun broullion trouvé",
 
   "draftSaved": "Brouillon enregistré !",  
+
+  "draftUpdated": "Brouillon mis à jour !", 
+
   "bulkSaveAvoided": "Le post existe déjà. Ajout évité."  
 
 

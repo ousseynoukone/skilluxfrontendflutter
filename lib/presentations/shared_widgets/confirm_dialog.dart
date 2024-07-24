@@ -28,7 +28,7 @@ class ConfirmationDialog extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              color: colorScheme.secondary,
+              // color: colorScheme.secondary,
             ),
             padding: const EdgeInsets.all(8.0),
             child: Text(text.no),
@@ -42,7 +42,7 @@ class ConfirmationDialog extends StatelessWidget {
           child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                color: colorScheme.secondary,
+                // color: colorScheme.secondary,
               ),
               padding: const EdgeInsets.all(8.0),
               child: Text(text.yes)),

@@ -1,22 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/translations.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:textfield_tags/textfield_tags.dart';
-import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_field.dart';
 
-class TagsTextFieldComponent extends StatefulWidget {
-  final StringTagController stringTagController;
-  const TagsTextFieldComponent({super.key, required this.stringTagController});
-
-  @override
-  State<TagsTextFieldComponent> createState() => _TagsTextFieldComponentState();
-}
-
-class _TagsTextFieldComponentState extends State<TagsTextFieldComponent> {
-  final List<String> _tags = [];
+mixin TagsTextFieldComponent<T extends StatefulWidget> on State<T> {
   late double _distanceToField;
+  final StringTagController stringTagController = StringTagController();
 
   @override
   void didChangeDependencies() {
@@ -25,16 +15,16 @@ class _TagsTextFieldComponentState extends State<TagsTextFieldComponent> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    var themeText = context.textTheme;
-    var text = context.localizations;
+  final colorScheme = Theme.of(Get.context!).colorScheme;
+  var themeText = Get.context!.textTheme;
+  var text = Get.context!.localizations;
 
+  showTagsTextFieldComponent() {
     return Column(
       children: [
         TextFieldTags<String>(
-          textfieldTagsController: widget.stringTagController,
-          initialTags: _tags,
+          textfieldTagsController: stringTagController,
+          initialTags: const [],
           textSeparators: const [' ', ','],
           // validator: (String tag) {
           //   if (tag == 'php') {
@@ -69,12 +59,12 @@ class _TagsTextFieldComponentState extends State<TagsTextFieldComponent> {
                         borderSide:
                             BorderSide(color: ColorsTheme.secondary, width: 2),
                       ),
-                      hintStyle: themeText.bodySmall, 
+                      hintStyle: themeText.bodySmall,
                       hintText:
                           inputFieldValues.tags.isNotEmpty ? '' : text.addTags,
                       suffixIcon: IconButton(
                           onPressed: () {
-                            widget.stringTagController.clearTags();
+                            stringTagController.clearTags();
                           },
                           icon: const Icon(Icons.close)),
                       prefixIconConstraints:

@@ -143,6 +143,8 @@
   "noDraft":"No drafts found",
 
   "draftSaved":"Draft saved!",
+  "draftUpdated": "Draft updated!", 
+
   "bulkSaveAvoided":"Post already exists. Skipping addition."
 
 }
