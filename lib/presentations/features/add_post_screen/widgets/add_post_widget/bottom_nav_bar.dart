@@ -24,8 +24,7 @@ Widget bottomNavBar(Future<void> Function() saveDraft,
               onPressed: addPostSysService.isLoading.value
                   ? null
                   : () async {
-                        await saveDraft();
-                   
+                      await saveDraft();
                     },
             ),
             Obx(

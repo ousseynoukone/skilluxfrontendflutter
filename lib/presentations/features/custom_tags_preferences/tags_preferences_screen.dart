@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/models/tag/tag.dart';
-import 'package:skilluxfrontendflutter/presentations/shared_widgets/button.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/outline_button.dart';
 import 'package:skilluxfrontendflutter/services/user_services/controller/user_tags_preference_controller.dart';
 
@@ -21,12 +20,6 @@ class _TagsPreferencesScreenState extends State<TagsPreferencesScreen> {
 
   List<Tag> tags = [];
   List<int> selectedTagIds = [];
-
-  @override
-  void initState() {
-    getXUserTagsPreferenceController.getTagsPreferences();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +52,7 @@ class _TagsPreferencesScreenState extends State<TagsPreferencesScreen> {
               choiceStyle: C2ChipStyle.filled(
                 color: colorScheme.onPrimary,
                 selectedStyle: C2ChipStyle(
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(25),
                     ),
                     backgroundColor: colorScheme.onSurface),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
-import 'package:skilluxfrontendflutter/models/post/sub_models/section.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/add_section._screen.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/add_section_widget/quillEditor.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_button.dart';
@@ -56,7 +55,6 @@ class _DisplaySectionState extends State<DisplaySection> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     var text = context.localizations;
-    var textTheme = context.textTheme;
 
     Widget displayDeleteSectionButton() {
       return Container(

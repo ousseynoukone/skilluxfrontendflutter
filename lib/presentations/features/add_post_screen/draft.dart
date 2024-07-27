@@ -33,12 +33,14 @@ class _DraftState extends State<Draft> {
 
   void displayDraftPost(Post post) {
     _addPostSysService.addPost(post);
+    _addPostSysService.isFromDraft.value++;
     Get.back();
   }
 
   void getDraftPosts() async {
     try {
       final fetchedPosts = await hivePostsPersistence.readAllPosts();
+
       setState(() {
         posts = fetchedPosts;
         isLoading = false;

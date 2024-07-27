@@ -19,12 +19,18 @@ class GetXUserTagsPreference extends GetxController with StateMixin<List<Tag>> {
   List<Tag> tags = [];
   final TranslatorService _translatorService = Get.find();
 
+    @override
+  void onInit() {
+    super.onInit();
+    getTagsPreferences();
+  }
+
   void getTagsPreferences() async {
     String path = "basic/tags";
 
-    change(tags, status: RxStatus.loading());
-
     try {
+      change(tags, status: RxStatus.loading());
+
       ApiResponse response = await _apiService.getRequest(path);
 
       if (response.statusCode == 200) {

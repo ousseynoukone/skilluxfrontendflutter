@@ -14,6 +14,7 @@ import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_field.d
 import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_post_sys_service.dart';
 import 'package:skilluxfrontendflutter/services/system_services/route_observer_utils/route_observer_utils.dart';
 import 'package:logger/logger.dart';
+import 'package:textfield_tags/textfield_tags.dart';
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({super.key});
@@ -23,11 +24,7 @@ class AddPostScreen extends StatefulWidget {
 }
 
 class _AddPostScreenState extends State<AddPostScreen>
-    with
-        ImagePickerMixin,
-        SectionBuilderMixin,
-        RouteAware,
-        TagsTextFieldComponent {
+    with ImagePickerMixin, SectionBuilderMixin, RouteAware {
   final Logger _logger = Logger();
   final AddPostSysService _addPostSysService = Get.put(AddPostSysService());
   final TextEditingController _titleController = TextEditingController();
@@ -39,14 +36,15 @@ class _AddPostScreenState extends State<AddPostScreen>
   AddPostSysService addPostSysService = Get.find();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     ObserverUtils.routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    listenForSelectedDraftPost();
   }
 
 //While living this screen
@@ -57,8 +55,20 @@ class _AddPostScreenState extends State<AddPostScreen>
 
   //If this screen pop again
   @override
-  didPopNext() {
-    fillPostFields();
+  didPopNext() {}
+
+  @override
+  void dispose() {
+    super.dispose();
+    // disposeAll();
+  }
+
+  //Listen for selected draft post
+  listenForSelectedDraftPost() {
+    _addPostSysService.isFromDraft.listen((value) {
+      fillPostFields();
+      _addPostSysService.rebuildTagFieldToDisplayTags();
+    });
   }
 
 // Function that allow a post draft to be displayed here
@@ -68,30 +78,32 @@ class _AddPostScreenState extends State<AddPostScreen>
       await post.convertBinaryToXFileImage();
       _titleController.text = post.title;
       pickedImage = post.headerImageIMG;
-      // addTags(post.tags);
     }
   }
 
-  // addTags(List<String> tags) {
-  //   setState(() {
-  //     for (var value in tags) {
-  //       stringTagController.addTag(value);
-  //     }
-  //   });
-  // }
+  disposeAll() {
+    _addPostSysService.clearPost();
+    _addPostSysService.clearContent();
+    _titleController.dispose();
+  }
 
   // Create a new post and broadcast it
   Future<void> savePost() async {
-    Post newPost = Post(
-        id: _addPostSysService.post.value.id,
-        title: _titleController.text,
-        tags: stringTagController.getTags!,
-        headerImageIMG: pickedImage,
-        createdAt: DateTime.now(),
-        content: _addPostSysService.post.value.content);
-    bool result = await newPost.convertXFileImageToBinary();
-    if (result) {
-      _addPostSysService.addPost(newPost);
+    try {
+      _logger.d(_addPostSysService.post.value.tags);
+      Post newPost = Post(
+          id: _addPostSysService.post.value.id,
+          title: _titleController.text,
+          tags: _addPostSysService.post.value.tags,
+          headerImageIMG: pickedImage,
+          createdAt: DateTime.now(),
+          content: _addPostSysService.post.value.content);
+      bool result = await newPost.convertXFileImageToBinary();
+      if (result) {
+        _addPostSysService.addPost(newPost);
+      }
+    } catch (e) {
+      _logger.e(e.toString());
     }
   }
 
@@ -106,19 +118,19 @@ class _AddPostScreenState extends State<AddPostScreen>
       addPostSysService.isLoading.value = false;
 
       if (result != 0) {
-        if (result == -1) {
+        if (result == -2) {
           showCustomSnackbar(
               title: text.alert,
               message: text.bulkSaveAvoided,
               snackType: SnackType.warning,
               duration: const Duration(seconds: 5));
-        } else if (result == -2) {
+        } else if (result == -1) {
           showCustomSnackbar(
               title: text.info,
               message: text.draftUpdated,
               snackType: SnackType.success,
               duration: const Duration(seconds: 3));
-        } else {
+        } else if (result == 1) {
           showCustomSnackbar(
               title: text.info,
               message: text.draftSaved,
@@ -133,12 +145,6 @@ class _AddPostScreenState extends State<AddPostScreen>
             duration: const Duration(seconds: 5));
       }
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    stringTagController.dispose();
   }
 
   @override
@@ -174,7 +180,17 @@ class _AddPostScreenState extends State<AddPostScreen>
                     ),
                   ),
                   const SizedBox(height: 22),
-                  showTagsTextFieldComponent(),
+                  Obx(() {
+                    _logger.w("GOT REBUILT");
+                    Widget tagWidget;
+                    _addPostSysService.rebuildTagField.value
+                        ? tagWidget = TagsTextFieldComponent(
+                            listTags: _addPostSysService.post.value.tags,
+                          )
+                        : tagWidget = const SizedBox.shrink();
+
+                    return tagWidget;
+                  }),
                   const SizedBox(height: 22),
                   sectionBuilder()
                 ],

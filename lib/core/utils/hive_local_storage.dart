@@ -1,13 +1,11 @@
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/models/internal_hive_models/settings/setting.dart';
 import 'package:skilluxfrontendflutter/models/internal_hive_models/states/app_config_state.dart';
 import 'package:skilluxfrontendflutter/models/internal_hive_models/tokens/token.dart';
 import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:logger/logger.dart';
-import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
 
 class HiveUserPersistence extends GetxController {
   final String _userBox = 'userBox';
@@ -121,16 +119,15 @@ class HivePostsPersistence extends GetxController {
     try {
       if (post.id != null) {
         await box.put(post.id, post);
-        return -2;
+        return -1;
       }
       if (_postExists(post)) {
-        return -1;
+        return -2;
       }
       int key = await box.add(post);
       //update the post with its key
       await box.put(key, post.copyWith(id: key));
-
-      return key;
+      return 1;
     } catch (e) {
       _logger.e(e.toString());
       return 0;
