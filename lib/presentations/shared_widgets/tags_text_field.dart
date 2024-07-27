@@ -72,12 +72,6 @@ class _TagsTextFieldComponentState extends State<TagsTextFieldComponent> {
                     _stringTagController.clearTags();
                     _addPostSysService.clearTag();
                     inputFieldValues.tags = [];
-
-                    print(
-                        "stringTagController  ${_stringTagController.getTags}");
-                    print(
-                        "_addPostSysService  ${_addPostSysService.post.value.tags}");
-                    print("inputFieldValues  ${inputFieldValues.tags}");
                   },
                   icon: const Icon(Icons.close),
                 ),

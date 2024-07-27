@@ -149,8 +149,9 @@
 
   "draftUpdated": "Brouillon mis à jour !", 
 
-  "bulkSaveAvoided": "Le post existe déjà. Ajout évité."  
+  "bulkSaveAvoided": "Le post existe déjà. Ajout évité."  ,
 
+  "clearPost":"Vider les champs"
 
 
 }

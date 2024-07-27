@@ -12,6 +12,7 @@ class AddPostSysService extends GetxController {
   // Initialize with an empty Post object
   Rx<Post> post = Rx<Post>(Post(id: null, tags: [], title: '', content: ''));
   RxInt isFromDraft = 0.obs;
+  RxInt clearPostField = 0.obs;
   var rebuildTagField = true.obs;
   final isLoading = false.obs;
 
@@ -20,6 +21,7 @@ class AddPostSysService extends GetxController {
 
   void addPost(Post newPost) {
     post.value = newPost;
+    _previousTag = [];
   }
 
   clearContent() {
@@ -45,8 +47,16 @@ class AddPostSysService extends GetxController {
   }
 
 // THIS FUNCTION IS FOR TAG FIELD , IT HELP IT TO REBUILD AFTER A NEW POST HAS BEEN SELECTED FROM DRAFT IN ORDER TO DISPLAY IT'S TAG TROUGHT THE INITIAL TAGS PARAMETER WHICH IS ONLY CALLED ONCE SO I NEED TO RE-INSTANCIATE THE TAG INPUT IN ORDER TO PROGRAMMATICALLY DISPLAY TAG (controller.addTag(tag) do not work)
-  rebuildTagFieldToDisplayTags() {
-    if (!areListsEqual(post.value.tags, _previousTag)) {
+  rebuildTagFieldToDisplayTags({bool isForClear = false}) {
+    //Is for clear is crutial , when we try to clear post , it would  try to check this condition !areListsEqual(post.value.tags, _previousTag which would not success because we are not trying to add and bring changes but just to clear , so we have to bypass that condition
+    if (isForClear) {
+      rebuildTagField.value = false;
+      //WAITING THE NEXT FRAME FOR CHANGEMENT TO BE APPLIED
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // Now we can safely rebuild and set the value to true;
+        rebuildTagField.value = true;
+      });
+    } else if (!areListsEqual(post.value.tags, _previousTag)) {
       rebuildTagField.value = false;
       //WAITING THE NEXT FRAME FOR CHANGEMENT TO BE APPLIED
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -118,5 +128,8 @@ class AddPostSysService extends GetxController {
       content: '',
       tags: [],
     );
+    _previousTag = [];
+
+    clearPostField.value++;
   }
 }

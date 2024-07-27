@@ -145,6 +145,8 @@
   "draftSaved":"Draft saved!",
   "draftUpdated": "Draft updated!", 
 
-  "bulkSaveAvoided":"Post already exists. Skipping addition."
+  "bulkSaveAvoided":"Post already exists. Skipping addition.",
+
+  "clearPost":"Clear post"
 
 }

@@ -45,6 +45,7 @@ class _AddPostScreenState extends State<AddPostScreen>
   void initState() {
     super.initState();
     listenForSelectedDraftPost();
+    clearField();
   }
 
 //While living this screen
@@ -60,7 +61,7 @@ class _AddPostScreenState extends State<AddPostScreen>
   @override
   void dispose() {
     super.dispose();
-    // disposeAll();
+    disposeAll();
   }
 
   //Listen for selected draft post
@@ -68,6 +69,15 @@ class _AddPostScreenState extends State<AddPostScreen>
     _addPostSysService.isFromDraft.listen((value) {
       fillPostFields();
       _addPostSysService.rebuildTagFieldToDisplayTags();
+    });
+  }
+
+  // Listen for clearing field
+  clearField() {
+    _addPostSysService.clearPostField.listen((value) {
+      _titleController.clear();
+      pickedImage = null;
+      _addPostSysService.rebuildTagFieldToDisplayTags(isForClear: true);
     });
   }
 
@@ -90,7 +100,6 @@ class _AddPostScreenState extends State<AddPostScreen>
   // Create a new post and broadcast it
   Future<void> savePost() async {
     try {
-      _logger.d(_addPostSysService.post.value.tags);
       Post newPost = Post(
           id: _addPostSysService.post.value.id,
           title: _titleController.text,
@@ -181,7 +190,6 @@ class _AddPostScreenState extends State<AddPostScreen>
                   ),
                   const SizedBox(height: 22),
                   Obx(() {
-                    _logger.w("GOT REBUILT");
                     Widget tagWidget;
                     _addPostSysService.rebuildTagField.value
                         ? tagWidget = TagsTextFieldComponent(
