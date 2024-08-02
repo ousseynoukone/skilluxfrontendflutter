@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dotted_border/dotted_border.dart';
 
-Widget addMediaWidget(String text,VoidCallback onTap,{heightFactor = 6}) {
+Widget addMediaWidget(String text, VoidCallback onTap, {heightFactor = 6}) {
   final colorScheme = Theme.of(Get.context!).colorScheme;
 
   return InkWell(
@@ -16,7 +16,7 @@ Widget addMediaWidget(String text,VoidCallback onTap,{heightFactor = 6}) {
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color: colorScheme.onPrimary),
+            color: colorScheme.primaryContainer),
         height: Get.height / heightFactor,
         width: Get.width,
         child: Column(

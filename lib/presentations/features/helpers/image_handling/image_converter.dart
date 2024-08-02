@@ -13,8 +13,7 @@ class ImageConverter {
   }
 
   /// Converts Uint8List to XFile.
-  ///  XFile needs a file path.
-  static Future<XFile?> uint8ListToXFile(Uint8List bytes, String path) async {
-    return XFile.fromData(bytes);
+  static Future<XFile?> uint8ListToXFile(Uint8List bytes, String path,String name,String mimeType ) async {
+    return XFile.fromData(bytes,name: name,mimeType: mimeType);
   }
 }

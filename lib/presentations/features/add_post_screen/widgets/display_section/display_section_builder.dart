@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
+import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/helpers/content_converter.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/add_section_widget/quillEditor.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_section.dart';
 import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_post_sys_service.dart';
@@ -15,21 +16,21 @@ mixin SectionBuilderMixin<T extends StatefulWidget> on State<T> {
         padding: const EdgeInsets.only(bottom: 16.0),
         child: _addPostSysService.isContentEmpty()
             ? DisplaySection(
-                content: _addPostSysService.post.value.content,
+                content: _addPostSysService.post.value.content.content!,
                 expanded: expanded)
             : const SizedBox.shrink()));
   }
 
   Widget sectionBuilderForViewAndPreview() {
-    return Obx(
-        () => sectionForViewAndPreview(_addPostSysService.post.value.content));
+    return Obx(() => sectionForViewAndPreview(
+        _addPostSysService.post.value.content.content!));
   }
 
   Widget sectionForViewAndPreview(String content) {
     var colorScheme = Theme.of(context).colorScheme;
 
     QuillController controller = QuillController(
-        document: Document.fromJson(jsonDecode(content)),
+        document: DocumentConverter.convertToDocument(content) ?? Document(),
         selection: const TextSelection.collapsed(offset: 0),
         readOnly: true);
 
@@ -40,7 +41,7 @@ mixin SectionBuilderMixin<T extends StatefulWidget> on State<T> {
       child: Quilleditor(
         controller: controller,
         scrollable: false,
-        bgColor: colorScheme.primary,
+        bgColor: colorScheme.primaryFixed,
       ),
     );
   }

@@ -58,6 +58,7 @@ class _DisplaySectionState extends State<DisplaySection> {
 
     Widget displayDeleteSectionButton() {
       return Container(
+          
           padding: const EdgeInsets.only(top: 8),
           alignment: Alignment.topRight,
           child: IconTextButton(
@@ -117,7 +118,8 @@ class _DisplaySectionState extends State<DisplaySection> {
         padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
         decoration: BoxDecoration(
             border: Border.all(
-          color: colorScheme.onPrimary, // You can change this color as needed
+          color: colorScheme
+              .primaryContainer, // You can change this color as needed
           width: 1.0, // You can adjust the border width
           style: BorderStyle.solid,
         )),

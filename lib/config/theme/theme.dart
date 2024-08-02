@@ -27,7 +27,7 @@ class AppTheme {
       textSelectionTheme: const TextSelectionThemeData(
           cursorColor: ColorsTheme.tertiaryDark,
           selectionColor: ColorsTheme.secondary),
-      colorScheme: AppColorScheme.lightColorScheme,
+      colorScheme: AppColorScheme.light,
       splashColor: Colors.transparent,
       useMaterial3: true,
       fontFamily: "SF Pro",
@@ -54,7 +54,7 @@ class AppTheme {
       textSelectionTheme: const TextSelectionThemeData(
           cursorColor: ColorsTheme.white,
           selectionColor: ColorsTheme.secondary),
-      colorScheme: AppColorScheme.darkColorScheme,
+      colorScheme: AppColorScheme.dark,
       splashColor: Colors.transparent,
       useMaterial3: true,
       fontFamily: "SF Pro",

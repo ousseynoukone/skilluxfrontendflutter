@@ -50,7 +50,7 @@ class _TagsPreferencesScreenState extends State<TagsPreferencesScreen> {
             ),
             ChipsChoice<int>.multiple(
               choiceStyle: C2ChipStyle.filled(
-                color: colorScheme.onPrimary,
+                color: colorScheme.primaryContainer,
                 selectedStyle: C2ChipStyle(
                     borderRadius: const BorderRadius.all(
                       Radius.circular(25),

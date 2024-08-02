@@ -110,9 +110,7 @@ class HivePostsPersistence extends GetxController {
   }
 
   bool _postExists(Post post) {
-    return box.values.any((existingPost) =>
-        existingPost.title == post.title ||
-        existingPost.content == post.content);
+    return box.values.any((existingPost) => existingPost.title == post.title);
   }
 
   Future<int> addPost(Post post) async {
@@ -124,6 +122,7 @@ class HivePostsPersistence extends GetxController {
       if (_postExists(post)) {
         return -2;
       }
+
       int key = await box.add(post);
       //update the post with its key
       await box.put(key, post.copyWith(id: key));
@@ -150,7 +149,13 @@ class HivePostsPersistence extends GetxController {
       // Sort the posts by createdAt in descending order
       posts.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
     }
-
+    for (var post in posts) {
+      if (post.content.xFileMediaBinaryList.isNotEmpty) {
+        await post.convertBinaryMediaListToxFile();
+      } else {
+        _logger.e("convertBinaryMediaListToxFile EMPTY BINARY LIST!");
+      }
+    }
     return posts;
   }
 

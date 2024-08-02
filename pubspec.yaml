@@ -81,7 +81,8 @@ dependencies:
 
   #Lite version of smart_select package, zero dependencies, an easy way to provide a single or multiple choice chips.
   chips_choice: ^3.0.1
-
+  #Utilities for handling media (MIME) types, including determining a type from a file extension and file contents.
+  mime: ^1.0.5
   
   #Flutter plugin for selecting images from the Android and iOS image library, and taking new pictures with the camera.
   image_picker: ^1.1.2

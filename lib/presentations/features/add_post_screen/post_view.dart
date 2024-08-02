@@ -4,18 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
-import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
 import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_image.dart';
-import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_section.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_section_builder.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/preview/chip.dart';
 import 'package:skilluxfrontendflutter/presentations/features/helpers/reading_time_calculator/reading_time_calculator.dart';
 import 'package:skilluxfrontendflutter/presentations/features/helpers/time_format/time_ago_format.dart';
 import 'package:skilluxfrontendflutter/presentations/features/user_components/user_preview.dart';
-import 'package:skilluxfrontendflutter/services/mainHelpers/helper.dart';
+import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_button.dart';
+import 'package:skilluxfrontendflutter/services/add_post_services/controllers/add_post_controller.dart';
 
 class PostView extends StatefulWidget {
   final Post post;
@@ -29,6 +28,7 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
   User? user;
   final HiveUserPersistence _hiveUserPersistence = Get.find();
   late QuillController controller;
+  AddPostService _addPostService = Get.put(AddPostService());
 
   Future<void> _getUser() async {
     user = await _hiveUserPersistence.readUser();
@@ -40,7 +40,7 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
     super.initState();
     _getUser();
     controller = QuillController(
-      document: Document.fromJson(jsonDecode(widget.post.content)),
+      document: Document.fromJson(jsonDecode(widget.post.content.content!)),
       selection: const TextSelection.collapsed(offset: 0),
     );
   }
@@ -99,18 +99,37 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
     }
 
     Widget displayPost() {
-      return SingleChildScrollView(
-        child: Column(
-          children: [
-            displayPostMinimalAttribute(),
-            if (widget.post.content.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: sectionBuilderForViewAndPreview(),
+      return Scaffold(
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                displayPostMinimalAttribute(),
+                if (widget.post.content.content!.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: sectionBuilderForViewAndPreview(),
+                  ),
+              ],
+            ),
+          ),
+          bottomNavigationBar: SizedBox(
+            height: 60,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Obx(
+                () => Center(
+                  child: IconTextButton(
+                    icon: Icons.publish,
+                    label: text.publish,
+                    isLoading: _addPostService.isLoading.value,
+                    onPressed: () async {
+                      _addPostService.addPost(widget.post);
+                    },
+                  ),
+                ),
               ),
-          ],
-        ),
-      );
+            ),
+          ));
     }
 
     return displayPost();

@@ -51,7 +51,7 @@ class _AddPostScreenState extends State<AddPostScreen>
 //While living this screen
   @override
   didPushNext() {
-    savePost();
+    updatePostStream();
   }
 
   //If this screen pop again
@@ -85,7 +85,7 @@ class _AddPostScreenState extends State<AddPostScreen>
   fillPostFields() async {
     Post? post = _addPostSysService.post.value;
     if (_addPostSysService.isPostNotEmpty(checkHeaderImage: false)) {
-      await post.convertBinaryToXFileImage();
+      await post.convertheaderImageBinaryToXFileImage();
       _titleController.text = post.title;
       pickedImage = post.headerImageIMG;
     }
@@ -98,7 +98,7 @@ class _AddPostScreenState extends State<AddPostScreen>
   }
 
   // Create a new post and broadcast it
-  Future<void> savePost() async {
+  Future<void> updatePostStream() async {
     try {
       Post newPost = Post(
           id: _addPostSysService.post.value.id,
@@ -107,7 +107,7 @@ class _AddPostScreenState extends State<AddPostScreen>
           headerImageIMG: pickedImage,
           createdAt: DateTime.now(),
           content: _addPostSysService.post.value.content);
-      bool result = await newPost.convertXFileImageToBinary();
+      bool result = await newPost.convertheaderImageXFileImageToBinary();
       if (result) {
         _addPostSysService.addPost(newPost);
       }
@@ -118,41 +118,46 @@ class _AddPostScreenState extends State<AddPostScreen>
 
   // Save post as draft
   Future<void> saveDraft() async {
-    await savePost();
+    await updatePostStream();
     if (_addPostSysService.isPostNotEmpty(showError: true)) {
       addPostSysService.isLoading.value = true;
 
-      int result =
-          await _hivePostsPersistence.addPost(_addPostSysService.post.value);
-      addPostSysService.isLoading.value = false;
+      Post post = _addPostSysService.post.value;
+      bool result = await post.convertxFileMediaListToBinary();
+      if (result) {
+        int result = await _hivePostsPersistence.addPost(post);
+        addPostSysService.isLoading.value = false;
 
-      if (result != 0) {
-        if (result == -2) {
+        if (result != 0) {
+          if (result == -2) {
+            showCustomSnackbar(
+                title: text.alert,
+                message: text.bulkSaveAvoided,
+                snackType: SnackType.warning,
+                duration: const Duration(seconds: 5));
+          } else if (result == -1) {
+            showCustomSnackbar(
+                title: text.info,
+                message: text.draftUpdated,
+                snackType: SnackType.success,
+                duration: const Duration(seconds: 3));
+          } else if (result == 1) {
+            showCustomSnackbar(
+                title: text.info,
+                message: text.draftSaved,
+                snackType: SnackType.success,
+                duration: const Duration(seconds: 3));
+          }
+        } else {
           showCustomSnackbar(
-              title: text.alert,
-              message: text.bulkSaveAvoided,
-              snackType: SnackType.warning,
+              title: text.error,
+              message: text.somethingWentWrong,
+              snackType: SnackType.error,
               duration: const Duration(seconds: 5));
-        } else if (result == -1) {
-          showCustomSnackbar(
-              title: text.info,
-              message: text.draftUpdated,
-              snackType: SnackType.success,
-              duration: const Duration(seconds: 3));
-        } else if (result == 1) {
-          showCustomSnackbar(
-              title: text.info,
-              message: text.draftSaved,
-              snackType: SnackType.success,
-              duration: const Duration(seconds: 3));
         }
-      } else {
-        showCustomSnackbar(
-            title: text.error,
-            message: text.somethingWentWrong,
-            snackType: SnackType.error,
-            duration: const Duration(seconds: 5));
       }
+    } else {
+      _logger.e("Error while running convertxFileMediaListToBinary");
     }
   }
 
@@ -206,7 +211,6 @@ class _AddPostScreenState extends State<AddPostScreen>
             ),
           ),
         ),
-        bottomNavigationBar:
-            bottomNavBar(saveDraft, updatePostStream: savePost));
+        bottomNavigationBar: bottomNavBar(saveDraft, updatePostStream));
   }
 }

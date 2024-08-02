@@ -211,7 +211,7 @@ class GetXAuthController extends GetxController {
     String path = "auth/change-password";
     try {
       ApiResponse response = await apiService.postRequest(path,
-          data: {"oldPassword": oldPassword, "newPassword": newPassword});
+          data: {"oldPassword": oldPassword, "password": newPassword});
 
       if (response.statusCode == 201) {
         Get.back();

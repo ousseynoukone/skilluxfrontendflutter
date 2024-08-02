@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/validators/post_title_validator.dart';
 import 'package:skilluxfrontendflutter/models/post/post.dart';
-import 'package:skilluxfrontendflutter/models/post/sub_models/section.dart';
+import 'package:skilluxfrontendflutter/models/post/sub_models/content/content.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/helper.dart';
 
 class AddPostSysService extends GetxController {
   // Initialize with an empty Post object
-  Rx<Post> post = Rx<Post>(Post(id: null, tags: [], title: '', content: ''));
+  Rx<Post> post = Rx<Post>(Post(id: null, tags: [], title: '', content: Content (content: '')));
   RxInt isFromDraft = 0.obs;
   RxInt clearPostField = 0.obs;
   var rebuildTagField = true.obs;
@@ -28,7 +29,7 @@ class AddPostSysService extends GetxController {
     post.value = Post(
       tags: post.value.tags,
       title: post.value.title,
-      content: '',
+      content: Content (content: ''),
     );
   }
 
@@ -88,7 +89,7 @@ class AddPostSysService extends GetxController {
     }
 
     if (checkContent) {
-      result = result && post.value.content.isNotEmpty;
+      result = result && post.value.content.content!.isNotEmpty;
     }
 
     if (checkHeaderImage) {
@@ -107,7 +108,7 @@ class AddPostSysService extends GetxController {
   }
 
   isContentEmpty() {
-    return post.value.content.isNotEmpty;
+    return post.value.content.content!.isNotEmpty;
   }
 
   void clearTag() {
@@ -125,7 +126,7 @@ class AddPostSysService extends GetxController {
     post.value = Post(
       id: null,
       title: '',
-      content: '',
+      content: Content (content: ''),
       tags: [],
     );
     _previousTag = [];

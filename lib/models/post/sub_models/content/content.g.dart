@@ -1,35 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'binary_image.dart';
+part of 'content.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class BinaryImageAdapter extends TypeAdapter<BinaryImage> {
+class ContentAdapter extends TypeAdapter<Content> {
   @override
-  final int typeId = 5;
+  final int typeId = 7;
 
   @override
-  BinaryImage read(BinaryReader reader) {
+  Content read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return BinaryImage(
-      binaryImage: fields[0] as Uint8List?,
-      xFileImagePath: fields[1] as String?,
+    return Content(
+      content: fields[0] as String?,
+      xFileMediaBinaryList: (fields[1] as List).cast<BinaryMedia>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, BinaryImage obj) {
+  void write(BinaryWriter writer, Content obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.binaryImage)
+      ..write(obj.content)
       ..writeByte(1)
-      ..write(obj.xFileImagePath);
+      ..write(obj.xFileMediaBinaryList);
   }
 
   @override
@@ -38,7 +38,7 @@ class BinaryImageAdapter extends TypeAdapter<BinaryImage> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is BinaryImageAdapter &&
+      other is ContentAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

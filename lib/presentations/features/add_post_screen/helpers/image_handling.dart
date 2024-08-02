@@ -4,8 +4,6 @@ import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/add_post_widget/add_media.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_image.dart';
 
-
-
 mixin ImagePickerMixin<T extends StatefulWidget> on State<T> {
   final Logger _logger = Logger();
   final picker = ImagePicker();
@@ -17,6 +15,7 @@ mixin ImagePickerMixin<T extends StatefulWidget> on State<T> {
       if (image != null) {
         setState(() {
           pickedImage = image;
+         
         });
       }
     } catch (e) {

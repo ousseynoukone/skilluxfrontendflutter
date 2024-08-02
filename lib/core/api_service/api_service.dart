@@ -1,9 +1,15 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:skilluxfrontendflutter/config/constant/constant.dart';
+import 'package:skilluxfrontendflutter/core/api_service/helpers/save_post_helper.dart';
 import 'package:skilluxfrontendflutter/core/api_service/response_data_structure.dart';
 import 'package:logger/logger.dart';
 import 'dart:convert';
+import 'package:path/path.dart' as paTH;
+import 'package:skilluxfrontendflutter/models/post/post.dart';
 
 import 'token_manager.dart';
 
@@ -57,6 +63,64 @@ class APIService {
           body: jsonEncode(data),
         );
         return _handleResponse(response);
+      } else {
+        return const ApiResponse(
+            statusCode: 401, body: {'error': 'Refresh Token Expired'});
+      }
+    } catch (e) {
+      _logger.e(e.toString());
+      return const ApiResponse(
+          statusCode: 500, body: {'error': 'Internal Server Error'});
+    }
+  }
+
+  Future<ApiResponse> multipartsPostSendRequest(String path, Post post) async {
+    try {
+      await _tokenManager.refreshTokenIfNeeded();
+      if (!_tokenManager.abortRequest) {
+        final uri = Uri.parse(BASE_URL + path);
+
+        List<XFile> imagesFiles = post.content.xFileMediaList;
+        _logger.w(imagesFiles.length);
+        // Create a multipart request
+        var request = http.MultipartRequest('POST', uri);
+        // Setting header
+        request.headers.addAll({
+          'Content-Type': 'multipart/form-data',
+          'Accept': 'application/json',
+          ..._setHeadersToken(),
+        });
+
+        //Isolating coverImage
+        XFile coverImageFile = imagesFiles.removeAt(0);
+
+        request.files
+            .add(await createMultipartFile(coverImageFile, "coverImage"));
+
+        // Add others  image file
+        for (var imageFile in imagesFiles) {
+          // Add the file to the request
+          request.files.add(await createMultipartFile(imageFile, "medias"));
+        }
+
+        // Add post to the request
+        request.fields.addAll(buildRequestFieldsForPost(post));
+
+        var streamedResponse = await request.send();
+
+        // Read the response body
+        final responseBody = await streamedResponse.stream.bytesToString();
+
+        // If the response is JSON, you can decode it
+        final responseJson = jsonDecode(responseBody);
+        
+        if(streamedResponse.statusCode!=201){
+                  _logger.e(responseJson);
+        }
+
+        return ApiResponse(
+            statusCode: streamedResponse.statusCode,
+            message: streamedResponse.reasonPhrase);
       } else {
         return const ApiResponse(
             statusCode: 401, body: {'error': 'Refresh Token Expired'});

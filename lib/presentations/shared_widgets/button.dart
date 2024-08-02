@@ -19,12 +19,10 @@ class ButtonComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var textTheme = Theme.of(context).textTheme;
     final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
       padding: edgeInsets ??
           const EdgeInsets.symmetric(horizontal: 32.0, vertical: 9.0),
-      backgroundColor: applyTheme
-          ? Theme.of(context).colorScheme.onPrimary
-          : ColorsTheme.primary,
     );
 
     return SizedBox(

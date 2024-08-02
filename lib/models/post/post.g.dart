@@ -27,8 +27,8 @@ class PostAdapter extends TypeAdapter<Post> {
       createdAt: fields[7] as DateTime?,
       updatedAt: fields[8] as DateTime?,
       userId: fields[9] as int?,
-      content: fields[10] as String,
-      headerBinaryImage: fields[11] as BinaryImage?,
+      content: fields[10] as Content,
+      headerBinaryImage: fields[11] as BinaryMedia?,
     );
   }
 

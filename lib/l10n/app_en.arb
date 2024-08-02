@@ -147,6 +147,12 @@
 
   "bulkSaveAvoided":"Post already exists. Skipping addition.",
 
-  "clearPost":"Clear post"
+  "clearPost":"Clear post",
+
+  "publish":"Publish",
+
+  "postPosted":"Post publied!"
+
+
 
 }

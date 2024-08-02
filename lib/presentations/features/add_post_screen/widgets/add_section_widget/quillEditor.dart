@@ -48,7 +48,7 @@ class Quilleditor extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color:bgColor?? colorScheme.onPrimary,
+        color: bgColor ?? colorScheme.primaryContainer,
       ),
       child: QuillEditor.basic(
         configurations: _getEditorConfigurations(
@@ -75,7 +75,7 @@ class Quilleditor extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: colorScheme.onPrimary,
+        color: colorScheme.primaryContainer,
       ),
       child: QuillEditor.basic(
         configurations: _getEditorConfigurations(
@@ -95,10 +95,12 @@ class Quilleditor extends StatelessWidget {
       required bool showCursor,
       String? placeholder,
       required BuildContext context}) {
+    var embedBuilders = kIsWeb
+        ? FlutterQuillEmbeds.editorWebBuilders()
+        : FlutterQuillEmbeds.editorBuilders();
+
     return QuillEditorConfigurations(
-        embedBuilders: kIsWeb
-            ? FlutterQuillEmbeds.editorWebBuilders()
-            : FlutterQuillEmbeds.editorBuilders(),
+        embedBuilders: embedBuilders,
         controller: controller,
         autoFocus: false,
         expands: expands,

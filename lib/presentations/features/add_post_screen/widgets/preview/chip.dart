@@ -24,10 +24,10 @@ Widget getChip(String label, IconData? icon) {
         ),
       ],
     ),
-    backgroundColor: colorScheme.primary, // Light blue background
+    backgroundColor: colorScheme.primaryFixed, // Light blue background
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
-      side: BorderSide(color: colorScheme.primary), // Light border
+      side: BorderSide(color: colorScheme.primaryFixed), // Light border
     ),
   );
 }

@@ -76,9 +76,9 @@ class _DraftState extends State<Draft> {
                   itemBuilder: (context, index) {
                     final post = posts[index];
                     return ListTile(
-                        leading: post.headerBinaryImage?.binaryImage != null
+                        leading: post.headerBinaryImage?.binaryMedia != null
                             ? Image.memory(
-                                post.headerBinaryImage!.binaryImage!,
+                                post.headerBinaryImage!.binaryMedia!,
                                 width: 50,
                                 height: 50,
                                 fit: BoxFit.cover,

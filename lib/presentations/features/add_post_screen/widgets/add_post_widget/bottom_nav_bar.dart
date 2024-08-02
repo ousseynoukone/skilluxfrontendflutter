@@ -8,7 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_post_sys_service.dart';
 
 Widget bottomNavBar(Future<void> Function() saveDraft,
-    {VoidCallback? updatePostStream}) {
+    Future<void> Function() updatePostStream) {
   var text = AppLocalizations.of(Get.context!);
   AddPostSysService addPostSysService = Get.find();
 
@@ -28,7 +28,7 @@ Widget bottomNavBar(Future<void> Function() saveDraft,
                     },
             ),
             Obx(
-              () => addPostSysService.post.value.content.isEmpty
+              () => addPostSysService.post.value.content.content!.isEmpty
                   ? IconTextButton(
                       icon: Icons.add,
                       label: text.addSection,
@@ -41,8 +41,9 @@ Widget bottomNavBar(Future<void> Function() saveDraft,
             IconTextButton(
               icon: Icons.visibility,
               label: text.preview,
-              onPressed: () {
-                // updatePostStream?.call();
+              onPressed: () async {
+                await updatePostStream();
+
                 if (addPostSysService.isPostNotEmpty(showError: true)) {
                   Get.to(() => PostPreview(post: addPostSysService.post.value));
                 } else {

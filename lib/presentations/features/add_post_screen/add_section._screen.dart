@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
+import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/helpers/content_converter.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/helpers/image_handling.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/add_section_widget/quillEditor.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
@@ -31,7 +32,7 @@ class _AddSectionState extends State<AddSection> with ImagePickerMixin {
 
     if (widget.editMode) {
       _controller.document =
-          Document.fromJson(jsonDecode(_addPostSysService.post.value.content));
+          Document.fromJson(jsonDecode(_addPostSysService.post.value.content.content!));
     }
   }
 
@@ -60,10 +61,10 @@ class _AddSectionState extends State<AddSection> with ImagePickerMixin {
                 label: text.save,
                 onPressed: () async {
                   if (!_controller.document.isEmpty()) {
-                    String jsonString =
-                        jsonEncode(_controller.document.toDelta().toJson());
-
-                    _addPostSysService.post.value.content = jsonString;
+                    String jsonString = DocumentConverter.convertToJsonString(
+                            _controller.document) ??
+                        "";
+                    _addPostSysService.post.value.content.content = jsonString;
                     Get.back();
                   } else {
                     showCustomSnackbar(

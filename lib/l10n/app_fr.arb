@@ -151,7 +151,11 @@
 
   "bulkSaveAvoided": "Le post existe déjà. Ajout évité."  ,
 
-  "clearPost":"Vider les champs"
+  "clearPost":"Vider les champs",
+  "publish":"Publier",
+
+  "postPosted":"Post publié!"
+
 
 
 }

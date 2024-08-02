@@ -8,34 +8,28 @@ class ElevatedButtonAppTheme {
   static final ElevatedButtonThemeData elevatedButtonThemeDataLight =
       ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-              elevation: 0,
+              elevation: 5,
               foregroundColor: ColorsTheme.white,
-              backgroundColor: ColorsTheme.primary,
+              backgroundColor: ColorsTheme.tertiaryMidDarker,
               disabledBackgroundColor: ColorsTheme.tertiary,
               disabledForegroundColor: ColorsTheme.white,
               side: const BorderSide(color: ColorsTheme.white),
               padding: const EdgeInsets.all(8),
-              textStyle: const TextStyle(
-                  fontSize: 14,
-                  color: ColorsTheme.white,
-                  fontWeight: FontWeight.w600),
+              textStyle: const TextTheme().bodyMedium,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12))));
 
   static final ElevatedButtonThemeData elevatedButtonThemeDataDark =
       ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-              elevation: 0,
-              foregroundColor: ColorsTheme.white,
-              backgroundColor: ColorsTheme.primary,
+              elevation: 5,
+              foregroundColor: ColorsTheme.tertiary,
+              backgroundColor: ColorsTheme.tertiaryMidDarker,
               disabledBackgroundColor: ColorsTheme.tertiary,
               disabledForegroundColor: ColorsTheme.white,
               side: const BorderSide(color: ColorsTheme.black),
               padding: const EdgeInsets.all(8),
-              textStyle: const TextStyle(
-                  fontSize: 14,
-                  color: ColorsTheme.white,
-                  fontWeight: FontWeight.w600),
+              textStyle: const TextTheme().bodyMedium,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12))));
 }
