@@ -13,7 +13,6 @@ Map<String, String> buildRequestFieldsForPost(Post post) {
   final Map<String, String> fields = {};
 
   try {
-    fields['id'] = post.id?.toString() ?? '';
     fields['title'] = post.title;
     fields['readNumber'] = post.readNumber?.toString() ?? '0';
     fields['votesNumber'] = post.votesNumber?.toString() ?? '0';

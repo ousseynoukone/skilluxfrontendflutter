@@ -113,9 +113,9 @@ class APIService {
 
         // If the response is JSON, you can decode it
         final responseJson = jsonDecode(responseBody);
-        
-        if(streamedResponse.statusCode!=201){
-                  _logger.e(responseJson);
+
+        if (streamedResponse.statusCode != 201) {
+          _logger.e(responseJson);
         }
 
         return ApiResponse(

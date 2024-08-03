@@ -173,6 +173,7 @@ class Post {
       if (content.content!.isNotEmpty) {
         List<XFile> _xFiles =
             await QuillMediaHandler.extractMediasFromDocument(content.content!);
+        content.xFileMediaList.clear();
         for (XFile _file in _xFiles) {
           content.xFileMediaList.add(_file);
         }
