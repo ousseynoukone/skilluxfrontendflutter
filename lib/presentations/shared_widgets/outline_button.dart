@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 
-class ButtonComponent extends StatelessWidget {
+class OutlineButtonComponent extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final EdgeInsets? edgeInsets;
   final bool isLoading;
-  const ButtonComponent(
+  const OutlineButtonComponent(
       {super.key,
       required this.text,
       this.edgeInsets,
@@ -16,25 +15,18 @@ class ButtonComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextTheme textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return SizedBox(
-      width: double.infinity, // Make the button take full width
-      child: ElevatedButton(
-        style: ButtonStyle(
-          padding: WidgetStateProperty.all<EdgeInsets>(
-            edgeInsets ??
-                const EdgeInsets.symmetric(horizontal: 32.0, vertical: 9.0),
-          ),
-          // Optionally, you can add more styling here such as background color, etc.
-        ),
+      width: double.infinity,
+      child: OutlinedButton(
         onPressed: isLoading ? null : onPressed,
         child: isLoading
-            ? const SizedBox(
+            ? SizedBox(
                 height: 20,
                 width: 20,
                 child: CircularProgressIndicator(
-                  color: ColorsTheme.primary,
+                  color: colorScheme.onSecondary,
                 ),
               )
             : Text(

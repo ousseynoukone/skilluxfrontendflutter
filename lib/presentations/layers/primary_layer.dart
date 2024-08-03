@@ -6,6 +6,7 @@ import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart'
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/core/state_managment/app_state_managment.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/auth.dart';
+import 'package:skilluxfrontendflutter/presentations/features/custom_tags_preferences/tags_preferences_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/layers/secondary_layer/secondary_layer.dart';
 import 'package:skilluxfrontendflutter/presentations/onBoard/on_boarding_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/loading.dart';
@@ -53,6 +54,13 @@ class _PrimaryLayerState extends State<PrimaryLayer> {
                 // IF USER NOT LOGGED
                 if (controller.appConfigState.value.isUserLogged == false) {
                   return const Auth();
+                }
+
+                // IF USER TAGS PREFERENCE NOT SAVED YET
+
+                if (controller.appConfigState.value.isUserTagsPreferenceSaved ==
+                    false) {
+                  return const TagsPreferencesScreen();
                 }
 
                 return const SecondaryLayer();

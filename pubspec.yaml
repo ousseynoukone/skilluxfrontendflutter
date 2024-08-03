@@ -55,9 +55,13 @@ dependencies:
   #A composable, multi-platform, Future-based API for HTTP requests.
   http: ^1.2.1
 
+  #A free and unlimited Google Translate API for Dart. You can use it for translate strings and text for educational purpose.
+  translator: ^1.0.0
+
   # A rich text editor built for the modern Android, iOS, web and desktop platforms. It is the WYSIWYG editor and a Quill component for Flutter.
   flutter_quill: ^9.4.9
   
+
   flutter_localizations:
     sdk: flutter
 
@@ -69,6 +73,21 @@ dependencies:
   flutter_rounded_date_picker: 3.0.4
   #Customize Flutter's default white native splash screen with background color and splash image. Supports dark mode, full screen, and more.
   flutter_native_splash: ^2.4.0
+  
+  #A  text editor built for the modern Android, iOS, web and desktop platforms. It is the WYSIWYG editor and a Quill component for Flutter.
+  dotted_border: ^2.1.0
+  #A text field that allows an input of tags inside the textfield
+  textfield_tags: ^3.0.1
+
+  #Lite version of smart_select package, zero dependencies, an easy way to provide a single or multiple choice chips.
+  chips_choice: ^3.0.1
+  #Utilities for handling media (MIME) types, including determining a type from a file extension and file contents.
+  mime: ^1.0.5
+  
+  #Flutter plugin for selecting images from the Android and iOS image library, and taking new pictures with the camera.
+  image_picker: ^1.1.2
+  flutter_quill_extensions: ^9.3.4
+  reading_time: ^2.0.0
 
 dev_dependencies:
   flutter_test:

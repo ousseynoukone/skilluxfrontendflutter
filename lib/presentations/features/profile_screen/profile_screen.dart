@@ -25,7 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
         centerTitle: true,
         title: Text(text.profile),
-        actions: [PoppupMenuButton()],
+        actions: const [PoppupMenuButton()],
       ),
       body: Container(),
     );

@@ -17,18 +17,21 @@ class AppConfigStateAdapter extends TypeAdapter<AppConfigState> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return AppConfigState(
-      isAppFirstLaunch: fields[1] as bool?,
+      isAppFirstLaunch: fields[2] as bool?,
       isUserLogged: fields[0] as bool?,
+      isUserTagsPreferenceSaved: fields[1] as bool?,
     );
   }
 
   @override
   void write(BinaryWriter writer, AppConfigState obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.isUserLogged)
       ..writeByte(1)
+      ..write(obj.isUserTagsPreferenceSaved)
+      ..writeByte(2)
       ..write(obj.isAppFirstLaunch);
   }
 

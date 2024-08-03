@@ -5,7 +5,7 @@
     "description": "Langue sélectionnée."
   },
   "twoLanguages": "Cette application a 2 langues.",
-  "changeLanguage": "Changer de langue.",
+  "changeLanguage": "Changer de langue",
   "connectWithYourFolks": "Connectez-vous avec vos amis.",
   "welcomeToSkillux": "Bienvenue sur Skillux, la plateforme où la connaissance rencontre la communauté ! Ici, vous pouvez vous connecter avec des personnes partageant les mêmes idées, partager votre expertise et apprendre des autres sur divers sujets.",
   "learnFromOther": "Apprenez des autres.",
@@ -24,8 +24,8 @@
   "enterYourEmailOrUsername": "Entrez votre email ou nom d'utilisateur.",
   "enterYourPassword": "Entrez votre mot de passe.",
   "password": "Mot de passe",
-  "forgotYour": "Vous avez oublié votre ",
-  "passwordQuestion": "mot de passe ?",
+  "forgotYour": "Mot de passe ",
+  "passwordQuestion": "oublié ?",
 
   "pleaseEnterLogin": "Veuillez entrer votre identifiant.",
   "passwordRequirements": "Le mot de passe doit contenir au moins une lettre et un chiffre, et comporter au moins 8 caractères.",
@@ -46,7 +46,7 @@
   "enterBirth": "Entrez votre date de naissance.",
   "birthRequirement": "La date de naissance doit être au format JJ/MM/AAAA.",
 
-  "ok":"Choisir",
+  "ok":"OK",
   "yes": "Oui",
   "no": "Non",
 
@@ -77,7 +77,13 @@
   "confirmLogOut": "Confirmation de déconnection",
 
   "areYouSureLogOut": "Êtes-vous sûr de vouloir vous déconnecter ?",
+  "personalizeYourFeed":"Personnalisez votre flux !",
+  "personalizeMessage":"Bienvenue sur la page de personnalisation de l'expérience. Veuillez sélectionner des tags pour personnaliser votre contenu.",
 
+  "add":"Ajouter",
+  "edit":"Modifier",
+  "delete":"Supprimer",
+  "update":"Mettre-à-jour",
   
   "dark_mode": "Mode Sombre",
   "changePassword": "Changer votre mot de passe",
@@ -97,7 +103,59 @@
   "enterYourOldPassword": "Saisir votre ancien mot de passe.",
   "oldPassword": "Ancien mot de passe",
   "newPassword": "Nouveau mot de passe",
-  "enterYourNewPassword": "Saisir votre nouveau mot de passe."
+  "enterYourNewPassword": "Saisir votre nouveau mot de passe.",
+
+  "createPublication":"Créer une publication",
+
+  "optionalField":"Ce champ est optionnel.",
+  "mendatoryContent":"Le contenu du section est obligatoire !",
+
+
+  "addCoverPhoto":"Ajouter une photo de couverture",
+  "addMedia":"Ajouter une photo ou une video",
+  "title":"Titre",
+
+  
+  "tags":"Tags",
+  "addTags":"Ajouter des tags, sépare le avec ' , ' ou un espace pour confirmer.",
+
+  "userPrefSaved":"Préférences sauvegardés !",
+
+  "save":"Sauvegarder",
+  "addSection":"Ajouter une section",
+  "preview":"Prévisualiser",
+  "section":"Section",
+  "createSection":"Créer une section",
+  "nothingToShow":"Veillez vous assurer que tout les champs (section inclut) sont correctement remplis !",
+
+
+  
+  "quillEditorPlaceholder":"Ecrivez votre contenu ici...",
+
+  "dateUnknown":"Date inconnue",
+  "postTitleRequirement": "Le titre de la publication doit contenir au moins 2 caractères et ne pas dépasser 100 caractères !"  ,
+  "postTitle":"Le titre de la publication est obligatoire !",
+
+  "somethingWentWrong": "Une erreur s'est produite. Veuillez réessayer.",
+
+  "lessThanOneMinuteRead": "Moins d'une minute de lecture",
+  "oneMinuteRead": "1 minute de lecture",
+  "minuteRead": "minutes de lecture",
+
+  "draft":"Broullions",
+  "noDraft":"Aucun broullion trouvé",
+
+  "draftSaved": "Brouillon enregistré !",  
+
+  "draftUpdated": "Brouillon mis à jour !", 
+
+  "bulkSaveAvoided": "Le post existe déjà. Ajout évité."  ,
+
+  "clearPost":"Vider les champs",
+  "publish":"Publier",
+
+  "postPosted":"Post publié!"
+
 
 
 }

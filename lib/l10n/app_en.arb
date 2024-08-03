@@ -5,7 +5,7 @@
     "description": "Selected language."
   },
   "twoLanguages": "This app has 2 languages.",
-  "changeLanguage": "Change language.",
+  "changeLanguage": "Change language",
   "connectWithYourFolks": "Connect with your folks.",
   "welcomeToSkillux": "Welcome to Skillux, the platform where knowledge meets community! Here, you can connect with like-minded individuals, share your expertise, and learn from others across various subjects.",
   "learnFromOther": "Learn from others.",
@@ -48,7 +48,7 @@
   "enterBirth": "Enter your birthday.",
   "birthRequirement": "Birthdate must be in the format MM/DD/YYYY.",
 
-  "ok":"Ok",
+  "ok":"OK",
   "yes": "Yes",
   "no": "No",
 
@@ -65,7 +65,11 @@
   "resetAccount":"Reset your account's password",
 
   "createAccount":"Look like you have'nt created an account yet.",
+  "somethingWentWrong":"Something went wrong, please try again.",
 
+  "personalizeYourFeed":"Personalize your feed!",
+  "personalizeMessage":"Welcome to the personalized experience page. Please select some tags to tailor your content.",
+  "userPrefSaved":"Preferences saved!",
 
 
   "home":"Home",
@@ -80,6 +84,7 @@
   "areYouSureLogOut": "Are you sure you want to log out?",
   "confirmLogOut": "Confirm log out",
 
+  "optionalField":"This field is optional.",
 
   "dark_mode": "Dark Mode",
   "changePassword": "Change your password",
@@ -88,6 +93,11 @@
   "deleteAccountSucess":"Account successfully deleted!",
   "confirmDeleteAccount": "Confirm Account Deletion",
   "areYouSureDeleteAccount": "Are you sure you want to delete your account?",
+
+  "add":"Add",
+  "edit":"Edit",
+  "delete":"Delete",
+  "update":"Update",
 
   "confirmPasswordChange": "Confirm Password Change",
   "areYouSureChangePassword": "Are you sure you want to change your password?",
@@ -100,7 +110,48 @@
   "newPassword": "New password",
 
   "enterYourOldPassword": "Enter your old password.",
-  "enterYourNewPassword": "Enter your new password."
+  "enterYourNewPassword": "Enter your new password.",
+
+  "createPublication":"Create a publication",
+  "mendatoryContent":"The content of the section is mendatory!",
+
+  "addCoverPhoto":"Add cover photo",
+  "addMedia":"add photo or video",
+  "title":"Title",
+
+  "tags":"Tags",
+  "addTags":"Add tags , separed it by ',' or space to confirm.",
+
+  "save":"Save",
+  "addSection":"Add section",
+  "preview":"Preview",
+  "section":"Section",
+  "createSection":"Create a section",
+
+  "quillEditorPlaceholder":"Writte your content here...",
+  "nothingToShow":"Please make sure all fields (section included) are correcty filled !",
+
+  "dateUnknown":"Date unknown",
+  "postTitleRequirement": "The post's title should contain at least 2 characters and not more than 100 characters!",  
+  "postTitle":"Post's title is required!",
+
+  "lessThanOneMinuteRead":"Less than 1 min read",
+  "oneMinuteRead":"1 min read",
+  "minuteRead":"mins read",
+
+  "draft":"Drafts",
+  "noDraft":"No drafts found",
+
+  "draftSaved":"Draft saved!",
+  "draftUpdated": "Draft updated!", 
+
+  "bulkSaveAvoided":"Post already exists. Skipping addition.",
+
+  "clearPost":"Clear post",
+
+  "publish":"Publish",
+
+  "postPosted":"Post publied!"
 
 
 

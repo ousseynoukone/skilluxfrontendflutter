@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/app_bar_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/bottom_navigation_bar_theme.dart';
+import 'package:skilluxfrontendflutter/config/theme/custom_themes/dialog_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/dropdown_menu_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/poppup_menu_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/bottom_sheet_theme.dart';
@@ -14,6 +15,7 @@ import 'package:skilluxfrontendflutter/config/theme/custom_themes/floating_actio
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/input_decoration_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/outline_button_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/swtich_theme.dart';
+import 'package:skilluxfrontendflutter/config/theme/custom_themes/text_button_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/text_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/sheme_colors.dart';
 
@@ -22,30 +24,37 @@ class AppTheme {
   AppTheme._();
 
   static ThemeData lightTheme = ThemeData(
-    colorScheme: AppColorScheme.lightColorScheme,
-    splashColor: Colors.transparent,
-    useMaterial3: true,
-    fontFamily: "SF Pro",
-    brightness: Brightness.light,
-    primaryColor: ColorsTheme.primary,
-    scaffoldBackgroundColor: ColorsTheme.white,
-    textTheme: TextAppTheme.lightTextTheme,
-    elevatedButtonTheme: ElevatedButtonAppTheme.elevatedButtonThemeDataLight,
-    appBarTheme: AppBarAppTheme.lightAppBarTheme,
-    bottomSheetTheme: BottomSheetAppTheme.lightBottomSheetTheme,
-    inputDecorationTheme: InputDecorationAppTheme.lightInputDecorationTheme,
-    outlinedButtonTheme: OutlineButtonAppTheme.lightOutlinedButtonTheme,
-    bottomNavigationBarTheme:
-        BottomAppNavigationBarTheme.lightBottomNavigationBarTheme,
-    floatingActionButtonTheme:
-        FloatingAppActionButtonTheme.lightFloatingActionButton,
-    popupMenuTheme: PopupAppMenuTheme.lightPopupMenuTheme,
-    switchTheme: SwitchAppTheme.lightSwitchTheme,
-    dropdownMenuTheme: DropdownMenuAppTheme.lightDropdownMenuThemeData,
-  );
+      textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: ColorsTheme.tertiaryDark,
+          selectionColor: ColorsTheme.secondary),
+      colorScheme: AppColorScheme.light,
+      splashColor: Colors.transparent,
+      useMaterial3: true,
+      fontFamily: "SF Pro",
+      brightness: Brightness.light,
+      primaryColor: ColorsTheme.primary,
+      scaffoldBackgroundColor: ColorsTheme.white,
+      textTheme: TextAppTheme.lightTextTheme,
+      elevatedButtonTheme: ElevatedButtonAppTheme.elevatedButtonThemeDataLight,
+      appBarTheme: AppBarAppTheme.lightAppBarTheme,
+      bottomSheetTheme: BottomSheetAppTheme.lightBottomSheetTheme,
+      inputDecorationTheme: InputDecorationAppTheme.lightInputDecorationTheme,
+      outlinedButtonTheme: OutlineButtonAppTheme.lightOutlinedButtonTheme,
+      bottomNavigationBarTheme:
+          BottomAppNavigationBarTheme.lightBottomNavigationBarTheme,
+      floatingActionButtonTheme:
+          FloatingAppActionButtonTheme.lightFloatingActionButton,
+      popupMenuTheme: PopupAppMenuTheme.lightPopupMenuTheme,
+      switchTheme: SwitchAppTheme.lightSwitchTheme,
+      dropdownMenuTheme: DropdownMenuAppTheme.lightDropdownMenuThemeData,
+      dialogTheme: DialogAppTheme.lightDialogButtonTheme,
+      textButtonTheme: TextAppButtonTheme.lightTextButtonTheme);
 
   static ThemeData darkTheme = ThemeData(
-      colorScheme: AppColorScheme.darkColorScheme,
+      textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: ColorsTheme.white,
+          selectionColor: ColorsTheme.secondary),
+      colorScheme: AppColorScheme.dark,
       splashColor: Colors.transparent,
       useMaterial3: true,
       fontFamily: "SF Pro",
@@ -64,5 +73,7 @@ class AppTheme {
           FloatingAppActionButtonTheme.darkFloatingActionButton,
       popupMenuTheme: PopupAppMenuTheme.darkPopupMenuTheme,
       switchTheme: SwitchAppTheme.darkSwitchTheme,
-      dropdownMenuTheme: DropdownMenuAppTheme.darkDropdownMenuThemeData);
+      dropdownMenuTheme: DropdownMenuAppTheme.darkDropdownMenuThemeData,
+      dialogTheme: DialogAppTheme.darkDialogButtonTheme,
+      textButtonTheme: TextAppButtonTheme.darkTextButtonTheme);
 }

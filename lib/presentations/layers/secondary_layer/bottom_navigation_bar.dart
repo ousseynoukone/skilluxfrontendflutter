@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
+import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/add_post_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/features/discovery_screen/discovery_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/features/home_screen/home_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/profile_screen.dart';
@@ -36,13 +37,12 @@ class _BottomNavigationBarComponentState
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             // Add your onPressed action here
-            print('Floating Action Button Pressed');
+            Get.to(() => AddPostScreen());
           },
           child: const Icon(Icons.add),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(
-          
             currentIndex: _currentIndex,
             onTap: (index) {
               setState(() {

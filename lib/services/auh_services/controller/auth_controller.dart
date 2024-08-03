@@ -8,11 +8,12 @@ import 'package:skilluxfrontendflutter/core/api_service/response_data_structure.
 import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_login_dto.dart';
 import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_login_response_dto.dart';
 import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_register_dto.dart';
-import 'package:skilluxfrontendflutter/models/internal_models/tokens/token.dart';
+import 'package:skilluxfrontendflutter/models/internal_hive_models/tokens/token.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
 
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/widgets/navigation_bar/navigation_bar_controller.dart';
+import 'package:skilluxfrontendflutter/presentations/features/custom_tags_preferences/tags_preferences_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/layers/secondary_layer/secondary_layer.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
 import 'package:skilluxfrontendflutter/services/auh_services/helpers/helpers.dart';
@@ -103,9 +104,10 @@ class GetXAuthController extends GetxController {
         UserLoginResponseDto userLoginResponseDto =
             UserLoginResponseDto.fromBody(response.body);
 
-        User? user = await userPersistence.readUser();
-        user ??= userLoginResponseDto.user;
-        await userPersistence.saveUser(user);
+        // User? user = await userPersistence.readUser();
+        // user ??= userLoginResponseDto.user;
+
+        await userPersistence.saveUser(userLoginResponseDto.user);
         Token token = Token(
             refreshTokenExpire: userLoginResponseDto.refreshTokenExpire,
             accessToken: userLoginResponseDto.accessToken,
@@ -114,8 +116,16 @@ class GetXAuthController extends GetxController {
         await tokenPersistence.saveToken(token);
         // update app login state
         _appStateManagmentController.updateState(isUserLogged: true);
-        Get.off(() => const SecondaryLayer());
-        // Set success state with user data
+
+        // IF USER TAGS PREFERENCE NOT SAVED YET
+
+        if (_appStateManagmentController
+                .appConfigState.value.isUserTagsPreferenceSaved ==
+            false) {
+          Get.off(() => const TagsPreferencesScreen());
+        } else {
+          Get.off(() => const SecondaryLayer());
+        }
       } else {
         if (response.body is Map<String, dynamic>) {
           // Multiple errors
@@ -201,7 +211,7 @@ class GetXAuthController extends GetxController {
     String path = "auth/change-password";
     try {
       ApiResponse response = await apiService.postRequest(path,
-          data: {"oldPassword": oldPassword, "newPassword": newPassword});
+          data: {"oldPassword": oldPassword, "password": newPassword});
 
       if (response.statusCode == 201) {
         Get.back();

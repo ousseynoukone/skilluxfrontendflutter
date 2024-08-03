@@ -4,8 +4,8 @@ import 'package:skilluxfrontendflutter/core/api_service/token_manager.dart';
 import 'package:skilluxfrontendflutter/core/state_managment/app_state_managment.dart';
 import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/widgets/navigation_bar/navigation_bar_controller.dart';
-import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_controller.dart';
 import 'package:skilluxfrontendflutter/services/profile_services/controllers/settings_controller.dart';
+import 'package:skilluxfrontendflutter/services/translator_services/translator_service.dart';
 
 Future<void> registerGetServices() async {
   // Registering some services
@@ -35,7 +35,9 @@ Future<void> registerGetServices() async {
   // For handling Auth Top Navigation Bar
   Get.put(NavigationBarController());
 
+  // For handling Translation
+  Get.put(TranslatorService());
 
-
-  
+  //Handling post drafts
+  Get.put(HivePostsPersistence());
 }

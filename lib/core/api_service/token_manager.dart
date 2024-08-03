@@ -3,7 +3,7 @@ import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/config/constant/constant.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
-import 'package:skilluxfrontendflutter/models/internal_models/tokens/token.dart';
+import 'package:skilluxfrontendflutter/models/internal_hive_models/tokens/token.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';

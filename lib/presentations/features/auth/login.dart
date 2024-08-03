@@ -10,7 +10,7 @@ import 'package:skilluxfrontendflutter/models/dtos/auth_dtos/user_login_dto.dart
 import 'package:skilluxfrontendflutter/presentations/features/auth/helper/resend_activation_email.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/reset_password.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/helper/helper.dart';
-import 'package:skilluxfrontendflutter/presentations/shared_widgets/button.widgets.dart';
+import 'package:skilluxfrontendflutter/presentations/shared_widgets/button.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_form_field.dart';
 import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_controller.dart';
 
@@ -24,8 +24,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GetXAuthController _getXAuthController = Get.find();
-  TextEditingController _loginController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _loginController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool _isObscure = true;
 
   late FocusNode _loginFocus;
@@ -99,8 +99,8 @@ class _LoginState extends State<Login> {
                     padding: const EdgeInsets.only(right: 4.0),
                     child: IconButton(
                       icon: _isObscure
-                          ? Icon(Icons.visibility)
-                          : Icon(Icons.visibility_off_outlined),
+                          ? const Icon(Icons.visibility)
+                          : const Icon(Icons.visibility_off_outlined),
                       onPressed: () {
                         _toggleVisibility();
                       },
@@ -156,54 +156,93 @@ class _LoginState extends State<Login> {
 Widget bottomComponent(var text, var textTheme, var getXAuthController) {
   return Padding(
     padding: const EdgeInsets.only(top: 4.0),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        InkWell(
-          onTap: () {
-            Get.bottomSheet(const ResetAccount());
-          },
-          child: RichText(
-            text: TextSpan(
-              children: <TextSpan>[
-                TextSpan(
-                  text: text.forgotYour,
-                  style: textTheme.bodySmall,
+    child: LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth > 400) {
+          // For wider screens, use a Row
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: _buildForgotPasswordText(text, textTheme),
+              ),
+              Flexible(
+                child: _buildResendActivationEmail(
+                    text, textTheme, getXAuthController),
+              ),
+            ],
+          );
+        } else {
+          // For narrower screens, use a Column
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildForgotPasswordText(text, textTheme),
+              const SizedBox(height: 8),
+              _buildResendActivationEmail(text, textTheme, getXAuthController),
+            ],
+          );
+        }
+      },
+    ),
+  );
+}
+
+Widget _buildForgotPasswordText(var text, var textTheme) {
+  return InkWell(
+    onTap: () {
+      Get.bottomSheet(const ResetAccount());
+    },
+    child: Text.rich(
+      TextSpan(
+        children: <TextSpan>[
+          TextSpan(
+            text: text.forgotYour,
+            style: textTheme.bodySmall,
+          ),
+          TextSpan(
+            text: text.passwordQuestion,
+            style: textTheme.bodySmall.copyWith(
+              color: ColorsTheme.primary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+      overflow: TextOverflow.ellipsis,
+      maxLines: 2,
+    ),
+  );
+}
+
+Widget _buildResendActivationEmail(
+    var text, var textTheme, var getXAuthController) {
+  return Obx(
+    () => !getXAuthController.isLoading.value
+        ? InkWell(
+            onTap: () {
+              resendActivationEmail();
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.email_outlined,
+                  color: ColorsTheme.primary,
+                  size: 16,
                 ),
-                TextSpan(
-                  text: text.passwordQuestion,
-                  style: textTheme.bodySmall.copyWith(
-                    color: ColorsTheme.primary, // Adjust color as needed
-                    fontWeight: FontWeight.bold,
+                const SizedBox(width: 4),
+                Flexible(
+                  child: Text(
+                    text.resendActivationEmail,
+                    style: textTheme.bodySmall,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
                 ),
               ],
             ),
-          ),
-        ),
-        Obx(
-          () => !getXAuthController.isLoading.value
-              ? InkWell(
-                  onTap: () {
-                    resendActivationEmail();
-                  },
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.email_outlined,
-                        color: ColorsTheme.primary, // Adjust color as needed
-                      ),
-                      const SizedBox(width: 8), // Adjust spacing as needed
-                      Text(
-                        text.resendActivationEmail,
-                        style: textTheme.bodySmall,
-                      ),
-                    ],
-                  ),
-                )
-              : const SizedBox.shrink(),
-        ),
-      ],
-    ),
+          )
+        : const SizedBox.shrink(),
   );
 }

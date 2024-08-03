@@ -12,8 +12,8 @@ class TextAppTheme {
       color: ColorsTheme.black,
     ),
     headlineMedium: const TextStyle(
-      fontSize: 24.0,
-      fontWeight: FontWeight.w600,
+      fontSize: 20.0,
+      fontWeight: FontWeight.w500,
       color: ColorsTheme.black,
     ),
     headlineSmall: const TextStyle(
@@ -23,23 +23,28 @@ class TextAppTheme {
     ),
     titleLarge: const TextStyle(
       fontSize: 28.0,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w500,
       color: ColorsTheme.black,
     ),
     titleMedium: const TextStyle(
       fontSize: 22.0,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w400,
       color: ColorsTheme.black,
+    ),
+    titleSmall: const TextStyle(
+      fontSize: 18.0,
+      fontWeight: FontWeight.w300,
+      color: ColorsTheme.tertiaryDarker,
     ),
     bodyLarge: const TextStyle(
       fontSize: 18.0,
       fontWeight: FontWeight.w500,
-      color: ColorsTheme.black,
+      color: ColorsTheme.tertiaryMidDarker,
     ),
     bodyMedium: const TextStyle(
       fontSize: 16.0,
       fontWeight: FontWeight.normal,
-      color: ColorsTheme.black,
+      color: ColorsTheme.tertiaryMidDarker,
     ),
     bodySmall: TextStyle(
       fontSize: 14.0,
@@ -70,8 +75,8 @@ class TextAppTheme {
       color: ColorsTheme.white,
     ),
     headlineMedium: const TextStyle(
-      fontSize: 24.0,
-      fontWeight: FontWeight.w600,
+      fontSize: 20.0,
+      fontWeight: FontWeight.w500,
       color: ColorsTheme.white,
     ),
     headlineSmall: const TextStyle(
@@ -91,7 +96,7 @@ class TextAppTheme {
     ),
     titleSmall: const TextStyle(
       fontSize: 18.0,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
       color: ColorsTheme.white,
     ),
     bodyLarge: const TextStyle(

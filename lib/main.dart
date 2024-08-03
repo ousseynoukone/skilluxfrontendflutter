@@ -12,11 +12,11 @@ import 'package:logger/logger.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:skilluxfrontendflutter/presentations/layers/primary_layer.dart';
+import 'package:skilluxfrontendflutter/services/system_services/route_observer_utils/route_observer_utils.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
 
 //-----INITIALIZING HIVE-----------
   await Hive.initFlutter();
@@ -27,9 +27,6 @@ void main() async {
 
   // Registering some needed getX services
   await registerGetServices();
-
-
-  
 
   runApp(const MyApp());
 }
@@ -43,6 +40,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final Logger _logger = Logger();
+  final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
 
   @override
   void initState() {
@@ -52,7 +50,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      themeMode : ThemeMode.system ,
+      navigatorObservers: [ObserverUtils.routeObserver],
+      themeMode: ThemeMode.system,
       title: 'Skillux',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,

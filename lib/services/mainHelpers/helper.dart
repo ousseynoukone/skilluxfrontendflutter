@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
-import 'package:skilluxfrontendflutter/models/internal_models/settings/setting.dart';
+import 'package:skilluxfrontendflutter/models/internal_hive_models/settings/setting.dart';
 
 String defaultLocalLangage() {
   if (kIsWeb) {

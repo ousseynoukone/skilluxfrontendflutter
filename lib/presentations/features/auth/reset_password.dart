@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/validators/email_validator.dart';
-import 'package:skilluxfrontendflutter/presentations/shared_widgets/button.widgets.dart';
+import 'package:skilluxfrontendflutter/presentations/shared_widgets/button.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_form_field.dart';
 import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_controller.dart';
 
