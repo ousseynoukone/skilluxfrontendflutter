@@ -19,12 +19,15 @@ import 'package:skilluxfrontendflutter/config/theme/custom_themes/text_button_th
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/text_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/sheme_colors.dart';
 
+import 'custom_themes/list_tile_theme.dart';
+
 class AppTheme {
   // PRIVATE
   AppTheme._();
 
   static ThemeData lightTheme = ThemeData(
       textSelectionTheme: const TextSelectionThemeData(
+          selectionHandleColor: ColorsTheme.primary,
           cursorColor: ColorsTheme.tertiaryDark,
           selectionColor: ColorsTheme.secondary),
       colorScheme: AppColorScheme.light,
@@ -48,10 +51,12 @@ class AppTheme {
       switchTheme: SwitchAppTheme.lightSwitchTheme,
       dropdownMenuTheme: DropdownMenuAppTheme.lightDropdownMenuThemeData,
       dialogTheme: DialogAppTheme.lightDialogButtonTheme,
+      // listTileTheme: ListTileThemeAppTheme.listTileThemeDataLight,
       textButtonTheme: TextAppButtonTheme.lightTextButtonTheme);
 
   static ThemeData darkTheme = ThemeData(
       textSelectionTheme: const TextSelectionThemeData(
+          selectionHandleColor: ColorsTheme.primary,
           cursorColor: ColorsTheme.white,
           selectionColor: ColorsTheme.secondary),
       colorScheme: AppColorScheme.dark,
@@ -75,5 +80,7 @@ class AppTheme {
       switchTheme: SwitchAppTheme.darkSwitchTheme,
       dropdownMenuTheme: DropdownMenuAppTheme.darkDropdownMenuThemeData,
       dialogTheme: DialogAppTheme.darkDialogButtonTheme,
+      // listTileTheme: ListTileThemeAppTheme.listTileThemeDataDark,
+      
       textButtonTheme: TextAppButtonTheme.darkTextButtonTheme);
 }

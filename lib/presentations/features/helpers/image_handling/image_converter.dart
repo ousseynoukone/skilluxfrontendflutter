@@ -14,6 +14,6 @@ class ImageConverter {
 
   /// Converts Uint8List to XFile.
   static Future<XFile?> uint8ListToXFile(Uint8List bytes, String path,String name,String mimeType ) async {
-    return XFile.fromData(bytes,name: name,mimeType: mimeType);
+    return XFile.fromData(bytes,name: name,mimeType: mimeType,path: path);
   }
 }

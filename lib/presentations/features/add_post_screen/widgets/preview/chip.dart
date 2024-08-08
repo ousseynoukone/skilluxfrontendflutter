@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 
-Widget getChip(String label, IconData? icon) {
+Widget getChip(String label, IconData? icon,
+    {bool isBackgroundTransparant = false}) {
   var themeText = Get.context!.textTheme;
   final colorScheme = Theme.of(Get.context!).colorScheme;
 
@@ -24,7 +25,9 @@ Widget getChip(String label, IconData? icon) {
         ),
       ],
     ),
-    backgroundColor: colorScheme.primaryFixed, // Light blue background
+    backgroundColor: isBackgroundTransparant
+        ? colorScheme.tertiary
+        : colorScheme.primaryFixed, // Light blue background
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12),
       side: BorderSide(color: colorScheme.primaryFixed), // Light border

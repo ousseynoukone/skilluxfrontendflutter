@@ -64,6 +64,7 @@ class _TopNavigationBarState extends State<TopNavigationBar>
           automaticallyImplyLeading: false, // remove back button in appbar.
           bottom: TabBar(
             controller: _tabController,
+            labelStyle:context.textTheme.bodyMedium,
             labelColor: context.textTheme.bodyLarge?.color,
             unselectedLabelColor: ColorsTheme.grey,
             indicatorColor: ColorsTheme.primary,

@@ -28,7 +28,7 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
   User? user;
   final HiveUserPersistence _hiveUserPersistence = Get.find();
   late QuillController controller;
-  AddPostService _addPostService = Get.put(AddPostService());
+  final AddPostService _addPostService = Get.put(AddPostService());
 
   Future<void> _getUser() async {
     user = await _hiveUserPersistence.readUser();
@@ -73,7 +73,8 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
       return Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           alignment: Alignment.topLeft,
-          child: getChip(readingTimeMessage, Icons.timer_outlined));
+          child: getChip(readingTimeMessage, Icons.timer_outlined,
+              isBackgroundTransparant: true));
     }
 
     Widget displayPostMinimalAttribute() {

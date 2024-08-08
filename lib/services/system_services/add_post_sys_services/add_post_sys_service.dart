@@ -47,6 +47,19 @@ class AddPostSysService extends GetxController {
     }
   }
 
+
+  // Function to set id and trigger the rebuild notifier
+  void setId(int id) {
+    // Check if the new tags list is different from the current one
+      post.value = Post(
+        id: id,
+        tags:  post.value.tags,
+        title: post.value.title,
+        content: post.value.content,
+      );
+   
+  }
+
 // THIS FUNCTION IS FOR TAG FIELD , IT HELP IT TO REBUILD AFTER A NEW POST HAS BEEN SELECTED FROM DRAFT IN ORDER TO DISPLAY IT'S TAG TROUGHT THE INITIAL TAGS PARAMETER WHICH IS ONLY CALLED ONCE SO I NEED TO RE-INSTANCIATE THE TAG INPUT IN ORDER TO PROGRAMMATICALLY DISPLAY TAG (controller.addTag(tag) do not work)
   rebuildTagFieldToDisplayTags({bool isForClear = false}) {
     //Is for clear is crutial , when we try to clear post , it would  try to check this condition !areListsEqual(post.value.tags, _previousTag which would not success because we are not trying to add and bring changes but just to clear , so we have to bypass that condition

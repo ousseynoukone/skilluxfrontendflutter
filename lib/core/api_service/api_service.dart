@@ -127,7 +127,8 @@ class APIService {
       }
     } catch (e) {
       _logger.e(e.toString());
-      return const ApiResponse(
+      return  ApiResponse(
+        message: e.toString(),
           statusCode: 500, body: {'error': 'Internal Server Error'});
     }
   }
