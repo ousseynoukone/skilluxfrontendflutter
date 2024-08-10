@@ -28,7 +28,6 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
   User? user;
   final HiveUserPersistence _hiveUserPersistence = Get.find();
   late QuillController controller;
-  final AddPostService _addPostService = Get.put(AddPostService());
 
   Future<void> _getUser() async {
     user = await _hiveUserPersistence.readUser();
@@ -113,24 +112,7 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
               ],
             ),
           ),
-          bottomNavigationBar: SizedBox(
-            height: 60,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Obx(
-                () => Center(
-                  child: IconTextButton(
-                    icon: Icons.publish,
-                    label: text.publish,
-                    isLoading: _addPostService.isLoading.value,
-                    onPressed: () async {
-                      _addPostService.addPost(widget.post);
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ));
+);
     }
 
     return displayPost();

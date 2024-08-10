@@ -10,35 +10,38 @@ class BottomAppNavigationBarTheme {
     backgroundColor: ColorsTheme.white,
     elevation: 8.0,
     selectedIconTheme:
-        IconThemeData(color: ColorsTheme.tertiaryDarker, size: 30.0, fill: 1),
+        IconThemeData(color: ColorsTheme.tertiaryDarker, size: 20.0, fill: 1),
     unselectedIconTheme:
-        IconThemeData(color: ColorsTheme.tertiaryDark, size: 30.0, fill: 1),
+        IconThemeData(color: ColorsTheme.tertiaryDark, size: 20.0, fill: 1),
     selectedItemColor: ColorsTheme.tertiaryDarker,
     unselectedItemColor: ColorsTheme.tertiaryDark,
-    selectedLabelStyle: TextStyle(
-        color: ColorsTheme.tertiaryDarker, fontWeight: FontWeight.bold),
-    unselectedLabelStyle: TextStyle(color: ColorsTheme.tertiaryDark),
+    selectedLabelStyle:
+        TextStyle(color: ColorsTheme.tertiaryDarker, fontSize: 12),
+    unselectedLabelStyle:
+        TextStyle(color: ColorsTheme.tertiaryDark, fontSize: 12),
     showSelectedLabels: true,
     showUnselectedLabels: true,
     type: BottomNavigationBarType.fixed,
-    enableFeedback: true,
+    enableFeedback:
+        false, // Set enableFeedback to false to remove splash effect
   );
 
   static BottomNavigationBarThemeData darkBottomNavigationBarTheme =
       const BottomNavigationBarThemeData(
     backgroundColor: ColorsTheme.tertiaryDarker,
     elevation: 8.0,
-    selectedIconTheme: IconThemeData(color: ColorsTheme.tertiary, size: 30.0),
+    selectedIconTheme: IconThemeData(color: ColorsTheme.tertiary, size: 20.0),
     unselectedIconTheme:
-        IconThemeData(color: ColorsTheme.tertiaryLightDark, size: 30.0),
+        IconThemeData(color: ColorsTheme.tertiaryLightDark, size: 20.0),
     selectedItemColor: ColorsTheme.tertiary,
     unselectedItemColor: ColorsTheme.tertiaryLightDark,
-    selectedLabelStyle:
-        TextStyle(color: ColorsTheme.tertiary, fontWeight: FontWeight.w400),
-    unselectedLabelStyle: TextStyle(color: ColorsTheme.tertiaryLightDark),
+    selectedLabelStyle: TextStyle(color: ColorsTheme.tertiary, fontSize: 12),
+    unselectedLabelStyle:
+        TextStyle(color: ColorsTheme.tertiaryLightDark, fontSize: 12),
     showSelectedLabels: true,
     showUnselectedLabels: true,
     type: BottomNavigationBarType.fixed,
-    enableFeedback: true,
+    enableFeedback:
+        false, // Set enableFeedback to false to remove splash effect
   );
 }

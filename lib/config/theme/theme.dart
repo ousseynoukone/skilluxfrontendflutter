@@ -8,6 +8,7 @@ import 'package:skilluxfrontendflutter/config/theme/custom_themes/app_bar_theme.
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/bottom_navigation_bar_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/dialog_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/dropdown_menu_theme.dart';
+import 'package:skilluxfrontendflutter/config/theme/custom_themes/list_tile_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/poppup_menu_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/bottom_sheet_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/elevated_button_theme.dart';
@@ -17,9 +18,7 @@ import 'package:skilluxfrontendflutter/config/theme/custom_themes/outline_button
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/swtich_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/text_button_theme.dart';
 import 'package:skilluxfrontendflutter/config/theme/custom_themes/text_theme.dart';
-import 'package:skilluxfrontendflutter/config/theme/sheme_colors.dart';
-
-import 'custom_themes/list_tile_theme.dart';
+import 'package:skilluxfrontendflutter/config/theme/scheme_colors.dart';
 
 class AppTheme {
   // PRIVATE
@@ -51,7 +50,9 @@ class AppTheme {
       switchTheme: SwitchAppTheme.lightSwitchTheme,
       dropdownMenuTheme: DropdownMenuAppTheme.lightDropdownMenuThemeData,
       dialogTheme: DialogAppTheme.lightDialogButtonTheme,
-      // listTileTheme: ListTileThemeAppTheme.listTileThemeDataLight,
+      highlightColor: Colors.transparent,
+
+      listTileTheme: ListTileThemeAppTheme.listTileThemeDataLight,
       textButtonTheme: TextAppButtonTheme.lightTextButtonTheme);
 
   static ThemeData darkTheme = ThemeData(
@@ -80,7 +81,7 @@ class AppTheme {
       switchTheme: SwitchAppTheme.darkSwitchTheme,
       dropdownMenuTheme: DropdownMenuAppTheme.darkDropdownMenuThemeData,
       dialogTheme: DialogAppTheme.darkDialogButtonTheme,
-      // listTileTheme: ListTileThemeAppTheme.listTileThemeDataDark,
-      
+      listTileTheme: ListTileThemeAppTheme.listTileThemeDataDark,
+      highlightColor: Colors.transparent,
       textButtonTheme: TextAppButtonTheme.darkTextButtonTheme);
 }

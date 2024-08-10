@@ -55,6 +55,8 @@ class _AddPostScreenState extends State<AddPostScreen>
   @override
   didPushNext() {
     updatePostStream();
+      FocusManager.instance.primaryFocus?.unfocus();
+
   }
 
   //If this screen pop again

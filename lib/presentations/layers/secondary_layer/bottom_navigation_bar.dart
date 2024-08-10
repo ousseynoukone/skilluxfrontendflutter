@@ -30,42 +30,92 @@ class _BottomNavigationBarComponentState
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     var text = context.localizations;
 
     return Scaffold(
-        body: _screens[_currentIndex],
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Add your onPressed action here
-            Get.to(() => AddPostScreen());
-          },
-          child: const Icon(Icons.add),
+      body: _screens[_currentIndex],
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Divider(
+            height: 1,
+            thickness: 0.1,
+            color: colorScheme.outlineVariant,
+          ),
+          BottomAppBar(
+            height: Get.height * 0.09,
+            color: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            elevation: 8,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildNavItem(
+                    Icons.home_outlined, Icons.home, text.home, 0, colorScheme),
+                _buildNavItem(Icons.compass_calibration_outlined,
+                    Icons.compass_calibration, text.discovery, 1, colorScheme),
+                _buildAddButton(colorScheme),
+                _buildNavItem(Icons.search_outlined, Icons.search, text.search,
+                    2, colorScheme),
+                _buildNavItem(Icons.person_outline, Icons.person, text.profile,
+                    3, colorScheme),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNavItem(IconData icon, IconData activeIcon, String label,
+      int index, ColorScheme colorScheme) {
+    return InkWell(
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      focusColor: Colors.transparent,
+      enableFeedback: false,
+      onTap: () => setState(() => _currentIndex = index),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            size: 20,
+            _currentIndex == index ? activeIcon : icon,
+            color: _currentIndex == index
+                ? colorScheme.onPrimary
+                : colorScheme.primaryFixed,
+          ),
+          Text(
+            label,
+            style: TextStyle(
+              color: _currentIndex == index
+                  ? colorScheme.onPrimary
+                  : colorScheme.primaryFixed,
+              fontSize: 12,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAddButton(ColorScheme colorScheme) {
+    return GestureDetector(
+      onTap: () => Get.to(() => const AddPostScreen()),
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: colorScheme.primary,
+          shape: BoxShape.circle,
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _currentIndex,
-            onTap: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-            items: [
-              BottomNavigationBarItem(
-                  activeIcon: const Icon(Icons.home),
-                  icon: const Icon(Icons.home_outlined),
-                  label: text.home),
-              BottomNavigationBarItem(
-                  icon: const Icon(Icons.compass_calibration_outlined),
-                  activeIcon: const Icon(Icons.compass_calibration),
-                  label: text.discovery),
-              BottomNavigationBarItem(
-                  activeIcon: const Icon(Icons.search),
-                  icon: const Icon(Icons.search_outlined),
-                  label: text.search),
-              BottomNavigationBarItem(
-                  activeIcon: const Icon(Icons.person),
-                  icon: const Icon(Icons.person_outline),
-                  label: text.profile),
-            ]));
+        child: Icon(Icons.add_circle_rounded,
+            color: colorScheme.onPrimary, size: 40),
+      ),
+    );
   }
 }
