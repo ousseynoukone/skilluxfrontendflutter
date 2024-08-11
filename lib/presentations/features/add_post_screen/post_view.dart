@@ -72,8 +72,8 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
       return Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           alignment: Alignment.topLeft,
-          child: getChip(readingTimeMessage, Icons.timer_outlined,
-              isBackgroundTransparant: true));
+          child: getCustomChip(readingTimeMessage, Icons.timer_outlined,
+              isBackgroundTransparent: true));
     }
 
     Widget displayPostMinimalAttribute() {
@@ -100,19 +100,19 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
 
     Widget displayPost() {
       return Scaffold(
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                displayPostMinimalAttribute(),
-                if (widget.post.content.content!.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: sectionBuilderForViewAndPreview(),
-                  ),
-              ],
-            ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              displayPostMinimalAttribute(),
+              if (widget.post.content.content!.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: sectionBuilderForViewAndPreview(),
+                ),
+            ],
           ),
-);
+        ),
+      );
     }
 
     return displayPost();

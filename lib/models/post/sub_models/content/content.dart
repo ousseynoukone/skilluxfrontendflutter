@@ -20,8 +20,8 @@ class Content {
     this.content,
     List<XFile>? xFileMediaList,
     List<BinaryMedia>? xFileMediaBinaryList,
-  }) : xFileMediaList = xFileMediaList ?? [],
-       xFileMediaBinaryList = xFileMediaBinaryList ?? [];
+  })  : xFileMediaList = xFileMediaList ?? [],
+        xFileMediaBinaryList = xFileMediaBinaryList ?? [];
 
   // Clone method
   Content clone() {

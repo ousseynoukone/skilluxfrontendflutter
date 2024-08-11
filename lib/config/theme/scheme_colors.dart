@@ -13,7 +13,7 @@ class AppColorScheme {
     onSecondary: ColorsTheme.tertiaryDark,
     error: ColorsTheme.error,
     onError: Colors.white,
-    surface: ColorsTheme.tertiary,
+    surface: Color.fromARGB(255, 181, 179, 179),
     onSurface: Colors.black,
     tertiary: ColorsTheme.white,
   );
@@ -29,7 +29,7 @@ class AppColorScheme {
     onSecondary: ColorsTheme.tertiaryLightDark,
     error: ColorsTheme.error,
     onError: Colors.white,
-    surface: ColorsTheme.tertiaryMidDarker,
+    surface: Color.fromARGB(255, 164, 163, 163),
     onSurface: Colors.white,
     tertiary: ColorsTheme.black,
   );

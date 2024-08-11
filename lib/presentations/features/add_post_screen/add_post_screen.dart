@@ -55,8 +55,7 @@ class _AddPostScreenState extends State<AddPostScreen>
   @override
   didPushNext() {
     updatePostStream();
-      FocusManager.instance.primaryFocus?.unfocus();
-
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 
   //If this screen pop again
@@ -113,6 +112,7 @@ class _AddPostScreenState extends State<AddPostScreen>
           createdAt: DateTime.now(),
           content: _addPostSysService.post.value.content);
       bool result = await newPost.convertheaderImageXFileImageToBinary();
+      _logger.i(newPost.content.content);
       if (result) {
         _addPostSysService.addPost(newPost);
       }

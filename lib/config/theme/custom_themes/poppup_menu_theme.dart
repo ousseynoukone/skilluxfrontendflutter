@@ -8,7 +8,7 @@ class PopupAppMenuTheme {
   static PopupMenuThemeData lightPopupMenuTheme = PopupMenuThemeData(
     color: ColorsTheme.white,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-    elevation: 8,
+    elevation: 4,
     shadowColor: ColorsTheme.grey,
     surfaceTintColor: ColorsTheme.white,
     textStyle: const TextStyle(color: ColorsTheme.black),

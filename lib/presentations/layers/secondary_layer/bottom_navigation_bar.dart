@@ -44,7 +44,6 @@ class _BottomNavigationBarComponentState
             color: colorScheme.outlineVariant,
           ),
           BottomAppBar(
-            height: Get.height * 0.09,
             color: Colors.transparent,
             surfaceTintColor: Colors.transparent,
             elevation: 8,
@@ -83,7 +82,7 @@ class _BottomNavigationBarComponentState
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            size: 20,
+            size: Get.width * 0.05,
             _currentIndex == index ? activeIcon : icon,
             color: _currentIndex == index
                 ? colorScheme.onPrimary
@@ -104,7 +103,12 @@ class _BottomNavigationBarComponentState
   }
 
   Widget _buildAddButton(ColorScheme colorScheme) {
-    return GestureDetector(
+    return InkWell(
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      focusColor: Colors.transparent,
+      enableFeedback: false,
       onTap: () => Get.to(() => const AddPostScreen()),
       child: Container(
         width: 40,

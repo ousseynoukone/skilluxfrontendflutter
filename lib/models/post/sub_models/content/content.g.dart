@@ -18,7 +18,7 @@ class ContentAdapter extends TypeAdapter<Content> {
     };
     return Content(
       content: fields[0] as String?,
-      xFileMediaBinaryList: (fields[1] as List).cast<BinaryMedia>(),
+      xFileMediaBinaryList: (fields[1] as List?)?.cast<BinaryMedia>(),
     );
   }
 

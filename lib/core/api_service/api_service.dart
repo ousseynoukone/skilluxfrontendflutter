@@ -91,11 +91,13 @@ class APIService {
           ..._setHeadersToken(),
         });
 
-        //Isolating coverImage
-        XFile coverImageFile = imagesFiles.removeAt(0);
+        if (post.headerImageIMG != null) {
+          //Isolating coverImage
+          XFile coverImageFile = imagesFiles.removeAt(0);
 
-        request.files
-            .add(await createMultipartFile(coverImageFile, "coverImage"));
+          request.files
+              .add(await createMultipartFile(coverImageFile, "coverImage"));
+        }
 
         // Add others  image file
         for (var imageFile in imagesFiles) {
@@ -105,6 +107,8 @@ class APIService {
 
         // Add post to the request
         request.fields.addAll(buildRequestFieldsForPost(post));
+
+        _logger.e(post.content.content);
 
         var streamedResponse = await request.send();
 
@@ -127,9 +131,10 @@ class APIService {
       }
     } catch (e) {
       _logger.e(e.toString());
-      return  ApiResponse(
-        message: e.toString(),
-          statusCode: 500, body: {'error': 'Internal Server Error'});
+      return ApiResponse(
+          message: e.toString(),
+          statusCode: 500,
+          body: {'error': 'Internal Server Error'});
     }
   }
 

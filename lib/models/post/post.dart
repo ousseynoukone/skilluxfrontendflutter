@@ -111,6 +111,8 @@ class Post {
         headerBinaryImage!.xFileMediaName = headerImageIMG!.name;
         headerBinaryImage!.xFileMediaMimeType = headerImageIMG!.mimeType;
         return true;
+      } else {
+        return true;
       }
     } catch (e) {
       _logger.e(e.toString());
@@ -126,6 +128,9 @@ class Post {
             headerBinaryImage!.xFileMediaPath!,
             headerBinaryImage!.xFileMediaName!,
             headerBinaryImage!.xFileMediaMimeType!);
+        return true;
+      }
+      if (headerImageIMG == null) {
         return true;
       }
     } catch (e) {

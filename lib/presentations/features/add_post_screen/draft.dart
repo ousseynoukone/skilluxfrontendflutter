@@ -70,7 +70,9 @@ class _DraftState extends State<Draft> {
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : posts.isEmpty
-              ? Center(child: getChip(text.noDraft, null))
+              ? Center(
+                  child: getCustomChip(text.noDraft, null,
+                      isBackgroundTransparent: true))
               : ListView.builder(
                   itemCount: posts.length,
                   itemBuilder: (context, index) {

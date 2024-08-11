@@ -24,8 +24,11 @@ class AddPostService extends GetxController {
     Post newPost = post.clone();
 
     await newPost.extractMediaFromContent();
+    if(newPost.headerBinaryImage !=null){
     await newPost.convertHeaderImageBinaryToXFileImage();
     newPost.content.xFileMediaList.insert(0, newPost.headerImageIMG!);
+    }
+
 
     if (newPost.content.xFileMediaList.isNotEmpty) {
       ApiResponse response =

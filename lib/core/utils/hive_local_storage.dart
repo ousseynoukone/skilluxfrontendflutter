@@ -152,7 +152,7 @@ class HivePostsPersistence extends GetxController {
     for (var post in posts) {
       if (post.content.xFileMediaBinaryList.isNotEmpty) {
         await post.convertBinaryMediaListToxFile();
-      } 
+      }
     }
     return posts;
   }
