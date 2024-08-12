@@ -61,7 +61,8 @@ class QuillMediaHandler {
           (op.value['image'] != null || op.value['video'] != null)) {
         String mediaType = op.value['image'] != null ? "image" : "video";
         if (fileIndex < medias.length) {
-          var newOp = Operation.insert({mediaType: medias[fileIndex].path});
+          var newOp = Operation.insert(
+              {mediaType: medias[fileIndex].path}, op.attributes);
           newOperations.add(newOp);
           fileIndex++;
         } else {

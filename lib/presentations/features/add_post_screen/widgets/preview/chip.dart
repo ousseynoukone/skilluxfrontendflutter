@@ -8,7 +8,7 @@ Widget getCustomChip(String label, IconData? icon,
   final colorScheme = Theme.of(Get.context!).colorScheme;
   double horizontal = isBackgroundTransparent ? 0 : 8.0;
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: horizontal, vertical: 4),
+    padding:  EdgeInsets.symmetric(horizontal: horizontal, vertical: 4),
     decoration: BoxDecoration(
       color: isBackgroundTransparent ? Colors.transparent : colorScheme.primary,
       // border: Border.all(color: colorScheme.primaryFixed, width: 1),

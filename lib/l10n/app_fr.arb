@@ -111,7 +111,7 @@
   "mendatoryContent":"Le contenu du section est obligatoire !",
 
 
-  "addCoverPhoto":"Ajouter une photo de couverture",
+  "addCoverPhoto":"Ajouter une photo de couverture (optionel)",
   "addMedia":"Ajouter une photo ou une video",
   "title":"Titre",
 
@@ -126,7 +126,7 @@
   "preview":"Prévisualiser",
   "section":"Section",
   "createSection":"Créer une section",
-  "nothingToShow":"Veillez vous assurer que tout les champs (section inclut) sont correctement remplis !",
+  "nothingToShow":"Veillez vous assurer que tout les champs obligatoires (section inclut) sont correctement remplis !",
 
 
   

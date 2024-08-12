@@ -70,7 +70,7 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
       String readingTimeMessage = getReadingTime(plainText);
 
       return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           alignment: Alignment.topLeft,
           child: getCustomChip(readingTimeMessage, Icons.timer_outlined,
               isBackgroundTransparent: true));

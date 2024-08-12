@@ -23,6 +23,7 @@ class CustomIconButton extends StatelessWidget {
     var colorScheme = Theme.of(context).colorScheme;
     var iconSize = Get.width * 0.07;
     return IconButton(
+      hoverColor: Colors.transparent,
       onPressed: isLoading ? null : onPressed,
       icon: isLoading
           ? const SizedBox(
@@ -51,8 +52,8 @@ class CustomIconButton extends StatelessWidget {
       iconSize: iconSize,
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
-      padding: EdgeInsets.zero,
-      constraints: BoxConstraints(),
+      // padding: EdgeInsets.zero,
+      // constraints: BoxConstraints(),
     );
   }
 }

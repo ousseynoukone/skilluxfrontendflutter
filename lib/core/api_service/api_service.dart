@@ -108,7 +108,6 @@ class APIService {
         // Add post to the request
         request.fields.addAll(buildRequestFieldsForPost(post));
 
-        _logger.e(post.content.content);
 
         var streamedResponse = await request.send();
 

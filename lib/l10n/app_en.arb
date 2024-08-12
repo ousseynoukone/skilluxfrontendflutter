@@ -115,7 +115,7 @@
   "createPublication":"Create a publication",
   "mendatoryContent":"The content of the section is mendatory!",
 
-  "addCoverPhoto":"Add cover photo",
+  "addCoverPhoto":"Add cover photo (optional)",
   "addMedia":"add photo or video",
   "title":"Title",
 
@@ -129,7 +129,7 @@
   "createSection":"Create a section",
 
   "quillEditorPlaceholder":"Writte your content here...",
-  "nothingToShow":"Please make sure all fields (section included) are correcty filled !",
+  "nothingToShow":"Please make sure all mendatory fields (section included) are correcty filled !",
 
   "dateUnknown":"Date unknown",
   "postTitleRequirement": "The post's title should contain at least 2 characters and not more than 100 characters!",  

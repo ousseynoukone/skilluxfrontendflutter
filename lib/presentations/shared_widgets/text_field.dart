@@ -55,9 +55,9 @@ class TextFieldComponent extends StatelessWidget {
             labelText: labelText,
             hintText: hintText,
             labelStyle: themeText.titleMedium?.copyWith(
-                color: colorScheme.onSecondary, fontWeight: FontWeight.w600),
+                color: colorScheme.onPrimary, fontWeight: FontWeight.w600),
             floatingLabelStyle: themeText.titleMedium?.copyWith(
-                color: colorScheme.onSecondary, fontWeight: FontWeight.w600),
+                color: colorScheme.onPrimary, fontWeight: FontWeight.w600),
             enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: colorScheme.onSurface),
             ),

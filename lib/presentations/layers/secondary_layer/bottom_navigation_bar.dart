@@ -37,6 +37,7 @@ class _BottomNavigationBarComponentState
       body: _screens[_currentIndex],
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Divider(
             height: 1,
@@ -46,7 +47,6 @@ class _BottomNavigationBarComponentState
           BottomAppBar(
             color: Colors.transparent,
             surfaceTintColor: Colors.transparent,
-            elevation: 8,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,

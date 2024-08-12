@@ -45,7 +45,7 @@ class _TagsTextFieldComponentState extends State<TagsTextFieldComponent> {
             Text(
               text.tags,
               style: themeText.bodyMedium?.copyWith(
-                color: colorScheme.onSecondary,
+                color: colorScheme.onPrimary,
                 fontWeight: FontWeight.w600,
               ),
             ),
