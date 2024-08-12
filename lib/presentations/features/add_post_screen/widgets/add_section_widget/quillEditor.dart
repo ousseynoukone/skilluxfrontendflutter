@@ -62,7 +62,7 @@ class Quilleditor extends StatelessWidget {
 
   Widget _buildToolbar() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: QuillToolbar.simple(
         configurations: getQuillSimpleToolbarConfigurations(controller),
       ),

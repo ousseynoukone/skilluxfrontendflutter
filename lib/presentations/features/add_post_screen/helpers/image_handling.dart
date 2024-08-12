@@ -14,12 +14,34 @@ mixin ImagePickerMixin<T extends StatefulWidget> on State<T> {
       final XFile? image = await picker.pickImage(source: ImageSource.gallery);
       if (image != null) {
         setState(() {
-          pickedImage = image;
          
+          String? mimeType = _getMimeTypeFromExtension(image.path);
+          pickedImage = XFile(image.path,
+              mimeType: mimeType ?? image.mimeType,
+              name: image.name); // Create a new XFile instance
         });
       }
     } catch (e) {
       _logger.d('Error picking image: ${e.toString()}');
+    }
+  }
+
+  String? _getMimeTypeFromExtension(String path) {
+    final extension = path.split('.').last.toLowerCase();
+    switch (extension) {
+      case 'jpg':
+      case 'jpeg':
+        return 'image/jpeg';
+      case 'png':
+        return 'image/png';
+      case 'gif':
+        return 'image/gif';
+      case 'bmp':
+        return 'image/bmp';
+      case 'webp':
+        return 'image/webp';
+      default:
+        return null;
     }
   }
 

@@ -7,8 +7,8 @@ import 'package:textfield_tags/textfield_tags.dart';
 
 class TagsTextFieldComponent extends StatefulWidget {
   final List<String> listTags;
-
-  TagsTextFieldComponent({required this.listTags});
+  final FocusNode focusNode;
+  TagsTextFieldComponent({required this.listTags,required this.focusNode});
 
   @override
   _TagsTextFieldComponentState createState() => _TagsTextFieldComponentState();
@@ -34,6 +34,7 @@ class _TagsTextFieldComponentState extends State<TagsTextFieldComponent> {
     final text = context.localizations;
 
     return TextFieldTags<String>(
+      focusNode: widget.focusNode,
       textfieldTagsController: _stringTagController,
       initialTags: widget.listTags,
       textSeparators: const [' ', ','],
@@ -44,7 +45,7 @@ class _TagsTextFieldComponentState extends State<TagsTextFieldComponent> {
             Text(
               text.tags,
               style: themeText.bodyMedium?.copyWith(
-                color: colorScheme.onSecondary,
+                color: colorScheme.onPrimary,
                 fontWeight: FontWeight.w600,
               ),
             ),

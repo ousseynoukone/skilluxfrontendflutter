@@ -11,7 +11,8 @@ import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_ser
 
 class AddPostSysService extends GetxController {
   // Initialize with an empty Post object
-  Rx<Post> post = Rx<Post>(Post(id: null, tags: [], title: '', content: Content (content: '')));
+  Rx<Post> post = Rx<Post>(
+      Post(id: null, tags: [], title: '', content: Content(content: '')));
   RxInt isFromDraft = 0.obs;
   RxInt clearPostField = 0.obs;
   var rebuildTagField = true.obs;
@@ -29,7 +30,7 @@ class AddPostSysService extends GetxController {
     post.value = Post(
       tags: post.value.tags,
       title: post.value.title,
-      content: Content (content: ''),
+      content: Content(content: ''),
     );
   }
 
@@ -45,6 +46,17 @@ class AddPostSysService extends GetxController {
       );
       _previousTag = newTags;
     }
+  }
+
+  // Function to set id and trigger the rebuild notifier
+  void setId(int id) {
+    // Check if the new tags list is different from the current one
+    post.value = Post(
+      id: id,
+      tags: post.value.tags,
+      title: post.value.title,
+      content: post.value.content,
+    );
   }
 
 // THIS FUNCTION IS FOR TAG FIELD , IT HELP IT TO REBUILD AFTER A NEW POST HAS BEEN SELECTED FROM DRAFT IN ORDER TO DISPLAY IT'S TAG TROUGHT THE INITIAL TAGS PARAMETER WHICH IS ONLY CALLED ONCE SO I NEED TO RE-INSTANCIATE THE TAG INPUT IN ORDER TO PROGRAMMATICALLY DISPLAY TAG (controller.addTag(tag) do not work)
@@ -92,9 +104,9 @@ class AddPostSysService extends GetxController {
       result = result && post.value.content.content!.isNotEmpty;
     }
 
-    if (checkHeaderImage) {
-      result = result && post.value.headerImageIMG != null;
-    }
+    // if (checkHeaderImage) {
+    //   result = result && post.value.headerImageIMG != null;
+    // }
 
     if (!result && showError) {
       showCustomSnackbar(
@@ -126,7 +138,7 @@ class AddPostSysService extends GetxController {
     post.value = Post(
       id: null,
       title: '',
-      content: Content (content: ''),
+      content: Content(content: ''),
       tags: [],
     );
     _previousTag = [];

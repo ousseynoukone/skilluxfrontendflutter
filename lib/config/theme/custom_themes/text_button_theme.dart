@@ -12,7 +12,7 @@ class TextAppButtonTheme {
     disabledBackgroundColor: ColorsTheme.ligtGrey,
     disabledForegroundColor: ColorsTheme.grey,
     foregroundColor: ColorsTheme.tertiaryDarker,
-    iconColor: ColorsTheme.secondary,
+    iconColor: ColorsTheme.tertiaryDarker,
     textStyle: const TextStyle(
       fontSize: 14,
     ),
@@ -34,6 +34,6 @@ class TextAppButtonTheme {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(14),
     ),
-    iconColor: ColorsTheme.secondary,
+    iconColor: ColorsTheme.tertiary,
   ));
 }

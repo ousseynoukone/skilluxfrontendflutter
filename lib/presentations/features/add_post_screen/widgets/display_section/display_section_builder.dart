@@ -41,7 +41,7 @@ mixin SectionBuilderMixin<T extends StatefulWidget> on State<T> {
       child: Quilleditor(
         controller: controller,
         scrollable: false,
-        bgColor: colorScheme.primaryFixed,
+        // bgColor: colorScheme.primaryFixed,
       ),
     );
   }

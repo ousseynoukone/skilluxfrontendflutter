@@ -35,6 +35,9 @@ class _AddPostScreenState extends State<AddPostScreen>
   final List<String> tagsListe = [];
   AddPostSysService addPostSysService = Get.find();
 
+  FocusNode _titleFocusNode = FocusNode();
+  FocusNode _tagFocusNode = FocusNode();
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -52,6 +55,7 @@ class _AddPostScreenState extends State<AddPostScreen>
   @override
   didPushNext() {
     updatePostStream();
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 
   //If this screen pop again
@@ -85,7 +89,7 @@ class _AddPostScreenState extends State<AddPostScreen>
   fillPostFields() async {
     Post? post = _addPostSysService.post.value;
     if (_addPostSysService.isPostNotEmpty(checkHeaderImage: false)) {
-      await post.convertheaderImageBinaryToXFileImage();
+      await post.convertHeaderImageBinaryToXFileImage();
       _titleController.text = post.title;
       pickedImage = post.headerImageIMG;
     }
@@ -124,11 +128,12 @@ class _AddPostScreenState extends State<AddPostScreen>
 
       Post post = _addPostSysService.post.value;
       bool result = await post.convertxFileMediaListToBinary();
+
       if (result) {
         int result = await _hivePostsPersistence.addPost(post);
         addPostSysService.isLoading.value = false;
 
-        if (result != 0) {
+        if (result != -3) {
           if (result == -2) {
             showCustomSnackbar(
                 title: text.alert,
@@ -141,12 +146,13 @@ class _AddPostScreenState extends State<AddPostScreen>
                 message: text.draftUpdated,
                 snackType: SnackType.success,
                 duration: const Duration(seconds: 3));
-          } else if (result == 1) {
+          } else {
             showCustomSnackbar(
                 title: text.info,
                 message: text.draftSaved,
                 snackType: SnackType.success,
                 duration: const Duration(seconds: 3));
+            addPostSysService.setId(result);
           }
         } else {
           showCustomSnackbar(
@@ -179,6 +185,7 @@ class _AddPostScreenState extends State<AddPostScreen>
                   Form(
                     key: _formKey,
                     child: TextFieldComponent(
+                      focusNode: _titleFocusNode,
                       controller: _titleController,
                       labelText: text.title,
                       validator: (value) {
@@ -191,6 +198,9 @@ class _AddPostScreenState extends State<AddPostScreen>
                       onChanged: (value) {
                         _formKey.currentState!.validate();
                       },
+                      onFieldSubmitted: (value) {
+                        FocusScope.of(context).requestFocus(_tagFocusNode);
+                      },
                     ),
                   ),
                   const SizedBox(height: 22),
@@ -199,6 +209,7 @@ class _AddPostScreenState extends State<AddPostScreen>
                     _addPostSysService.rebuildTagField.value
                         ? tagWidget = TagsTextFieldComponent(
                             listTags: _addPostSysService.post.value.tags,
+                            focusNode: _tagFocusNode,
                           )
                         : tagWidget = const SizedBox.shrink();
 

@@ -28,7 +28,6 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
   User? user;
   final HiveUserPersistence _hiveUserPersistence = Get.find();
   late QuillController controller;
-  AddPostService _addPostService = Get.put(AddPostService());
 
   Future<void> _getUser() async {
     user = await _hiveUserPersistence.readUser();
@@ -71,9 +70,10 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
       String readingTimeMessage = getReadingTime(plainText);
 
       return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           alignment: Alignment.topLeft,
-          child: getChip(readingTimeMessage, Icons.timer_outlined));
+          child: getCustomChip(readingTimeMessage, Icons.timer_outlined,
+              isBackgroundTransparent: true));
     }
 
     Widget displayPostMinimalAttribute() {
@@ -100,36 +100,19 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
 
     Widget displayPost() {
       return Scaffold(
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                displayPostMinimalAttribute(),
-                if (widget.post.content.content!.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: sectionBuilderForViewAndPreview(),
-                  ),
-              ],
-            ),
-          ),
-          bottomNavigationBar: SizedBox(
-            height: 60,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Obx(
-                () => Center(
-                  child: IconTextButton(
-                    icon: Icons.publish,
-                    label: text.publish,
-                    isLoading: _addPostService.isLoading.value,
-                    onPressed: () async {
-                      _addPostService.addPost(widget.post);
-                    },
-                  ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              displayPostMinimalAttribute(),
+              if (widget.post.content.content!.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: sectionBuilderForViewAndPreview(),
                 ),
-              ),
-            ),
-          ));
+            ],
+          ),
+        ),
+      );
     }
 
     return displayPost();

@@ -115,7 +115,7 @@ class HivePostsPersistence extends GetxController {
 
   Future<int> addPost(Post post) async {
     try {
-      if (post.id != null) {
+      if (post.id != null || _postExists(post)) {
         await box.put(post.id, post);
         return -1;
       }
@@ -126,10 +126,10 @@ class HivePostsPersistence extends GetxController {
       int key = await box.add(post);
       //update the post with its key
       await box.put(key, post.copyWith(id: key));
-      return 1;
+      return key;
     } catch (e) {
       _logger.e(e.toString());
-      return 0;
+      return -3;
     }
   }
 
@@ -152,8 +152,6 @@ class HivePostsPersistence extends GetxController {
     for (var post in posts) {
       if (post.content.xFileMediaBinaryList.isNotEmpty) {
         await post.convertBinaryMediaListToxFile();
-      } else {
-        _logger.e("convertBinaryMediaListToxFile EMPTY BINARY LIST!");
       }
     }
     return posts;

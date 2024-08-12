@@ -31,8 +31,8 @@ class _AddSectionState extends State<AddSection> with ImagePickerMixin {
     super.initState();
 
     if (widget.editMode) {
-      _controller.document =
-          Document.fromJson(jsonDecode(_addPostSysService.post.value.content.content!));
+      _controller.document = Document.fromJson(
+          jsonDecode(_addPostSysService.post.value.content.content!));
     }
   }
 
@@ -53,28 +53,26 @@ class _AddSectionState extends State<AddSection> with ImagePickerMixin {
         ),
         bottomNavigationBar: SizedBox(
           height: 60,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Center(
-              child: IconTextButton(
-                icon: Icons.save,
-                label: text.save,
-                onPressed: () async {
-                  if (!_controller.document.isEmpty()) {
-                    String jsonString = DocumentConverter.convertToJsonString(
-                            _controller.document) ??
-                        "";
-                    _addPostSysService.post.value.content.content = jsonString;
-                    Get.back();
-                  } else {
-                    showCustomSnackbar(
-                        title: text.alert,
-                        message: text.mendatoryContent,
-                        snackType: SnackType.warning,
-                        duration: const Duration(seconds: 7));
-                  }
-                },
-              ),
+          child: Center(
+            child: IconTextButton(
+              padding: const EdgeInsets.all(8.0),
+              icon: Icons.save,
+              label: text.save,
+              onPressed: () async {
+                if (!_controller.document.isEmpty()) {
+                  String jsonString = DocumentConverter.convertToJsonString(
+                          _controller.document) ??
+                      "";
+                  _addPostSysService.post.value.content.content = jsonString;
+                  Get.back();
+                } else {
+                  showCustomSnackbar(
+                      title: text.alert,
+                      message: text.mendatoryContent,
+                      snackType: SnackType.warning,
+                      duration: const Duration(seconds: 7));
+                }
+              },
             ),
           ),
         ));

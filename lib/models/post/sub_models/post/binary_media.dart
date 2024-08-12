@@ -34,4 +34,12 @@ class BinaryMedia {
       xFileMediaMimeType: xFileMediaMimeType,
     );
   }
+
+    // Function to check if the BinaryMedia instance is empty or null
+  bool isEmpty() {
+    return binaryMedia == null &&
+        (xFileMediaPath == null || xFileMediaPath!.isEmpty) &&
+        (xFileMediaName == null || xFileMediaName!.isEmpty) &&
+        (xFileMediaMimeType == null || xFileMediaMimeType!.isEmpty);
+  }
 }

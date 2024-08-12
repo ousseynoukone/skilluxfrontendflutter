@@ -8,11 +8,11 @@ class PopupAppMenuTheme {
   static PopupMenuThemeData lightPopupMenuTheme = PopupMenuThemeData(
     color: ColorsTheme.white,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-    elevation: 8.0,
+    elevation: 4,
     shadowColor: ColorsTheme.grey,
     surfaceTintColor: ColorsTheme.white,
     textStyle: const TextStyle(color: ColorsTheme.black),
-    enableFeedback: true,
+    enableFeedback: false,
     iconColor: ColorsTheme.tertiaryDarker,
     iconSize: 24.0,
   );
@@ -20,11 +20,11 @@ class PopupAppMenuTheme {
   static PopupMenuThemeData darkPopupMenuTheme = PopupMenuThemeData(
     color: ColorsTheme.tertiaryMidDarker,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-    elevation: 8.0,
-    shadowColor: ColorsTheme.tertiaryDark,
+    elevation: 4,
+    shadowColor: ColorsTheme.tertiaryDarker,
     surfaceTintColor: ColorsTheme.black,
     textStyle: const TextStyle(color: ColorsTheme.white),
-    enableFeedback: true,
+    enableFeedback: false,
     iconColor: ColorsTheme.tertiary,
     iconSize: 24.0,
   );

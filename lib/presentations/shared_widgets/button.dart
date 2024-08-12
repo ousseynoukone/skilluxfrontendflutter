@@ -32,8 +32,8 @@ class ButtonComponent extends StatelessWidget {
         onPressed: isLoading ? null : onPressed,
         child: isLoading
             ? SizedBox(
-                height: 20,
-                width: 20,
+                height: 25,
+                width: 25,
                 child: CircularProgressIndicator(
                     color: applyTheme
                         ? Theme.of(context).colorScheme.primary

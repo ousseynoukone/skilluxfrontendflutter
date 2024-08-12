@@ -111,6 +111,8 @@ class Post {
         headerBinaryImage!.xFileMediaName = headerImageIMG!.name;
         headerBinaryImage!.xFileMediaMimeType = headerImageIMG!.mimeType;
         return true;
+      } else {
+        return true;
       }
     } catch (e) {
       _logger.e(e.toString());
@@ -118,7 +120,7 @@ class Post {
     return false;
   }
 
-  Future<bool> convertheaderImageBinaryToXFileImage() async {
+  Future<bool> convertHeaderImageBinaryToXFileImage() async {
     try {
       if (headerBinaryImage?.binaryMedia != null) {
         headerImageIMG = await ImageConverter.uint8ListToXFile(
@@ -126,7 +128,9 @@ class Post {
             headerBinaryImage!.xFileMediaPath!,
             headerBinaryImage!.xFileMediaName!,
             headerBinaryImage!.xFileMediaMimeType!);
-
+        return true;
+      }
+      if (headerImageIMG == null) {
         return true;
       }
     } catch (e) {
@@ -206,12 +210,10 @@ class Post {
                 xFileMediaPath: file.path,
                 xFileMediaName: file.name,
                 xFileMediaMimeType: file.mimeType);
+
             content.xFileMediaBinaryList.add(binaryMedia);
           }
         }
-      } else {
-        _logger.e("content.xFileMediaList Is empty");
-        return false;
       }
 
       return true;
@@ -233,10 +235,12 @@ class Post {
               binaryMedia.xFileMediaPath!,
               binaryMedia.xFileMediaName!,
               binaryMedia.xFileMediaMimeType!);
+
           if (xFileMedia != null) {
             content.xFileMediaList.add(xFileMedia);
           }
         }
+
         await insertMediasIntoContent();
       }
 
