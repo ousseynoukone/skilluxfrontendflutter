@@ -4,6 +4,7 @@ import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart'
 import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/helpers/display_tags.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/helpers/display_time_ago.dart';
+import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/post_view.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/preview/chip.dart';
 import 'package:skilluxfrontendflutter/presentations/features/helpers/time_format/time_ago_format.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/glass_neuphormism.dart';
@@ -60,34 +61,34 @@ class _PostContainerState extends State<PostContainer> {
       }
     }
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 4),
-      child: GlassMorphism(
-        blur: 20,
-        opacity: 0.3,
-        color: colorScheme.primary,
-        child: ListTile(
-          leading: buildPostImage(),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                post.title,
-                style: textTheme.titleSmall
-                    ?.copyWith(fontSize: 14), // Example text style
-              ),
-              Container(
-                  height: 20,
-                  margin: const EdgeInsets.symmetric(vertical: 2),
-                  child: displayTags(post.tags)),
-            ],
-          ),
-          subtitle: displayDateTime(post.createdAt, fontSize: 12),
-          trailing: post.isPublished!
-              ? getCustomChip(text.postPosted, Icons.check_rounded,
-                  fontSize: 12)
-              : getCustomChip(text.postNotPosted, Icons.close, fontSize: 12),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: ListTile(
+        onTap: () {
+          Get.to(() => PostView(
+                post: post,
+              ));
+        },
+        tileColor: colorScheme.primary.withOpacity(0.3),
+        leading: buildPostImage(),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              post.title,
+              style: textTheme.titleSmall
+                  ?.copyWith(fontSize: 14), // Example text style
+            ),
+            Container(
+                height: 20,
+                margin: const EdgeInsets.symmetric(vertical: 2),
+                child: displayTags(post.tags)),
+          ],
         ),
+        subtitle: displayDateTime(post.createdAt, fontSize: 12),
+        trailing: post.isPublished!
+            ? getCustomChip(text.postPosted, Icons.check_rounded, fontSize: 12)
+            : getCustomChip(text.postNotPosted, Icons.close, fontSize: 12),
       ),
     );
   }
