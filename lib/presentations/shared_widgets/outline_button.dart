@@ -6,33 +6,41 @@ class OutlineButtonComponent extends StatelessWidget {
   final VoidCallback onPressed;
   final EdgeInsets? edgeInsets;
   final bool isLoading;
-  const OutlineButtonComponent(
-      {super.key,
-      required this.text,
-      this.edgeInsets,
-      required this.onPressed,
-      required this.isLoading});
+  final IconData? icon; // New optional icon parameter
+
+  const OutlineButtonComponent({
+    super.key,
+    required this.text,
+    this.edgeInsets,
+    required this.onPressed,
+    required this.isLoading,
+    this.icon, // Add this line
+  });
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return SizedBox(
-      width: double.infinity,
-      child: OutlinedButton(
-        onPressed: isLoading ? null : onPressed,
-        child: isLoading
-            ? SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(
-                  color: colorScheme.onSecondary,
-                ),
-              )
-            : Text(
-                text,
+    return OutlinedButton(
+      onPressed: isLoading ? null : onPressed,
+      child: isLoading
+          ? SizedBox(
+              height: 20,
+              width: 20,
+              child: CircularProgressIndicator(
+                color: colorScheme.onSecondary,
               ),
-      ),
+            )
+          : Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (icon != null) 
+                  Icon(icon, size: 20),
+                if (icon != null) 
+                  SizedBox(width: 8),
+                Text(text),
+              ],
+            ),
     );
   }
 }

@@ -26,7 +26,7 @@ class AddPostScreen extends StatefulWidget {
 class _AddPostScreenState extends State<AddPostScreen>
     with ImagePickerMixin, SectionBuilderMixin, RouteAware {
   final Logger _logger = Logger();
-  final AddPostSysService _addPostSysService = Get.put(AddPostSysService());
+  final AddPostSysService _addPostSysService = Get.find();
   final TextEditingController _titleController = TextEditingController();
   final HivePostsPersistence _hivePostsPersistence =
       Get.put(HivePostsPersistence());

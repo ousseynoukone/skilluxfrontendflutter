@@ -141,6 +141,7 @@
 
   "draft":"Drafts",
   "noDraft":"No drafts found",
+  "noPostPosted":"You have not published anything yet",
 
   "draftSaved":"Draft saved!",
   "draftUpdated": "Draft updated!", 
@@ -151,7 +152,17 @@
 
   "publish":"Publish",
 
-  "postPosted":"Post publied!"
+  "postPosted":"Published",
+  "postNotPosted":"Not published",
+
+  "follower": "Followers",  
+  "following": "Followings",
+  "publication": "Publications",
+
+  "follow": "Follow",  
+  "unfollow": "Unfollow",
+
+  "editProfile": "Edit profile"
 
 
 

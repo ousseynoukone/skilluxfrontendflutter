@@ -153,8 +153,20 @@
 
   "clearPost":"Vider les champs",
   "publish":"Publier",
+  "postNotPosted":"Non publié",
+  "noPostPosted":"Vous n'avez pas encore fait une publication",
 
-  "postPosted":"Post publié!"
+
+  "postPosted":"Publié!",
+  "follower": "Abonnés",  
+  "following": "Suivi(e)s",  
+  "publication": "Publications" ,
+
+  "follow": "Suivre",  
+  "unfollow": "Ne plus suivre",
+
+  "editProfile": "Modifier mon profile"
+
 
 
 

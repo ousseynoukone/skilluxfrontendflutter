@@ -11,6 +11,8 @@ import 'package:skilluxfrontendflutter/presentations/layers/secondary_layer/seco
 import 'package:skilluxfrontendflutter/presentations/onBoard/on_boarding_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/loading.dart';
 import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_controller.dart';
+import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_post_sys_service.dart';
+import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
 class PrimaryLayer extends StatefulWidget {
   const PrimaryLayer({super.key});
@@ -21,9 +23,15 @@ class PrimaryLayer extends StatefulWidget {
 
 class _PrimaryLayerState extends State<PrimaryLayer> {
   final AppStateManagment controller = Get.find<AppStateManagment>();
+  // INITIALIZING ALL CONTROLLER THAT WOULD NEED A CONTEXT HERE 
   final GetXAuthController _getXAuthController =
       Get.put(GetXAuthController(), permanent: true);
   late Future<void> _initStateFuture;
+  final AddPostSysService _addPostSysService = Get.put(AddPostSysService());
+
+  UserProfilePostService userProfilePostService =
+      Get.put(UserProfilePostService());
+  UserProfileService userProfileService = Get.put(UserProfileService());
 
   @override
   void initState() {

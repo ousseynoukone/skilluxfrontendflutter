@@ -1,4 +1,6 @@
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
 
 part 'user.g.dart';
 
@@ -6,7 +8,6 @@ part 'user.g.dart';
 class User {
   @HiveField(0)
   final bool? isAdmin;
-
 
   @HiveField(1)
   final bool? isActive;
@@ -41,6 +42,15 @@ class User {
   @HiveField(11)
   String? profilePicture;
 
+  @HiveField(12)
+  int nbFollowers;
+
+  @HiveField(13)
+  int nbFollowings;
+
+  @HiveField(14)
+  int nbPosts;
+
   User({
     this.isAdmin,
     this.isActive,
@@ -54,13 +64,18 @@ class User {
     this.createdAt,
     this.profession,
     this.profilePicture,
+    this.nbFollowers = 0,
+    this.nbFollowings = 0,
+    this.nbPosts = 0,
   });
 
   factory User.fromBody(Map<String, dynamic> json) {
     return User(
       isAdmin: json['isAdmin'],
       isActive: json['isActive'],
-      preferredTags: json['preferredTags'] != null ? List<String>.from(json['preferredTags']) : null,
+      preferredTags: json['preferredTags'] != null
+          ? List<String>.from(json['preferredTags'])
+          : null,
       id: json['id'],
       username: json['username'],
       fullName: json['fullName'],
@@ -70,6 +85,9 @@ class User {
       createdAt: json['createdAt'],
       profession: json['profession'],
       profilePicture: json['profilePicture'],
+      nbFollowers: json['nbFollowers'] ?? 0,
+      nbFollowings: json['nbFollowings'] ?? 0,
+      nbPosts: json['nbPosts'] ?? 0,
     );
   }
 
@@ -90,7 +108,41 @@ class User {
     };
   }
 
-User copyWith({
+  // Check if fields are empty or null
+
+  // Check if fields are empty or null
+  bool isEmpty() {
+    return (username.isEmpty ||
+            fullName.isEmpty ||
+            email.isEmpty ||
+            birth.isEmpty) &&
+        (preferredTags?.isEmpty ?? true) &&
+        (profession?.isEmpty ?? true) &&
+        (profilePicture?.isEmpty ?? true) &&
+        (nbFollowers == 0) &&
+        (nbFollowings == 0) &&
+        (nbPosts == 0); // Check for new fields
+  }
+
+  Future<bool> isConnectedUser(User user) async {
+    try {
+      final controller = Get.find<HiveUserPersistence>();
+      User? storedUser = await controller.readUser();
+      if (storedUser == null) {
+        return false;
+      } else {
+        if (user.id == storedUser.id) {
+          return true;
+        }
+      }
+    } catch (e) {
+      print("Error reading user: $e");
+      // Handle the error as needed (e.g., logging, rethrowing, etc.)
+    }
+    return false;
+  }
+
+  User copyWith({
     bool? isAdmin,
     String? token,
     String? expire,
@@ -105,6 +157,9 @@ User copyWith({
     String? createdAt,
     String? profession,
     String? profilePicture,
+    int? nbFollowers,
+    int? nbFollowings,
+    int? nbPosts,
   }) {
     return User(
       isAdmin: isAdmin ?? this.isAdmin,
@@ -119,5 +174,9 @@ User copyWith({
       createdAt: createdAt ?? this.createdAt,
       profession: profession ?? this.profession,
       profilePicture: profilePicture ?? this.profilePicture,
+      nbFollowers: nbFollowers ?? this.nbFollowers,
+      nbFollowings: nbFollowings ?? this.nbFollowings,
+      nbPosts: nbPosts ?? this.nbPosts,
     );
-  }}
+  }
+}

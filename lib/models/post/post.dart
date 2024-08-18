@@ -83,7 +83,7 @@ class Post {
       updatedAt:
           body['updatedAt'] != null ? DateTime.parse(body['updatedAt']) : null,
       userId: body['userId'],
-      content: body['content'],
+      content: Content(content: body['content']),
       headerImageIMG: null, // Populate this as necessary
     );
   }

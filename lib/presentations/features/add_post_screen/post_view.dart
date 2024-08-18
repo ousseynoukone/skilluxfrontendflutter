@@ -7,6 +7,7 @@ import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart'
 import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
 import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
+import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/helpers/display_time_ago.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_image.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_section_builder.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/preview/chip.dart';
@@ -49,20 +50,6 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
     var text = context.localizations;
     var themeText = context.textTheme;
 
-    displayTimeAgo() {
-      return FutureBuilder<String>(
-        future: getTimeAgo(widget.post.createdAt!),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          } else if (snapshot.hasData) {
-            return Text(snapshot.data!, style: themeText.bodySmall);
-          } else {
-            return const Text('No data');
-          }
-        },
-      );
-    }
 
     Widget displayReadingTime() {
       int documentLength = controller.document.length;
@@ -80,7 +67,7 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
       return Column(
         children: [
           user != null
-              ? displayUserPreview(user!, trailing: displayTimeAgo())
+              ? displayUserPreview(user!, trailing:displayTimeAgo(widget.post.createdAt))
               : const CircularProgressIndicator(),
           Container(
             alignment: Alignment.topLeft,
