@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
-import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/post_view.dart';
-import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/post_view/post_view_widget.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/preview/chip.dart';
-import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/poppup_menu_button.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/persistent_header_delegate.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/post_container.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/user_info.dart';
 import 'package:skilluxfrontendflutter/services/system_services/route_observer_utils/route_observer_utils.dart';
+import 'package:skilluxfrontendflutter/services/user_profile_services/foreign_user_profile_service.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class ForeignProfileScreen extends StatefulWidget {
+  final int foreignUserId;
+  const ForeignProfileScreen({super.key, required this.foreignUserId});
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  ForeignProfileScreenState createState() => ForeignProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
+class ForeignProfileScreenState extends State<ForeignProfileScreen>
+    with RouteAware {
   final Logger _logger = Logger();
-  final UserProfilePostService userProfilePostService = Get.find();
-  final UserProfileService userProfileService = Get.find();
+  late ForeignUserPostsService _userProfilePostService;
+  late ForeignUserProfileService _userProfileService;
   final AppLocalizations? text = Get.context?.localizations;
   final ScrollController _scrollController = ScrollController();
 
@@ -35,17 +35,19 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
 
   @override
   void initState() {
+    _userProfileService =
+        Get.put(ForeignUserProfileService(userId: widget.foreignUserId));
+    _userProfilePostService =
+        Get.put(ForeignUserPostsService(userId: widget.foreignUserId));
     super.initState();
+
     _scrollController.addListener(_scrollListener);
   }
 
   void _scrollListener() {
     if (_scrollController.offset >=
             _scrollController.position.maxScrollExtent &&
-        !_scrollController.position.outOfRange) {
-      // We have reached the end of the list
-      userProfilePostService.loadMoreUserPost(disableLoading: true);
-    }
+        !_scrollController.position.outOfRange) {}
   }
 
 //While living this screen
@@ -55,8 +57,8 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
   //If this screen pop again
   @override
   didPopNext() {
-    userProfilePostService.getUserPosts(disableLoading: true);
-    userProfileService.getUserInfos(disableLoading: true);
+    _userProfilePostService.getUserPosts(disableLoading: true);
+    _userProfileService.getUserInfos(disableLoading: true);
   }
 
   @override
@@ -71,26 +73,26 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false, // Remove back button in appbar
         centerTitle: true,
         title: Text(text?.profile ?? 'Profile'),
-        actions: const [PoppupMenuButton()],
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          userProfilePostService.getUserPosts();
-          userProfileService.getUserInfos();
+          _userProfilePostService.getUserPosts();
+          _userProfileService.getUserInfos();
         },
         child: CustomScrollView(
           controller: _scrollController,
           slivers: [
-             GetBuilder<UserProfileService>(builder: (controller) {
+            GetBuilder<ForeignUserProfileService>(builder: (controller) {
               return controller.obx(
                 (state) => SliverAppBar(
+                  automaticallyImplyLeading: false,
                   expandedHeight: 260,
                   flexibleSpace: FlexibleSpaceBar(
                     background: UserInfo(
                       userInfoDto: state!,
+                      isForOtherUser: true,
                     ),
                   ),
                 ),
@@ -113,8 +115,9 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
                 ),
               );
             }),
+
             // Conditional inclusion of SliverPersistentHeader
-            GetBuilder<UserProfilePostService>(
+            GetBuilder<ForeignUserPostsService>(
               builder: (controller) {
                 if (controller.state != null) {
                   return SliverPersistentHeader(
@@ -127,11 +130,12 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
               },
             ),
 
-            GetBuilder<UserProfilePostService>(builder: (controller) {
+            GetBuilder<ForeignUserPostsService>(builder: (controller) {
               return controller.obx(
                 (state) => SliverList(
                   delegate: SliverChildBuilderDelegate(
-                    (context, index) => PostContainer(post: state![index]),
+                    (context, index) =>
+                        PostContainer(post: state![index], isForOther: true),
                     childCount: state?.length ?? 0,
                   ),
                 ),

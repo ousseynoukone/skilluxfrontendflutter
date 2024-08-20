@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:logger/logger.dart';
+import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/user_followers/user_followers.dart';
+import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/user_followings/user_following.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/outline_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -69,34 +72,50 @@ Widget userStats(User user, AppLocalizations text, TextTheme textTheme) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: [
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            Text(user.nbFollowers.toString()),
-            const SizedBox(
-              height: 8,
-            ),
-            Text(
-              text.follower,
-              style: textTheme.bodySmall,
-            ),
-          ],
+      InkWell(
+        hoverColor: Colors.transparent,
+        onTap: () {
+          if (user.nbFollowers > 0) {
+            Get.to(() => const UserFollowers());
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              Text(user.nbFollowers.toString()),
+              const SizedBox(
+                height: 8,
+              ),
+              Text(
+                text.follower,
+                style: textTheme.bodySmall,
+              ),
+            ],
+          ),
         ),
       ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            Text(user.nbFollowings.toString()),
-            const SizedBox(
-              height: 8,
-            ),
-            Text(
-              text.following,
-              style: textTheme.bodySmall,
-            ),
-          ],
+      InkWell(
+        hoverColor: Colors.transparent,
+        onTap: () {
+          if (user.nbFollowings > 0) {
+            Get.to(() => const UserFollowing());
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              Text(user.nbFollowings.toString()),
+              const SizedBox(
+                height: 8,
+              ),
+              Text(
+                text.following,
+                style: textTheme.bodySmall,
+              ),
+            ],
+          ),
         ),
       ),
       Padding(

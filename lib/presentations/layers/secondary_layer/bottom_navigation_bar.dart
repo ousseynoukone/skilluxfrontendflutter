@@ -36,6 +36,7 @@ class _BottomNavigationBarComponentState
     UserProfilePostService userProfilePostService = Get.find();
     UserProfileService userProfileService = Get.find();
 
+
     var text = context.localizations;
     if (_currentIndex == 3) {
       userProfilePostService.getUserPosts(disableLoading: true);

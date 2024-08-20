@@ -11,8 +11,10 @@ import 'package:skilluxfrontendflutter/presentations/shared_widgets/glass_neupho
 
 class PostContainer extends StatefulWidget {
   final Post post;
+    final bool isForOther;
 
-  const PostContainer({super.key, required this.post});
+
+  const PostContainer({super.key, required this.post,this.isForOther = false});
 
   @override
   _PostContainerState createState() => _PostContainerState();
@@ -66,6 +68,7 @@ class _PostContainerState extends State<PostContainer> {
       child: ListTile(
         onTap: () {
           Get.to(() => PostView(
+            isForOther: widget.isForOther,
                 post: post,
               ));
         },

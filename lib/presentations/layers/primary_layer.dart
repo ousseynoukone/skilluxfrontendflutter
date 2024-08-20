@@ -23,15 +23,11 @@ class PrimaryLayer extends StatefulWidget {
 
 class _PrimaryLayerState extends State<PrimaryLayer> {
   final AppStateManagment controller = Get.find<AppStateManagment>();
-  // INITIALIZING ALL CONTROLLER THAT WOULD NEED A CONTEXT HERE 
+  // INITIALIZING ALL CONTROLLER THAT WOULD NEED A CONTEXT HERE
   final GetXAuthController _getXAuthController =
       Get.put(GetXAuthController(), permanent: true);
   late Future<void> _initStateFuture;
   final AddPostSysService _addPostSysService = Get.put(AddPostSysService());
-
-  UserProfilePostService userProfilePostService =
-      Get.put(UserProfilePostService());
-  UserProfileService userProfileService = Get.put(UserProfileService());
 
   @override
   void initState() {

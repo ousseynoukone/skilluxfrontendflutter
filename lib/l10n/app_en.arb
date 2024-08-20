@@ -141,7 +141,7 @@
 
   "draft":"Drafts",
   "noDraft":"No drafts found",
-  "noPostPosted":"You have not published anything yet",
+  "noPostPosted":"No publication yet",
 
   "draftSaved":"Draft saved!",
   "draftUpdated": "Draft updated!", 
@@ -162,7 +162,12 @@
   "follow": "Follow",  
   "unfollow": "Unfollow",
 
-  "editProfile": "Edit profile"
+  "editProfile": "Edit profile",
+  "confirmation":"Confirmation",
+
+  "confirm":"Are you sure of this operation ? It is irreversible.",
+  
+  "sucess": "Operation completed successfully!"
 
 
 

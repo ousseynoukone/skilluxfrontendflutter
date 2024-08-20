@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
+import 'package:skilluxfrontendflutter/config/theme/colors.dart';
+import 'package:skilluxfrontendflutter/presentations/shared_widgets/loader/linear_loader.dart';
+import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
 class PersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
   @override
@@ -9,6 +14,14 @@ class PersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
     final TextTheme textTheme = Theme.of(context).textTheme;
     var colorScheme = Theme.of(context).colorScheme;
     final progress = shrinkOffset / maxExtent;
+
+    final UserProfilePostService userProfilePostService = Get.find();
+
+    getlinearProgressingIndicator({bool inverseOrentiation = false}) {
+      return Obx(() => userProfilePostService.isLoading.value
+          ? linearProgressingIndicator(inverseOrentiation: inverseOrentiation)
+          : const SizedBox.shrink());
+    }
 
     return Material(
       child: Stack(
@@ -24,6 +37,7 @@ class PersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    getlinearProgressingIndicator(),
                     const Icon(
                       Icons.library_books,
                     ),
@@ -31,6 +45,7 @@ class PersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                       text.publication,
                       style: textTheme.headlineSmall?.copyWith(fontSize: 16),
                     ),
+                    getlinearProgressingIndicator(inverseOrentiation: true)
                   ],
                 ),
               )),
@@ -50,6 +65,7 @@ class PersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    getlinearProgressingIndicator(),
                     const Icon(
                       Icons.library_books,
                     ),
@@ -57,6 +73,7 @@ class PersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                       text.publication,
                       style: textTheme.headlineSmall?.copyWith(fontSize: 16),
                     ),
+                    getlinearProgressingIndicator(inverseOrentiation: true)
                   ],
                 ),
               )),

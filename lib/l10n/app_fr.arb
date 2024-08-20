@@ -154,7 +154,7 @@
   "clearPost":"Vider les champs",
   "publish":"Publier",
   "postNotPosted":"Non publié",
-  "noPostPosted":"Vous n'avez pas encore fait une publication",
+  "noPostPosted":"Aucune publication trouvée",
 
 
   "postPosted":"Publié!",
@@ -165,7 +165,13 @@
   "follow": "Suivre",  
   "unfollow": "Ne plus suivre",
 
-  "editProfile": "Modifier mon profile"
+  "editProfile": "Modifier mon profile",
+  "confirmation":"Confirmation",
+
+  "confirm":"Êtes-vous sûr de vouloir continuer cette opération ? Elle sera irréversible.",
+
+  "sucess": "Operation effectuée avec succès !"
+
 
 
 

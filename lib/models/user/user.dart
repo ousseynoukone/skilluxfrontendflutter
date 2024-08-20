@@ -142,6 +142,28 @@ class User {
     return false;
   }
 
+User clone() {
+    return User(
+      isAdmin: this.isAdmin,
+      isActive: this.isActive,
+      preferredTags: this.preferredTags != null
+          ? List<String>.from(this.preferredTags!)
+          : null,
+      id: this.id,
+      username: this.username,
+      fullName: this.fullName,
+      email: this.email,
+      birth: this.birth,
+      updatedAt: this.updatedAt,
+      createdAt: this.createdAt,
+      profession: this.profession,
+      profilePicture: this.profilePicture,
+      nbFollowers: this.nbFollowers,
+      nbFollowings: this.nbFollowings,
+      nbPosts: this.nbPosts,
+    );
+  }
+  
   User copyWith({
     bool? isAdmin,
     String? token,
