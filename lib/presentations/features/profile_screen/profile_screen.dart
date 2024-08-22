@@ -84,9 +84,10 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
         child: CustomScrollView(
           controller: _scrollController,
           slivers: [
-             GetBuilder<UserProfileService>(builder: (controller) {
+            GetBuilder<UserProfileService>(builder: (controller) {
               return controller.obx(
                 (state) => SliverAppBar(
+                  automaticallyImplyLeading: false,
                   expandedHeight: 260,
                   flexibleSpace: FlexibleSpaceBar(
                     background: UserInfo(
@@ -95,7 +96,9 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
                   ),
                 ),
                 onLoading: SliverToBoxAdapter(
-                  child: Center(
+                  child: Container(
+                    height: Get.height / 1.5,
+                    alignment: Alignment.center,
                     child:
                         CircularProgressIndicator(color: colorScheme.onPrimary),
                   ),
@@ -136,7 +139,9 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
                   ),
                 ),
                 onLoading: SliverToBoxAdapter(
-                  child: Center(
+                  child: Container(
+                    height: Get.height / 1.5,
+                    alignment: Alignment.center,
                     child:
                         CircularProgressIndicator(color: colorScheme.onPrimary),
                   ),

@@ -1,31 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
-import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/preview/chip.dart';
+import 'package:skilluxfrontendflutter/models/post/post.dart';
+import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/persistent_header_delegate.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/post_container.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/user_info.dart';
 import 'package:skilluxfrontendflutter/services/system_services/route_observer_utils/route_observer_utils.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/foreign_user_profile_service.dart';
-import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForeignProfileScreen extends StatefulWidget {
   final int foreignUserId;
-  const ForeignProfileScreen({super.key, required this.foreignUserId});
+
+  ForeignProfileScreen({super.key, required this.foreignUserId});
 
   @override
-  ForeignProfileScreenState createState() => ForeignProfileScreenState();
+  _ForeignProfileScreenState createState() => _ForeignProfileScreenState();
 }
 
-class ForeignProfileScreenState extends State<ForeignProfileScreen>
+class _ForeignProfileScreenState extends State<ForeignProfileScreen>
     with RouteAware {
-  final Logger _logger = Logger();
-  late ForeignUserPostsService _userProfilePostService;
-  late ForeignUserProfileService _userProfileService;
-  final AppLocalizations? text = Get.context?.localizations;
+  late final ForeignUserProfileService _userProfileService;
+  late final ForeignUserPostsService _userPostsService;
   final ScrollController _scrollController = ScrollController();
+  final Logger _logger = Logger();
+  bool isPostLoading = false;
+  bool isPostEmpty = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _userProfileService =
+        ForeignUserProfileService(userId: widget.foreignUserId);
+    _userPostsService = ForeignUserPostsService(userId: widget.foreignUserId);
+    _userProfileService.getUserInfos();
+    _userPostsService.getUserPosts();
+    _scrollController.addListener(_scrollListener);
+    _isPostLoadingOrEmpty();
+  }
+
+  void _isPostLoadingOrEmpty() {
+    _userPostsService.isLoading.listen((onData) {
+      setState(() {
+        isPostLoading = onData;
+      });
+    });
+
+    _userPostsService.isEmpty.listen((onData) {
+      setState(() {
+        isPostEmpty = onData;
+      });
+    });
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent) {
+      _loadMore();
+    }
+  }
+
+  void _loadMore() {
+    _userPostsService.loadMoreUserPosts(
+        userId: widget.foreignUserId, disableLoading: true);
+  }
 
   @override
   void didChangeDependencies() {
@@ -34,35 +74,18 @@ class ForeignProfileScreenState extends State<ForeignProfileScreen>
   }
 
   @override
-  void initState() {
-    _userProfileService =
-        Get.put(ForeignUserProfileService(userId: widget.foreignUserId));
-    _userProfilePostService =
-        Get.put(ForeignUserPostsService(userId: widget.foreignUserId));
-    super.initState();
+  void didPushNext() {}
 
-    _scrollController.addListener(_scrollListener);
-  }
-
-  void _scrollListener() {
-    if (_scrollController.offset >=
-            _scrollController.position.maxScrollExtent &&
-        !_scrollController.position.outOfRange) {}
-  }
-
-//While living this screen
   @override
-  didPushNext() {}
-
-  //If this screen pop again
-  @override
-  didPopNext() {
-    _userProfilePostService.getUserPosts(disableLoading: true);
+  void didPopNext() {
+    _userPostsService.getUserPosts(disableLoading: true);
     _userProfileService.getUserInfos(disableLoading: true);
   }
 
   @override
   void dispose() {
+    _userPostsService.dispose();
+    _userProfileService.dispose();
     super.dispose();
   }
 
@@ -70,96 +93,117 @@ class ForeignProfileScreenState extends State<ForeignProfileScreen>
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
+    final AppLocalizations? text = context.localizations;
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(text?.profile ?? 'Profile'),
       ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          _userProfilePostService.getUserPosts();
-          _userProfileService.getUserInfos();
-        },
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            GetBuilder<ForeignUserProfileService>(builder: (controller) {
-              return controller.obx(
-                (state) => SliverAppBar(
+      body: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          StreamBuilder<User?>(
+            stream: _userProfileService.userInfoStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return SliverAppBar(
                   automaticallyImplyLeading: false,
                   expandedHeight: 260,
                   flexibleSpace: FlexibleSpaceBar(
                     background: UserInfo(
-                      userInfoDto: state!,
+                      userId: widget.foreignUserId,
+                      userInfoDto: snapshot.data!,
                       isForOtherUser: true,
                     ),
                   ),
-                ),
-                onLoading: SliverToBoxAdapter(
-                  child: Center(
+                );
+              } else if (snapshot.hasError) {
+                return SliverToBoxAdapter(
+                  child: Center(child: Text(snapshot.error.toString())),
+                );
+              } else {
+                return SliverToBoxAdapter(
+                  child: Container(
+                    height: Get.height / 1.5,
+                    alignment: Alignment.center,
                     child:
                         CircularProgressIndicator(color: colorScheme.onPrimary),
                   ),
-                ),
-                onError: (error) => SliverToBoxAdapter(
-                  child: Center(child: Text(error!)),
-                ),
-                onEmpty: SliverToBoxAdapter(
-                  child: Container(
-                      padding: const EdgeInsets.all(16),
-                      alignment: Alignment.center,
-                      child: getCustomChip(
-                          text?.noPostPosted ?? 'No Posts Posted', null,
-                          isBackgroundTransparent: true)),
-                ),
-              );
-            }),
-
-            // Conditional inclusion of SliverPersistentHeader
-            GetBuilder<ForeignUserPostsService>(
-              builder: (controller) {
-                if (controller.state != null) {
-                  return SliverPersistentHeader(
-                    delegate: PersistentHeaderDelegate(),
-                    pinned: true,
-                  );
-                } else {
-                  return SliverToBoxAdapter(child: Container());
-                }
-              },
-            ),
-
-            GetBuilder<ForeignUserPostsService>(builder: (controller) {
-              return controller.obx(
-                (state) => SliverList(
+                );
+              }
+            },
+          ),
+          StreamBuilder<List<Post>?>(
+            stream: _userPostsService.postsStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return SliverPersistentHeader(
+                  delegate: PersistentHeaderDelegate(),
+                  pinned: true,
+                );
+              } else if (snapshot.hasError) {
+                return SliverToBoxAdapter(
+                  child: Center(child: Text(snapshot.error.toString())),
+                );
+              } else {
+                return SliverToBoxAdapter(child: Container());
+              }
+            },
+          ),
+          StreamBuilder<List<Post>?>(
+            stream: _userPostsService.postsStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return SliverList(
                   delegate: SliverChildBuilderDelegate(
-                    (context, index) =>
-                        PostContainer(post: state![index], isForOther: true),
-                    childCount: state?.length ?? 0,
+                    (context, index) => PostContainer(
+                      post: snapshot.data![index],
+                      isForOther: true,
+                    ),
+                    childCount: snapshot.data?.length ?? 0,
                   ),
-                ),
-                onLoading: SliverToBoxAdapter(
-                  child: Center(
+                );
+              } else if (snapshot.hasError) {
+                return SliverToBoxAdapter(
+                  child: Center(child: Text(snapshot.error.toString())),
+                );
+              } else {
+                return SliverToBoxAdapter(
+                  child: Container(
+                    height: Get.height / 1.5,
+                    alignment: Alignment.center,
                     child:
                         CircularProgressIndicator(color: colorScheme.onPrimary),
                   ),
-                ),
-                onError: (error) => SliverToBoxAdapter(
-                  child: Center(child: Text(error!)),
-                ),
-                onEmpty: SliverToBoxAdapter(
+                );
+              }
+            },
+          ),
+          isPostEmpty
+              ? SliverToBoxAdapter(
                   child: Container(
-                      padding: const EdgeInsets.all(16),
-                      alignment: Alignment.center,
-                      child: getCustomChip(
-                          text?.noPostPosted ?? 'No Posts Posted', null,
-                          isBackgroundTransparent: true)),
-                ),
-              );
-            })
-          ],
-        ),
+                    padding: const EdgeInsets.all(16),
+                    child: Center(
+                      child: Text(
+                        text!.noPostPosted,
+                        style: textTheme.bodySmall,
+                      ),
+                    ),
+                  ),
+                )
+              : const SliverToBoxAdapter(child: SizedBox.shrink()),
+          isPostLoading
+              ? SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                        child: CircularProgressIndicator(
+                            color: colorScheme.onPrimary)),
+                  ),
+                )
+              : const SliverToBoxAdapter(child: SizedBox.shrink()),
+        ],
       ),
     );
   }

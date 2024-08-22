@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
@@ -53,96 +54,93 @@ class UserProfileService extends GetxController with StateMixin<User> {
   }
 }
 
-class UserProfileFollowService extends GetxController
-    with StateMixin<List<UserDTO>> {
-  // User API Service
-  final APIService _apiService = Get.find();
-  final UserService _userService = Get.find();
+class UserProfileFollowService {
+  final APIService _apiService = APIService();
+  final UserService _userService = UserService() ;
   final Logger _logger = Logger();
-  final text = Get.context?.localizations;
-  RxBool isLoading = false.obs;
 
   List<UserDTO> users = [];
+  bool isLoading = false;
+  ValueNotifier<List<UserDTO>> userNotifier = ValueNotifier([]);
 
-  void getUserFollowers({bool disableLoading = false}) async {
+
+  Future<void> getUserFollowers({bool disableLoading = false,int userId = 0}) async {
     try {
       if (!disableLoading) {
-        change(users, status: RxStatus.loading());
+        isLoading = true;
+        userNotifier.value = [];
       }
-      users = await _userService.getUserFollowers();
+      users = await _userService.getUserFollowers(userId: userId);
+      userNotifier.value = users;
 
       if (users.isEmpty) {
-        change(users, status: RxStatus.empty());
-      } else {
-        change(users, status: RxStatus.success());
+        // Handle empty state if needed
       }
     } catch (e) {
       _logger.e(e);
-      change(users, status: RxStatus.error(e.toString()));
+      // Handle error state if needed
+    } finally {
+      isLoading = false;
     }
   }
 
-  void loadMoreUserFollowers(
-      {bool disableLoading = false, }) async {
+  Future<void> loadMoreUserFollowers({bool disableLoading = false,int userId = 0}) async {
     try {
       if (!disableLoading) {
-        change(users, status: RxStatus.loading());
+        isLoading = true;
       }
-
-      isLoading.value = true;
-
-      // Fetch followers
-      List<UserDTO> newUser = await _userService.loadMoreUserFollowers();
-      if (newUser.isNotEmpty) {
-        // Deep copy the posts
-        users = newUser.map((user) => user.clone()).toList();
-      }
+      List<UserDTO> newUser = await _userService.loadMoreUserFollowers(userId: userId);
+      users.addAll(newUser);
+      userNotifier.value = List.from(users);
 
       if (users.isEmpty) {
-        change(users, status: RxStatus.empty());
-      } else {
-        change(users, status: RxStatus.success());
+        // Handle empty state if needed
       }
     } catch (e) {
       _logger.e(e);
-      change(users, status: RxStatus.error(e.toString()));
+      // Handle error state if needed
+    } finally {
+      isLoading = false;
     }
   }
 
-  void getUserFollowging({bool disableLoading = false, }) async {
+  Future<void> getUserFollowing({bool disableLoading = false , int userId = 0}) async {
     try {
       if (!disableLoading) {
-        change(users, status: RxStatus.loading());
+        isLoading = true;
+        userNotifier.value = [];
       }
-      users = await _userService.getUserFollowing();
+      users = await _userService.getUserFollowing(userId: userId);
+      userNotifier.value = users;
 
       if (users.isEmpty) {
-        change(users, status: RxStatus.empty());
-      } else {
-        change(users, status: RxStatus.success());
+        // Handle empty state if needed
       }
     } catch (e) {
       _logger.e(e);
-      change(users, status: RxStatus.error(e.toString()));
+      // Handle error state if needed
+    } finally {
+      isLoading = false;
     }
   }
 
-  void loadMoreUserFollowing(
-      {bool disableLoading = false}) async {
+  Future<void> loadMoreUserFollowing({bool disableLoading = false, int userId = 0}) async {
     try {
       if (!disableLoading) {
-        change(users, status: RxStatus.loading());
+        isLoading = true;
       }
-      users = await _userService.loadMoreUserFollowing();
+      List<UserDTO> newUser = await _userService.loadMoreUserFollowing(userId: userId);
+      users.addAll(newUser);
+      userNotifier.value = List.from(users);
 
       if (users.isEmpty) {
-        change(users, status: RxStatus.empty());
-      } else {
-        change(users, status: RxStatus.success());
+        // Handle empty state if needed
       }
     } catch (e) {
       _logger.e(e);
-      change(users, status: RxStatus.error(e.toString()));
+      // Handle error state if needed
+    } finally {
+      isLoading = false;
     }
   }
 }

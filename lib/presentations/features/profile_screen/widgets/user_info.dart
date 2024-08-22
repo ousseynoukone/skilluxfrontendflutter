@@ -11,8 +11,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class UserInfo extends StatefulWidget {
   final User userInfoDto;
   final bool isForOtherUser;
+  final int userId;
+
   const UserInfo(
-      {super.key, required this.userInfoDto, this.isForOtherUser = false});
+      {super.key,
+      required this.userInfoDto,
+      this.isForOtherUser = false,
+      this.userId = 0});
 
   @override
   State<UserInfo> createState() => _UserInfoState();
@@ -41,7 +46,7 @@ class _UserInfoState extends State<UserInfo> {
                 backgroundImage: NetworkImage(u.profilePicture!),
                 radius: 60,
               ),
-              userStats(u, text, textTheme),
+              userStats(u, text, textTheme, widget.userId),
             ],
           ),
           userInfo(u, textTheme, text, widget.isForOtherUser),
@@ -68,7 +73,8 @@ Widget userInfo(
   );
 }
 
-Widget userStats(User user, AppLocalizations text, TextTheme textTheme) {
+Widget userStats(
+    User user, AppLocalizations text, TextTheme textTheme, userId) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: [
@@ -76,7 +82,9 @@ Widget userStats(User user, AppLocalizations text, TextTheme textTheme) {
         hoverColor: Colors.transparent,
         onTap: () {
           if (user.nbFollowers > 0) {
-            Get.to(() => const UserFollowers());
+            Get.to(() => UserFollowers(
+                  userId: userId,
+                ));
           }
         },
         child: Padding(
@@ -99,7 +107,9 @@ Widget userStats(User user, AppLocalizations text, TextTheme textTheme) {
         hoverColor: Colors.transparent,
         onTap: () {
           if (user.nbFollowings > 0) {
-            Get.to(() => const UserFollowing());
+            Get.to(() => UserFollowing(
+                  userId: userId,
+                ));
           }
         },
         child: Padding(

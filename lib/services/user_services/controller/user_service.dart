@@ -12,15 +12,15 @@ class UserService extends GetxController {
 
   // Variables for pagination
   var cursorPosts = "0";
-  var limitPosts = 3;
+  var limitPosts = 4;
   bool hasMorePosts = false;
 
   var cursorFollowers = "0";
-  var limitFollowers = 10;
+  var limitFollowers = 20;
   bool hasMoreFollowers = false;
 
   var cursorFollowing = "0";
-  var limitFollowing = 10;
+  var limitFollowing = 20;
   bool hasMoreFollowing = false;
 
   List<Post> userPosts = [];
@@ -73,15 +73,16 @@ class UserService extends GetxController {
     return posts;
   }
 
-  Future<List<Post>> loadMoreUserPosts({int userId = 0}) async {
-    if (hasMorePosts) {
+  Future<List<Post>> loadMoreUserPosts(
+      {int userId = 0, bool isFirstLoading = false}) async {
+    if (hasMorePosts || isFirstLoading) {
       String path = "basic/users/post/$limitPosts/$cursorPosts/$userId";
-
+      _logger.f(path);
       ApiResponse response = await _apiService.getRequest(path);
 
       if (response.statusCode == 200) {
         hasMorePosts = response.body["hasMore"];
-
+        _logger.d(hasMorePosts);
         List<Post> posts = [];
 
         for (var post in response.body["posts"]) {
@@ -132,8 +133,6 @@ class UserService extends GetxController {
       for (var user in response.body["followers"]) {
         users.add(UserDTO.fromBody(user));
       }
-
-      _logger.d(users.length);
 
       if (users.isNotEmpty) {
         userFollowers.addAll(users);
