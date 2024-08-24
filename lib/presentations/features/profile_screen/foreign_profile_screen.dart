@@ -10,6 +10,7 @@ import 'package:skilluxfrontendflutter/services/system_services/route_observer_u
 import 'package:skilluxfrontendflutter/services/user_profile_services/foreign_user_profile_service.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
 class ForeignProfileScreen extends StatefulWidget {
   final int foreignUserId;
@@ -22,9 +23,10 @@ class ForeignProfileScreen extends StatefulWidget {
 
 class _ForeignProfileScreenState extends State<ForeignProfileScreen>
     with RouteAware {
-  late final ForeignUserProfileService _userProfileService;
-  late final ForeignUserPostsService _userPostsService;
+  late final ForeignUserProfileService _foreignUserProfileService;
+  late final ForeignUserPostsService _foreignUserPostsService;
   final ScrollController _scrollController = ScrollController();
+  final UserProfileService _userProfileService = Get.find();
   final Logger _logger = Logger();
   bool isPostLoading = false;
   bool isPostEmpty = false;
@@ -32,23 +34,24 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
   @override
   void initState() {
     super.initState();
-    _userProfileService =
+    _foreignUserProfileService =
         ForeignUserProfileService(userId: widget.foreignUserId);
-    _userPostsService = ForeignUserPostsService(userId: widget.foreignUserId);
-    _userProfileService.getUserInfos();
-    _userPostsService.getUserPosts();
+    _foreignUserPostsService =
+        ForeignUserPostsService(userId: widget.foreignUserId);
+    _foreignUserProfileService.getUserInfos();
+    _foreignUserPostsService.getUserPosts();
     _scrollController.addListener(_scrollListener);
     _isPostLoadingOrEmpty();
   }
 
   void _isPostLoadingOrEmpty() {
-    _userPostsService.isLoading.listen((onData) {
+    _foreignUserPostsService.isLoading.listen((onData) {
       setState(() {
         isPostLoading = onData;
       });
     });
 
-    _userPostsService.isEmpty.listen((onData) {
+    _foreignUserPostsService.isEmpty.listen((onData) {
       setState(() {
         isPostEmpty = onData;
       });
@@ -63,7 +66,7 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
   }
 
   void _loadMore() {
-    _userPostsService.loadMoreUserPosts(
+    _foreignUserPostsService.loadMoreUserPosts(
         userId: widget.foreignUserId, disableLoading: true);
   }
 
@@ -78,14 +81,14 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
 
   @override
   void didPopNext() {
-    _userPostsService.getUserPosts(disableLoading: true);
-    _userProfileService.getUserInfos(disableLoading: true);
+    _foreignUserPostsService.getUserPosts(disableLoading: true);
+    _foreignUserProfileService.getUserInfos(disableLoading: true);
   }
 
   @override
   void dispose() {
-    _userPostsService.dispose();
-    _userProfileService.dispose();
+    _foreignUserPostsService.dispose();
+    _foreignUserProfileService.dispose();
     super.dispose();
   }
 
@@ -104,7 +107,7 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
         controller: _scrollController,
         slivers: [
           StreamBuilder<User?>(
-            stream: _userProfileService.userInfoStream,
+            stream: _foreignUserProfileService.userInfoStream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return SliverAppBar(
@@ -114,7 +117,8 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
                     background: UserInfo(
                       userId: widget.foreignUserId,
                       userInfoDto: snapshot.data!,
-                      isForOtherUser: true,
+                      isForOtherUser:
+                          _userProfileService.user?.id != widget.foreignUserId,
                     ),
                   ),
                 );
@@ -135,7 +139,7 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
             },
           ),
           StreamBuilder<List<Post>?>(
-            stream: _userPostsService.postsStream,
+            stream: _foreignUserPostsService.postsStream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return SliverPersistentHeader(
@@ -152,7 +156,7 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
             },
           ),
           StreamBuilder<List<Post>?>(
-            stream: _userPostsService.postsStream,
+            stream: _foreignUserPostsService.postsStream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return SliverList(

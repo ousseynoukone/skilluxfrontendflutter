@@ -60,7 +60,7 @@ class APIService {
             'Accept': 'application/json',
             ..._setHeadersToken(),
           },
-          body: jsonEncode(data),
+          body: data == null ? null : jsonEncode(data),
         );
         return _handleResponse(response);
       } else {
@@ -107,7 +107,6 @@ class APIService {
 
         // Add post to the request
         request.fields.addAll(buildRequestFieldsForPost(post));
-
 
         var streamedResponse = await request.send();
 

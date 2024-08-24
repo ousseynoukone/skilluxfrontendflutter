@@ -15,13 +15,14 @@ import 'package:skilluxfrontendflutter/services/translator_services/translator_s
 import 'package:skilluxfrontendflutter/services/user_services/controller/user_service.dart';
 
 class UserProfileService extends GetxController with StateMixin<User> {
-  // User API Service
   final APIService _apiService = Get.find();
   final UserService _userService = Get.find();
   RxBool isLoading = false.obs;
+  RxBool isFollowing = false.obs; // Add this to track follow status
   final Logger _logger = Logger();
   final text = Get.context?.localizations;
   User? user;
+
   @override
   void onInit() {
     super.onInit();
@@ -39,12 +40,10 @@ class UserProfileService extends GetxController with StateMixin<User> {
         if (user!.isEmpty()) {
           change(user, status: RxStatus.empty());
         } else {
-
           change(user, status: RxStatus.success());
         }
       } else {
         change(user, status: RxStatus.error(text!.errorUnexpected));
-
         showCustomSnackbar(title: text!.error, message: text!.errorUnexpected);
       }
     } catch (e) {
@@ -52,19 +51,58 @@ class UserProfileService extends GetxController with StateMixin<User> {
       change(user, status: RxStatus.error(e.toString()));
     }
   }
+
+  Future<void> updateFollowStatus(int userId) async {
+    try {
+      bool? response = await _userService.isFollower(userId);
+      if (response != null) {
+        isFollowing.value = response;
+      }
+    } catch (e) {
+      _logger.e(e);
+    }
+  }
+
+  Future<void> follow(int userId) async {
+    isLoading.value = true;
+
+    bool response = await _userService.followUser(userId);
+
+    if (!response) {
+      showCustomSnackbar(title: text!.error, message: text!.errorUnexpected);
+    } else {
+      isFollowing.value = true; // Update follow status
+    }
+
+    isLoading.value = false;
+  }
+
+  Future<void> unfollow(int userId) async {
+    isLoading.value = true;
+
+    bool response = await _userService.unfollowUser(userId);
+
+    if (!response) {
+      showCustomSnackbar(title: text!.error, message: text!.errorUnexpected);
+    } else {
+      isFollowing.value = false; // Update follow status
+    }
+
+    isLoading.value = false;
+  }
 }
 
 class UserProfileFollowService {
   final APIService _apiService = APIService();
-  final UserService _userService = UserService() ;
+  final UserService _userService = UserService();
   final Logger _logger = Logger();
 
   List<UserDTO> users = [];
   bool isLoading = false;
   ValueNotifier<List<UserDTO>> userNotifier = ValueNotifier([]);
 
-
-  Future<void> getUserFollowers({bool disableLoading = false,int userId = 0}) async {
+  Future<void> getUserFollowers(
+      {bool disableLoading = false, int userId = 0}) async {
     try {
       if (!disableLoading) {
         isLoading = true;
@@ -84,12 +122,14 @@ class UserProfileFollowService {
     }
   }
 
-  Future<void> loadMoreUserFollowers({bool disableLoading = false,int userId = 0}) async {
+  Future<void> loadMoreUserFollowers(
+      {bool disableLoading = false, int userId = 0}) async {
     try {
       if (!disableLoading) {
         isLoading = true;
       }
-      List<UserDTO> newUser = await _userService.loadMoreUserFollowers(userId: userId);
+      List<UserDTO> newUser =
+          await _userService.loadMoreUserFollowers(userId: userId);
       users.addAll(newUser);
       userNotifier.value = List.from(users);
 
@@ -104,7 +144,8 @@ class UserProfileFollowService {
     }
   }
 
-  Future<void> getUserFollowing({bool disableLoading = false , int userId = 0}) async {
+  Future<void> getUserFollowing(
+      {bool disableLoading = false, int userId = 0}) async {
     try {
       if (!disableLoading) {
         isLoading = true;
@@ -124,12 +165,14 @@ class UserProfileFollowService {
     }
   }
 
-  Future<void> loadMoreUserFollowing({bool disableLoading = false, int userId = 0}) async {
+  Future<void> loadMoreUserFollowing(
+      {bool disableLoading = false, int userId = 0}) async {
     try {
       if (!disableLoading) {
         isLoading = true;
       }
-      List<UserDTO> newUser = await _userService.loadMoreUserFollowing(userId: userId);
+      List<UserDTO> newUser =
+          await _userService.loadMoreUserFollowing(userId: userId);
       users.addAll(newUser);
       userNotifier.value = List.from(users);
 

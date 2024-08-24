@@ -242,4 +242,45 @@ class UserService extends GetxController {
 
     return userFollowing;
   }
+
+  Future<bool> followUser(int userId) async {
+    String path = "basic/users/follow/$userId";
+    try {
+      ApiResponse response = await _apiService.postRequest(path);
+      if (response.statusCode == 201) {
+        return true;
+      }
+    } catch (e) {
+      _logger.e(e.toString());
+    }
+    return false;
+  }
+
+  Future<bool> unfollowUser(int userId) async {
+    String path = "basic/users/unfollow/$userId";
+    try {
+      ApiResponse response = await _apiService.postRequest(path);
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } catch (e) {
+      _logger.e(e.toString());
+    }
+    return false;
+  }
+
+  Future<bool?> isFollower(int userId) async {
+    String path = "basic/users/is-follower/$userId";
+    try {
+      ApiResponse response = await _apiService.getRequest(path);
+      if (response.statusCode == 200) {
+        return response.body["isFollowing"];
+      } else {
+        return null;
+      }
+    } catch (e) {
+      _logger.e(e.toString());
+      rethrow;
+    }
+  }
 }
