@@ -222,7 +222,10 @@ class UserProfilePostService extends GetxController
       } else {
         change(posts, status: RxStatus.error(text!.errorUnexpected));
 
-        showCustomSnackbar(title: text!.error, message: text!.errorUnexpected);
+        showCustomSnackbar(
+            title: text!.error,
+            message: text!.errorUnexpected,
+            snackType: SnackType.error);
       }
     } catch (e) {
       _logger.e(e);

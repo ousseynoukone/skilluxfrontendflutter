@@ -136,6 +136,55 @@ class APIService {
     }
   }
 
+
+    Future<ApiResponse> singleMediaPostRequest(String path,XFile media,String fieldName) async {
+    try {
+      await _tokenManager.refreshTokenIfNeeded();
+      if (!_tokenManager.abortRequest) {
+        final uri = Uri.parse(BASE_URL + path);
+
+        // Create a multipart request
+        var request = http.MultipartRequest('POST', uri);
+        // Setting header
+        request.headers.addAll({
+          'Content-Type': 'multipart/form-data',
+          'Accept': 'application/json',
+          ..._setHeadersToken(),
+        });
+        
+          //Isolating coverImage
+          request.files
+              .add(await createMultipartFile(media, fieldName));
+
+        var streamedResponse = await request.send();
+
+        // Read the response body
+        final responseBody = await streamedResponse.stream.bytesToString();
+
+        // If the response is JSON, you can decode it
+        final responseJson = jsonDecode(responseBody);
+
+        if (streamedResponse.statusCode != 201) {
+          _logger.e(responseJson);
+        }
+
+        return ApiResponse(
+            statusCode: streamedResponse.statusCode,
+            message: streamedResponse.reasonPhrase);
+      } else {
+        return const ApiResponse(
+            statusCode: 401, body: {'error': 'Refresh Token Expired'});
+      }
+    } catch (e) {
+      _logger.e(e.toString());
+      return ApiResponse(
+          message: e.toString(),
+          statusCode: 500,
+          body: {'error': 'Internal Server Error'});
+    }
+  }
+
+
   Future<ApiResponse> putRequest(
     String path, {
     dynamic data,

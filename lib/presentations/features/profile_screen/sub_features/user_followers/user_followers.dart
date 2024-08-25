@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/models/user/dtos/user_dto.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/foreign_profile_screen.dart';
+import 'package:skilluxfrontendflutter/presentations/features/user_components/user_preview.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 import 'package:get/get.dart';
 
@@ -66,16 +67,12 @@ class _UserFollowersState extends State<UserFollowers> {
                 padding: const EdgeInsets.only(bottom: 4),
                 child: ListTile(
                   tileColor: colorScheme.primary.withOpacity(0.3),
-                  leading: user.profilePicture.isNotEmpty
-                      ? CircleAvatar(
-                          backgroundImage: NetworkImage(user.profilePicture),
-                        )
-                      : const CircleAvatar(child: Icon(Icons.person)),
+                  leading: displayUserPP(user.profilePicture),
                   title: Text(user.fullName),
                   subtitle: Text(user.username),
                   trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
-                   Get.to(()=>ForeignProfileScreen(
+                    Get.to(() => ForeignProfileScreen(
                           foreignUserId: user.id,
                         ));
                   },

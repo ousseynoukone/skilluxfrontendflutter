@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
-import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/post_view.dart';
-import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/post_view/post_view_widget.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/preview/chip.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/poppup_menu_button.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/persistent_header_delegate.dart';
@@ -26,6 +24,8 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
   final UserProfileService userProfileService = Get.find();
   final AppLocalizations? text = Get.context?.localizations;
   final ScrollController _scrollController = ScrollController();
+
+
 
   @override
   void didChangeDependencies() {

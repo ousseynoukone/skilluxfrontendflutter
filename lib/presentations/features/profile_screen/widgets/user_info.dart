@@ -5,6 +5,8 @@ import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/user_followers/user_followers.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/user_followings/user_following.dart';
+import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/user_infos_sub_widgets/user_info_user_pp.dart';
+import 'package:skilluxfrontendflutter/presentations/features/user_components/user_preview.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/loader/linear_loader.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/outline_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -60,9 +62,8 @@ class _UserInfoState extends State<UserInfo> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        CircleAvatar(
-          backgroundImage: NetworkImage(user.profilePicture!),
-          radius: 60,
+        UserInfoUserProfilePicture(
+          profilePictureUrl: user.profilePicture,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -99,8 +100,7 @@ class _UserInfoState extends State<UserInfo> {
     return Column(
       children: [
         const SizedBox(height: 5),
-        Text(user.fullName ?? '',
-            style: Theme.of(context).textTheme.titleSmall),
+        Text(user.fullName, style: Theme.of(context).textTheme.titleSmall),
         const SizedBox(height: 5),
         if (user.profession != null)
           Text(user.profession!, style: Theme.of(context).textTheme.bodySmall),

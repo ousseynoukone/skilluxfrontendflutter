@@ -14,7 +14,6 @@ mixin ImagePickerMixin<T extends StatefulWidget> on State<T> {
       final XFile? image = await picker.pickImage(source: ImageSource.gallery);
       if (image != null) {
         setState(() {
-         
           String? mimeType = _getMimeTypeFromExtension(image.path);
           pickedImage = XFile(image.path,
               mimeType: mimeType ?? image.mimeType,
@@ -71,6 +70,23 @@ mixin ImagePickerMixin<T extends StatefulWidget> on State<T> {
           const SizedBox(height: 11),
         ],
       );
+    }
+  }
+
+  Widget displayPickedImage() {
+    if (pickedImage != null) {
+      Image image = getImageFromXfile(pickedImage!);
+
+      return SizedBox(
+        height: 200,
+        width: 200,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: image,
+        ),
+      );
+    } else {
+      return const SizedBox.shrink();
     }
   }
 }
