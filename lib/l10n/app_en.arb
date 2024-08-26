@@ -143,6 +143,9 @@
   "noDraft":"No drafts found",
   "noPostPosted":"No publication yet",
 
+  "profession":"Profession",
+  "professionHint":"Indicate your prefession please.",
+
   "draftSaved":"Draft saved!",
   "draftUpdated": "Draft updated!", 
 

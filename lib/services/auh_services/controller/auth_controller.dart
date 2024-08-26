@@ -65,7 +65,7 @@ class GetXAuthController extends GetxController {
             if (value is String) {
               // Display each error message
               showCustomSnackbar(
-                  title: text!.error,
+                  title: "${text!.error} : ${response.statusCode}",
                   message: value,
                   snackType: SnackType.error,
                   duration: const Duration(seconds: 7));
@@ -76,17 +76,17 @@ class GetXAuthController extends GetxController {
         } else {
           // Handle unexpected error format
           showCustomSnackbar(
-              title: text!.error,
+              title: "${text!.error} : ${response.statusCode}",
               message: text!.errorUnexpected,
               snackType: SnackType.error,
               duration: const Duration(seconds: 7));
         }
       }
-
-      // Reset loading state
-      isLoading.value = false;
     } catch (e) {
       _logger.e(e);
+    } finally {
+      // Reset loading state
+      isLoading.value = false;
     }
   }
 
@@ -132,7 +132,7 @@ class GetXAuthController extends GetxController {
           Map<String, dynamic> errors = response.body;
 
           showCustomSnackbar(
-            title: text!.error,
+            title: "${text!.error} : ${response.statusCode}",
             message: errors['error'],
             snackType: SnackType.error,
           );
@@ -163,7 +163,7 @@ class GetXAuthController extends GetxController {
             Get.back();
           }
           showCustomSnackbar(
-            title: text!.error,
+            title: "${text!.error} : ${response.statusCode}",
             message: errors['error'],
             snackType: SnackType.error,
           );
@@ -193,7 +193,7 @@ class GetXAuthController extends GetxController {
           // Multiple errors
           Map<String, dynamic> errors = response.body;
           showCustomSnackbar(
-            title: text!.error,
+            title: "${text!.error} : ${response.statusCode}",
             message: errors['error'],
             snackType: SnackType.error,
           );
@@ -227,7 +227,7 @@ class GetXAuthController extends GetxController {
           // Multiple errors
           Map<String, dynamic> errors = response.body;
           showCustomSnackbar(
-              title: text!.error,
+              title: "${text!.error} : ${response.statusCode}",
               message: errors['error'],
               snackType: SnackType.error,
               duration: Duration(seconds: 7),
@@ -263,7 +263,7 @@ class GetXAuthController extends GetxController {
           // Multiple errors
           Map<String, dynamic> errors = response.body;
           showCustomSnackbar(
-              title: text!.error,
+              title: "${text!.error} : ${response.statusCode}",
               message: errors['error'],
               snackType: SnackType.error,
               duration: const Duration(seconds: 7),
@@ -297,7 +297,7 @@ class GetXAuthController extends GetxController {
           Map<String, dynamic> errors = response.body;
 
           showCustomSnackbar(
-            title: text!.error,
+            title: "${text!.error} : ${response.statusCode}",
             message: errors['error'],
             snackType: SnackType.error,
           );

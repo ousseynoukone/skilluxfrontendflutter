@@ -5,6 +5,7 @@ import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/user_followers/user_followers.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/user_followings/user_following.dart';
+import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/user_info_update/update_user_info.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/user_infos_sub_widgets/user_info_user_pp.dart';
 import 'package:skilluxfrontendflutter/presentations/features/user_components/user_preview.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/loader/linear_loader.dart';
@@ -13,13 +14,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
 class UserInfo extends StatefulWidget {
-  final User userInfoDto;
+  final User user;
   final bool isForOtherUser;
   final int userId;
 
   const UserInfo({
     super.key,
-    required this.userInfoDto,
+    required this.user,
     this.isForOtherUser = false,
     this.userId = 0,
   });
@@ -42,8 +43,9 @@ class _UserInfoState extends State<UserInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final User user = widget.userInfoDto;
+    final User user = widget.user;
     final AppLocalizations text = context.localizations;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -51,7 +53,7 @@ class _UserInfoState extends State<UserInfo> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildUserHeader(user),
-          _buildUserStats(user, text),
+          _buildUserStats(user, text, colorScheme),
         ],
       ),
     );
@@ -96,7 +98,8 @@ class _UserInfoState extends State<UserInfo> {
     );
   }
 
-  Widget _buildUserStats(User user, AppLocalizations text) {
+  Widget _buildUserStats(
+      User user, AppLocalizations text, ColorScheme colorScheme) {
     return Column(
       children: [
         const SizedBox(height: 5),
@@ -106,7 +109,7 @@ class _UserInfoState extends State<UserInfo> {
           Text(user.profession!, style: Theme.of(context).textTheme.bodySmall),
         const SizedBox(height: 10),
         _buildFollowUnfollowButton(user, text),
-        _buildEditProfileButton(text),
+        _buildEditProfileButton(text, colorScheme),
       ],
     );
   }
@@ -178,17 +181,23 @@ class _UserInfoState extends State<UserInfo> {
   void _updateFollowerCount(bool increment) {
     setState(() {
       if (increment) {
-        widget.userInfoDto.nbFollowers += 1;
+        widget.user.nbFollowers += 1;
       } else {
-        widget.userInfoDto.nbFollowers -= 1;
+        widget.user.nbFollowers -= 1;
       }
     });
   }
 
-  Widget _buildEditProfileButton(AppLocalizations text) {
+  Widget _buildEditProfileButton(
+      AppLocalizations text, ColorScheme colorScheme) {
     return !widget.isForOtherUser
         ? OutlineButtonComponent(
-            onPressed: () {},
+          
+            onPressed: () {
+              Get.bottomSheet(
+                  backgroundColor: colorScheme.primary,
+                  UpdateUserInfoScreen(user: widget.user));
+            },
             text: text.editProfile,
             isLoading: false,
             icon: Icons.edit,

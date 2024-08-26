@@ -116,7 +116,7 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
                   flexibleSpace: FlexibleSpaceBar(
                     background: UserInfo(
                       userId: widget.foreignUserId,
-                      userInfoDto: snapshot.data!,
+                      user: snapshot.data!,
                       isForOtherUser:
                           _userProfileService.user?.id != widget.foreignUserId,
                     ),

@@ -6,7 +6,8 @@ class OutlineButtonComponent extends StatelessWidget {
   final VoidCallback onPressed;
   final EdgeInsets? edgeInsets;
   final bool isLoading;
-  final IconData? icon; // New optional icon parameter
+  final IconData? icon;
+  final Color? iconColor;
 
   const OutlineButtonComponent({
     super.key,
@@ -14,7 +15,8 @@ class OutlineButtonComponent extends StatelessWidget {
     this.edgeInsets,
     required this.onPressed,
     required this.isLoading,
-    this.icon, // Add this line
+    this.icon,
+    this.iconColor,
   });
 
   @override
@@ -34,10 +36,13 @@ class OutlineButtonComponent extends StatelessWidget {
           : Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (icon != null) 
-                  Icon(icon, size: 20),
-                if (icon != null) 
-                  SizedBox(width: 8),
+                if (icon != null)
+                  Icon(
+                    icon,
+                    size: 20,
+                    color: iconColor,
+                  ),
+                if (icon != null) const SizedBox(width: 8),
                 Text(text),
               ],
             ),

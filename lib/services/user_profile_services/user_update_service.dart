@@ -35,4 +35,46 @@ class UserUpdateService extends GetXAuthController {
       isLoading.value = false;
     }
   }
+
+  Future<void> updateUserInfos(
+      String fullname, String profession, String email) async {
+    String path = "basic/update-user";
+    try {
+      isLoading.value = true;
+
+      var data = {
+        'fullName': fullname,
+        'profession': profession,
+        'email': email
+      };
+
+      var response = await _apiService.postRequest(path, data: data);
+      if (response.statusCode == 200) {
+        Get.back();
+
+        showCustomSnackbar(
+            title: text!.info,
+            message: text!.sucess,
+            snackType: SnackType.success);
+      } else {
+        _logger.e(
+            "Error response: ${response.body}"); // Log response body for more details
+
+        showCustomSnackbar(
+            title: "${text!.error} : ${response.statusCode}",
+            message: text!.errorUnexpected,
+            snackType: SnackType.error);
+      }
+    } catch (e) {
+      showCustomSnackbar(
+          title: text!.error,
+          message: text!.errorUnexpected,
+          snackType: SnackType.error);
+
+      _logger.e(e);
+      // Handle error state if needed
+    } finally {
+      isLoading.value = false;
+    }
+  }
 }

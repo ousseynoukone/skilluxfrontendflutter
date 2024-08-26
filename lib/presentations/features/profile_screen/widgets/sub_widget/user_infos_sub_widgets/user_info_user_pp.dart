@@ -22,7 +22,7 @@ class UserInfoUserProfilePicture extends StatefulWidget {
 
 class _UserInfoUserProfilePictureState extends State<UserInfoUserProfilePicture>
     with ImagePickerMixin {
-  final UserUpdateService _userUpdateService = Get.put(UserUpdateService());
+  final UserUpdateService _userUpdateService = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +45,7 @@ class _UserInfoUserProfilePictureState extends State<UserInfoUserProfilePicture>
                 () => OutlineButtonComponent(
                     text: text.update,
                     onPressed: () async {
-                     await  _userUpdateService.updateUserPP(pickedImage!);
-                     
+                      await _userUpdateService.updateUserPP(pickedImage!);
                     },
                     isLoading: _userUpdateService.isLoading.value),
               )
@@ -63,16 +62,24 @@ class _UserInfoUserProfilePictureState extends State<UserInfoUserProfilePicture>
         Positioned(
           top: 0,
           right: 0,
+          height: 35,
+          width: 35,
           child: Container(
             decoration: BoxDecoration(
-                color: ColorsTheme.secondary.withOpacity(0.8),
+                color: colorScheme.primary,
                 borderRadius: BorderRadius.circular(30)),
-            child: IconButton(
-              icon: const Icon(Icons.edit, size: 18),
-              onPressed: () async {
-                await pickImage();
-                handlingPickedImage();
-              },
+            child: Center(
+              child: InkWell(
+                onTap: () async {
+                  await pickImage();
+                  if(pickedImage !=null){
+                  handlingPickedImage();
+
+                  }
+                },
+                child: const Icon(Icons.edit,
+                    size: 20, color: ColorsTheme.secondary),
+              ),
             ),
           ),
         ),

@@ -155,7 +155,8 @@
   "publish":"Publier",
   "postNotPosted":"Non publié",
   "noPostPosted":"Aucune publication trouvée",
-
+  "profession":"Profession",
+  "professionHint":"Veuillez preciser votre profession.",
 
   "postPosted":"Publié!",
   "follower": "Abonnés",  
