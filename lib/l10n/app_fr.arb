@@ -153,8 +153,27 @@
 
   "clearPost":"Vider les champs",
   "publish":"Publier",
+  "postNotPosted":"Non publié",
+  "noPostPosted":"Aucune publication trouvée",
+  "profession":"Profession",
+  "professionHint":"Veuillez preciser votre profession.",
 
-  "postPosted":"Post publié!"
+  "postPosted":"Publié!",
+  "follower": "Abonnés",  
+  "following": "Suivi(e)s",  
+  "publication": "Publications" ,
+
+  "follow": "Suivre",  
+  "unfollow": "Ne plus suivre",
+
+  "editProfile": "Modifier mon profile",
+  "confirmation":"Confirmation",
+
+  "confirm":"Êtes-vous sûr de vouloir continuer cette opération ? Elle sera irréversible.",
+
+  "sucess": "Operation effectuée avec succès !"
+
+
 
 
 

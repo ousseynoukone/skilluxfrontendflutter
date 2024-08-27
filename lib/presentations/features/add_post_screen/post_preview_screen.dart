@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 
 import 'package:skilluxfrontendflutter/models/post/post.dart';
-import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/post_view.dart';
+import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/post_view/post_view_widget.dart';
 
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_section_builder.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_button.dart';
@@ -29,7 +29,7 @@ class _PostPreviewState extends State<PostPreview> with SectionBuilderMixin {
         appBar: AppBar(
           title: Text(text.preview),
         ),
-        body: PostView(post: widget.post),
+        body: PostViewWidget(post: widget.post),
         bottomNavigationBar: SizedBox(
           height: 60,
           child: Center(

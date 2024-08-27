@@ -32,13 +32,15 @@ class _DatePickerComponentState extends State<DatePickerComponent> {
   DateTime? _selectedDate = DateTime.now();
 
   Future<void> _selectDate(BuildContext context) async {
+    final colorScheme = Theme.of(context).colorScheme;
+
     DateTime? newDateTime = await showCupertinoModalPopup(
       context: context,
       builder: (BuildContext context) {
         return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: ColorsTheme.tertiary,
+            color: colorScheme.primary,
           ),
           height: Get.height / 2.5,
           child: Column(
@@ -53,7 +55,6 @@ class _DatePickerComponentState extends State<DatePickerComponent> {
                   onDateTimeChanged: (DateTime newDate) {
                     setState(() {
                       _selectedDate = newDate;
-                      
                     });
                   },
                 ),

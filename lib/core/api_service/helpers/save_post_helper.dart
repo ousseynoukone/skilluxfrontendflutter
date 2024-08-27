@@ -11,16 +11,15 @@ import 'package:path/path.dart' as path;
 Map<String, String> buildRequestFieldsForPost(Post post) {
   final Logger _logger = Logger();
   final Map<String, String> fields = {};
-
   try {
     fields['title'] = post.title;
     fields['readNumber'] = post.readNumber?.toString() ?? '0';
     fields['votesNumber'] = post.votesNumber?.toString() ?? '0';
-    fields['isPublished'] = post.isPublished?.toString() ?? 'false';
+    fields['isPublished'] = 'true';
     fields['headerImageUrl'] = post.headerImageUrl ?? '';
-    fields['tags'] = jsonEncode(post.tags);
+    // Add tags to the map with indexed keys
     for (int i = 0; i < post.tags.length; i++) {
-      fields['tags[]'] = post.tags[i];
+      fields['tags[$i]'] = post.tags[i];
     }
 
     fields['createdAt'] = post.createdAt?.toIso8601String() ?? '';

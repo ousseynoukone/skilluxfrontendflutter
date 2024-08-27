@@ -8,6 +8,7 @@ import 'package:skilluxfrontendflutter/presentations/features/discovery_screen/d
 import 'package:skilluxfrontendflutter/presentations/features/home_screen/home_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/profile_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/features/search_screen/search_screen.dart';
+import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
 class BottomNavigationBarComponent extends StatefulWidget {
   const BottomNavigationBarComponent({super.key});
@@ -31,7 +32,16 @@ class _BottomNavigationBarComponentState
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+
+    UserProfilePostService userProfilePostService = Get.find();
+    UserProfileService userProfileService = Get.find();
+
+
     var text = context.localizations;
+    if (_currentIndex == 3) {
+      userProfilePostService.getUserPosts(disableLoading: true);
+      userProfileService.getUserInfos(disableLoading: true);
+    }
 
     return Scaffold(
       body: _screens[_currentIndex],

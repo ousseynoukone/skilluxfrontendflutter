@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 
 Widget getCustomChip(String label, IconData? icon,
-    {bool isBackgroundTransparent = false}) {
+    {bool isBackgroundTransparent = false , double fontSize = 14}) {
   var themeText = Get.context!.textTheme;
   final colorScheme = Theme.of(Get.context!).colorScheme;
   double horizontal = isBackgroundTransparent ? 0 : 8.0;
@@ -27,7 +27,7 @@ Widget getCustomChip(String label, IconData? icon,
         Text(
           label,
           style: themeText
-              .bodySmall, // Optional: Use text theme or customize as needed
+              .bodySmall?.copyWith(fontSize: fontSize), // Optional: Use text theme or customize as needed
         ),
       ],
     ),

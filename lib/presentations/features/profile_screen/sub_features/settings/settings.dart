@@ -21,6 +21,7 @@ class Settings extends StatelessWidget {
       body: Column(
         children: [
           ListTile(
+            leading: const Icon(Icons.dark_mode),
             title: Text(text.dark_mode),
             trailing: Obx(() => Switch(
                   value: settingsController.isDarkMode.value,
@@ -28,8 +29,10 @@ class Settings extends StatelessWidget {
                     settingsController.toggleTheme();
                   },
                 )),
+            onTap: () {},
           ),
           ListTile(
+            leading: const Icon(Icons.language),
             title: Text(text.changeLanguage),
             trailing: DropdownButton<String>(
               dropdownColor: Get.isDarkMode
@@ -52,8 +55,10 @@ class Settings extends StatelessWidget {
                 );
               }).toList(),
             ),
+            onTap: () {},
           ),
           ListTile(
+            leading: const Icon(Icons.password),
             onTap: () {
               Get.bottomSheet(const ChangePassword());
             },
@@ -63,6 +68,10 @@ class Settings extends StatelessWidget {
             ),
           ),
           ListTile(
+            leading: const Icon(
+              Icons.warning,
+              color: ColorsTheme.error,
+            ),
             onTap: () {
               Get.bottomSheet(const DeleteAccount());
             },

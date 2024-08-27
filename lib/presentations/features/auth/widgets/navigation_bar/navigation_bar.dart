@@ -66,7 +66,7 @@ class _TopNavigationBarState extends State<TopNavigationBar>
             controller: _tabController,
             labelStyle:context.textTheme.bodyMedium,
             labelColor: context.textTheme.bodyLarge?.color,
-            unselectedLabelColor: ColorsTheme.grey,
+            unselectedLabelColor: ColorsTheme.gray,
             indicatorColor: ColorsTheme.primary,
             tabs: [
               Tab(text: text.login),

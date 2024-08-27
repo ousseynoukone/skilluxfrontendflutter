@@ -10,6 +10,7 @@ class ColorsTheme {
   static const Color tertiaryDarker = Color.fromARGB(255, 26, 26, 26);
   static const Color tertiaryMidDarker = Color.fromARGB(255, 32, 32, 32);
   static const Color grey = Color.fromARGB(255, 84, 82, 82);
+  static const Color gray = Colors.grey;
 
   static const Color black = Color.fromARGB(255, 0, 0, 0);
   static const Color white = Color.fromARGB(255, 255, 255, 255);

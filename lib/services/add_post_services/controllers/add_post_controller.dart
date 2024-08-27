@@ -24,30 +24,29 @@ class AddPostService extends GetxController {
     Post newPost = post.clone();
 
     await newPost.extractMediaFromContent();
-    if(newPost.headerBinaryImage !=null){
-    await newPost.convertHeaderImageBinaryToXFileImage();
-    newPost.content.xFileMediaList.insert(0, newPost.headerImageIMG!);
+    if (newPost.headerBinaryImage != null) {
+      await newPost.convertHeaderImageBinaryToXFileImage();
+      newPost.content.xFileMediaList.insert(0, newPost.headerImageIMG!);
     }
 
-
-    if (newPost.content.xFileMediaList.isNotEmpty) {
-      ApiResponse response =
-          await _apiService.multipartsPostSendRequest(path, newPost);
-      if (response.statusCode == 201) {
-        showCustomSnackbar(
-            title: text!.info,
-            message: response.message!,
-            snackType: SnackType.success);
-      } else {
-        _logger.w(response);
-        showCustomSnackbar(
-            title: text!.error,
-            message: response.message ?? "",
-            snackType: SnackType.error);
-      }
+    // if (newPost.content.xFileMediaList.isNotEmpty) {
+    ApiResponse response =
+        await _apiService.multipartsPostSendRequest(path, newPost);
+    if (response.statusCode == 201) {
+      showCustomSnackbar(
+          title: text!.info,
+          message: response.message!,
+          snackType: SnackType.success);
     } else {
-      _logger.i("arrayOfImage is empty");
+      _logger.w(response);
+      showCustomSnackbar(
+          title: text!.error,
+          message: response.message ?? "",
+          snackType: SnackType.error);
     }
+    // } else {
+    //   _logger.i("arrayOfImage is empty");
+    // }
 
     isLoading.value = false;
   }

@@ -17,7 +17,7 @@ class ConfirmationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     var text = context.localizations;
     var colorScheme = Theme.of(context).colorScheme;
-    return AlertDialog(
+    return  AlertDialog(
       title: Text(title),
       content: Text(content),
       actions: <Widget>[

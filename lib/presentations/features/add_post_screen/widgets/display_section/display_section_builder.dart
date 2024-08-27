@@ -7,6 +7,7 @@ import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/he
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/add_section_widget/quillEditor.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_section.dart';
 import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_post_sys_service.dart';
+import 'package:logger/logger.dart';
 
 mixin SectionBuilderMixin<T extends StatefulWidget> on State<T> {
   final AddPostSysService _addPostSysService = Get.find();
@@ -21,18 +22,33 @@ mixin SectionBuilderMixin<T extends StatefulWidget> on State<T> {
             : const SizedBox.shrink()));
   }
 
-  Widget sectionBuilderForViewAndPreview() {
-    return Obx(() => sectionForViewAndPreview(
-        _addPostSysService.post.value.content.content!));
+  Widget sectionBuilderForViewAndPreview({QuillController? quillController}) {
+    if (quillController!=null) {
+      // Return widget when content is empty
+      return sectionForViewAndPreview(null,quillController: quillController);
+    } else {
+      // Return an observable widget when content is not empty
+      return Obx(() => sectionForViewAndPreview(
+          _addPostSysService.post.value.content.content!));
+    }
   }
 
-  Widget sectionForViewAndPreview(String content) {
+  Widget sectionForViewAndPreview(String ? content,
+      {QuillController? quillController}) {
     var colorScheme = Theme.of(context).colorScheme;
+    final Logger _logger = Logger();
+    QuillController? controller;
 
-    QuillController controller = QuillController(
-        document: DocumentConverter.convertToDocument(content) ?? Document(),
+    if (quillController != null) {
+      controller = quillController;
+    }else{
+     controller = QuillController(
+        document: DocumentConverter.convertToDocument(content!) ?? Document(),
         selection: const TextSelection.collapsed(offset: 0),
         readOnly: true);
+    }
+
+
 
     return Container(
       decoration: const BoxDecoration(
