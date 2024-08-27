@@ -1,4 +1,4 @@
-# Skillux Mobile App (Front End)
+# Skillux Mobile App (Front End - FLUTTER)
 
 Skillux is a mobile application designed to connect learners and experts in various fields, facilitating knowledge sharing and skill development.
 
@@ -44,9 +44,10 @@ Skillux is a mobile application designed to connect learners and experts in vari
 - Node.js (v14 or later)
 - npm (v6 or later)
 - PostgreSQL (v12 or later)
+- Flutter (V3.22.1 • channel stable • || Tools • Dart 3.4.1 • DevTools 2.34.3)
 
 ### Endpoints (Swagger-autogen)
-Swagger autogen used : You might have as well a glimpse of all endpoints and some additional informations , but since it's auto-genarated , you might not have all effective informations. Refer to mostly PostMan collection.
+Swagger autogen used : You might have as well a glimpse of all endpoints and some additional informations , but since it's auto-genarated , you might not have all effective informations. Reffer to, mostly, on  PostMan collection.
 
 #### SWGGER IS RUNNING AT  {host}/api-docs:{server_port}
 
