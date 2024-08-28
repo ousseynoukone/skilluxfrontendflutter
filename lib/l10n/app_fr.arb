@@ -171,7 +171,16 @@
 
   "confirm":"Êtes-vous sûr de vouloir continuer cette opération ? Elle sera irréversible.",
 
-  "sucess": "Operation effectuée avec succès !"
+  "sucess": "Operation effectuée avec succès !",
+
+  "comments":"Commentaires",
+  "makeComment":"Ajouter un commentaire ici...",
+  "oneLike":"1 aime",
+  "likes":"aimes",
+  "reply":"repondre",
+
+  "noComment":"Cette publication n'a pas encore de commentaire."
+
 
 
 

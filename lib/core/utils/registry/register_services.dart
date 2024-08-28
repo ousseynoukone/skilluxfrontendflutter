@@ -4,6 +4,7 @@ import 'package:skilluxfrontendflutter/core/api_service/token_manager.dart';
 import 'package:skilluxfrontendflutter/core/state_managment/app_state_managment.dart';
 import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/widgets/navigation_bar/navigation_bar_controller.dart';
+import 'package:skilluxfrontendflutter/services/comment_services/repository/comment_repo.dart';
 import 'package:skilluxfrontendflutter/services/profile_services/controllers/settings_controller.dart';
 import 'package:skilluxfrontendflutter/services/translator_services/translator_service.dart';
 import 'package:skilluxfrontendflutter/services/user_services/controller/user_service.dart';
@@ -42,6 +43,12 @@ Future<void> registerGetServices() async {
   //Handling post drafts
   Get.put(HivePostsPersistence());
 
-  Get.put(UserService());
+  Get.put(UserService());  
+  
+  // Comment
+  Get.put(CommentController());  
+
+
+  
 
 }

@@ -43,7 +43,6 @@ class UserService extends GetxController {
 
   Future<List<Post>> getUserPosts({int userId = 0}) async {
     String path = "basic/users/post/$limitPosts/0/$userId";
-    _logger.d("REQUEST MADE : getUserPosts");
     List<Post> posts = [];
     userPosts = [];
     cursorPosts = '0';
@@ -77,12 +76,10 @@ class UserService extends GetxController {
       {int userId = 0, bool isFirstLoading = false}) async {
     if (hasMorePosts || isFirstLoading) {
       String path = "basic/users/post/$limitPosts/$cursorPosts/$userId";
-      _logger.f(path);
       ApiResponse response = await _apiService.getRequest(path);
 
       if (response.statusCode == 200) {
         hasMorePosts = response.body["hasMore"];
-        _logger.d(hasMorePosts);
         List<Post> posts = [];
 
         for (var post in response.body["posts"]) {

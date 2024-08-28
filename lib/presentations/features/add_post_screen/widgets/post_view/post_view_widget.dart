@@ -12,8 +12,12 @@ import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/wi
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_section_builder.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/preview/chip.dart';
 import 'package:skilluxfrontendflutter/presentations/features/helpers/reading_time_calculator/reading_time_calculator.dart';
+import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/comment_screen.dart';
+import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/comment_field/comment_field.dart';
 import 'package:skilluxfrontendflutter/presentations/features/user_components/user_preview.dart';
 import 'package:logger/logger.dart';
+import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_field.dart';
+import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_form_field.dart';
 
 class PostViewWidget extends StatefulWidget {
   final Post post;
@@ -29,6 +33,7 @@ class _PostViewWidgetState extends State<PostViewWidget>
   final HiveUserPersistence _hiveUserPersistence = Get.find();
   late QuillController controller;
   final Logger _logger = Logger();
+  final TextEditingController _commentController = TextEditingController();
 
   Future<void> _getUser() async {
     user = await _hiveUserPersistence.readUser();
@@ -45,10 +50,21 @@ class _PostViewWidgetState extends State<PostViewWidget>
     );
   }
 
+  void _showCommentField() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return const CommentField();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var text = context.localizations;
     var themeText = context.textTheme;
+    var colorScheme = Theme.of(context).colorScheme;
 
     Widget displayReadingTime() {
       int documentLength = controller.document.length;
@@ -85,21 +101,39 @@ class _PostViewWidgetState extends State<PostViewWidget>
       );
     }
 
-    Widget displayPost() {
-      return Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              displayPostMinimalAttribute(),
-              if (widget.post.content.content!.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: sectionBuilderForViewAndPreview(
-                      quillController: controller),
-                ),
-            ],
+    Widget bottomNavBar() {
+      return Container(
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        child: InkWell(
+          onTap: _showCommentField,
+          child: Container(
+            height: 30,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: colorScheme.primary),
+            child: Center(child: Text(text.makeComment)),
           ),
         ),
+      );
+    }
+
+    Widget displayPost() {
+      return Scaffold(
+        body: ListView(
+          children: [
+            displayPostMinimalAttribute(),
+            if (widget.post.content.content!.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: sectionBuilderForViewAndPreview(
+                    quillController: controller),
+              ),
+            CommentScreen(
+              postId: widget.post.id!,
+            )
+          ],
+        ),
+        bottomNavigationBar: bottomNavBar(),
       );
     }
 

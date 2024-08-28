@@ -1,14 +1,16 @@
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/core/api_service/api_service.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
 import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_controller.dart';
 import 'package:logger/logger.dart';
 
-class UserUpdateService extends GetXAuthController {
+class UserUpdateService {
   final APIService _apiService = Get.find();
   final Logger _logger = Logger();
   RxBool isLoading = false.obs;
+  var text = Get.context!.localizations; 
 
   Future<void> updateUserPP(XFile image) async {
     String path = "basic/update-user-profile-picture";

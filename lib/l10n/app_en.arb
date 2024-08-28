@@ -170,7 +170,19 @@
 
   "confirm":"Are you sure of this operation ? It is irreversible.",
   
-  "sucess": "Operation completed successfully!"
+  "sucess": "Operation completed successfully!",
+
+  "comments":"Comments",
+
+  "makeComment":"Add a comment here...",
+
+  "oneLike":"1 like",
+  "likes":"likes",
+  "reply":"reply",
+
+  "noComment":"No comment found"
+
+  
 
 
 

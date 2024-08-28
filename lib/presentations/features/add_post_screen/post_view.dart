@@ -30,30 +30,49 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
     final UserProfilePostService userProfilePostService = Get.find();
 
     return Scaffold(
-        appBar: AppBar(),
-        body: PostViewWidget(post: widget.post),
-        bottomNavigationBar: SizedBox(
-          height: 60,
-          child: widget.isForOther? const SizedBox.shrink() : Center(
-            child: Obx(
-              () => IconTextButton(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
-                icon: Icons.delete,
-                iconColor: ColorsTheme.primary,
-                label: text.delete,
-                isLoading: userProfilePostService.isLoading.value,
-                onPressed: () {
-                  Get.dialog(ConfirmationDialog(
-                      title: text.confirmation,
-                      content: text.confirm,
-                      onConfirm: () {
-                        userProfilePostService.deletePost(widget.post.id!);
-                      }));
-                },
+      appBar: AppBar(
+        actions: [
+          PopupMenuButtonComponent(
+            menuItems: [
+              CustomPopupMenuItem(
+                value: "deletePost",
+                text: text.delete,
+                icon: const Icon(Icons.delete, color: ColorsTheme.primary),
+                onTap: () => Get.to(Get.dialog(ConfirmationDialog(
+                    title: text.confirmation,
+                    content: text.confirm,
+                    onConfirm: () {
+                      userProfilePostService.deletePost(widget.post.id!);
+                    }))),
               ),
-            ),
-          ),
-        ));
+            ],
+          )
+        ],
+      ),
+      body: PostViewWidget(post: widget.post),
+      // bottomNavigationBar: SizedBox(
+      //   height: 60,
+      //   child: widget.isForOther? const SizedBox.shrink() : Center(
+      //     child: Obx(
+      //       () => IconTextButton(
+      //         padding:
+      //             const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
+      //         icon: Icons.delete,
+      //         iconColor: ColorsTheme.primary,
+      //         label: text.delete,
+      //         isLoading: userProfilePostService.isLoading.value,
+      //         onPressed: () {
+      //           Get.dialog(ConfirmationDialog(
+      //               title: text.confirmation,
+      //               content: text.confirm,
+      //               onConfirm: () {
+      //                 userProfilePostService.deletePost(widget.post.id!);
+      //               }));
+      //         },
+      //       ),
+      //     ),
+      //   ),
+      // )
+    );
   }
 }
