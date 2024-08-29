@@ -17,7 +17,7 @@ class CommentScreen extends StatefulWidget {
 
 class _CommentScreenState extends State<CommentScreen> with RouteAware {
   final Logger _logger = Logger();
-  final CommentService _commentService = Get.put(CommentService());
+  final CommentService _commentService = Get.find();
 
   @override
   void initState() {

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/models/comment/comment.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/helpers/display_time_ago.dart';
+import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/helper/delete_comment_button.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/helper/like.dart';
 import 'package:skilluxfrontendflutter/presentations/features/user_components/user_preview.dart';
 
@@ -23,13 +24,19 @@ class _CommentComponentState extends State<CommentComponent> {
 
     Widget bottomComment() {
       return Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment
+            .spaceBetween, // Aligns children with space between them
         children: [
-          displayTimeAgo(widget.comment.createdAt),
+          displayTimeAgoSync(widget.comment.createdAt),
           LikeAndReplyWidget(
             initialLikes: widget.comment.like,
             onReplyPressed: () {},
-          )
+          ),
+          const SizedBox(
+            width: 8,
+          ),
+          displayDeleteCommentButton(widget
+              .comment), // No need for a Container here if you just need right alignment
         ],
       );
     }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
+import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/helper/helper.dart';
 
 class LikeAndReplyWidget extends StatefulWidget {
   final int initialLikes;
@@ -67,7 +68,7 @@ class _LikeAndReplyWidgetState extends State<LikeAndReplyWidget> {
         if (likeText.isNotEmpty)
           Flexible(
             child: Text(
-              likeText,
+              formatLikes(widget.initialLikes),
               style: themeText.bodySmall?.copyWith(fontSize: 12),
               overflow: TextOverflow.visible, // Allows text to wrap
             ),

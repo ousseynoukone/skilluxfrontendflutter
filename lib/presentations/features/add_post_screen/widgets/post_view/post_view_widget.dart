@@ -18,6 +18,7 @@ import 'package:skilluxfrontendflutter/presentations/features/user_components/us
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_field.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_form_field.dart';
+import 'package:skilluxfrontendflutter/services/comment_services/comment_service.dart';
 
 class PostViewWidget extends StatefulWidget {
   final Post post;
@@ -34,6 +35,8 @@ class _PostViewWidgetState extends State<PostViewWidget>
   late QuillController controller;
   final Logger _logger = Logger();
   final TextEditingController _commentController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  final CommentService _commentService = Get.put(CommentService());
 
   Future<void> _getUser() async {
     user = await _hiveUserPersistence.readUser();
@@ -48,6 +51,16 @@ class _PostViewWidgetState extends State<PostViewWidget>
       document: Document.fromJson(jsonDecode(widget.post.content.content!)),
       selection: const TextSelection.collapsed(offset: 0),
     );
+    _scrollController.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      // We have reached the end of the list
+      _commentService.loadMoreTopComments(widget.post.id!, disableLoading: true);
+    }
   }
 
   void _showCommentField() {
@@ -120,6 +133,7 @@ class _PostViewWidgetState extends State<PostViewWidget>
     Widget displayPost() {
       return Scaffold(
         body: ListView(
+          controller: _scrollController,
           children: [
             displayPostMinimalAttribute(),
             if (widget.post.content.content!.isNotEmpty)
@@ -128,6 +142,17 @@ class _PostViewWidgetState extends State<PostViewWidget>
                 child: sectionBuilderForViewAndPreview(
                     quillController: controller),
               ),
+            Center(
+              child: Text(
+                text.comments,
+                style: themeText.titleSmall,
+              ),
+            ),
+            Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                child: const Divider(
+                  thickness: 0.2,
+                )),
             CommentScreen(
               postId: widget.post.id!,
             )

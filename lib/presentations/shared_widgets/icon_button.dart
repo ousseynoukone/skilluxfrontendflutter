@@ -6,6 +6,7 @@ class CustomIconButton extends StatelessWidget {
   final IconData icon;
   final Color? iconColor;
   final VoidCallback? onPressed;
+  final double ? overideIconSize ;
   final bool isLoading;
   final EdgeInsetsGeometry? padding;
 
@@ -16,6 +17,7 @@ class CustomIconButton extends StatelessWidget {
     required this.onPressed,
     this.isLoading = false,
     this.padding,
+    this.overideIconSize,
   });
 
   @override
@@ -41,7 +43,7 @@ class CustomIconButton extends StatelessWidget {
               ),
               child: Icon(
                 icon,
-                size: iconSize,
+                size: overideIconSize ?? iconSize,
                 color: iconColor ??
                     colorScheme
                         .onPrimary, // Use onPrimary color from colorScheme for icon color

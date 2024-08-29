@@ -54,7 +54,7 @@
 
   "alert":"Alert",
   "error":"Error",
-  "errorUnexpected":"An unexpected error occurred",
+  "errorUnexpected":"An unexpected error occurred, please, try again.",
 
   "emailMessage":"E-mail message has been sent, please follow thoses instructions.",
   "activateAccount":"Activate your account.",

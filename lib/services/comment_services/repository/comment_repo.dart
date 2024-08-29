@@ -19,26 +19,65 @@ class CommentController extends GetxController {
   final Logger _logger = Logger();
 
   // Variables for pagination
-  var cursorComments = "0";
-  var limitComments = 4;
-  bool hasMoreComments = false;
+  var limitComments = 2;
+  bool hasMoreComment = false;
 
   List<Comment> comments = [];
 
   Future<List<Comment>> getTopLevelComments(int postId) async {
     String path =
-        'basic/post-top-level-comments/113/$limitComments/$cursorComments';
+        'basic/post-top-level-comments/$postId/$limitComments/${comments.length + limitComments}';
 
     ApiResponse response = await _apiService.getRequest(path);
     if (response.statusCode == 200) {
-      for (var comment in response.body) {
+      for (var comment in response.body["comments"]) {
         Comment newComment = Comment.fromJson(comment);
         comments.add(newComment);
       }
+      hasMoreComment = response.body["hasMore"];
     } else {
       _logger.e(response.message);
     }
 
     return comments;
+  }
+
+  Future<List<Comment>> loadMoreComment(int postId,
+      {bool isFirstLoading = false}) async {
+    if (hasMoreComment || isFirstLoading) {
+      String path =
+          'basic/post-top-level-comments/$postId/$limitComments/${comments.length + limitComments}';
+      ApiResponse response = await _apiService.getRequest(path);
+
+      if (response.statusCode == 200) {
+        hasMoreComment = response.body["hasMore"];
+        List<Comment> newComments = [];
+
+        for (var comment in response.body["comments"]) {
+          newComments.add(Comment.fromJson(comment));
+        }
+        if (newComments.isNotEmpty) {
+          comments.addAll(newComments);
+        }
+      } else {
+        _logger.e(response.message);
+      }
+    } else {
+      comments = [];
+    }
+
+    return comments;
+  }
+
+  Future<bool> deleteComment(int commentId) async {
+    String path = 'basic/comments/$commentId';
+
+    ApiResponse response = await _apiService.deleteRequest(path);
+
+    if (response.statusCode == 200) {
+      return true;
+    }
+    _logger.e(response.statusCode);
+    return false;
   }
 }

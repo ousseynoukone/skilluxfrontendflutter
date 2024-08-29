@@ -51,6 +51,9 @@ class User {
   @HiveField(14)
   int nbPosts;
 
+  @HiveField(15)
+  String? lang;
+
   User({
     this.isAdmin,
     this.isActive,
@@ -60,6 +63,7 @@ class User {
     required this.fullName,
     required this.email,
     required this.birth,
+    required this.lang,
     this.updatedAt,
     this.createdAt,
     this.profession,
@@ -81,6 +85,7 @@ class User {
       fullName: json['fullName'],
       email: json['email'],
       birth: json['birth'],
+      lang: json['lang'],
       updatedAt: json['updatedAt'],
       createdAt: json['createdAt'],
       profession: json['profession'],
@@ -115,6 +120,7 @@ class User {
     return (username.isEmpty ||
             fullName.isEmpty ||
             email.isEmpty ||
+            email.isEmpty ||
             birth.isEmpty) &&
         (preferredTags?.isEmpty ?? true) &&
         (profession?.isEmpty ?? true) &&
@@ -142,28 +148,28 @@ class User {
     return false;
   }
 
-User clone() {
+  User clone() {
     return User(
-      isAdmin: this.isAdmin,
-      isActive: this.isActive,
-      preferredTags: this.preferredTags != null
-          ? List<String>.from(this.preferredTags!)
-          : null,
-      id: this.id,
-      username: this.username,
-      fullName: this.fullName,
-      email: this.email,
-      birth: this.birth,
-      updatedAt: this.updatedAt,
-      createdAt: this.createdAt,
-      profession: this.profession,
-      profilePicture: this.profilePicture,
-      nbFollowers: this.nbFollowers,
-      nbFollowings: this.nbFollowings,
-      nbPosts: this.nbPosts,
+      isAdmin: isAdmin,
+      isActive: isActive,
+      preferredTags:
+          preferredTags != null ? List<String>.from(preferredTags!) : null,
+      id: id,
+      username: username,
+      fullName: fullName,
+      email: email,
+      birth: birth,
+      updatedAt: updatedAt,
+      lang: lang,
+      createdAt: createdAt,
+      profession: profession,
+      profilePicture: profilePicture,
+      nbFollowers: nbFollowers,
+      nbFollowings: nbFollowings,
+      nbPosts: nbPosts,
     );
   }
-  
+
   User copyWith({
     bool? isAdmin,
     String? token,
@@ -192,6 +198,7 @@ User clone() {
       fullName: fullName ?? this.fullName,
       email: email ?? this.email,
       birth: birth ?? this.birth,
+      lang: lang ?? lang,
       updatedAt: updatedAt ?? this.updatedAt,
       createdAt: createdAt ?? this.createdAt,
       profession: profession ?? this.profession,

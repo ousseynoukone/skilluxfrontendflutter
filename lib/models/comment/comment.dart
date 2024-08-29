@@ -43,7 +43,8 @@ class Comment {
       descendantCount: int.tryParse(json['descendantCount'] ?? '0') ?? 0,
       postId: json['postId'],
       parentId: json['parentId'],
-      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
+      updatedAt:
+          json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
     );
   }
 
@@ -63,5 +64,24 @@ class Comment {
       'parentId': parentId,
       'updatedAt': updatedAt?.toIso8601String(),
     };
+  }
+
+  // Cloning method
+  Comment clone() {
+    return Comment(
+      id: id,
+      text: text,
+      isModified: isModified,
+      createdAt: createdAt,
+      like: like,
+      userId: userId,
+      username: username,
+      fullName: fullName,
+      profilePicture: profilePicture,
+      descendantCount: descendantCount,
+      postId: postId,
+      parentId: parentId,
+      updatedAt: updatedAt,
+    );
   }
 }

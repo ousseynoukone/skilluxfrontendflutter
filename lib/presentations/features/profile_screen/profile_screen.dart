@@ -55,8 +55,18 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
   //If this screen pop again
   @override
   didPopNext() {
+    // This stand for helping  the scrollNotification to take effect when user try to scroll down (after didPopNext)
+    _scrollToTop();
     userProfilePostService.getUserPosts(disableLoading: true);
     userProfileService.getUserInfos(disableLoading: true);
+  }
+
+  void _scrollToTop() {
+    _scrollController.animateTo(
+      _scrollController.offset - 30, // Scroll a little bit to the top
+      duration: const Duration(milliseconds: 10), // Duration of the animation
+      curve: Curves.easeInOut, // Animation curve
+    );
   }
 
   @override
