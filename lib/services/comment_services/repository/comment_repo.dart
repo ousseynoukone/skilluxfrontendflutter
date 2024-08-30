@@ -25,8 +25,7 @@ class CommentController extends GetxController {
   List<Comment> comments = [];
 
   Future<List<Comment>> getTopLevelComments(int postId) async {
-    String path =
-        'basic/post-top-level-comments/$postId/$limitComments/${comments.length + limitComments}';
+    String path = 'basic/post-top-level-comments/$postId/$limitComments/0';
 
     ApiResponse response = await _apiService.getRequest(path);
     if (response.statusCode == 200) {
@@ -42,15 +41,15 @@ class CommentController extends GetxController {
     return comments;
   }
 
-  Future<List<Comment>> loadMoreComment(int postId,
-      {bool isFirstLoading = false}) async {
-    if (hasMoreComment || isFirstLoading) {
+  Future<List<Comment>> loadMoreComment(int postId) async {
+    if (hasMoreComment) {
       String path =
           'basic/post-top-level-comments/$postId/$limitComments/${comments.length + limitComments}';
       ApiResponse response = await _apiService.getRequest(path);
 
       if (response.statusCode == 200) {
         hasMoreComment = response.body["hasMore"];
+
         List<Comment> newComments = [];
 
         for (var comment in response.body["comments"]) {
@@ -60,7 +59,7 @@ class CommentController extends GetxController {
           comments.addAll(newComments);
         }
       } else {
-        _logger.e(response.message);
+        _logger.e(response.message ?? "");
       }
     } else {
       comments = [];
@@ -78,6 +77,38 @@ class CommentController extends GetxController {
       return true;
     }
     _logger.e(response.statusCode);
+    return false;
+  }
+
+  Future<bool> likeComment(int commentId) async {
+    String path = 'basic/comments/vote/$commentId';
+
+    try {
+      ApiResponse response = await _apiService.postRequest(path);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } catch (e) {
+      _logger.e(e);
+    }
+
+    return false;
+  }
+
+  Future<bool> unLikeComment(int commentId) async {
+    String path = 'basic/comments/unvote/$commentId';
+
+    try {
+      ApiResponse response = await _apiService.postRequest(path);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } catch (e) {
+      _logger.e(e);
+    }
+
     return false;
   }
 }

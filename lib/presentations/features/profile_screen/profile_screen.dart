@@ -63,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
 
   void _scrollToTop() {
     _scrollController.animateTo(
-      _scrollController.offset - 30, // Scroll a little bit to the top
+      _scrollController.offset - 50, // Scroll a little bit to the top
       duration: const Duration(milliseconds: 10), // Duration of the animation
       curve: Curves.easeInOut, // Animation curve
     );

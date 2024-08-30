@@ -280,4 +280,24 @@ class UserService extends GetxController {
       rethrow;
     }
   }
+
+  Future<List<int>> getUserLikesId({bool isForPost = false}) async {
+    var ressourceType = isForPost ? "post" : "comment";
+    List<int> likedElementId = [];
+
+    String path = "basic/user-likes-ids/$ressourceType";
+    try {
+      ApiResponse response = await _apiService.getRequest(path);
+      if (response.statusCode == 200) {
+        for (var id in response.body) {
+          likedElementId.add(id);
+        }
+      }
+
+      return likedElementId;
+    } catch (e) {
+      _logger.e(e.toString());
+      rethrow;
+    }
+  }
 }

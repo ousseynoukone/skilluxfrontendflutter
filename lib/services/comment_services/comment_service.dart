@@ -6,22 +6,24 @@ import 'package:skilluxfrontendflutter/models/comment/comment.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/repository/comment_repo.dart';
 
-class CommentService extends GetxController with StateMixin<List<Comment>> {
+class CommentService extends GetxController with StateMixin<RxList<Comment>> {
   final APIService _apiService = Get.find();
   final CommentController _commentController = Get.find();
   RxBool isLoading = false.obs;
   RxBool isCommentLoading = false.obs;
   final Logger _logger = Logger();
   final text = Get.context?.localizations;
-  List<Comment> comments = <Comment>[].obs;
+  RxList<Comment> comments = <Comment>[].obs;
 
   void getPostTopComments(int postId, {bool disableLoading = false}) async {
     try {
+      comments.value = [];
       if (!disableLoading) {
         change(comments, status: RxStatus.loading());
       }
-      comments = await _commentController.getTopLevelComments(postId);
-
+      var fetchedComments =
+          await _commentController.getTopLevelComments(postId);
+      comments.assignAll(fetchedComments);
       if (comments.isEmpty) {
         change(comments, status: RxStatus.empty());
       } else {
@@ -45,7 +47,7 @@ class CommentService extends GetxController with StateMixin<List<Comment>> {
 
       if (newComment.isNotEmpty) {
         // Deep copy the posts
-        comments = newComment.map((comment) => comment.clone()).toList();
+        comments.value = newComment.map((comment) => comment.clone()).toList();
         change(comments, status: RxStatus.success());
       }
 
@@ -78,5 +80,34 @@ class CommentService extends GetxController with StateMixin<List<Comment>> {
       showCustomSnackbar(title: text!.error, message: text!.errorUnexpected);
     }
     isCommentLoading.value = false;
+  }
+
+  Future<bool> likeComment(int commentId) async {
+    bool response = await _commentController.likeComment(commentId);
+    if (response) {
+      var index = comments.indexWhere((comment) => comment.id == commentId);
+      if (index != -1) {
+        comments[index].likeComment();
+        comments.refresh();
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> unLikeComment(int commentId) async {
+    bool response = await _commentController.unLikeComment(commentId);
+    if (response) {
+      var index = comments.indexWhere((comment) => comment.id == commentId);
+      if (index != -1) {
+        comments[index].unLikeComment();
+        comments.refresh();
+      }
+
+      return true;
+    } else {
+      return false;
+    }
   }
 }

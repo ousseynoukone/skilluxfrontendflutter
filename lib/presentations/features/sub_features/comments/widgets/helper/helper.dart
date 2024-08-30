@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
+import 'package:skilluxfrontendflutter/services/user_services/controller/user_service.dart';
 
 String formatLikes(int likes) {
   // Get user's language preference if not provided
@@ -25,6 +26,12 @@ String formatLikes(int likes) {
     double thousands = likes / 1000;
     return '${thousands.toStringAsFixed(1)}${t['thousand']}';
   } else {
-    return "Infinity";
+    return likes.toString();
   }
+}
+
+Future<bool> isElementAlreadyLiked(int elementId, {bool isForPost = false}) async {
+  final UserService userService = Get.find();
+  List<int> ids = await userService.getUserLikesId(isForPost: isForPost);
+  return ids.any((id) => id == elementId);
 }

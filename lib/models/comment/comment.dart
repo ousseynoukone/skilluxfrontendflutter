@@ -3,7 +3,7 @@ class Comment {
   final String text;
   final bool isModified;
   final DateTime createdAt;
-  final int like;
+  int like;
   final int userId;
   final String? username;
   final String? fullName;
@@ -66,6 +66,13 @@ class Comment {
     };
   }
 
+  likeComment() {
+    like += 1;
+  }
+    unLikeComment() {
+    like -= 1;
+  }
+  
   // Cloning method
   Comment clone() {
     return Comment(

@@ -6,44 +6,12 @@ import 'package:skilluxfrontendflutter/presentations/features/sub_features/comme
 import 'package:skilluxfrontendflutter/services/comment_services/comment_service.dart';
 import 'package:logger/logger.dart';
 
-class CommentScreen extends StatefulWidget {
+class CommentScreen extends StatelessWidget {
   final int postId;
-
-  const CommentScreen({Key? key, required this.postId}) : super(key: key);
-
-  @override
-  _CommentScreenState createState() => _CommentScreenState();
-}
-
-class _CommentScreenState extends State<CommentScreen> with RouteAware {
-  final Logger _logger = Logger();
   final CommentService _commentService = Get.find();
+  final Logger _logger = Logger();
 
-  @override
-  void initState() {
-    super.initState();
-    _commentService.getPostTopComments(widget.postId);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  Widget displayComment(List<Comment> comments) {
-    return ListView.builder(
-      shrinkWrap: true,
-      // physics: const NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.zero,
-      itemCount: comments.length,
-      itemBuilder: (context, int index) {
-        return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: CommentComponent(comment: comments[index]),
-        );
-      },
-    );
-  }
+  CommentScreen({Key? key, required this.postId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,16 +19,36 @@ class _CommentScreenState extends State<CommentScreen> with RouteAware {
     var themeText = context.textTheme;
     var colorScheme = Theme.of(context).colorScheme;
 
-    return Column(
-      children: [
-        _commentService.obx(
-          (state) => displayComment(state!),
-          onLoading: CircularProgressIndicator(color: colorScheme.onPrimary),
-          onEmpty:
-              Center(child: Text(text.noComment, style: themeText.bodySmall)),
-          onError: (error) => Text(text.errorUnexpected),
-        ),
-      ],
+    return GetBuilder<CommentService>(
+      init: _commentService,
+      initState: (_) {
+        _commentService.getPostTopComments(postId);
+      },
+      builder: (controller) {
+        if (controller.status.isLoading) {
+          return Center(
+              child: CircularProgressIndicator(
+            color: colorScheme.primaryContainer,
+          ));
+        } else if (controller.status.isEmpty) {
+          return Center(
+              child: Text(text.noComment, style: themeText.bodySmall));
+        } else if (controller.status.isError) {
+          return Center(
+              child: Text(text.errorUnexpected, style: themeText.bodySmall));
+        } else {
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: controller.comments.length,
+            itemBuilder: (context, int index) {
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: CommentComponent(comment: controller.comments[index]),
+              );
+            },
+          );
+        }
+      },
     );
   }
 }

@@ -59,7 +59,8 @@ class _PostViewWidgetState extends State<PostViewWidget>
             _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {
       // We have reached the end of the list
-      _commentService.loadMoreTopComments(widget.post.id!, disableLoading: true);
+      _commentService.loadMoreTopComments(widget.post.id!,
+          disableLoading: true);
     }
   }
 
@@ -142,11 +143,20 @@ class _PostViewWidgetState extends State<PostViewWidget>
                 child: sectionBuilderForViewAndPreview(
                     quillController: controller),
               ),
-            Center(
-              child: Text(
-                text.comments,
-                style: themeText.titleSmall,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  text.comments,
+                  style: themeText.titleSmall,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  '(${widget.post.commentNumber})',
+                  style: themeText.bodySmall,
+                ),
+              ],
             ),
             Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16),

@@ -50,6 +50,9 @@ class Post {
   @HiveField(11)
   BinaryMedia? headerBinaryImage;
 
+  @HiveField(12)
+  final int commentNumber;
+
   // For implementation purpose
   XFile? headerImageIMG;
 
@@ -58,6 +61,7 @@ class Post {
     required this.title,
     this.readNumber = 0,
     this.votesNumber = 0,
+    this.commentNumber = 0,
     this.isPublished = false,
     this.headerImageUrl,
     required this.tags,
@@ -76,6 +80,7 @@ class Post {
       readNumber: body['readNumber'],
       votesNumber: body['votesNumber'],
       isPublished: body['isPublished'],
+      commentNumber: body['commentCount'],
       headerImageUrl: body['headerImage'],
       tags: List<String>.from(body['tags']),
       createdAt:
@@ -144,6 +149,7 @@ class Post {
     String? title,
     int? readNumber,
     int? votesNumber,
+    int? commentNumber,
     bool? isPublished,
     String? headerImageUrl,
     List<String>? tags,
@@ -158,6 +164,7 @@ class Post {
       id: id ?? this.id,
       title: title ?? this.title,
       readNumber: readNumber ?? this.readNumber,
+      commentNumber: commentNumber ?? this.commentNumber,
       votesNumber: votesNumber ?? this.votesNumber,
       isPublished: isPublished ?? this.isPublished,
       headerImageUrl: headerImageUrl ?? this.headerImageUrl,
@@ -266,6 +273,7 @@ class Post {
       id: id,
       title: title,
       readNumber: readNumber,
+      commentNumber: commentNumber,
       votesNumber: votesNumber,
       isPublished: isPublished,
       headerImageUrl: headerImageUrl,
@@ -288,6 +296,7 @@ class Post {
     _logger.d('ID: $id');
     _logger.d('Title: $title');
     _logger.d('Read Number: $readNumber');
+    _logger.d('Comment Number: $commentNumber');
     _logger.d('Votes Number: $votesNumber');
     _logger.d('Is Published: $isPublished');
     _logger.d('Header Image URL: $headerImageUrl');

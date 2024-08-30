@@ -3,14 +3,17 @@ import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/helper/helper.dart';
+import 'package:skilluxfrontendflutter/services/comment_services/comment_service.dart';
 
 class LikeAndReplyWidget extends StatefulWidget {
   final int initialLikes;
+  final int commentId;
   final VoidCallback onReplyPressed;
 
   LikeAndReplyWidget({
     Key? key,
     required this.initialLikes,
+    required this.commentId,
     required this.onReplyPressed,
   }) : super(key: key);
 
@@ -22,21 +25,47 @@ class _LikeAndReplyWidgetState extends State<LikeAndReplyWidget> {
   late int _numberOfLikes;
   bool _isLiked = false;
 
+  final CommentService _commentService = Get.find();
+
   @override
   void initState() {
     super.initState();
     _numberOfLikes = widget.initialLikes;
+    _initializeLikeStatus();
   }
 
-  void _toggleLike() {
+  Future<void> _initializeLikeStatus() async {
+    final isLiked = await isElementAlreadyLiked(widget.commentId);
+    setState(() {
+      _isLiked = isLiked;
+    });
+  }
+
+  void _toggleLike() async {
+    final previousLikes = _numberOfLikes;
+    final wasLiked = _isLiked;
+
     setState(() {
       if (_isLiked) {
         _numberOfLikes--;
+        _isLiked = false;
       } else {
         _numberOfLikes++;
+        _isLiked = true;
       }
-      _isLiked = !_isLiked;
     });
+
+    final success = _isLiked
+        ? await _commentService.likeComment(widget.commentId)
+        : await _commentService.unLikeComment(widget.commentId);
+
+    if (!success) {
+      // Revert changes if the request fails
+      setState(() {
+        _numberOfLikes = previousLikes;
+        _isLiked = wasLiked;
+      });
+    }
   }
 
   @override
@@ -51,7 +80,7 @@ class _LikeAndReplyWidgetState extends State<LikeAndReplyWidget> {
     } else if (_numberOfLikes == 1) {
       likeText = text.oneLike;
     } else {
-      likeText = "$_numberOfLikes ${text.likes}";
+      likeText = "${formatLikes(_numberOfLikes)} ${text.likes}";
     }
 
     return Row(
@@ -68,7 +97,7 @@ class _LikeAndReplyWidgetState extends State<LikeAndReplyWidget> {
         if (likeText.isNotEmpty)
           Flexible(
             child: Text(
-              formatLikes(widget.initialLikes),
+              likeText,
               style: themeText.bodySmall?.copyWith(fontSize: 12),
               overflow: TextOverflow.visible, // Allows text to wrap
             ),
