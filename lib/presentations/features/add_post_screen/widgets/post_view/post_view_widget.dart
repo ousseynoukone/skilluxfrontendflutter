@@ -22,7 +22,9 @@ import 'package:skilluxfrontendflutter/services/comment_services/comment_service
 
 class PostViewWidget extends StatefulWidget {
   final Post post;
-  const PostViewWidget({super.key, required this.post});
+  final bool allowCommentDiplaying;
+  const PostViewWidget(
+      {super.key, required this.post, this.allowCommentDiplaying = false});
 
   @override
   State<PostViewWidget> createState() => _PostViewWidgetState();
@@ -37,7 +39,6 @@ class _PostViewWidgetState extends State<PostViewWidget>
   final TextEditingController _commentController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final CommentService _commentService = Get.put(CommentService());
-
   Future<void> _getUser() async {
     user = await _hiveUserPersistence.readUser();
     if (mounted) setState(() {});
@@ -79,6 +80,11 @@ class _PostViewWidgetState extends State<PostViewWidget>
     var text = context.localizations;
     var themeText = context.textTheme;
     var colorScheme = Theme.of(context).colorScheme;
+    bool allowCommentDiplaying = false;
+    if (widget.allowCommentDiplaying == true ||
+        widget.post.commentNumber <= 0) {
+      allowCommentDiplaying = true;
+    }
 
     Widget displayReadingTime() {
       int documentLength = controller.document.length;
@@ -131,6 +137,44 @@ class _PostViewWidgetState extends State<PostViewWidget>
       );
     }
 
+    Widget comments() {
+      return allowCommentDiplaying
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          text.comments,
+                          style: themeText.titleSmall,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          '(${widget.post.commentNumber})',
+                          style: themeText.bodySmall,
+                        ),
+                      ],
+                    ),
+                    Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        child: const Divider(
+                          thickness: 0.2,
+                        )),
+                  ],
+                ),
+                CommentScreen(
+                  postId: widget.post.id!,
+                ),
+              ],
+            )
+          : const SizedBox.shrink();
+    }
+
     Widget displayPost() {
       return Scaffold(
         body: ListView(
@@ -143,32 +187,11 @@ class _PostViewWidgetState extends State<PostViewWidget>
                 child: sectionBuilderForViewAndPreview(
                     quillController: controller),
               ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  text.comments,
-                  style: themeText.titleSmall,
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  '(${widget.post.commentNumber})',
-                  style: themeText.bodySmall,
-                ),
-              ],
-            ),
-            Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                child: const Divider(
-                  thickness: 0.2,
-                )),
-            CommentScreen(
-              postId: widget.post.id!,
-            )
+            comments()
           ],
         ),
-        bottomNavigationBar: bottomNavBar(),
+        bottomNavigationBar:
+            widget.allowCommentDiplaying ? bottomNavBar() : null,
       );
     }
 

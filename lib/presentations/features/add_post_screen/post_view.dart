@@ -49,7 +49,10 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
           )
         ],
       ),
-      body: PostViewWidget(post: widget.post),
+      body: PostViewWidget(
+        post: widget.post,
+        allowCommentDiplaying: true,
+      ),
       // bottomNavigationBar: SizedBox(
       //   height: 60,
       //   child: widget.isForOther? const SizedBox.shrink() : Center(

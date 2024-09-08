@@ -19,7 +19,7 @@ class CommentController extends GetxController {
   final Logger _logger = Logger();
 
   // Variables for pagination
-  var limitComments = 2;
+  var limitComments = 11;
   bool hasMoreComment = false;
 
   List<Comment> comments = [];
@@ -44,7 +44,7 @@ class CommentController extends GetxController {
   Future<List<Comment>> loadMoreComment(int postId) async {
     if (hasMoreComment) {
       String path =
-          'basic/post-top-level-comments/$postId/$limitComments/${comments.length + limitComments}';
+          'basic/post-top-level-comments/$postId/$limitComments/${(comments.length - limitComments) + limitComments}';
       ApiResponse response = await _apiService.getRequest(path);
 
       if (response.statusCode == 200) {
@@ -66,6 +66,33 @@ class CommentController extends GetxController {
     }
 
     return comments;
+  }
+
+  Future<List<Comment>> loadChildrenComments(int parentId) async {
+    String path = 'basic/children_comments/$parentId/$limitComments/0';
+    ApiResponse response = await _apiService.getRequest(path);
+
+    if (response.statusCode == 200) {
+      for (var comment in response.body["comments"]) {
+        Comment childComment = Comment.fromJson(comment);
+
+        Comment? parentComment =
+            comments.firstWhereOrNull((comment) => comment.id == parentId);
+
+        if (parentComment != null) {
+          parentComment.children.add(childComment);
+        }
+
+        // hasMoreComment = response.body["hasMore"];
+      }
+    }
+    return comments;
+  }
+
+  unloadChildrenComments(int parentId) {
+    Comment? parentComment =
+        comments.firstWhere((comment) => comment.id == parentId);
+    parentComment.children = [];
   }
 
   Future<bool> deleteComment(int commentId) async {

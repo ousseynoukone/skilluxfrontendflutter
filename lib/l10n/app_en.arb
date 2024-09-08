@@ -180,7 +180,9 @@
   "likes":"likes",
   "reply":"reply",
 
-  "noComment":"No comment found"
+  "noComment":"No comment found",
+  "showReplies":"Show replies",
+  "showReply":"Show reply"
 
   
 

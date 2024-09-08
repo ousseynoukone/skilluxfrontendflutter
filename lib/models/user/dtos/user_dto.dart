@@ -4,15 +4,15 @@ class UserDTO {
   final int id;
   final String fullName;
   final String username;
-  final String email;
-  final String profilePicture;
+  final String? email;
+  final String? profilePicture;
 
   UserDTO({
     required this.id,
     required this.fullName,
     required this.username,
-    required this.email,
-    required this.profilePicture,
+    this.email,
+    this.profilePicture,
   });
 
   // Factory constructor to create a UserDTO from a Map

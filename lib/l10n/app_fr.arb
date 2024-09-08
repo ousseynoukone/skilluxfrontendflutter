@@ -179,7 +179,9 @@
   "likes":"aimes",
   "reply":"repondre",
 
-  "noComment":"Cette publication n'a pas encore de commentaire."
+  "noComment":"Cette publication n'a pas encore de commentaire.",
+  "showReplies":"afficher les reponses",
+  "showReply":"afficher la reponse"
 
 
 

@@ -11,6 +11,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
   final CommentController _commentController = Get.find();
   RxBool isLoading = false.obs;
   RxBool isCommentLoading = false.obs;
+  RxBool isCommentChildCommentLoading = false.obs;
   final Logger _logger = Logger();
   final text = Get.context?.localizations;
   RxList<Comment> comments = <Comment>[].obs;
@@ -48,6 +49,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
       if (newComment.isNotEmpty) {
         // Deep copy the posts
         comments.value = newComment.map((comment) => comment.clone()).toList();
+
         change(comments, status: RxStatus.success());
       }
 
@@ -60,6 +62,33 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
       change(comments, status: RxStatus.error(e.toString()));
     }
     isLoading.value = false;
+  }
+
+  Future<void> loadChildrenComment(int parentId,
+      {bool disableLoading = false}) async {
+    try {
+      if (!disableLoading) {
+        change(comments, status: RxStatus.loading());
+      }
+      isCommentChildCommentLoading.value = true;
+      List<Comment> newComment =
+          await _commentController.loadChildrenComments(parentId);
+
+      if (newComment.isNotEmpty) {
+        // Deep copy the posts
+        comments.value = newComment.map((comment) => comment.clone()).toList();
+        change(comments, status: RxStatus.success());
+      }
+
+    } catch (e) {
+      _logger.e(e);
+      change(comments, status: RxStatus.error(e.toString()));
+    }
+    isCommentChildCommentLoading.value = false;
+  }
+
+  void unloadChildrenComments(int parentId) {
+    _commentController.unloadChildrenComments(parentId);
   }
 
   deleteComment(int commentId) async {

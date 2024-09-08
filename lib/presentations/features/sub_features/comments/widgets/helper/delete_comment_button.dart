@@ -19,6 +19,7 @@ Widget displayDeleteCommentButton(Comment comment) {
   var colorScheme = Theme.of(Get.context!).colorScheme;
   var text = Get.context?.localizations;
 
+
   return user.id == comment.userId
       ? Obx(() => Container(
             decoration: BoxDecoration(
