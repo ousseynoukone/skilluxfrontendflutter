@@ -300,4 +300,7 @@ class UserService extends GetxController {
       rethrow;
     }
   }
+
+
+  
 }

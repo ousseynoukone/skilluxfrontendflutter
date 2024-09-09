@@ -45,8 +45,6 @@ Future<void> registerGetServices() async {
 
   Get.put(UserService());  
   
-  // Comment
-  Get.put(CommentController());  
 
 
   

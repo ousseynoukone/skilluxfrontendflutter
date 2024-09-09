@@ -5,6 +5,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
+import 'package:skilluxfrontendflutter/models/comment/sub_models/commentDto.dart';
 import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/helpers/display_time_ago.dart';
@@ -19,6 +20,8 @@ import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_field.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_form_field.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/comment_service.dart';
+import 'package:skilluxfrontendflutter/services/comment_services/repository/comment_repo.dart';
+import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
 class PostViewWidget extends StatefulWidget {
   final Post post;
@@ -36,12 +39,14 @@ class _PostViewWidgetState extends State<PostViewWidget>
   final HiveUserPersistence _hiveUserPersistence = Get.find();
   late QuillController controller;
   final Logger _logger = Logger();
-  final TextEditingController _commentController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+
+  final CommentController _commentController = Get.put(CommentController());
   final CommentService _commentService = Get.put(CommentService());
-  Future<void> _getUser() async {
-    user = await _hiveUserPersistence.readUser();
-    if (mounted) setState(() {});
+  final UserProfileService _profileService = Get.find();
+
+  void _getUser() {
+    user = _profileService.user!;
   }
 
   @override
@@ -70,7 +75,7 @@ class _PostViewWidgetState extends State<PostViewWidget>
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return const CommentField();
+        return CommentField(commentDTO: CommentDto(postId: (widget.post.id)));
       },
     );
   }
@@ -80,11 +85,7 @@ class _PostViewWidgetState extends State<PostViewWidget>
     var text = context.localizations;
     var themeText = context.textTheme;
     var colorScheme = Theme.of(context).colorScheme;
-    bool allowCommentDiplaying = false;
-    if (widget.allowCommentDiplaying == true ||
-        widget.post.commentNumber <= 0) {
-      allowCommentDiplaying = true;
-    }
+    bool allowCommentDiplaying = widget.allowCommentDiplaying;
 
     Widget displayReadingTime() {
       int documentLength = controller.document.length;
@@ -101,10 +102,8 @@ class _PostViewWidgetState extends State<PostViewWidget>
     Widget displayPostMinimalAttribute() {
       return Column(
         children: [
-          user != null
-              ? displayUserPreview(user!,
-                  trailing: displayTimeAgo(widget.post.createdAt))
-              : const CircularProgressIndicator(),
+          displayUserPreview(user!,
+              trailing: displayTimeAgo(widget.post.createdAt)),
           Container(
             alignment: Alignment.topLeft,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -139,38 +138,8 @@ class _PostViewWidgetState extends State<PostViewWidget>
 
     Widget comments() {
       return allowCommentDiplaying
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          text.comments,
-                          style: themeText.titleSmall,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          '(${widget.post.commentNumber})',
-                          style: themeText.bodySmall,
-                        ),
-                      ],
-                    ),
-                    Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        child: const Divider(
-                          thickness: 0.2,
-                        )),
-                  ],
-                ),
-                CommentScreen(
-                  postId: widget.post.id!,
-                ),
-              ],
+          ? CommentScreen(
+              postId: widget.post.id!,
             )
           : const SizedBox.shrink();
     }

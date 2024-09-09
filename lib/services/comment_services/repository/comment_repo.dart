@@ -1,18 +1,11 @@
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:skilluxfrontendflutter/core/api_service/api_service.dart';
 import 'package:skilluxfrontendflutter/models/comment/comment.dart';
-import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
-import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_controller.dart';
-import 'package:logger/logger.dart';
 
-import 'package:get/get.dart';
-import 'package:skilluxfrontendflutter/core/api_service/api_service.dart';
 import 'package:skilluxfrontendflutter/core/api_service/response_data_structure.dart';
-import 'package:skilluxfrontendflutter/models/post/post.dart';
-import 'package:skilluxfrontendflutter/models/user/dtos/user_dto.dart';
-import 'package:skilluxfrontendflutter/models/user/user.dart';
+
 import 'package:logger/logger.dart';
+import 'package:skilluxfrontendflutter/models/comment/sub_models/commentDto.dart';
 
 class CommentController extends GetxController {
   final APIService _apiService = Get.find();
@@ -21,6 +14,7 @@ class CommentController extends GetxController {
   // Variables for pagination
   var limitComments = 11;
   bool hasMoreComment = false;
+  bool hasMoreChildrenComments = true;
 
   List<Comment> comments = [];
 
@@ -69,30 +63,48 @@ class CommentController extends GetxController {
   }
 
   Future<List<Comment>> loadChildrenComments(int parentId) async {
-    String path = 'basic/children_comments/$parentId/$limitComments/0';
-    ApiResponse response = await _apiService.getRequest(path);
+    if (hasMoreChildrenComments) {
+      Comment? parentComment =
+          comments.firstWhereOrNull((comment) => comment.id == parentId);
+      if (parentComment != null) {
+        String path =
+            'basic/children_comments/$parentId/$limitComments/${(parentComment.children.length + limitComments) - limitComments}';
+        ApiResponse response = await _apiService.getRequest(path);
 
-    if (response.statusCode == 200) {
-      for (var comment in response.body["comments"]) {
-        Comment childComment = Comment.fromJson(comment);
+        if (response.statusCode == 200) {
+          for (var comment in response.body["comments"]) {
+            Comment childComment = Comment.fromJson(comment);
 
-        Comment? parentComment =
-            comments.firstWhereOrNull((comment) => comment.id == parentId);
+            parentComment.children.add(childComment);
 
-        if (parentComment != null) {
-          parentComment.children.add(childComment);
+            hasMoreChildrenComments = response.body["hasMore"];
+          }
         }
-
-        // hasMoreComment = response.body["hasMore"];
+      } else {
+        _logger.i("parentComment = null");
       }
     }
     return comments;
   }
 
-  unloadChildrenComments(int parentId) {
-    Comment? parentComment =
-        comments.firstWhere((comment) => comment.id == parentId);
-    parentComment.children = [];
+  // unloadChildrenComments(int parentId) {
+  //   Comment? parentComment =
+  //       comments.firstWhere((comment) => comment.id == parentId);
+  //   parentComment.children = [];
+  // }
+
+  Future<CommentDto?> addComment(CommentDto commentDto) async {
+    String path = 'basic/comments';
+    ApiResponse response =
+        await _apiService.postRequest(path, data: commentDto.toJson());
+
+    if (response.statusCode == 201) {
+      CommentDto comment = CommentDto.fromJson(response.body["result"]);
+      return comment;
+    }
+    _logger.e(response.statusCode);
+
+    return null;
   }
 
   Future<bool> deleteComment(int commentId) async {

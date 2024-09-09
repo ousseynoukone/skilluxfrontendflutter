@@ -25,14 +25,8 @@ class _SubCommentState extends State<SubComment> {
   void initState() {
     super.initState();
     _logger = Logger();
-    _commentService.loadChildrenComment(widget.comment.id,
+    _commentService.loadChildrenComment(widget.comment.id!,
         disableLoading: true);
-  }
-
-  @override
-  void dispose() {
-    _commentService.unloadChildrenComments(widget.comment.id);
-    super.dispose();
   }
 
   @override
@@ -58,8 +52,11 @@ class _SubCommentState extends State<SubComment> {
                 Obx(() {
                   if (_commentService.isCommentChildCommentLoading.value) {
                     return Center(
-                      child: CircularProgressIndicator(
-                        color: colorScheme.primary,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: Get.height / 2),
+                        child: CircularProgressIndicator(
+                          color: colorScheme.primary,
+                        ),
                       ),
                     );
                   } else {

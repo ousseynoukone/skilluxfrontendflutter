@@ -1,9 +1,10 @@
+import 'package:skilluxfrontendflutter/models/comment/sub_models/commentDto.dart';
 import 'package:skilluxfrontendflutter/models/user/dtos/user_dto.dart';
 
 class Comment {
-  final int id;
+  final int? id;
   final String text;
-  final bool isModified;
+  final bool? isModified;
   final DateTime createdAt;
   int like;
   final UserDTO user;
@@ -18,12 +19,12 @@ class Comment {
   List<Comment> children;
 
   Comment({
-    required this.id,
     required this.text,
     required this.user,
-    required this.isModified,
     required this.createdAt,
     required this.like,
+    this.id,
+    this.isModified,
     this.target,
     this.descendantCount = 0,
     this.postId,
@@ -50,6 +51,21 @@ class Comment {
       updatedAt:
           json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
     );
+  }
+
+  static createNewComment(CommentDto commentDto, UserDTO user,
+      {UserDTO? target}) {
+    return Comment(
+        id: commentDto.id,
+        text: commentDto.text!,
+        user: user,
+        postId: commentDto.postId,
+        parentId: commentDto.parentId,
+        userId: commentDto.userId,
+        target: target,
+        isModified: null,
+        createdAt: DateTime.now(),
+        like: 0);
   }
 
   Map<String, dynamic> toJson() {

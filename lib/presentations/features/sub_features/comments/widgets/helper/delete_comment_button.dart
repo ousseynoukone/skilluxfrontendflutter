@@ -19,7 +19,6 @@ Widget displayDeleteCommentButton(Comment comment) {
   var colorScheme = Theme.of(Get.context!).colorScheme;
   var text = Get.context?.localizations;
 
-
   return user.id == comment.userId
       ? Obx(() => Container(
             decoration: BoxDecoration(
@@ -31,11 +30,14 @@ Widget displayDeleteCommentButton(Comment comment) {
                 icon: Icons.delete_outline,
                 iconColor: ColorsTheme.primary,
                 onPressed: () {
+                  if (Get.isOverlaysOpen) {
+                    Get.back();
+                  }
                   Get.dialog(ConfirmationDialog(
                       title: text!.confirmation,
                       content: text.confirm,
                       onConfirm: () {
-                        commentService.deleteComment(comment.id);
+                        commentService.deleteComment(comment);
                       }));
                 },
                 isLoading: commentService.isCommentLoading.value),

@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
+import 'package:skilluxfrontendflutter/models/comment/sub_models/commentDto.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:skilluxfrontendflutter/presentations/features/user_components/user_preview.dart';
+import 'package:skilluxfrontendflutter/presentations/shared_widgets/icon_button.dart';
+import 'package:skilluxfrontendflutter/services/comment_services/comment_service.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
 class CommentField extends StatefulWidget {
-  const CommentField({super.key});
+  final CommentDto commentDTO;
+
+  const CommentField({super.key, required this.commentDTO});
 
   @override
   State<CommentField> createState() => _CommentFieldState();
 }
 
 class _CommentFieldState extends State<CommentField> {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _commentTextController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final UserProfileService _userProfileService = Get.find();
+  final CommentService _commentService = Get.find();
 
   @override
   void initState() {
@@ -28,7 +34,7 @@ class _CommentFieldState extends State<CommentField> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _commentTextController.dispose();
     _focusNode.dispose();
     super.dispose();
   }
@@ -37,6 +43,7 @@ class _CommentFieldState extends State<CommentField> {
   Widget build(BuildContext context) {
     var text = context.localizations;
     var colorScheme = Theme.of(context).colorScheme;
+    var textTheme = Theme.of(context).textTheme;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -49,7 +56,9 @@ class _CommentFieldState extends State<CommentField> {
           ),
           Expanded(
             child: TextField(
-              controller: _controller,
+              style:
+                  textTheme.bodySmall?.copyWith(color: colorScheme.onSurface),
+              controller: _commentTextController,
               focusNode: _focusNode,
               minLines: 1,
               maxLines: 3,
@@ -70,10 +79,18 @@ class _CommentFieldState extends State<CommentField> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: colorScheme.primary),
-            child: IconButton(
-              hoverColor: Colors.transparent,
-              onPressed: () {},
-              icon: const Icon(Icons.send, size: 30),
+            child: Obx(
+              () => CustomIconButton(
+                  onPressed: () {
+                    String text = _commentTextController.text.trim();
+                    if (text.isNotEmpty) {
+                      CommentDto comment = widget.commentDTO.clone(text: text);
+                      _commentService.addComment(comment);
+                    }
+                  },
+                  isLoading: _commentService.isAddingCommentLoading.value,
+                  icon: Icons.send,
+                  overideIconSize: 25),
             ),
           )
         ],

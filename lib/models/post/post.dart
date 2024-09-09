@@ -51,7 +51,7 @@ class Post {
   BinaryMedia? headerBinaryImage;
 
   @HiveField(12)
-  final int commentNumber;
+  int commentNumber;
 
   // For implementation purpose
   XFile? headerImageIMG;
