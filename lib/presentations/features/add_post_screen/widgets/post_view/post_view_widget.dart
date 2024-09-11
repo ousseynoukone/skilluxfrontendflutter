@@ -17,8 +17,6 @@ import 'package:skilluxfrontendflutter/presentations/features/sub_features/comme
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/comment_field/comment_field.dart';
 import 'package:skilluxfrontendflutter/presentations/features/user_components/user_preview.dart';
 import 'package:logger/logger.dart';
-import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_field.dart';
-import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_form_field.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/comment_service.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/repository/comment_repo.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';

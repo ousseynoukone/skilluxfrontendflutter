@@ -296,19 +296,19 @@ class UserProfilePostService extends GetxController
 
   // LOCAL UPDATE SERVE TO UPDATE POST STATE BASED ON ACTIONS THAT HAVE BEEN DONE ELSEWHERE , IT HELP TO HAVE A SEAMLESS USER'S EXPERIENCE
 
-  localUpdateIncremenCommentNumber(postId) {
+  localUpdateIncremenCommentNumber(postId,{int number = 1}) {
     var post = posts!.firstWhereOrNull(
       (post) => post.id == postId,
     );
-    post!.commentNumber += 1;
+    post!.commentNumber += number;
     change(posts, status: RxStatus.success());
   }
 
-  localUpdateDecrementCommentNumber(postId) {
+  localUpdateDecrementCommentNumber(postId,{int number = 1}) {
     var post = posts!.firstWhereOrNull(
       (post) => post.id == postId,
     );
-    post!.commentNumber -= 1;
+    post!.commentNumber -= number;
     change(posts, status: RxStatus.success());
   }
 }

@@ -4,79 +4,103 @@ import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart'
 import 'package:skilluxfrontendflutter/models/comment/comment.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/comment.dart';
 import 'package:logger/logger.dart';
-import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_button.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/comment_service.dart';
+import 'package:skilluxfrontendflutter/services/system_services/route_observer_utils/route_observer_utils.dart';
 
 class SubComment extends StatefulWidget {
   final Comment comment;
 
-  const SubComment({super.key, required this.comment});
+  const SubComment({Key? key, required this.comment}) : super(key: key);
 
   @override
   State<SubComment> createState() => _SubCommentState();
 }
 
-class _SubCommentState extends State<SubComment> {
+class _SubCommentState extends State<SubComment> with RouteAware {
   late final Logger _logger;
-  bool isReplyShown = false;
   final CommentService _commentService = Get.find();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _logger = Logger();
-    _commentService.loadChildrenComment(widget.comment.id!,
-        disableLoading: true);
+    _commentService.getChildrenComments(widget.comment.id!,
+        disableLoading: false);
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    ObserverUtils.routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void didPopNext() {
+    // Handle route pop if needed
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      _commentService.loadChildrenComments(widget.comment.id!,
+          disableLoading: true);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    var text = context.localizations;
-    var themeText = context.textTheme;
     var colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       body: Container(
         height: Get.height,
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
-          child: GetX<CommentService>(builder: (controller) {
-            var updatedComment = controller.comments.firstWhere(
+          controller: _scrollController,
+          child: GetX<CommentService>(
+            builder: (controller) {
+              final updatedComment = controller.comments.firstWhere(
                 (c) => c.id == widget.comment.id,
-                orElse: () => widget.comment);
-            return Column(
-              children: [
-                CommentComponent(
-                  comment: widget.comment,
-                  displayReply: false,
-                ),
-                Obx(() {
-                  if (_commentService.isCommentChildCommentLoading.value) {
-                    return Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: Get.height / 2),
-                        child: CircularProgressIndicator(
-                          color: colorScheme.primary,
+                orElse: () => widget.comment,
+              );
+
+              return Column(
+                children: [
+                  CommentComponent(
+                    comment: updatedComment,
+                    displayReply: false,
+                  ),
+                  Obx(() {
+                    if (_commentService.isCommentChildCommentLoading.value) {
+                      return Center(
+                        child: Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: Get.height / 2),
+                          child: CircularProgressIndicator(
+                            color: colorScheme.onPrimary,
+                          ),
                         ),
-                      ),
-                    );
-                  } else {
-                    if (updatedComment.children.isNotEmpty) {
-                      return showChildrenComments(updatedComment);
-                    } else {
-                      return const SizedBox.shrink();
+                      );
                     }
-                  }
-                })
-              ],
-            );
-          }),
+                    if (updatedComment.children.isNotEmpty) {
+                      return _showChildrenComments(updatedComment);
+                    }
+                    return const SizedBox.shrink();
+                  }),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
   }
 
-  Widget showChildrenComments(Comment comment) {
-    List<Comment> childrenComments = comment.children;
+  Widget _showChildrenComments(Comment comment) {
+    final childrenComments = comment.children;
+
     return Padding(
       padding: const EdgeInsets.only(left: 16),
       child: Column(

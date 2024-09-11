@@ -4,8 +4,8 @@ import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart'
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/models/comment/comment.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/helpers/display_time_ago.dart';
+import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/comment_actions_widget.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/helper/delete_comment_button.dart';
-import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/helper/like.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/sub_comment.dart';
 import 'package:skilluxfrontendflutter/presentations/features/user_components/user_preview.dart';
 import 'package:logger/logger.dart';
@@ -52,7 +52,7 @@ class CommentComponent extends StatelessWidget {
                   displayUserPP(updatedComment.user.profilePicture, radius: 30),
 
                   // Small gap between profile picture and text content
-                  const SizedBox(width: 4),
+                  const SizedBox(width: 8),
 
                   // Column to hold user details and comment content
                   Expanded(
@@ -125,12 +125,9 @@ class CommentComponent extends StatelessWidget {
       children: [
         displayTimeAgoSync(updatedComment.createdAt),
         if (updatedComment.id != null)
-          LikeAndReplyWidget(
+          CommentActionsWidget(
             initialLikes: updatedComment.like,
-            commentId: updatedComment.id!,
-            onReplyPressed: () {
-              // Handle reply action
-            },
+            comment: updatedComment,
           ),
         const SizedBox(width: 8),
         displayDeleteCommentButton(updatedComment),

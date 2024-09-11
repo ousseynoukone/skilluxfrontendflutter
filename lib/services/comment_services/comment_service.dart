@@ -8,6 +8,7 @@ import 'package:skilluxfrontendflutter/models/user/dtos/user_dto.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/repository/comment_repo.dart';
+import 'package:skilluxfrontendflutter/services/comment_services/repository/helper.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
 class CommentService extends GetxController with StateMixin<RxList<Comment>> {
@@ -72,16 +73,35 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
     isTopCommentLoading.value = false;
   }
 
-  Future<void> loadChildrenComment(int parentId,
+  Future<void> getChildrenComments(int parentId,
       {bool disableLoading = false}) async {
     try {
       if (!disableLoading) {
-        change(comments, status: RxStatus.loading());
+        isCommentChildCommentLoading.value = true;
+      }
+
+      var fetchedComments =
+          await _commentController.getChildrenComments(parentId);
+      if (fetchedComments.isNotEmpty) {
+        comments.assignAll(fetchedComments);
+        change(comments, status: RxStatus.success());
+      }
+    } catch (e) {
+      _logger.e(e);
+      change(comments, status: RxStatus.error(e.toString()));
+    }
+    isCommentChildCommentLoading.value = false;
+  }
+
+  Future<void> loadChildrenComments(int parentId,
+      {bool disableLoading = false}) async {
+    try {
+      if (!disableLoading) {
+        // change(comments, status: RxStatus.loading());
         isCommentChildCommentLoading.value = true;
       }
       List<Comment> newComment =
           await _commentController.loadChildrenComments(parentId);
-
       if (newComment.isNotEmpty) {
         // Deep copy the posts
         comments.value = newComment.map((comment) => comment.clone()).toList();
@@ -98,42 +118,23 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
   //   _commentController.unloadChildrenComments(parentId);
   // }
   Future<void> deleteComment(Comment comment) async {
-    isCommentLoading.value = true;
+    try {
+      // Delete the comment from the backend
+      await _commentController.deleteComment(comment.id!);
 
-    // Delete the comment from the backend
-    bool response = await _commentController.deleteComment(comment.id!);
-
-    if (response) {
       // Remove the deleted comment from the comments array or its children
-      _removeCommentFromList(comments, comment);
+      bool removed = removeCommentFromList(comments, comment);
 
-      // Update the state
-      change(comments, status: RxStatus.success());
-
-      // Update related post comment number
-      _postService.localUpdateDecrementCommentNumber(comment.postId);
-    } else {
+      if (removed) {
+        // Update the state only if a comment was actually removed
+        change(comments, status: RxStatus.success());
+      }
+    } catch (e) {
       // Show error snackbar
       showCustomSnackbar(
         title: text!.error,
         message: text!.errorUnexpected,
       );
-    }
-
-    isCommentLoading.value = false;
-  }
-
-// Recursive function to remove a comment from a list or its children
-  void _removeCommentFromList(
-      List<Comment> commentList, Comment commentToRemove) {
-    for (var comment in commentList) {
-      if (comment.id == commentToRemove.id) {
-        commentList.remove(comment);
-        return; // Exit the function once the comment is removed
-      } else {
-        // Check the children of the current comment
-        _removeCommentFromList(comment.children, commentToRemove);
-      }
     }
   }
 
@@ -153,20 +154,24 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
 
       if (commentDto.parentId == null) {
         comment = Comment.createNewComment(response, userDto);
+        comments.insert(0, comment);
       } else {
-        User? fUser =
-            await _userProfileService.getOneUserInfo(response.targetId!);
+        User? fUser;
 
-        if (fUser == null) {
-          throw ("ERROR ");
+        if (response.targetId != null) {
+          fUser = await _userProfileService.getOneUserInfo(response.targetId!);
         }
 
-        UserDTO target = UserDTO(
-            id: fUser.id, fullName: fUser.fullName, username: fUser.username);
-
+        UserDTO? target;
+        if (fUser != null) {
+          target = UserDTO(
+              id: fUser.id, fullName: fUser.fullName, username: fUser.username);
+        }
         comment = Comment.createNewComment(response, userDto, target: target);
+        // Insert this child comment to it's parent children
+        comment.log();
+        insertChildToParent(comment, comments);
       }
-      comments.insert(0, comment);
 
       change(comments, status: RxStatus.success());
 
@@ -175,7 +180,10 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
       // TO UPDATE RELATED POST COMMENT NUMBER
       _postService.localUpdateIncremenCommentNumber(commentDto.postId);
     } else {
-      showCustomSnackbar(title: text!.error, message: text!.errorUnexpected);
+      showCustomSnackbar(
+          title: text!.error,
+          message: text!.errorUnexpected,
+          snackType: SnackType.error);
     }
     isAddingCommentLoading.value = false;
   }

@@ -5,27 +5,30 @@ import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/helper/helper.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/comment_service.dart';
 
-class LikeAndReplyWidget extends StatefulWidget {
+// Abstract LikeWidget that can be used for different likeable elements
+class LikeWidget extends StatefulWidget {
   final int initialLikes;
-  final int commentId;
-  final VoidCallback onReplyPressed;
+  final int elementId;
+  final Future<bool> Function(int) likeFunction;
+  final Future<bool> Function(int) unlikeFunction;
+  final Future<bool> Function(int) isLikedFunction;
 
-  LikeAndReplyWidget({
+  const LikeWidget({
     Key? key,
     required this.initialLikes,
-    required this.commentId,
-    required this.onReplyPressed,
+    required this.elementId,
+    required this.likeFunction,
+    required this.unlikeFunction,
+    required this.isLikedFunction,
   }) : super(key: key);
 
   @override
-  _LikeAndReplyWidgetState createState() => _LikeAndReplyWidgetState();
+  _LikeWidgetState createState() => _LikeWidgetState();
 }
 
-class _LikeAndReplyWidgetState extends State<LikeAndReplyWidget> {
+class _LikeWidgetState extends State<LikeWidget> {
   late int _numberOfLikes;
   bool _isLiked = false;
-
-  final CommentService _commentService = Get.find();
 
   @override
   void initState() {
@@ -35,7 +38,7 @@ class _LikeAndReplyWidgetState extends State<LikeAndReplyWidget> {
   }
 
   Future<void> _initializeLikeStatus() async {
-    final isLiked = await isElementAlreadyLiked(widget.commentId);
+    final isLiked = await widget.isLikedFunction(widget.elementId);
     setState(() {
       _isLiked = isLiked;
     });
@@ -56,8 +59,8 @@ class _LikeAndReplyWidgetState extends State<LikeAndReplyWidget> {
     });
 
     final success = _isLiked
-        ? await _commentService.likeComment(widget.commentId)
-        : await _commentService.unLikeComment(widget.commentId);
+        ? await widget.likeFunction(widget.elementId)
+        : await widget.unlikeFunction(widget.elementId);
 
     if (!success) {
       // Revert changes if the request fails
@@ -72,7 +75,6 @@ class _LikeAndReplyWidgetState extends State<LikeAndReplyWidget> {
   Widget build(BuildContext context) {
     var text = context.localizations;
     var themeText = context.textTheme;
-    var colorScheme = Theme.of(context).colorScheme;
 
     String likeText;
     if (_numberOfLikes == 0) {
@@ -84,7 +86,6 @@ class _LikeAndReplyWidgetState extends State<LikeAndReplyWidget> {
     }
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
@@ -99,22 +100,13 @@ class _LikeAndReplyWidgetState extends State<LikeAndReplyWidget> {
             child: Text(
               likeText,
               style: themeText.bodySmall?.copyWith(fontSize: 12),
-              overflow: TextOverflow.visible, // Allows text to wrap
+              overflow: TextOverflow.visible,
             ),
           ),
-        const SizedBox(
-            width: 16), // Add space between like count and reply button
-        TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: colorScheme.primaryContainer,
-          ),
-          onPressed: widget.onReplyPressed,
-          child: Text(
-            text.reply,
-            style: themeText.bodySmall?.copyWith(fontSize: 12),
-          ),
-        ),
       ],
     );
   }
 }
+
+
+

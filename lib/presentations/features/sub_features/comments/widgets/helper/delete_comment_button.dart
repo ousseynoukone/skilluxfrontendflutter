@@ -30,7 +30,7 @@ Widget displayDeleteCommentButton(Comment comment) {
                 icon: Icons.delete_outline,
                 iconColor: ColorsTheme.primary,
                 onPressed: () {
-                  if (Get.isOverlaysOpen) {
+                  if (Get.isSnackbarOpen || Get.isDialogOpen!) {
                     Get.back();
                   }
                   Get.dialog(ConfirmationDialog(

@@ -1,3 +1,5 @@
+import 'package:logger/logger.dart';
+
 class CommentDto {
   final int? id;
   final String? text;
@@ -6,6 +8,7 @@ class CommentDto {
   final int? userId;
   final int? targetId;
   final int? like;
+    static final Logger _logger = Logger();
 
   CommentDto({
     this.id,
@@ -16,6 +19,8 @@ class CommentDto {
     this.targetId,
     this.like,
   });
+
+
 
   // Convert the CommentDto to JSON
   Map<String, dynamic> toJson() {
@@ -58,6 +63,11 @@ class CommentDto {
       targetId: json['targetId'] as int?,
       like: json['like'] as int?,
     );
+  }
+
+  log(){
+        _logger.d('CommentDto instance created: ${toJson()}');
+
   }
 
   // Clone method with the ability to modify some attributes
