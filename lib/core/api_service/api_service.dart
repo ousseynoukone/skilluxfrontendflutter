@@ -75,6 +75,8 @@ class APIService {
   }
 
   Future<ApiResponse> multipartsPostSendRequest(String path, Post post) async {
+    var errorMessage = "";
+
     try {
       await _tokenManager.refreshTokenIfNeeded();
       if (!_tokenManager.abortRequest) {
@@ -113,11 +115,12 @@ class APIService {
         // Read the response body
         final responseBody = await streamedResponse.stream.bytesToString();
 
-        // If the response is JSON, you can decode it
-        final responseJson = jsonDecode(responseBody);
+        var responseJson = jsonDecode(responseBody);
 
         if (streamedResponse.statusCode != 201) {
-          _logger.e(responseJson);
+          return ApiResponse(
+              statusCode: streamedResponse.statusCode,
+              message: responseJson["error"]);
         }
 
         return ApiResponse(
@@ -128,7 +131,7 @@ class APIService {
             statusCode: 401, body: {'error': 'Refresh Token Expired'});
       }
     } catch (e) {
-      _logger.e(e.toString());
+      _logger.d(e);
       return ApiResponse(
           message: e.toString(),
           statusCode: 500,
@@ -136,8 +139,8 @@ class APIService {
     }
   }
 
-
-    Future<ApiResponse> singleMediaPostRequest(String path,XFile media,String fieldName) async {
+  Future<ApiResponse> singleMediaPostRequest(
+      String path, XFile media, String fieldName) async {
     try {
       await _tokenManager.refreshTokenIfNeeded();
       if (!_tokenManager.abortRequest) {
@@ -151,10 +154,9 @@ class APIService {
           'Accept': 'application/json',
           ..._setHeadersToken(),
         });
-        
-          //Isolating coverImage
-          request.files
-              .add(await createMultipartFile(media, fieldName));
+
+        //Isolating coverImage
+        request.files.add(await createMultipartFile(media, fieldName));
 
         var streamedResponse = await request.send();
 
@@ -183,7 +185,6 @@ class APIService {
           body: {'error': 'Internal Server Error'});
     }
   }
-
 
   Future<ApiResponse> putRequest(
     String path, {

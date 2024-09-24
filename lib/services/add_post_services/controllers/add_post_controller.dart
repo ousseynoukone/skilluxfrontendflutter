@@ -38,7 +38,6 @@ class AddPostService extends GetxController {
           message: response.message!,
           snackType: SnackType.success);
     } else {
-      _logger.w(response);
       showCustomSnackbar(
           title: text!.error,
           message: response.message ?? "",
