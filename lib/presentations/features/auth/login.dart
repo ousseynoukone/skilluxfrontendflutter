@@ -113,6 +113,9 @@ class _LoginState extends State<Login> {
                     }
                     return null; // Return null if the input is valid
                   },
+                  onFieldSubmitted: (string) {
+                    _login();
+                  },
                 ),
               ),
               Padding(
@@ -120,25 +123,7 @@ class _LoginState extends State<Login> {
                   child: Obx(
                     () => ButtonComponent(
                       onPressed: () {
-                        // Validate the form before submitting
-                        if (_formKey.currentState!.validate()) {
-                          FocusScope.of(context).unfocus();
-
-                          // Form is valid, proceed with login logic
-                          String login = _loginController.text.trim();
-                          String password = _passwordController.text;
-                          late UserLoginDto loginDto;
-
-                          if (AuthHelper.isUsername(login)) {
-                            loginDto = UserLoginDto(
-                                password: password, username: login, email: "");
-                          } else {
-                            loginDto = UserLoginDto(
-                                password: password, email: login, username: "");
-                          }
-
-                          _getXAuthController.login(loginDto);
-                        }
+                        _login();
                       },
                       text: text.login,
                       isLoading: _getXAuthController.isLoading.value,
@@ -150,6 +135,26 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  void _login() {
+    // Validate the form before submitting
+    if (_formKey.currentState!.validate()) {
+      FocusScope.of(context).unfocus();
+
+      // Form is valid, proceed with login logic
+      String login = _loginController.text.trim();
+      String password = _passwordController.text;
+      late UserLoginDto loginDto;
+
+      if (AuthHelper.isUsername(login)) {
+        loginDto = UserLoginDto(password: password, username: login, email: "");
+      } else {
+        loginDto = UserLoginDto(password: password, email: login, username: "");
+      }
+
+      _getXAuthController.login(loginDto);
+    }
   }
 }
 
