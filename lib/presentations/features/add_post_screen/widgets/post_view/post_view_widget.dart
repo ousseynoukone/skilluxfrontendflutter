@@ -51,7 +51,9 @@ class _PostViewWidgetState extends State<PostViewWidget>
   void initState() {
     super.initState();
     _getUser();
+
     controller = QuillController(
+      readOnly: true,
       document: Document.fromJson(jsonDecode(widget.post.content.content!)),
       selection: const TextSelection.collapsed(offset: 0),
     );

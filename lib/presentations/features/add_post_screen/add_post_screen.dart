@@ -14,7 +14,6 @@ import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_field.d
 import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_post_sys_service.dart';
 import 'package:skilluxfrontendflutter/services/system_services/route_observer_utils/route_observer_utils.dart';
 import 'package:logger/logger.dart';
-import 'package:textfield_tags/textfield_tags.dart';
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({super.key});
