@@ -97,7 +97,6 @@ class _AddPostScreenState extends State<AddPostScreen>
   disposeAll() {
     _addPostSysService.clearPost();
     _addPostSysService.clearContent();
-    _titleController.dispose();
   }
 
   // Create a new post and broadcast it

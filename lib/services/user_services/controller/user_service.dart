@@ -12,15 +12,15 @@ class UserService extends GetxController {
 
   // Variables for pagination
   var cursorPosts = "0";
-  var limitPosts = 4;
+  var limitPosts = 10;
   bool hasMorePosts = false;
 
   var cursorFollowers = "0";
-  var limitFollowers = 20;
+  var limitFollowers = 30;
   bool hasMoreFollowers = false;
 
   var cursorFollowing = "0";
-  var limitFollowing = 20;
+  var limitFollowing = 30;
   bool hasMoreFollowing = false;
 
   List<Post> userPosts = [];
@@ -300,7 +300,4 @@ class UserService extends GetxController {
       rethrow;
     }
   }
-
-
-  
 }

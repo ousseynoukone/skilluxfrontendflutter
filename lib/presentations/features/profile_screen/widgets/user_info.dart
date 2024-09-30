@@ -79,6 +79,9 @@ class _UserInfoState extends State<UserInfo> {
                 }
               },
             ),
+            SizedBox(
+              width: Get.width * 0.015,
+            ),
             _buildStatColumn(
               count: user.nbFollowings,
               label: context.localizations.following,
@@ -87,6 +90,9 @@ class _UserInfoState extends State<UserInfo> {
                   Get.to(() => UserFollowing(userId: widget.userId));
                 }
               },
+            ),
+            SizedBox(
+              width: Get.width * 0.015,
             ),
             _buildStatColumn(
               count: user.nbPosts,
@@ -101,13 +107,11 @@ class _UserInfoState extends State<UserInfo> {
   Widget _buildUserStats(
       User user, AppLocalizations text, ColorScheme colorScheme) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const SizedBox(height: 5),
         Text(user.fullName, style: Theme.of(context).textTheme.titleSmall),
-        const SizedBox(height: 5),
         if (user.profession != null)
           Text(user.profession!, style: Theme.of(context).textTheme.bodySmall),
-        const SizedBox(height: 10),
         _buildFollowUnfollowButton(user, text),
         _buildEditProfileButton(text, colorScheme),
       ],
@@ -122,15 +126,12 @@ class _UserInfoState extends State<UserInfo> {
     return InkWell(
       hoverColor: Colors.transparent,
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            Text(count.toString()),
-            const SizedBox(height: 8),
-            Text(label, style: Theme.of(context).textTheme.bodySmall),
-          ],
-        ),
+      child: Column(
+        children: [
+          Text(count.toString()),
+          const SizedBox(height: 8),
+          Text(label, style: Theme.of(context).textTheme.bodySmall),
+        ],
       ),
     );
   }
@@ -191,16 +192,19 @@ class _UserInfoState extends State<UserInfo> {
   Widget _buildEditProfileButton(
       AppLocalizations text, ColorScheme colorScheme) {
     return !widget.isForOtherUser
-        ? OutlineButtonComponent(
-          
-            onPressed: () {
-              Get.bottomSheet(
-                  backgroundColor: colorScheme.primary,
-                  UpdateUserInfoScreen(user: widget.user));
-            },
-            text: text.editProfile,
-            isLoading: false,
-            icon: Icons.edit,
+        ? SizedBox(
+            child: OutlineButtonComponent(
+              onPressed: () {
+                Get.bottomSheet(
+                    backgroundColor: colorScheme.primary,
+                    UpdateUserInfoScreen(user: widget.user));
+              },
+              text: text.editProfile,
+              isLoading: false,
+              icon: Icons.edit,
+              edgeInsets:
+                  const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            ),
           )
         : const SizedBox.shrink();
   }

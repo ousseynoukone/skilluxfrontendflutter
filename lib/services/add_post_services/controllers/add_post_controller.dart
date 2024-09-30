@@ -1,10 +1,13 @@
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:skilluxfrontendflutter/config/constant/bottom_navigation_screen.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/core/api_service/api_service.dart';
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/core/api_service/response_data_structure.dart';
 import 'package:skilluxfrontendflutter/models/post/post.dart';
+import 'package:skilluxfrontendflutter/presentations/features/profile_screen/profile_screen.dart';
+import 'package:skilluxfrontendflutter/presentations/layers/secondary_layer/secondary_layer.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
 import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/image_document_handling.dart';
 
@@ -33,6 +36,10 @@ class AddPostService extends GetxController {
     ApiResponse response =
         await _apiService.multipartsPostSendRequest(path, newPost);
     if (response.statusCode == 201) {
+      Get.offAll(() => SecondaryLayer(
+            index: bnScreensList.length - 1,
+          ));
+
       showCustomSnackbar(
           title: text!.info,
           message: response.message!,

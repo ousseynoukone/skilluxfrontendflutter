@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:skilluxfrontendflutter/config/constant/bottom_navigation_screen.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/add_post_screen.dart';
@@ -11,7 +12,8 @@ import 'package:skilluxfrontendflutter/presentations/features/search_screen/sear
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
 class BottomNavigationBarComponent extends StatefulWidget {
-  const BottomNavigationBarComponent({super.key});
+  final int? index;
+  const BottomNavigationBarComponent({super.key, this.index});
 
   @override
   State<BottomNavigationBarComponent> createState() =>
@@ -21,21 +23,16 @@ class BottomNavigationBarComponent extends StatefulWidget {
 class _BottomNavigationBarComponentState
     extends State<BottomNavigationBarComponent> {
   int _currentIndex = 0;
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const DiscoveryScreen(),
-    const SearchScreen(),
-    const ProfileScreen(),
-  ];
+
 
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    _currentIndex = widget.index ?? 0;
 
     UserProfilePostService userProfilePostService = Get.find();
     UserProfileService userProfileService = Get.find();
-
 
     var text = context.localizations;
     if (_currentIndex == 3) {
@@ -44,7 +41,7 @@ class _BottomNavigationBarComponentState
     }
 
     return Scaffold(
-      body: _screens[_currentIndex],
+      body: bnScreensList[_currentIndex],
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,

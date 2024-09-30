@@ -46,6 +46,7 @@ class OutlineButtonComponent extends StatelessWidget {
                 Text(text),
               ],
             ),
+      style: ButtonStyle(padding: WidgetStatePropertyAll(edgeInsets)),
     );
   }
 }

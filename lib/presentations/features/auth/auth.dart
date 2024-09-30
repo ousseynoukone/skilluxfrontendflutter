@@ -21,6 +21,7 @@ class _AuthState extends State<Auth> {
     final GetXAuthController _getXAuthController = Get.find();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(8.0),
