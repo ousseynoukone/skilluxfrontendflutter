@@ -46,7 +46,7 @@ class _CommentFieldState extends State<CommentField> {
     var textTheme = Theme.of(context).textTheme;
 
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

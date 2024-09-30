@@ -1,106 +1,88 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/constant/bottom_navigation_screen.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
-import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/add_post_screen.dart';
-import 'package:skilluxfrontendflutter/presentations/features/discovery_screen/discovery_screen.dart';
-import 'package:skilluxfrontendflutter/presentations/features/home_screen/home_screen.dart';
-import 'package:skilluxfrontendflutter/presentations/features/profile_screen/profile_screen.dart';
-import 'package:skilluxfrontendflutter/presentations/features/search_screen/search_screen.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
-class BottomNavigationBarComponent extends StatefulWidget {
-  final int? index;
-  const BottomNavigationBarComponent({super.key, this.index});
+class BottomNavigationBarComponent extends StatelessWidget {
+  final int initialIndex;
 
-  @override
-  State<BottomNavigationBarComponent> createState() =>
-      _BottomNavigationBarComponentState();
-}
+  BottomNavigationBarComponent({Key? key, this.initialIndex = 0})
+      : super(key: key);
 
-class _BottomNavigationBarComponentState
-    extends State<BottomNavigationBarComponent> {
-  int _currentIndex = 0;
-
+  final RxInt _currentIndex = 0.obs;
 
   @override
   Widget build(BuildContext context) {
-    TextTheme textTheme = Theme.of(context).textTheme;
-    ColorScheme colorScheme = Theme.of(context).colorScheme;
-    _currentIndex = widget.index ?? 0;
+    final colorScheme = Theme.of(context).colorScheme;
+    final text = context.localizations;
 
-    UserProfilePostService userProfilePostService = Get.find();
-    UserProfileService userProfileService = Get.find();
+    _currentIndex.value = initialIndex;
 
-    var text = context.localizations;
-    if (_currentIndex == 3) {
+    return Obx(() {
+      _updateProfileIfNeeded();
+
+      return Scaffold(
+        body: IndexedStack(
+          index: _currentIndex.value,
+          children: bnScreensList,
+        ),
+        bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Divider(
+              height: 1,
+              thickness: 0.1,
+              color: colorScheme.outlineVariant,
+            ),
+            BottomAppBar(
+              color: Colors.transparent,
+              surfaceTintColor: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _buildNavItem(Icons.home_outlined, Icons.home, text.home, 0, colorScheme),
+                  _buildNavItem(Icons.compass_calibration_outlined, Icons.compass_calibration, text.discovery, 1, colorScheme),
+                  _buildAddButton(colorScheme),
+                  _buildNavItem(Icons.search_outlined, Icons.search, text.search, 2, colorScheme),
+                  _buildNavItem(Icons.person_outline, Icons.person, text.profile, 3, colorScheme),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  void _updateProfileIfNeeded() {
+    if (_currentIndex.value == 3) {
+      final userProfilePostService = Get.find<UserProfilePostService>();
+      final userProfileService = Get.find<UserProfileService>();
+
       userProfilePostService.getUserPosts(disableLoading: true);
       userProfileService.getUserInfos(disableLoading: true);
     }
-
-    return Scaffold(
-      body: bnScreensList[_currentIndex],
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Divider(
-            height: 1,
-            thickness: 0.1,
-            color: colorScheme.outlineVariant,
-          ),
-          BottomAppBar(
-            color: Colors.transparent,
-            surfaceTintColor: Colors.transparent,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _buildNavItem(
-                    Icons.home_outlined, Icons.home, text.home, 0, colorScheme),
-                _buildNavItem(Icons.compass_calibration_outlined,
-                    Icons.compass_calibration, text.discovery, 1, colorScheme),
-                _buildAddButton(colorScheme),
-                _buildNavItem(Icons.search_outlined, Icons.search, text.search,
-                    2, colorScheme),
-                _buildNavItem(Icons.person_outline, Icons.person, text.profile,
-                    3, colorScheme),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
-  Widget _buildNavItem(IconData icon, IconData activeIcon, String label,
-      int index, ColorScheme colorScheme) {
+  Widget _buildNavItem(IconData icon, IconData activeIcon, String label, int index, ColorScheme colorScheme) {
     return InkWell(
-      splashColor: Colors.transparent,
-      hoverColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      focusColor: Colors.transparent,
-      enableFeedback: false,
-      onTap: () => setState(() => _currentIndex = index),
+      onTap: () => _currentIndex.value = index,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
+            _currentIndex.value == index ? activeIcon : icon,
+            color: _currentIndex.value == index ? colorScheme.onPrimary : colorScheme.primaryFixed,
             size: Get.width * 0.05,
-            _currentIndex == index ? activeIcon : icon,
-            color: _currentIndex == index
-                ? colorScheme.onPrimary
-                : colorScheme.primaryFixed,
           ),
           Text(
             label,
             style: TextStyle(
-              color: _currentIndex == index
-                  ? colorScheme.onPrimary
-                  : colorScheme.primaryFixed,
+              color: _currentIndex.value == index ? colorScheme.onPrimary : colorScheme.primaryFixed,
               fontSize: 12,
             ),
           ),
@@ -110,12 +92,7 @@ class _BottomNavigationBarComponentState
   }
 
   Widget _buildAddButton(ColorScheme colorScheme) {
-    return InkWell(
-      splashColor: Colors.transparent,
-      hoverColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      focusColor: Colors.transparent,
-      enableFeedback: false,
+    return GestureDetector(
       onTap: () => Get.to(() => const AddPostScreen()),
       child: Container(
         width: 40,
@@ -124,8 +101,7 @@ class _BottomNavigationBarComponentState
           color: colorScheme.primary,
           shape: BoxShape.circle,
         ),
-        child: Icon(Icons.add_circle_rounded,
-            color: colorScheme.onPrimary, size: 40),
+        child: Icon(Icons.add_circle_rounded, color: colorScheme.onPrimary, size: 40),
       ),
     );
   }

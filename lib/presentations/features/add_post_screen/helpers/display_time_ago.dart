@@ -23,17 +23,26 @@ displayTimeAgo(DateTime? createdAt, {double fontSize = 14}) {
   );
 }
 
-displayTimeAgoSync(
+Widget displayTimeAgoSync(
   DateTime? createdAt, {
   double fontSize = 14,
+  int? maxLines,
 }) {
   var themeText = Get.context!.textTheme;
   if (createdAt == null) {
     return const SizedBox.shrink();
   }
 
-  return Text(getTimeAgoSync(createdAt),
-      style: themeText.bodySmall?.copyWith(fontSize: fontSize));
+  return SizedBox(
+    width: Get.width * 0.22,
+    child: Text(
+      getTimeAgoSync(createdAt),
+      style: themeText.bodySmall?.copyWith(fontSize: fontSize),
+      overflow: TextOverflow.ellipsis,
+      maxLines: maxLines ?? 1,
+      softWrap: false,
+    ),
+  );
 }
 
 displayDateTime(DateTime? createdAt, {double fontSize = 14}) {

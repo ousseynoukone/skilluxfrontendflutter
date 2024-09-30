@@ -75,7 +75,10 @@ class _PostViewWidgetState extends State<PostViewWidget>
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return CommentField(commentDTO: CommentDto(postId: (widget.post.id)));
+        return Padding(
+          padding: EdgeInsets.only(bottom: Get.mediaQuery.viewInsets.bottom),
+          child: CommentField(commentDTO: CommentDto(postId: (widget.post.id))),
+        );
       },
     );
   }

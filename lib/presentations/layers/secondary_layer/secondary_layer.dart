@@ -5,24 +5,26 @@ import 'package:skilluxfrontendflutter/presentations/layers/secondary_layer/bott
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
 class SecondaryLayer extends StatefulWidget {
-    final int? index;
+  final int? index;
 
-  const SecondaryLayer({super.key , this.index});
+  const SecondaryLayer({super.key, this.index});
 
   @override
   State<SecondaryLayer> createState() => _SecondaryLayerState();
 }
 
 class _SecondaryLayerState extends State<SecondaryLayer> {
-    UserProfilePostService userProfilePostService =
+  UserProfilePostService userProfilePostService =
       Get.put(UserProfilePostService());
   UserProfileService userProfileService = Get.put(UserProfileService());
-      UserProfileFollowService service = Get.put(UserProfileFollowService());
+  UserProfileFollowService service = Get.put(UserProfileFollowService());
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body: BottomNavigationBarComponent(index: widget.index ,),
+    return Scaffold(
+      body: BottomNavigationBarComponent(
+        initialIndex: widget.index ?? 0,
+      ),
     );
   }
 }
