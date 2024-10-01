@@ -52,14 +52,17 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
         change(comments, status: RxStatus.loading());
         isTopCommentLoading.value = true;
       }
-      List<Comment> newComment =
+      List<Comment>? newComment =
           await _commentController.loadMoreComment(postId);
 
-      if (newComment.isNotEmpty) {
-        // Deep copy the posts
-        comments.value = newComment.map((comment) => comment.clone()).toList();
+      if (newComment != null) {
+        if (newComment.isNotEmpty) {
+          // Deep copy the posts
+          comments.value =
+              newComment.map((comment) => comment.clone()).toList();
 
-        change(comments, status: RxStatus.success());
+          change(comments, status: RxStatus.success());
+        }
       }
 
       if (comments.isEmpty) {

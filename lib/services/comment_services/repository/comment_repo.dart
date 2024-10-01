@@ -35,7 +35,7 @@ class CommentController extends GetxController {
     return comments;
   }
 
-  Future<List<Comment>> loadMoreComment(int postId) async {
+  Future<List<Comment> ? > loadMoreComment(int postId) async {
     if (hasMoreComment) {
       String path =
           'basic/post-top-level-comments/$postId/$limitComments/${(comments.length - limitComments) + limitComments}';
@@ -55,13 +55,11 @@ class CommentController extends GetxController {
       } else {
         _logger.e(response.message ?? "");
       }
+          return comments;
+
     }
+    return null;
 
-    // else {
-    //   comments = [];
-    // }
-
-    return comments;
   }
 
   Future<List<Comment>> getChildrenComments(int parentId) async {
