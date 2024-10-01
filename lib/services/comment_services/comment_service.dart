@@ -82,6 +82,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
 
       var fetchedComments =
           await _commentController.getChildrenComments(parentId);
+
       if (fetchedComments.isNotEmpty) {
         comments.assignAll(fetchedComments);
         change(comments, status: RxStatus.success());

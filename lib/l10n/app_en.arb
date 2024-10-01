@@ -182,7 +182,9 @@
 
   "noComment":"No comment has been posted yet.",
   "showReplies":"Show replies",
-  "showReply":"Show reply"
+  "showReply":"Show reply",
+  
+  "answerTo" : "Answer to"
 
   
 

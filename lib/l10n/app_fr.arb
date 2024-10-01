@@ -181,7 +181,10 @@
 
   "noComment":"Cette publication n'a pas encore de commentaire.",
   "showReplies":"afficher les reponses",
-  "showReply":"afficher la reponse"
+  "showReply":"afficher la reponse",
+
+  "answerTo" : "réponse à"
+
 
 
 

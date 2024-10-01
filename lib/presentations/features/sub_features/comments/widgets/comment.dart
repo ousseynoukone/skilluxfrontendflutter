@@ -6,6 +6,7 @@ import 'package:skilluxfrontendflutter/models/comment/comment.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/helpers/display_time_ago.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/comment_actions_widget.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/helper/delete_comment_button.dart';
+import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/helper/show_comment_input.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/sub_comment.dart';
 import 'package:skilluxfrontendflutter/presentations/features/user_components/user_preview.dart';
 import 'package:logger/logger.dart';
@@ -151,7 +152,11 @@ class CommentComponent extends StatelessWidget {
         icon: Icons.keyboard_arrow_up,
         textStyle: themeText.bodySmall,
         onPressed: () {
-          Get.bottomSheet(SubComment(comment: updatedComment));
+          // Get.bottomSheet(
+          //   SubComment(comment: updatedComment),
+          // );
+
+          showSubComment(SubComment(comment: updatedComment));
         },
         label: '$label ($descendantCount)',
       );

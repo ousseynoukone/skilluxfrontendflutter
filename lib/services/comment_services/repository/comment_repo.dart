@@ -12,7 +12,7 @@ class CommentController extends GetxController {
   final Logger _logger = Logger();
 
   // Variables for pagination
-  var limitComments = 2;
+  var limitComments = 10;
   bool hasMoreComment = false;
   bool hasMoreChildrenComments = false;
 
@@ -55,9 +55,11 @@ class CommentController extends GetxController {
       } else {
         _logger.e(response.message ?? "");
       }
-    } else {
-      comments = [];
     }
+
+    // else {
+    //   comments = [];
+    // }
 
     return comments;
   }
@@ -70,6 +72,9 @@ class CommentController extends GetxController {
     if (parentComment != null) {
       ApiResponse response = await _apiService.getRequest(path);
       if (response.statusCode == 200) {
+        //Reset parentComment to avoid duplication
+        parentComment.children = [];
+
         for (var comment in response.body["comments"]) {
           Comment childComment = Comment.fromJson(comment);
 
@@ -80,10 +85,10 @@ class CommentController extends GetxController {
         _logger.e(response.message);
       }
     } else {
+      _logger.f('Parent is null on getChildrenComments');
+
       return [];
     }
-    _logger.f(path);
-    _logger.f(hasMoreChildrenComments);
 
     return comments;
   }
@@ -103,7 +108,6 @@ class CommentController extends GetxController {
 
     String path =
         'basic/children_comments/$parentId/$limitComments/${parentComment.children.length}';
-    _logger.d('OKAY  : ${path}');
 
     try {
       ApiResponse response = await _apiService.getRequest(path);

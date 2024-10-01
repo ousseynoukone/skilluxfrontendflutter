@@ -35,3 +35,4 @@ Future<bool> isElementAlreadyLiked(int elementId, {bool isForPost = false}) asyn
   List<int> ids = await userService.getUserLikesId(isForPost: isForPost);
   return ids.any((id) => id == elementId);
 }
+

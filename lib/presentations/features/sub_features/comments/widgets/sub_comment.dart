@@ -53,46 +53,44 @@ class _SubCommentState extends State<SubComment> with RouteAware {
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
 
-    return Scaffold(
-      body: Container(
-        height: Get.height,
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          child: GetX<CommentService>(
-            builder: (controller) {
-              final updatedComment = controller.comments.firstWhere(
-                (c) => c.id == widget.comment.id,
-                orElse: () => widget.comment,
-              );
+    return Container(
+      height: Get.height / 1.5,
+      color: colorScheme.tertiary,
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        child: GetX<CommentService>(
+          builder: (controller) {
+            final updatedComment = controller.comments.firstWhere(
+              (c) => c.id == widget.comment.id,
+              orElse: () => widget.comment,
+            );
 
-              return Column(
-                children: [
-                  CommentComponent(
-                    comment: updatedComment,
-                    displayReply: false,
-                  ),
-                  Obx(() {
-                    if (_commentService.isCommentChildCommentLoading.value) {
-                      return Center(
-                        child: Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: Get.height / 2),
-                          child: CircularProgressIndicator(
-                            color: colorScheme.onPrimary,
-                          ),
+            return Column(
+              children: [
+                CommentComponent(
+                  comment: updatedComment,
+                  displayReply: false,
+                ),
+                Obx(() {
+                  if (_commentService.isCommentChildCommentLoading.value) {
+                    return Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: Get.height / 2),
+                        child: CircularProgressIndicator(
+                          color: colorScheme.onPrimary,
                         ),
-                      );
-                    }
-                    if (updatedComment.children.isNotEmpty) {
-                      return _showChildrenComments(updatedComment);
-                    }
-                    return const SizedBox.shrink();
-                  }),
-                ],
-              );
-            },
-          ),
+                      ),
+                    );
+                  }
+                  if (updatedComment.children.isNotEmpty) {
+                    return _showChildrenComments(updatedComment);
+                  }
+                  return const SizedBox.shrink();
+                }),
+              ],
+            );
+          },
         ),
       ),
     );

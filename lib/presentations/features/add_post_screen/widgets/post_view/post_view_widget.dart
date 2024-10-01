@@ -15,6 +15,7 @@ import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/wi
 import 'package:skilluxfrontendflutter/presentations/features/helpers/reading_time_calculator/reading_time_calculator.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/comment_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/comment_field/comment_field.dart';
+import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/helper/show_comment_input.dart';
 import 'package:skilluxfrontendflutter/presentations/features/user_components/user_preview.dart';
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/comment_service.dart';
@@ -71,16 +72,8 @@ class _PostViewWidgetState extends State<PostViewWidget>
   }
 
   void _showCommentField() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (BuildContext context) {
-        return Padding(
-          padding: EdgeInsets.only(bottom: Get.mediaQuery.viewInsets.bottom),
-          child: CommentField(commentDTO: CommentDto(postId: (widget.post.id))),
-        );
-      },
-    );
+    showCommentInput(
+        CommentField(commentDTO: CommentDto(postId: (widget.post.id))));
   }
 
   @override

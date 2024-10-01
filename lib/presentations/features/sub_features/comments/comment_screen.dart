@@ -89,6 +89,7 @@ class CommentScreen extends StatelessWidget {
                       Text(text.errorUnexpected, style: themeText.bodySmall));
             } else {
               return ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: controller.comments.length,
                 itemBuilder: (context, int index) {
