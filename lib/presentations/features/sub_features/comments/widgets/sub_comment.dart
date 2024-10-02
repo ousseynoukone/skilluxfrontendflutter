@@ -10,7 +10,7 @@ import 'package:skilluxfrontendflutter/services/system_services/route_observer_u
 class SubComment extends StatefulWidget {
   final Comment comment;
 
-  const SubComment({Key? key, required this.comment}) : super(key: key);
+  const SubComment({super.key, required this.comment});
 
   @override
   State<SubComment> createState() => _SubCommentState();
@@ -59,38 +59,24 @@ class _SubCommentState extends State<SubComment> with RouteAware {
       padding: const EdgeInsets.all(8.0),
       child: SingleChildScrollView(
         controller: _scrollController,
-        child: GetX<CommentService>(
-          builder: (controller) {
-            final updatedComment = controller.comments.firstWhere(
-              (c) => c.id == widget.comment.id,
-              orElse: () => widget.comment,
-            );
-
-            return Column(
-              children: [
-                CommentComponent(
-                  comment: updatedComment,
-                  displayReply: false,
+        child: Column(
+          children: [
+            CommentComponent(
+              comment: widget.comment,
+              displayReply: false,
+            ),
+            if (_commentService.isCommentChildCommentLoading.value)
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: Get.height / 2),
+                  child: CircularProgressIndicator(
+                    color: colorScheme.onPrimary,
+                  ),
                 ),
-                Obx(() {
-                  if (_commentService.isCommentChildCommentLoading.value) {
-                    return Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: Get.height / 2),
-                        child: CircularProgressIndicator(
-                          color: colorScheme.onPrimary,
-                        ),
-                      ),
-                    );
-                  }
-                  if (updatedComment.children.isNotEmpty) {
-                    return _showChildrenComments(updatedComment);
-                  }
-                  return const SizedBox.shrink();
-                }),
-              ],
-            );
-          },
+              )
+            else if (widget.comment.children.isNotEmpty)
+              _showChildrenComments(widget.comment),
+          ],
         ),
       ),
     );

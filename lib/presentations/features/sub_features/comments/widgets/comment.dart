@@ -18,6 +18,7 @@ class CommentComponent extends StatelessWidget {
   final bool displayReply;
   final bool isColorTransparent;
   final Logger _logger = Logger();
+  final CommentService _commentService = Get.find();
 
   CommentComponent({
     super.key,
@@ -142,26 +143,47 @@ class CommentComponent extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    int descendantCount = updatedComment.descendantCount;
-    if (descendantCount > 0) {
-      var themeText = Get.textTheme;
-      var text = Get.context!.localizations;
-      String label = descendantCount > 1 ? text.showReplies : text.showReply;
+    return Obx(() {
+      int descendantCount = commentService.comments
+          .firstWhere((c) => c.id == updatedComment.id,
+              orElse: () => updatedComment)
+          .descendantCount;
 
-      return IconTextButton(
-        icon: Icons.keyboard_arrow_up,
-        textStyle: themeText.bodySmall,
-        onPressed: () {
-          // Get.bottomSheet(
-          //   SubComment(comment: updatedComment),
-          // );
+      if (descendantCount > 0) {
+        var themeText = Get.textTheme;
+        var text = Get.context!.localizations;
+        String label = descendantCount > 1 ? text.showReplies : text.showReply;
 
-          showSubComment(SubComment(comment: updatedComment));
-        },
-        label: '$label ($descendantCount)',
-      );
-    } else {
-      return const SizedBox.shrink();
-    }
+        return IconTextButton(
+          icon: Icons.keyboard_arrow_up,
+          textStyle: themeText.bodySmall,
+          onPressed: () {
+            showModalBottomSheet(
+              context: Get.context!,
+              isScrollControlled: true,
+              builder: (BuildContext context) {
+                return Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                  child: GetBuilder<CommentService>(
+                    builder: (controller) {
+                      Comment latestComment = controller.comments.firstWhere(
+                        (c) => c.id == updatedComment.id,
+                        orElse: () => updatedComment,
+                      );
+                      return SubComment(comment: latestComment);
+                    },
+                  ),
+                );
+              },
+            );
+          },
+          label: '$label ($descendantCount)',
+        );
+      } else {
+        return const SizedBox.shrink();
+      }
+    });
   }
 }

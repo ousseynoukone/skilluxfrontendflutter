@@ -91,10 +91,10 @@ class CommentController extends GetxController {
     return comments;
   }
 
-  Future<List<Comment>> loadChildrenComments(int parentId) async {
+  Future<List<Comment> ? > loadChildrenComments(int parentId) async {
     if (!hasMoreChildrenComments) {
       _logger.i("No more children comments to load");
-      return comments;
+      return null;
     }
 
     Comment? parentComment =

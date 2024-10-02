@@ -41,21 +41,3 @@ void showCommentInput(Widget widget,
   );
 }
 
-void showSubComment(
-  Widget widget,
-) {
-  // Show BottomSheet modal
-  showModalBottomSheet(
-    context: Get.context!,
-    isScrollControlled: true, // Allow full screen when necessary
-    builder: (BuildContext context) {
-      return Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context)
-                .viewInsets
-                .bottom, // Properly adjust for keyboard
-          ),
-          child: widget);
-    },
-  );
-}

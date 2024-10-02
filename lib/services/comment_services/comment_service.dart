@@ -104,9 +104,9 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
         // change(comments, status: RxStatus.loading());
         isCommentChildCommentLoading.value = true;
       }
-      List<Comment> newComment =
+      List<Comment>? newComment =
           await _commentController.loadChildrenComments(parentId);
-      if (newComment.isNotEmpty) {
+      if (newComment != null && newComment.isNotEmpty) {
         // Deep copy the posts
         comments.value = newComment.map((comment) => comment.clone()).toList();
         change(comments, status: RxStatus.success());
@@ -172,8 +172,6 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
               id: fUser.id, fullName: fUser.fullName, username: fUser.username);
         }
         comment = Comment.createNewComment(response, userDto, target: target);
-        // Insert this child comment to it's parent children
-        comment.log();
         insertChildToParent(comment, comments);
       }
 
