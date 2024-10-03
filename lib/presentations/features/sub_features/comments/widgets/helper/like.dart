@@ -11,16 +11,14 @@ class LikeWidget extends StatefulWidget {
   final int elementId;
   final Future<bool> Function(int) likeFunction;
   final Future<bool> Function(int) unlikeFunction;
-  final Future<bool> Function(int) isLikedFunction;
 
   const LikeWidget({
-    Key? key,
+    super.key,
     required this.initialLikes,
     required this.elementId,
     required this.likeFunction,
     required this.unlikeFunction,
-    required this.isLikedFunction,
-  }) : super(key: key);
+  });
 
   @override
   _LikeWidgetState createState() => _LikeWidgetState();
@@ -38,7 +36,7 @@ class _LikeWidgetState extends State<LikeWidget> {
   }
 
   Future<void> _initializeLikeStatus() async {
-    final isLiked = await widget.isLikedFunction(widget.elementId);
+    final isLiked = await isElementAlreadyLiked(widget.elementId);
     setState(() {
       _isLiked = isLiked;
     });

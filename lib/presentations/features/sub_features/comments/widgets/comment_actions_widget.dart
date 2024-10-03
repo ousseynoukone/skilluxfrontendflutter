@@ -28,7 +28,6 @@ class CommentActionsWidget extends StatelessWidget {
           elementId: comment.id!,
           likeFunction: _commentService.likeComment,
           unlikeFunction: _commentService.unLikeComment,
-          isLikedFunction: (id) async => await isElementAlreadyLiked(id),
         ),
         const SizedBox(width: 16),
         ReplyButton(comment:comment),

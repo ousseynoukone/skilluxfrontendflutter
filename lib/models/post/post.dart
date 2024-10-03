@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:skilluxfrontendflutter/models/post/sub_models/content/content.dart';
 import 'package:skilluxfrontendflutter/models/post/sub_models/post/binary_media.dart';
+import 'package:skilluxfrontendflutter/models/user/dtos/user_dto.dart';
 import 'package:skilluxfrontendflutter/presentations/features/helpers/image_handling/image_converter.dart';
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/image_document_handling.dart';
@@ -24,7 +25,7 @@ class Post {
   final int? readNumber;
 
   @HiveField(3)
-  final int? votesNumber;
+  int? votesNumber;
 
   @HiveField(4)
   final bool? isPublished;
@@ -53,6 +54,8 @@ class Post {
   @HiveField(12)
   int commentNumber;
 
+  // User information of fetched post
+  UserDTO? user;
   // For implementation purpose
   XFile? headerImageIMG;
 
@@ -71,9 +74,11 @@ class Post {
     required this.content,
     this.headerImageIMG,
     this.headerBinaryImage,
+    this.user,
   });
 
   factory Post.fromBody(Map<String, dynamic> body) {
+    var userJson = body['User'];
     return Post(
       id: body['id'],
       title: body['title'],
@@ -90,6 +95,7 @@ class Post {
       userId: body['userId'],
       content: Content(content: body['content']),
       headerImageIMG: null, // Populate this as necessary
+      user: userJson != null ? UserDTO.fromJson(userJson) : null,
     );
   }
 
@@ -289,6 +295,16 @@ class Post {
       headerImageIMG:
           headerImageIMG, // XFile doesn't need to be cloned, as it's typically immutable
     );
+  }
+
+  // Method to like the post
+  void like() {
+    votesNumber = (votesNumber ?? 0) + 1; // Increment likes
+  }
+
+  // Method to unlike the post
+  void unlike() {
+    votesNumber = (votesNumber ?? 1) - 1; // Decrement likes
   }
 
   void dump() {

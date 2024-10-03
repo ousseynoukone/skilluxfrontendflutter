@@ -6,6 +6,7 @@ class UserDTO {
   final String username;
   final String? email;
   final String? profilePicture;
+  final String? profession; // New profession field
 
   UserDTO({
     required this.id,
@@ -13,6 +14,7 @@ class UserDTO {
     required this.username,
     this.email,
     this.profilePicture,
+    this.profession, // Added in the constructor
   });
 
   // Factory constructor to create a UserDTO from a Map
@@ -23,6 +25,7 @@ class UserDTO {
       username: json['username'],
       email: json['email'],
       profilePicture: json['profilePicture'],
+      profession: json['profession'], // Added profession field
     );
   }
 
@@ -34,6 +37,7 @@ class UserDTO {
       username: json['username'],
       email: json['email'],
       profilePicture: json['profilePicture'],
+      profession: json['profession'], // Added profession field
     );
   }
 
@@ -45,6 +49,7 @@ class UserDTO {
       'username': username,
       'email': email,
       'profilePicture': profilePicture,
+      'profession': profession, // Added profession field
     };
   }
 
@@ -56,11 +61,12 @@ class UserDTO {
       username: this.username,
       email: this.email,
       profilePicture: this.profilePicture,
+      profession: this.profession, // Added profession field
     );
   }
 
   @override
   String toString() {
-    return 'UserDTO(id: $id, fullName: $fullName, username: $username, email: $email, profilePicture: $profilePicture)';
+    return 'UserDTO(id: $id, fullName: $fullName, username: $username, email: $email, profilePicture: $profilePicture, profession: $profession)';
   }
 }

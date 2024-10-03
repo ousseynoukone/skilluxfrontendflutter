@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
@@ -12,7 +11,7 @@ import 'package:skilluxfrontendflutter/presentations/features/helpers/time_forma
 import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_post_sys_service.dart';
 
 class Draft extends StatefulWidget {
-  const Draft({Key? key}) : super(key: key);
+  const Draft({super.key});
 
   @override
   State<Draft> createState() => _DraftState();

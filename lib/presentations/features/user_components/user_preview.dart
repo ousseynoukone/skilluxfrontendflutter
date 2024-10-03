@@ -1,12 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:skilluxfrontendflutter/models/user/dtos/user_dto.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
 
-Widget displayUserPreview(User u, {Widget? trailing}) {
+Widget displayUserPreview(dynamic user,
+    {Widget? trailing, bool zeroPadding = false}) {
+  String fullName = "";
+  String? profilePicture;
+  String? profession;
+
+  // Check if user is UserDTO or User and extract data
+  if (user is UserDTO) {
+    fullName = user.fullName;
+    profilePicture = user.profilePicture;
+    profession = user.profession;
+  } else if (user is User) {
+    fullName = user.fullName;
+    profilePicture = user.profilePicture;
+    profession = user.profession;
+  }
+
   return ListTile(
-    title: Text(u.fullName),
-    leading: displayUserPP(u.profilePicture),
+    contentPadding: zeroPadding == true
+        ? const EdgeInsets.symmetric(horizontal: 16)
+        : const EdgeInsets.all(0),
+    title: Text(fullName),
+    leading: displayUserPP(profilePicture),
     trailing: trailing,
-    subtitle: Text(u.profession ?? ""),
+    subtitle: Text(profession ?? ""),
   );
 }
 
