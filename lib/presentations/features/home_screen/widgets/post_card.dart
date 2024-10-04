@@ -47,7 +47,7 @@ class _PostCardState extends State<PostCard> {
           children: [
             postAndUserPreview(themeText),
             const Divider(
-              thickness: 0.1,
+              thickness: 0.2,
             )
           ],
         ));
@@ -57,7 +57,8 @@ class _PostCardState extends State<PostCard> {
     return Column(
       children: [
         displayUserPreview(widget.user,
-            trailing: displayTimeAgoSync(widget.post.createdAt)),
+            trailing: displayTimeAgoSync(widget.post.createdAt),
+            zeroPadding: true),
         _postPreView(themeText), // Display post preview
       ],
     );
@@ -80,8 +81,10 @@ class _PostCardState extends State<PostCard> {
             getReadingTime(widget.post.content.content!), Icons.timer_outlined,
             isBackgroundTransparent: true),
         Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             LikeWidget(
+              isForPost: true,
               initialLikes: widget.post.votesNumber ?? 0,
               elementId: widget.post.id!,
               likeFunction: _postFeedController.likePost,

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
@@ -111,6 +110,9 @@ class _PostViewWidgetState extends State<PostViewWidget>
               child: displayImage(widget.post.headerImageIMG!, () {},
                   isDraft: false),
             ),
+          if (widget.post.headerImageUrl != null &&
+              widget.post.headerImageUrl!.isNotEmpty)
+            displayImageFromURL(widget.post.headerImageUrl!),
           displayReadingTime()
         ],
       );

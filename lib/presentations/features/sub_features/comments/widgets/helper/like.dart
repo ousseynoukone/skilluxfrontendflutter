@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/helper/helper.dart';
@@ -8,12 +9,14 @@ import 'package:skilluxfrontendflutter/services/comment_services/comment_service
 // Abstract LikeWidget that can be used for different likeable elements
 class LikeWidget extends StatefulWidget {
   final int initialLikes;
+  final bool isForPost;
   final int elementId;
   final Future<bool> Function(int) likeFunction;
   final Future<bool> Function(int) unlikeFunction;
 
   const LikeWidget({
     super.key,
+    this.isForPost = false,
     required this.initialLikes,
     required this.elementId,
     required this.likeFunction,
@@ -27,6 +30,7 @@ class LikeWidget extends StatefulWidget {
 class _LikeWidgetState extends State<LikeWidget> {
   late int _numberOfLikes;
   bool _isLiked = false;
+  final Logger _logger = Logger();
 
   @override
   void initState() {
@@ -36,7 +40,8 @@ class _LikeWidgetState extends State<LikeWidget> {
   }
 
   Future<void> _initializeLikeStatus() async {
-    final isLiked = await isElementAlreadyLiked(widget.elementId);
+    final isLiked = await isElementAlreadyLiked(widget.elementId,isForPost: widget.isForPost);
+
     setState(() {
       _isLiked = isLiked;
     });
@@ -105,6 +110,3 @@ class _LikeWidgetState extends State<LikeWidget> {
     );
   }
 }
-
-
-

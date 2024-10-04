@@ -30,9 +30,9 @@ String formatLikes(int likes) {
   }
 }
 
-Future<bool> isElementAlreadyLiked(int elementId, {bool isForPost = false}) async {
+Future<bool> isElementAlreadyLiked(int elementId,
+    {required bool isForPost}) async {
   final UserService userService = Get.find();
   List<int> ids = await userService.getUserLikesId(isForPost: isForPost);
   return ids.any((id) => id == elementId);
 }
-

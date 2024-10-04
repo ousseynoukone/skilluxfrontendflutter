@@ -53,6 +53,50 @@ Widget displayImage(XFile pickedImage, VoidCallback onDelete,
         });
 }
 
+Widget displayImageFromURL(String url) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
+    child: Image.network(
+      url,
+      fit: BoxFit.cover,
+      loadingBuilder: (BuildContext context, Widget child,
+          ImageChunkEvent? loadingProgress) {
+        if (loadingProgress == null) {
+          // Image has finished loading
+          return child;
+        } else {
+          // While image is loading, show a circular progress indicator
+          return Center(
+            child: CircularProgressIndicator(
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded /
+                      (loadingProgress.expectedTotalBytes ?? 1)
+                  : null,
+            ),
+          );
+        }
+      },
+      errorBuilder:
+          (BuildContext context, Object error, StackTrace? stackTrace) {
+        // If there's an error loading the image, display a fallback widget
+        return const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error, color: Colors.red),
+              SizedBox(height: 8),
+              Text(
+                'Failed to load image',
+                style: TextStyle(color: Colors.red),
+              ),
+            ],
+          ),
+        );
+      },
+    ),
+  );
+}
+
 Image getImageFromXfile(XFile pickedImage) {
   Image image;
 

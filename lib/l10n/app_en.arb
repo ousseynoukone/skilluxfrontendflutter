@@ -184,7 +184,10 @@
   "showReplies":"Show replies",
   "showReply":"Show reply",
   
-  "answerTo" : "Answer to"
+  "answerTo" : "Answer to",
+  "camera": "Camera",
+  "gallery": "Gallery",
+  "chooseImageSource": "Choose Image Source"
 
   
 

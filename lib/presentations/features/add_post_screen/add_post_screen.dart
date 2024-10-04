@@ -34,8 +34,8 @@ class _AddPostScreenState extends State<AddPostScreen>
   final List<String> tagsListe = [];
   AddPostSysService addPostSysService = Get.find();
 
-  FocusNode _titleFocusNode = FocusNode();
-  FocusNode _tagFocusNode = FocusNode();
+  final FocusNode _titleFocusNode = FocusNode();
+  final FocusNode _tagFocusNode = FocusNode();
 
   @override
   void didChangeDependencies() {

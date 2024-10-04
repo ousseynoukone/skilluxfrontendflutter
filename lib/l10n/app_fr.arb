@@ -183,7 +183,10 @@
   "showReplies":"afficher les reponses",
   "showReply":"afficher la reponse",
 
-  "answerTo" : "réponse à"
+  "answerTo" : "réponse à",
+  "camera": "Appareil photo",
+  "gallery": "Galerie",
+  "chooseImageSource": "Choisir la source de l'image"
 
 
 

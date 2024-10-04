@@ -6,15 +6,13 @@ import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/he
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/helpers/display_time_ago.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/post_view.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/preview/chip.dart';
-import 'package:skilluxfrontendflutter/presentations/features/helpers/time_format/time_ago_format.dart';
-import 'package:skilluxfrontendflutter/presentations/shared_widgets/glass_neuphormism.dart';
+import 'package:logger/logger.dart';
 
 class PostContainer extends StatefulWidget {
   final Post post;
-    final bool isForOther;
+  final bool isForOther;
 
-
-  const PostContainer({super.key, required this.post,this.isForOther = false});
+  const PostContainer({super.key, required this.post, this.isForOther = false});
 
   @override
   _PostContainerState createState() => _PostContainerState();
@@ -25,7 +23,7 @@ class _PostContainerState extends State<PostContainer> {
   Widget build(BuildContext context) {
     // Access the post object from the widget
     final post = widget.post;
-
+    final Logger _logger = Logger();
     // Retrieve localizations and text theme
     final text = context.localizations;
     final textTheme = Theme.of(context).textTheme;
@@ -34,8 +32,8 @@ class _PostContainerState extends State<PostContainer> {
 // Method to build the post image or icon
     Widget buildPostImage() {
       const double size = 50.0; // Define the size of the image and icon
-
       if (post.headerImageUrl != null && post.headerImageUrl!.isNotEmpty) {
+
         return SizedBox(
           width: size,
           height: size,
@@ -68,7 +66,7 @@ class _PostContainerState extends State<PostContainer> {
       child: ListTile(
         onTap: () {
           Get.to(() => PostView(
-            isForOther: widget.isForOther,
+                isForOther: widget.isForOther,
                 post: post,
               ));
         },
