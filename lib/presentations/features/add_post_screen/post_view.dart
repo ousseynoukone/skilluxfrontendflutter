@@ -16,8 +16,8 @@ import 'package:skilluxfrontendflutter/services/user_profile_services/user_profi
 
 class PostView extends StatefulWidget {
   final Post post;
-  final bool isForOther;
-  const PostView({super.key, required this.post, this.isForOther = false});
+  final bool isForFeeds;
+  const PostView({super.key, required this.post, this.isForFeeds = false});
 
   @override
   State<PostView> createState() => _PostViewState();
@@ -32,6 +32,8 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
     return Scaffold(
       appBar: AppBar(
         actions: [
+
+          widget.isForFeeds == true ?
           PopupMenuButtonComponent(
             menuItems: [
               CustomPopupMenuItem(
@@ -46,36 +48,14 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
                     }))),
               ),
             ],
-          )
+          ) : const SizedBox.shrink()
         ],
       ),
       body: PostViewWidget(
         post: widget.post,
         allowCommentDiplaying: true,
       ),
-      // bottomNavigationBar: SizedBox(
-      //   height: 60,
-      //   child: widget.isForOther? const SizedBox.shrink() : Center(
-      //     child: Obx(
-      //       () => IconTextButton(
-      //         padding:
-      //             const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
-      //         icon: Icons.delete,
-      //         iconColor: ColorsTheme.primary,
-      //         label: text.delete,
-      //         isLoading: userProfilePostService.isLoading.value,
-      //         onPressed: () {
-      //           Get.dialog(ConfirmationDialog(
-      //               title: text.confirmation,
-      //               content: text.confirm,
-      //               onConfirm: () {
-      //                 userProfilePostService.deletePost(widget.post.id!);
-      //               }));
-      //         },
-      //       ),
-      //     ),
-      //   ),
-      // )
+
     );
   }
 }

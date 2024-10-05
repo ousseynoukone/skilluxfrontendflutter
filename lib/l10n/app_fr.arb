@@ -186,7 +186,10 @@
   "answerTo" : "réponse à",
   "camera": "Appareil photo",
   "gallery": "Galerie",
-  "chooseImageSource": "Choisir la source de l'image"
+  "chooseImageSource": "Choisir la source de l'image",
+
+  "noPostAvailable": "Pas encore de postes qui vous plairait"
+
 
 
 

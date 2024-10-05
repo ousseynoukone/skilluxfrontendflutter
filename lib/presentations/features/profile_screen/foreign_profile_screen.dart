@@ -163,7 +163,6 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
                   delegate: SliverChildBuilderDelegate(
                     (context, index) => PostContainer(
                       post: snapshot.data![index],
-                      isForOther: true,
                     ),
                     childCount: snapshot.data?.length ?? 0,
                   ),

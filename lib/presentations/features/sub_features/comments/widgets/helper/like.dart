@@ -40,11 +40,13 @@ class _LikeWidgetState extends State<LikeWidget> {
   }
 
   Future<void> _initializeLikeStatus() async {
-    final isLiked = await isElementAlreadyLiked(widget.elementId,isForPost: widget.isForPost);
-
-    setState(() {
-      _isLiked = isLiked;
-    });
+    final isLiked = await isElementAlreadyLiked(widget.elementId,
+        isForPost: widget.isForPost);
+    if (mounted) {
+      setState(() {
+        _isLiked = isLiked;
+      });
+    }
   }
 
   void _toggleLike() async {

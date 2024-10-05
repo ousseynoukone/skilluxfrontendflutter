@@ -10,9 +10,8 @@ import 'package:logger/logger.dart';
 
 class PostContainer extends StatefulWidget {
   final Post post;
-  final bool isForOther;
 
-  const PostContainer({super.key, required this.post, this.isForOther = false});
+  const PostContainer({super.key, required this.post});
 
   @override
   _PostContainerState createState() => _PostContainerState();
@@ -66,7 +65,6 @@ class _PostContainerState extends State<PostContainer> {
       child: ListTile(
         onTap: () {
           Get.to(() => PostView(
-                isForOther: widget.isForOther,
                 post: post,
               ));
         },

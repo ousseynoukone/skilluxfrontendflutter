@@ -4,6 +4,7 @@ import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart'
 import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/models/user/dtos/user_dto.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/helpers/display_time_ago.dart';
+import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/post_view.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/preview/chip.dart';
 import 'package:skilluxfrontendflutter/presentations/features/helpers/reading_time_calculator/reading_time_calculator.dart';
 import 'package:skilluxfrontendflutter/presentations/features/home_screen/helper.dart';
@@ -16,8 +17,7 @@ class PostCard extends StatefulWidget {
   final UserDTO user;
   final Post post;
 
-  const PostCard({Key? key, required this.user, required this.post})
-      : super(key: key);
+  const PostCard({super.key, required this.user, required this.post});
 
   @override
   _PostCardState createState() => _PostCardState();
@@ -64,7 +64,33 @@ class _PostCardState extends State<PostCard> {
     );
   }
 
-  Widget _postPreView(TextTheme textTheme) {
+  Widget _actionsButton(TextTheme textTheme) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        LikeWidget(
+          isForPost: true,
+          initialLikes: widget.post.votesNumber ?? 0,
+          elementId: widget.post.id!,
+          likeFunction: _postFeedController.likePost,
+          unlikeFunction: _postFeedController.unLikePost,
+        ),
+        Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.comment),
+              onPressed: () {},
+            ),
+            SizedBox(width: Get.width * 0.01),
+            Text(widget.post.commentNumber.toString(),
+                style: textTheme.bodySmall),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _postPreviewComponent(TextTheme textTheme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -80,29 +106,24 @@ class _PostCardState extends State<PostCard> {
         getCustomChip(
             getReadingTime(widget.post.content.content!), Icons.timer_outlined,
             isBackgroundTransparent: true),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            LikeWidget(
-              isForPost: true,
-              initialLikes: widget.post.votesNumber ?? 0,
-              elementId: widget.post.id!,
-              likeFunction: _postFeedController.likePost,
-              unlikeFunction: _postFeedController.unLikePost,
-            ),
-            Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.comment),
-                  onPressed: () {},
-                ),
-                SizedBox(width: Get.width * 0.01),
-                Text(widget.post.commentNumber.toString(),
-                    style: textTheme.bodySmall),
-              ],
-            ),
-          ],
+      ],
+    );
+  }
+
+  _postPreView(TextTheme textTheme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        InkWell(
+          child: _postPreviewComponent(textTheme),
+          onTap: () {
+            Get.to(() => PostView(
+                  post: widget.post,
+                  isForFeeds: true,
+                ));
+          },
         ),
+        _actionsButton(textTheme)
       ],
     );
   }

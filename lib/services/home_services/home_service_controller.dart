@@ -1,4 +1,3 @@
-// post_feed_controller.dart
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/core/api_service/api_service.dart';
@@ -6,7 +5,7 @@ import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/services/home_services/repository/helper/helper.dart';
 import 'package:skilluxfrontendflutter/services/home_services/repository/home_service_repository.dart';
 
-class PostFeedController extends GetxController {
+class PostFeedController extends GetxController with StateMixin<List<Post>> {
   final APIService _apiService = Get.find();
   final FeedType feedType;
   late final HomeServiceRepository _homeServiceRepository;
@@ -16,8 +15,7 @@ class PostFeedController extends GetxController {
 
   // Observable variables
   final RxList<Post> recommendedPosts = <Post>[].obs;
-  final RxBool isLoading = false.obs;
-  final RxBool hasMore = true.obs;
+  RxBool sneakyLoading = false.obs;
 
   @override
   void onInit() {
@@ -27,31 +25,35 @@ class PostFeedController extends GetxController {
   }
 
   Future<void> getPosts() async {
-    isLoading.value = true;
+    change(null, status: RxStatus.loading());
     try {
       final posts = await _homeServiceRepository.getPosts();
-      recommendedPosts.assignAll(posts);
-      hasMore.value = _homeServiceRepository.hasMorePosts;
+      if (posts.isEmpty) {
+        change([], status: RxStatus.empty());
+      } else {
+        recommendedPosts.assignAll(posts);
+        change(recommendedPosts, status: RxStatus.success());
+      }
     } catch (e) {
       _logger.e('Error fetching recommended posts: $e');
-    } finally {
-      isLoading.value = false;
+      change(null, status: RxStatus.error('Failed to load posts'));
     }
   }
 
   Future<void> loadMorePosts() async {
-    if (!hasMore.value || isLoading.value) return;
-
-    isLoading.value = true;
     try {
+      sneakyLoading.value = true;
       final morePosts = await _homeServiceRepository.loadMorePosts();
-      recommendedPosts.addAll(morePosts);
-      hasMore.value = _homeServiceRepository.hasMorePosts;
+      if (morePosts.isNotEmpty) {
+        recommendedPosts.addAll(morePosts);
+        change(recommendedPosts, status: RxStatus.success());
+      }
     } catch (e) {
       _logger.e('Error loading more recommended posts: $e');
-    } finally {
-      isLoading.value = false;
+      change(recommendedPosts,
+          status: RxStatus.error('Failed to load more posts'));
     }
+    sneakyLoading.value = false;
   }
 
   void refreshFeed() {
@@ -68,6 +70,7 @@ class PostFeedController extends GetxController {
       if (index != -1) {
         recommendedPosts[index].like();
         recommendedPosts.refresh();
+        change(recommendedPosts, status: RxStatus.success());
       }
       return true;
     } else {
@@ -82,6 +85,7 @@ class PostFeedController extends GetxController {
       if (index != -1) {
         recommendedPosts[index].unlike();
         recommendedPosts.refresh();
+        change(recommendedPosts, status: RxStatus.success());
       }
       return true;
     } else {

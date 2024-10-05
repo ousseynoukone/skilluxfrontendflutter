@@ -61,12 +61,11 @@ class _PostViewWidgetState extends State<PostViewWidget>
   }
 
   void _scrollListener() {
-    if (_scrollController.offset >=
+    if (widget.allowCommentDiplaying && _scrollController.offset >=
             _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {
-      // We have reached the end of the list
-      _commentService.loadMoreTopComments(widget.post.id!,
-          disableLoading: true);
+    _commentService.loadMoreTopComments(widget.post.id!,
+        disableLoading: true);
     }
   }
 

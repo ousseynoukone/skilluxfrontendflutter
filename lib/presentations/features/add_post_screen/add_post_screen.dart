@@ -206,7 +206,7 @@ class _AddPostScreenState extends State<AddPostScreen>
                     Widget tagWidget;
                     _addPostSysService.rebuildTagField.value
                         ? tagWidget = TagsTextFieldComponent(
-                            listTags: _addPostSysService.post.value.tags,
+                            initialTags: _addPostSysService.post.value.tags,
                             focusNode: _tagFocusNode,
                           )
                         : tagWidget = const SizedBox.shrink();

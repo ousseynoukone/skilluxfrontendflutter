@@ -187,7 +187,8 @@
   "answerTo" : "Answer to",
   "camera": "Camera",
   "gallery": "Gallery",
-  "chooseImageSource": "Choose Image Source"
+  "chooseImageSource": "Choose Image Source",
+  "noPostAvailable": "No posts available"
 
   
 

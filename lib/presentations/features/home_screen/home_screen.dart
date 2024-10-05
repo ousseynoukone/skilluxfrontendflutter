@@ -17,9 +17,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    var text = context.localizations;
     var themeText = context.textTheme;
-    PostFeedController _recommendedFeedController =
+    PostFeedController recommendedFeedController =
         Get.put(PostFeedController(feedType: FeedType.recommendedPosts));
 
     return Scaffold(
@@ -39,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
               )),
         ),
         body: PostsRendererListView(
-          postFeedController: _recommendedFeedController,
+          postFeedController: recommendedFeedController,
         ));
   }
 }

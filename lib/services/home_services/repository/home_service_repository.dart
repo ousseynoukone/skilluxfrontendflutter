@@ -14,7 +14,7 @@ class HomeServiceRepository {
 
   // Variables for pagination
   var cursorPosts = "0";
-  var limitPosts = 10;
+  var limitPosts = 2;
   bool hasMorePosts = false;
   List<Post> poststFeed = [];
 
@@ -25,12 +25,12 @@ class HomeServiceRepository {
     cursorPosts = '0';
 
     ApiResponse response = await _apiService.getRequest(path);
-
     if (response.statusCode == 200) {
       bool hasMore = response.body["hasMore"];
 
       for (var post in response.body["posts"]) {
-        posts.add(Post.fromBody(post));
+        Post fetchPost = Post.fromBody(post);
+        posts.add(fetchPost);
       }
 
       if (posts.isNotEmpty) {
@@ -40,6 +40,7 @@ class HomeServiceRepository {
       if (hasMore) {
         String nextCursor = response.body["nextCursor"];
         cursorPosts = nextCursor;
+
         hasMorePosts = hasMore;
       }
     } else {
@@ -49,9 +50,8 @@ class HomeServiceRepository {
     return posts;
   }
 
-  Future<List<Post>> loadMorePosts(
-      {int userId = 0, bool isFirstLoading = false}) async {
-    if (hasMorePosts || isFirstLoading) {
+  Future<List<Post>> loadMorePosts() async {
+    if (hasMorePosts) {
       String path = "basic/${feedType.value}/$limitPosts/$cursorPosts";
       ApiResponse response = await _apiService.getRequest(path);
 
@@ -62,12 +62,12 @@ class HomeServiceRepository {
         for (var post in response.body["posts"]) {
           posts.add(Post.fromBody(post));
         }
-        if (posts.isNotEmpty) {
-          poststFeed.addAll(posts);
-        }
 
-        String nextCursor = response.body["nextCursor"] ?? '0';
-        cursorPosts = nextCursor;
+        if (posts.isNotEmpty) {
+          String nextCursor = response.body["nextCursor"] ?? '0';
+          cursorPosts = nextCursor;
+          return posts;
+        }
       } else {
         _logger.e(response.message);
       }
