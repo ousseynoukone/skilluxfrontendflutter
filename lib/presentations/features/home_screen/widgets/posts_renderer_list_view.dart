@@ -4,6 +4,8 @@ import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart'
 import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/presentations/features/home_screen/widgets/post_card.dart';
 import 'package:skilluxfrontendflutter/services/home_services/home_service_controller.dart';
+import 'package:skilluxfrontendflutter/services/system_services/route_observer_utils/route_observer_utils.dart';
+import 'package:logger/logger.dart';
 
 class PostsRendererListView extends StatefulWidget {
   final PostFeedController postFeedController;
@@ -17,14 +19,19 @@ class PostsRendererListView extends StatefulWidget {
   _PostsRendererListViewState createState() => _PostsRendererListViewState();
 }
 
-class _PostsRendererListViewState extends State<PostsRendererListView> {
+class _PostsRendererListViewState extends State<PostsRendererListView>
+     {
   final ScrollController _scrollController = ScrollController();
+  final Logger _logger = Logger();
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_scrollListener);
   }
+
+
+
 
   void _scrollListener() {
     if (_scrollController.position.pixels >=
@@ -59,7 +66,6 @@ class _PostsRendererListViewState extends State<PostsRendererListView> {
               return Center(child: Text(text.noPostAvailable));
             }
             return ListView.builder(
-              
               controller: _scrollController,
               itemCount: posts.length + 1, // +1 for the loading indicator
               itemBuilder: (context, index) {

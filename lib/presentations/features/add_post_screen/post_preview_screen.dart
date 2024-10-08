@@ -29,7 +29,7 @@ class _PostPreviewState extends State<PostPreview> with SectionBuilderMixin {
         appBar: AppBar(
           title: Text(text.preview),
         ),
-        body: PostViewWidget(post: widget.post),
+        body: PostViewWidget(post: widget.post,isFromHomeScreen: false,),
         bottomNavigationBar: SizedBox(
           height: 60,
           child: Center(

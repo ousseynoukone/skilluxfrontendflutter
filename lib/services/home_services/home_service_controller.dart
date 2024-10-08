@@ -7,7 +7,7 @@ import 'package:skilluxfrontendflutter/services/home_services/repository/home_se
 
 class PostFeedController extends GetxController with StateMixin<List<Post>> {
   final APIService _apiService = Get.find();
-  final FeedType feedType;
+  FeedType feedType;
   late final HomeServiceRepository _homeServiceRepository;
   final Logger _logger = Logger();
 
@@ -21,11 +21,17 @@ class PostFeedController extends GetxController with StateMixin<List<Post>> {
   void onInit() {
     _homeServiceRepository = HomeServiceRepository(feedType: feedType);
     super.onInit();
-    getPosts();
   }
 
-  Future<void> getPosts() async {
-    change(null, status: RxStatus.loading());
+  void switchFeedMod(FeedType feedType) {
+    _homeServiceRepository.switchFeedMod(feedType);
+    refreshFeed();
+  }
+
+  Future<void> getPosts({bool isLoadingDisabled = false}) async {
+    if (!isLoadingDisabled) {
+      change(null, status: RxStatus.loading());
+    }
     try {
       final posts = await _homeServiceRepository.getPosts();
       if (posts.isEmpty) {
@@ -57,10 +63,15 @@ class PostFeedController extends GetxController with StateMixin<List<Post>> {
   }
 
   void refreshFeed() {
-    _homeServiceRepository.cursorPosts = "0";
-    _homeServiceRepository.hasMorePosts = false;
+    _homeServiceRepository.reinititalizeParams();
     recommendedPosts.clear();
     getPosts();
+  }
+
+  void reinititalizeParams() {
+    recommendedPosts.clear();
+    sneakyLoading = false.obs;
+    _homeServiceRepository.reinititalizeParams();
   }
 
   Future<bool> likePost(int postId) async {
@@ -92,4 +103,25 @@ class PostFeedController extends GetxController with StateMixin<List<Post>> {
       return false;
     }
   }
+
+    // LOCAL UPDATE SERVE TO UPDATE POST STATE BASED ON ACTIONS THAT HAVE BEEN DONE ELSEWHERE , IT HELP TO HAVE A SEAMLESS USER'S EXPERIENCE
+
+  localUpdateIncremenCommentNumber(postId, {int number = 1}) {
+    var post = recommendedPosts.firstWhereOrNull(
+      (post) => post.id == postId,
+    );
+    // if (post != null) {
+    post!.commentNumber += number;
+    // }
+    change(recommendedPosts, status: RxStatus.success());
+  }
+
+  localUpdateDecrementCommentNumber(postId, {int number = 1}) {
+    var post = recommendedPosts.firstWhereOrNull(
+      (post) => post.id == postId,
+    );
+    post!.commentNumber -= number;
+    change(recommendedPosts, status: RxStatus.success());
+  }
+
 }

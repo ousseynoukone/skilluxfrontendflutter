@@ -52,7 +52,7 @@ class UserProfileService extends GetxController with StateMixin<User> {
     }
   }
 
-  Future<User ?> getOneUserInfo(int userId) async {
+  Future<User?> getOneUserInfo(int userId) async {
     try {
       User? fUser = await _userService.getUserInfos(userId: userId);
 
@@ -210,6 +210,8 @@ class UserProfilePostService extends GetxController
   final text = Get.context?.localizations;
   List<Post>? posts;
 
+  
+
   @override
   void onInit() {
     super.onInit();
@@ -296,15 +298,17 @@ class UserProfilePostService extends GetxController
 
   // LOCAL UPDATE SERVE TO UPDATE POST STATE BASED ON ACTIONS THAT HAVE BEEN DONE ELSEWHERE , IT HELP TO HAVE A SEAMLESS USER'S EXPERIENCE
 
-  localUpdateIncremenCommentNumber(postId,{int number = 1}) {
+  localUpdateIncremenCommentNumber(postId, {int number = 1}) {
     var post = posts!.firstWhereOrNull(
       (post) => post.id == postId,
     );
+    // if (post != null) {
     post!.commentNumber += number;
+    // }
     change(posts, status: RxStatus.success());
   }
 
-  localUpdateDecrementCommentNumber(postId,{int number = 1}) {
+  localUpdateDecrementCommentNumber(postId, {int number = 1}) {
     var post = posts!.firstWhereOrNull(
       (post) => post.id == postId,
     );

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/constant/constant.dart';
-import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
-import 'package:skilluxfrontendflutter/config/theme/colors.dart';
+import 'package:skilluxfrontendflutter/presentations/features/home_screen/sub_features/switch_feed_mod.dart';
 import 'package:skilluxfrontendflutter/presentations/features/home_screen/widgets/posts_renderer_list_view.dart';
 import 'package:skilluxfrontendflutter/services/home_services/home_service_controller.dart';
 import 'package:skilluxfrontendflutter/services/home_services/repository/helper/helper.dart';
+import 'package:skilluxfrontendflutter/services/system_services/route_observer_utils/route_observer_utils.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,7 +14,9 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with RouteAware {
+
+
   @override
   Widget build(BuildContext context) {
     var themeText = context.textTheme;
@@ -37,8 +39,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 thickness: 0.1,
               )),
         ),
-        body: PostsRendererListView(
-          postFeedController: recommendedFeedController,
+        body: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: switchFeedMod(),
+            ),
+            Expanded(
+              child: PostsRendererListView(
+                postFeedController: recommendedFeedController,
+              ),
+            ),
+          ],
         ));
+  }
+
+  Widget switchFeedMod() {
+    return const SwitchFeedMod();
   }
 }

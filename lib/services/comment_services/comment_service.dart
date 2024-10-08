@@ -9,13 +9,16 @@ import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/repository/comment_repo.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/repository/helper.dart';
+import 'package:skilluxfrontendflutter/services/home_services/home_service_controller.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
 class CommentService extends GetxController with StateMixin<RxList<Comment>> {
   final APIService _apiService = Get.find();
-  final CommentController _commentController = Get.find();
-  final UserProfilePostService _postService = Get.find();
+  final CommentRepo _commentRepo = Get.put(CommentRepo());
+  final bool isFromHome;
   final UserProfileService _userProfileService = Get.find();
+
+  CommentService({required this.isFromHome});
 
   RxBool isTopCommentLoading = false.obs;
   RxBool isCommentLoading = false.obs;
@@ -31,8 +34,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
       if (!disableLoading) {
         change(comments, status: RxStatus.loading());
       }
-      var fetchedComments =
-          await _commentController.getTopLevelComments(postId);
+      var fetchedComments = await _commentRepo.getTopLevelComments(postId);
       comments.assignAll(fetchedComments);
       if (comments.isEmpty) {
         change(comments, status: RxStatus.empty());
@@ -52,8 +54,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
         change(comments, status: RxStatus.loading());
         isTopCommentLoading.value = true;
       }
-      List<Comment>? newComment =
-          await _commentController.loadMoreComment(postId);
+      List<Comment>? newComment = await _commentRepo.loadMoreComment(postId);
 
       if (newComment != null) {
         if (newComment.isNotEmpty) {
@@ -83,8 +84,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
         isCommentChildCommentLoading.value = true;
       }
 
-      var fetchedComments =
-          await _commentController.getChildrenComments(parentId);
+      var fetchedComments = await _commentRepo.getChildrenComments(parentId);
 
       if (fetchedComments.isNotEmpty) {
         comments.assignAll(fetchedComments);
@@ -105,7 +105,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
         isCommentChildCommentLoading.value = true;
       }
       List<Comment>? newComment =
-          await _commentController.loadChildrenComments(parentId);
+          await _commentRepo.loadChildrenComments(parentId);
       if (newComment != null && newComment.isNotEmpty) {
         // Deep copy the posts
         comments.value = newComment.map((comment) => comment.clone()).toList();
@@ -119,12 +119,12 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
   }
 
   // void unloadChildrenComments(int parentId) {
-  //   _commentController.unloadChildrenComments(parentId);
+  //   _commentRepo.unloadChildrenComments(parentId);
   // }
   Future<void> deleteComment(Comment comment) async {
     try {
       // Delete the comment from the backend
-      await _commentController.deleteComment(comment.id!);
+      await _commentRepo.deleteComment(comment.id!);
 
       // Remove the deleted comment from the comments array or its children
       bool removed = removeCommentFromList(comments, comment);
@@ -143,8 +143,11 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
   }
 
   addComment(CommentDto commentDto) async {
+    dynamic postService = isFromHome == true
+        ? Get.find<PostFeedController>()
+        : Get.find<UserProfilePostService>();
     isAddingCommentLoading.value = true;
-    CommentDto? response = await _commentController.addComment(commentDto);
+    CommentDto? response = await _commentRepo.addComment(commentDto);
     if (response != null) {
       // Update the state
       User user = _userProfileService.user!;
@@ -180,7 +183,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
       Get.back();
 
       // TO UPDATE RELATED POST COMMENT NUMBER
-      _postService.localUpdateIncremenCommentNumber(commentDto.postId);
+      postService.localUpdateIncremenCommentNumber(commentDto.postId);
     } else {
       showCustomSnackbar(
           title: text!.error,
@@ -191,7 +194,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
   }
 
   Future<bool> likeComment(int commentId) async {
-    bool response = await _commentController.likeComment(commentId);
+    bool response = await _commentRepo.likeComment(commentId);
     if (response) {
       var index = comments.indexWhere((comment) => comment.id == commentId);
       if (index != -1) {
@@ -205,7 +208,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
   }
 
   Future<bool> unLikeComment(int commentId) async {
-    bool response = await _commentController.unLikeComment(commentId);
+    bool response = await _commentRepo.unLikeComment(commentId);
     if (response) {
       var index = comments.indexWhere((comment) => comment.id == commentId);
       if (index != -1) {

@@ -13,19 +13,26 @@ import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/wi
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/preview/chip.dart';
 import 'package:skilluxfrontendflutter/presentations/features/helpers/reading_time_calculator/reading_time_calculator.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/comment_screen.dart';
+import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/comment_screen_home.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/comment_field/comment_field.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/helper/show_comment_input.dart';
 import 'package:skilluxfrontendflutter/presentations/features/user_components/user_preview.dart';
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/comment_service.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/repository/comment_repo.dart';
+import 'package:skilluxfrontendflutter/services/home_services/home_service_controller.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
 class PostViewWidget extends StatefulWidget {
   final Post post;
   final bool allowCommentDiplaying;
+  final bool isFromHomeScreen;
+
   const PostViewWidget(
-      {super.key, required this.post, this.allowCommentDiplaying = false});
+      {super.key,
+      required this.post,
+      this.allowCommentDiplaying = false,
+      required this.isFromHomeScreen});
 
   @override
   State<PostViewWidget> createState() => _PostViewWidgetState();
@@ -33,24 +40,30 @@ class PostViewWidget extends StatefulWidget {
 
 class _PostViewWidgetState extends State<PostViewWidget>
     with SectionBuilderMixin {
-  User? user;
+  // ignore: prefer_typing_uninitialized_variables
+  var user;
+
   final HiveUserPersistence _hiveUserPersistence = Get.find();
   late QuillController controller;
   final Logger _logger = Logger();
   final ScrollController _scrollController = ScrollController();
 
-  final CommentController _commentController = Get.put(CommentController());
-  final CommentService _commentService = Get.put(CommentService());
-  final UserProfileService _profileService = Get.find();
+  late final CommentService _commentService;
 
   void _getUser() {
-    user = _profileService.user!;
+    // IF THIS IS CALLED FROM HOME SCREEN USER INFORMATION SHOULD BE THE ONE WITHIN THE POST
+    user = widget.isFromHomeScreen == true
+        ? widget.post.user
+        : _hiveUserPersistence.readUser();
   }
 
   @override
   void initState() {
     super.initState();
     _getUser();
+    
+    _commentService =
+        Get.put(CommentService(isFromHome: widget.isFromHomeScreen));
 
     controller = QuillController(
       readOnly: true,
@@ -61,11 +74,12 @@ class _PostViewWidgetState extends State<PostViewWidget>
   }
 
   void _scrollListener() {
-    if (widget.allowCommentDiplaying && _scrollController.offset >=
+    if (widget.allowCommentDiplaying &&
+        _scrollController.offset >=
             _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {
-    _commentService.loadMoreTopComments(widget.post.id!,
-        disableLoading: true);
+      _commentService.loadMoreTopComments(widget.post.id!,
+          disableLoading: true);
     }
   }
 
@@ -134,11 +148,19 @@ class _PostViewWidgetState extends State<PostViewWidget>
     }
 
     Widget comments() {
-      return allowCommentDiplaying
-          ? CommentScreen(
-              postId: widget.post.id!,
-            )
-          : const SizedBox.shrink();
+      if (allowCommentDiplaying) {
+        if (widget.isFromHomeScreen == true) {
+          return CommentScreenHome(
+            postId: widget.post.id!,
+          );
+        } else {
+          return CommentScreen(
+            postId: widget.post.id!,
+          );
+        }
+      }
+
+      return const SizedBox.shrink();
     }
 
     Widget displayPost() {

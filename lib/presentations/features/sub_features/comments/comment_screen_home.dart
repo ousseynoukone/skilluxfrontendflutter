@@ -5,16 +5,17 @@ import 'package:skilluxfrontendflutter/models/comment/comment.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/comment.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/comment_service.dart';
 import 'package:logger/logger.dart';
+import 'package:skilluxfrontendflutter/services/home_services/home_service_controller.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
-class CommentScreen extends StatelessWidget {
+class CommentScreenHome extends StatelessWidget {
   final int postId;
   final CommentService _commentService = Get.find();
-  final  UserProfilePostService userProfilePostService  = Get.find();
+  final PostFeedController  postFeedController = Get.find();
 
   final Logger _logger = Logger();
 
-  CommentScreen({Key? key, required this.postId }) : super(key: key);
+  CommentScreenHome({super.key, required this.postId});
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +24,11 @@ class CommentScreen extends StatelessWidget {
     var colorScheme = Theme.of(context).colorScheme;
 
     Widget commentHeaderBuilder() {
-      return GetBuilder<UserProfilePostService>(
-          init: userProfilePostService,
+      return GetBuilder<PostFeedController>(
+          init: postFeedController,
           initState: (_) {},
           builder: (controller) {
-            var updatedPost = controller.posts!.firstWhereOrNull(
+            var updatedPost = controller.recommendedPosts.firstWhereOrNull(
               (post) => post.id == postId,
             );
 

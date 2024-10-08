@@ -10,7 +10,6 @@ import 'package:skilluxfrontendflutter/services/system_services/route_observer_u
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:skilluxfrontendflutter/services/user_profile_services/user_update_service.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -25,7 +24,6 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
   final UserProfileService userProfileService = Get.find();
   final AppLocalizations? text = Get.context?.localizations;
   final ScrollController _scrollController = ScrollController();
-  final UserUpdateService _userUpdateService = Get.put(UserUpdateService());
 
   @override
   void didChangeDependencies() {
@@ -57,8 +55,11 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
   didPopNext() {
     // This stand for helping  the scrollNotification to take effect when user try to scroll down (after didPopNext)
     _scrollToTop();
-    userProfilePostService.getUserPosts(disableLoading: true);
-    userProfileService.getUserInfos(disableLoading: true);
+
+    // if (!Get.isDialogOpen!) {
+    //   userProfilePostService.getUserPosts(disableLoading: true);
+    //   userProfileService.getUserInfos(disableLoading: true);
+    // }
   }
 
   void _scrollToTop() {
@@ -76,7 +77,6 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(

@@ -22,7 +22,7 @@ class UserInfoUserProfilePicture extends StatefulWidget {
 
 class _UserInfoUserProfilePictureState extends State<UserInfoUserProfilePicture>
     with ImagePickerMixin {
-  final UserUpdateService _userUpdateService = Get.find();
+  final UserUpdateService _userUpdateService = Get.put(UserUpdateService());
 
   @override
   Widget build(BuildContext context) {

@@ -188,7 +188,13 @@
   "camera": "Camera",
   "gallery": "Gallery",
   "chooseImageSource": "Choose Image Source",
-  "noPostAvailable": "No posts available"
+  "noPostAvailable": "No posts available",
+
+  "recommendedPosts": "For you",
+  "followedUserPosts": "Following",
+  "randomPosts": "Random"
+
+
 
   
 

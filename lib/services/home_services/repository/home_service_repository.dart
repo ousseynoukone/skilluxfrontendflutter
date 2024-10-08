@@ -6,7 +6,7 @@ import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/services/home_services/repository/helper/helper.dart';
 
 class HomeServiceRepository {
-  final FeedType feedType;
+  FeedType feedType;
   HomeServiceRepository({required this.feedType});
 
   final APIService _apiService = Get.find();
@@ -14,9 +14,19 @@ class HomeServiceRepository {
 
   // Variables for pagination
   var cursorPosts = "0";
-  var limitPosts = 2;
+  var limitPosts = 3;
   bool hasMorePosts = false;
   List<Post> poststFeed = [];
+
+  switchFeedMod(FeedType feedType) {
+    this.feedType = feedType;
+  }
+
+  reinititalizeParams() {
+    cursorPosts = "0";
+    hasMorePosts = false;
+    poststFeed = [];
+  }
 
   Future<List<Post>> getPosts({int userId = 0}) async {
     String path = "basic/${feedType.value}/$limitPosts/0";
@@ -63,9 +73,11 @@ class HomeServiceRepository {
           posts.add(Post.fromBody(post));
         }
 
+        String nextCursor = response.body["nextCursor"] ?? '0';
+        cursorPosts = nextCursor;
+        _logger.f(cursorPosts);
+
         if (posts.isNotEmpty) {
-          String nextCursor = response.body["nextCursor"] ?? '0';
-          cursorPosts = nextCursor;
           return posts;
         }
       } else {

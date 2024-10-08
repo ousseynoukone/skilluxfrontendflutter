@@ -7,7 +7,7 @@ import 'package:skilluxfrontendflutter/core/api_service/response_data_structure.
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/models/comment/sub_models/commentDto.dart';
 
-class CommentController extends GetxController {
+class CommentRepo extends GetxController {
   final APIService _apiService = Get.find();
   final Logger _logger = Logger();
 
