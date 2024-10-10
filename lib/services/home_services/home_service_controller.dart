@@ -104,9 +104,9 @@ class PostFeedController extends GetxController with StateMixin<List<Post>> {
     }
   }
 
-    // LOCAL UPDATE SERVE TO UPDATE POST STATE BASED ON ACTIONS THAT HAVE BEEN DONE ELSEWHERE , IT HELP TO HAVE A SEAMLESS USER'S EXPERIENCE
+  // LOCAL UPDATE SERVE TO UPDATE POST STATE BASED ON ACTIONS THAT HAVE BEEN DONE ELSEWHERE , IT HELP TO HAVE A SEAMLESS USER'S EXPERIENCE
 
-  localUpdateIncremenCommentNumber(postId, {int number = 1}) {
+  localUpdateIncrementCommentNumber(postId, {int number = 1}) {
     var post = recommendedPosts.firstWhereOrNull(
       (post) => post.id == postId,
     );
@@ -123,5 +123,4 @@ class PostFeedController extends GetxController with StateMixin<List<Post>> {
     post!.commentNumber -= number;
     change(recommendedPosts, status: RxStatus.success());
   }
-
 }

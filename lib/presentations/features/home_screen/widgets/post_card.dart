@@ -8,10 +8,12 @@ import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/po
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/preview/chip.dart';
 import 'package:skilluxfrontendflutter/presentations/features/helpers/reading_time_calculator/reading_time_calculator.dart';
 import 'package:skilluxfrontendflutter/presentations/features/home_screen/helper.dart';
+import 'package:skilluxfrontendflutter/presentations/features/profile_screen/foreign_profile_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/helper/like.dart';
 import 'package:skilluxfrontendflutter/presentations/features/user_components/user_preview.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/icon_button.dart';
 import 'package:skilluxfrontendflutter/services/home_services/home_service_controller.dart';
+import 'package:skilluxfrontendflutter/services/mainHelpers/comment_post_provider/comment_post_provider.dart';
 
 class PostCard extends StatefulWidget {
   final UserDTO user;
@@ -56,9 +58,15 @@ class _PostCardState extends State<PostCard> {
   Widget postAndUserPreview(themeText) {
     return Column(
       children: [
-        displayUserPreview(widget.user,
-            trailing: displayTimeAgoSync(widget.post.createdAt),
-            zeroPadding: true),
+        InkWell(
+          onTap: () {
+            Get.to(
+                () => ForeignProfileScreen(foreignUserId: widget.post.userId!));
+          },
+          child: displayUserPreview(widget.user,
+              trailing: displayTimeAgoSync(widget.post.createdAt),
+              zeroPadding: true),
+        ),
         _postPreView(themeText), // Display post preview
       ],
     );
@@ -119,7 +127,7 @@ class _PostCardState extends State<PostCard> {
           onTap: () {
             Get.to(() => PostView(
                   post: widget.post,
-                  isForFeeds: true,
+                  commentPostProvider: CommentPostProvider.homePostService,
                 ));
           },
         ),

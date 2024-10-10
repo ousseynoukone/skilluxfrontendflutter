@@ -6,6 +6,7 @@ import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/persistent_header_delegate.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/post_container.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/user_info.dart';
+import 'package:skilluxfrontendflutter/services/mainHelpers/comment_post_provider/comment_post_provider.dart';
 import 'package:skilluxfrontendflutter/services/system_services/route_observer_utils/route_observer_utils.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/foreign_user_profile_service.dart';
 import 'package:logger/logger.dart';
@@ -162,6 +163,8 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
                 return SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) => PostContainer(
+                      commentPostProvider:
+                          CommentPostProvider.foreignProfilePostService,
                       post: snapshot.data![index],
                     ),
                     childCount: snapshot.data?.length ?? 0,

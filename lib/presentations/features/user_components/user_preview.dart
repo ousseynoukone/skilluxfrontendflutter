@@ -25,7 +25,6 @@ Widget displayUserPreview(dynamic user,
     profilePicture = user.profilePicture;
     profession = user.profession;
   }
-
   return ListTile(
     contentPadding: zeroPadding == false
         ? const EdgeInsets.symmetric(horizontal: 16)

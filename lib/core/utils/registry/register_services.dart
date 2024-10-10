@@ -4,6 +4,7 @@ import 'package:skilluxfrontendflutter/core/api_service/token_manager.dart';
 import 'package:skilluxfrontendflutter/core/state_managment/app_state_managment.dart';
 import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/widgets/navigation_bar/navigation_bar_controller.dart';
+import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/foreign_profile_post_holder/foreign_profile_post_holder.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/repository/comment_repo.dart';
 import 'package:skilluxfrontendflutter/services/home_services/home_service_controller.dart';
 import 'package:skilluxfrontendflutter/services/home_services/repository/helper/helper.dart';
@@ -49,7 +50,6 @@ Future<void> registerGetServices() async {
   // User service
   Get.put(UserService());
 
-
-
-
+  // For ForeignProfilePostHolder
+  Get.put(ForeignProfilePostHolder());
 }

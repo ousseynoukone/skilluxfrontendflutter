@@ -12,7 +12,9 @@ import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/wi
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_section_builder.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/preview/chip.dart';
 import 'package:skilluxfrontendflutter/presentations/features/helpers/reading_time_calculator/reading_time_calculator.dart';
+import 'package:skilluxfrontendflutter/presentations/features/profile_screen/foreign_profile_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/comment_screen.dart';
+import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/comment_screen_foreign_profile.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/comment_screen_home.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/comment_field/comment_field.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/helper/show_comment_input.dart';
@@ -21,18 +23,19 @@ import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/comment_service.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/repository/comment_repo.dart';
 import 'package:skilluxfrontendflutter/services/home_services/home_service_controller.dart';
+import 'package:skilluxfrontendflutter/services/mainHelpers/comment_post_provider/comment_post_provider.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
 class PostViewWidget extends StatefulWidget {
   final Post post;
   final bool allowCommentDiplaying;
-  final bool isFromHomeScreen;
+  final CommentPostProvider commentPostProvider;
 
   const PostViewWidget(
       {super.key,
       required this.post,
       this.allowCommentDiplaying = false,
-      required this.isFromHomeScreen});
+      required this.commentPostProvider});
 
   @override
   State<PostViewWidget> createState() => _PostViewWidgetState();
@@ -43,7 +46,7 @@ class _PostViewWidgetState extends State<PostViewWidget>
   // ignore: prefer_typing_uninitialized_variables
   var user;
 
-  final HiveUserPersistence _hiveUserPersistence = Get.find();
+  final UserProfileService _userProfileService = Get.find();
   late QuillController controller;
   final Logger _logger = Logger();
   final ScrollController _scrollController = ScrollController();
@@ -52,18 +55,19 @@ class _PostViewWidgetState extends State<PostViewWidget>
 
   void _getUser() {
     // IF THIS IS CALLED FROM HOME SCREEN USER INFORMATION SHOULD BE THE ONE WITHIN THE POST
-    user = widget.isFromHomeScreen == true
-        ? widget.post.user
-        : _hiveUserPersistence.readUser();
+    user =
+        widget.commentPostProvider == CommentPostProvider.userProfilePostService
+            ? _userProfileService.user
+            : widget.post.user;
   }
 
   @override
   void initState() {
     super.initState();
     _getUser();
-    
-    _commentService =
-        Get.put(CommentService(isFromHome: widget.isFromHomeScreen));
+
+    _commentService = Get.put(
+        CommentService(commentPostProvider: widget.commentPostProvider));
 
     controller = QuillController(
       readOnly: true,
@@ -110,8 +114,16 @@ class _PostViewWidgetState extends State<PostViewWidget>
     Widget displayPostMinimalAttribute() {
       return Column(
         children: [
-          displayUserPreview(user!,
-              trailing: displayTimeAgo(widget.post.createdAt)),
+          InkWell(
+            onTap: () {
+              if (widget.commentPostProvider != CommentPostProvider.userProfilePostService) {
+                Get.to(() =>
+                    ForeignProfileScreen(foreignUserId: widget.post.userId!));
+              }
+            },
+            child: displayUserPreview(user!,
+                trailing: displayTimeAgo(widget.post.createdAt)),
+          ),
           Container(
             alignment: Alignment.topLeft,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -149,8 +161,13 @@ class _PostViewWidgetState extends State<PostViewWidget>
 
     Widget comments() {
       if (allowCommentDiplaying) {
-        if (widget.isFromHomeScreen == true) {
+        if (widget.commentPostProvider == CommentPostProvider.homePostService) {
           return CommentScreenHome(
+            postId: widget.post.id!,
+          );
+        } else if (widget.commentPostProvider ==
+            CommentPostProvider.foreignProfilePostService) {
+          return CommentScreenForeignUser(
             postId: widget.post.id!,
           );
         } else {

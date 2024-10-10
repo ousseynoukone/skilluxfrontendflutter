@@ -25,6 +25,7 @@ class OutlineButtonComponent extends StatelessWidget {
 
     return OutlinedButton(
       onPressed: isLoading ? null : onPressed,
+      style: ButtonStyle(padding: WidgetStatePropertyAll(edgeInsets)),
       child: isLoading
           ? SizedBox(
               height: 20,
@@ -46,7 +47,6 @@ class OutlineButtonComponent extends StatelessWidget {
                 Text(text),
               ],
             ),
-      style: ButtonStyle(padding: WidgetStatePropertyAll(edgeInsets)),
     );
   }
 }

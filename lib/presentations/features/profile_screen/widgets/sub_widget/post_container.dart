@@ -7,11 +7,14 @@ import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/he
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/post_view.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/preview/chip.dart';
 import 'package:logger/logger.dart';
+import 'package:skilluxfrontendflutter/services/mainHelpers/comment_post_provider/comment_post_provider.dart';
 
 class PostContainer extends StatefulWidget {
   final Post post;
+  final CommentPostProvider commentPostProvider;
 
-  const PostContainer({super.key, required this.post});
+  const PostContainer(
+      {super.key, required this.post, required this.commentPostProvider});
 
   @override
   _PostContainerState createState() => _PostContainerState();
@@ -32,7 +35,6 @@ class _PostContainerState extends State<PostContainer> {
     Widget buildPostImage() {
       const double size = 50.0; // Define the size of the image and icon
       if (post.headerImageUrl != null && post.headerImageUrl!.isNotEmpty) {
-
         return SizedBox(
           width: size,
           height: size,
@@ -66,6 +68,7 @@ class _PostContainerState extends State<PostContainer> {
         onTap: () {
           Get.to(() => PostView(
                 post: post,
+                commentPostProvider: widget.commentPostProvider,
               ));
         },
         tileColor: colorScheme.primary.withOpacity(0.3),

@@ -6,6 +6,7 @@ import 'package:skilluxfrontendflutter/presentations/features/profile_screen/wid
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/persistent_header_delegate.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/post_container.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/user_info.dart';
+import 'package:skilluxfrontendflutter/services/mainHelpers/comment_post_provider/comment_post_provider.dart';
 import 'package:skilluxfrontendflutter/services/system_services/route_observer_utils/route_observer_utils.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 import 'package:logger/logger.dart';
@@ -144,7 +145,11 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
               return controller.obx(
                 (state) => SliverList(
                   delegate: SliverChildBuilderDelegate(
-                    (context, index) => PostContainer(post: state![index]),
+                    (context, index) => PostContainer(
+                      post: state![index],
+                      commentPostProvider:
+                          CommentPostProvider.userProfilePostService,
+                    ),
                     childCount: state?.length ?? 0,
                   ),
                 ),

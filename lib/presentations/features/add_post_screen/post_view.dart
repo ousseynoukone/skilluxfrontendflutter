@@ -10,13 +10,14 @@ import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/wi
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_section_builder.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/confirm_dialog.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/poppup_menu_button.dart';
+import 'package:skilluxfrontendflutter/services/mainHelpers/comment_post_provider/comment_post_provider.dart';
 
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
 class PostView extends StatefulWidget {
   final Post post;
-  final bool isForFeeds;
-  const PostView({super.key, required this.post, this.isForFeeds = false});
+  final CommentPostProvider commentPostProvider;
+  const PostView({super.key, required this.post, required this.commentPostProvider});
 
   @override
   State<PostView> createState() => _PostViewState();
@@ -31,7 +32,7 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          widget.isForFeeds != true
+          widget.commentPostProvider == CommentPostProvider.userProfilePostService
               ? PopupMenuButtonComponent(
                   menuItems: [
                     CustomPopupMenuItem(
@@ -52,8 +53,8 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
               : const SizedBox.shrink()
         ],
       ),
-      body: PostViewWidget(
-        isFromHomeScreen: widget.isForFeeds,
+      body: PostViewWidget( 
+        commentPostProvider: widget.commentPostProvider,
         post: widget.post,
         allowCommentDiplaying: true,
       ),

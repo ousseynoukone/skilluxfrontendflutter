@@ -6,19 +6,20 @@ import 'package:skilluxfrontendflutter/models/comment/comment.dart';
 import 'package:skilluxfrontendflutter/models/comment/sub_models/commentDto.dart';
 import 'package:skilluxfrontendflutter/models/user/dtos/user_dto.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
+import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/foreign_profile_post_holder/foreign_profile_post_holder.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/repository/comment_repo.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/repository/helper.dart';
-import 'package:skilluxfrontendflutter/services/home_services/home_service_controller.dart';
+import 'package:skilluxfrontendflutter/services/mainHelpers/comment_post_provider/comment_post_provider.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
 class CommentService extends GetxController with StateMixin<RxList<Comment>> {
   final APIService _apiService = Get.find();
   final CommentRepo _commentRepo = Get.put(CommentRepo());
-  final bool isFromHome;
+  final CommentPostProvider commentPostProvider;
   final UserProfileService _userProfileService = Get.find();
 
-  CommentService({required this.isFromHome});
+  CommentService({required this.commentPostProvider});
 
   RxBool isTopCommentLoading = false.obs;
   RxBool isCommentLoading = false.obs;
@@ -27,6 +28,16 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
   final Logger _logger = Logger();
   final text = Get.context?.localizations;
   RxList<Comment> comments = <Comment>[].obs;
+  dynamic postService;
+
+  @override
+  void onInit() {
+    postService = getPostProvider(commentPostProvider);
+  // IF POSTSERVICE IS NULL IT CAN RELY ON ForeignProfilePostHolder TO UPDAT POSTS IF NEEDED FOR FOREIGN PROFILE COMMENT
+    postService ??= Get.find<ForeignProfilePostHolder>();
+
+    super.onInit();
+  }
 
   void getPostTopComments(int postId, {bool disableLoading = false}) async {
     try {
@@ -143,9 +154,6 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
   }
 
   addComment(CommentDto commentDto) async {
-    dynamic postService = isFromHome == true
-        ? Get.find<PostFeedController>()
-        : Get.find<UserProfilePostService>();
     isAddingCommentLoading.value = true;
     CommentDto? response = await _commentRepo.addComment(commentDto);
     if (response != null) {
@@ -183,7 +191,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
       Get.back();
 
       // TO UPDATE RELATED POST COMMENT NUMBER
-      postService.localUpdateIncremenCommentNumber(commentDto.postId);
+      postService.localUpdateIncrementCommentNumber(commentDto.postId);
     } else {
       showCustomSnackbar(
           title: text!.error,
