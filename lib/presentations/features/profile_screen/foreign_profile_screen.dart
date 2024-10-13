@@ -52,13 +52,16 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
     _switchPostProviderOnCommentService();
   }
 
-  _switchPostProviderOnCommentService() {
+//WE NEED TO SWITCH THE POST PROVIDER IN COMMENT SERVICE TO PostProviderToForeignProfilePostHolder because , if not , it would take the posts provider of Home PostFeedController which would not work for loading and adding comment because posts that are in PostFeedController are different of the post that is loaded from the target user
+  _switchPostProviderOnCommentService({bool switchBack = false}) {
     if (widget.switchPostProviderOnCommentService) {
-      _logger.f("_switchPostProviderOnCommentService");
-
       final CommentService commentService = Get.find();
-
-      commentService.switchPostProviderToForeignProfilePostHolder();
+      if (switchBack) {
+        commentService.switchPostProviderToForeignProfilePostHolder(
+            switchBack: true);
+      } else {
+        commentService.switchPostProviderToForeignProfilePostHolder();
+      }
     }
   }
 
@@ -107,6 +110,8 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
   void dispose() {
     _foreignUserPostsService.dispose();
     _foreignUserProfileService.dispose();
+    
+    _switchPostProviderOnCommentService(switchBack: true);
     super.dispose();
   }
 

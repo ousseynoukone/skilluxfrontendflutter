@@ -10,6 +10,7 @@ import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/repository/comment_repo.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/repository/helper.dart';
+import 'package:skilluxfrontendflutter/services/home_services/home_service_controller.dart';
 import 'package:skilluxfrontendflutter/services/mainHelpers/comment_post_provider/comment_post_provider.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
@@ -39,8 +40,12 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
     super.onInit();
   }
 
-  switchPostProviderToForeignProfilePostHolder() {
-    postService = Get.find<ForeignProfilePostHolder>();
+  switchPostProviderToForeignProfilePostHolder({bool switchBack = false}) {
+    if (switchBack == false) {
+      postService = Get.find<ForeignProfilePostHolder>();
+    } else {
+      postService = Get.find<PostFeedController>();
+    }
   }
 
   void getPostTopComments(int postId, {bool disableLoading = false}) async {
@@ -158,6 +163,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
   }
 
   addComment(CommentDto commentDto) async {
+    _logger.w(postService);
     isAddingCommentLoading.value = true;
     CommentDto? response = await _commentRepo.addComment(commentDto);
     if (response != null) {
