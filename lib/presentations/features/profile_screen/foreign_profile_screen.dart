@@ -58,7 +58,7 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
 
       final CommentService commentService = Get.find();
 
-      commentService.switchPostProvider(swichToForeignProfilePostHolder: true);
+      commentService.switchPostProviderToForeignProfilePostHolder();
     }
   }
 

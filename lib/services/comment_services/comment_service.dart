@@ -32,24 +32,15 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
 
   @override
   void onInit() {
-    postService = switchPostProvider(commentPostProvider: commentPostProvider);
+    postService = getPostProvider(commentPostProvider);
+    // IF POSTSERVICE IS NULL IT CAN RELY ON ForeignProfilePostHolder TO UPDAT POSTS IF NEEDED FOR FOREIGN PROFILE COMMENT
+    postService ??= Get.find<ForeignProfilePostHolder>();
 
     super.onInit();
   }
 
-  switchPostProvider(
-      {CommentPostProvider? commentPostProvider,
-      bool swichToForeignProfilePostHolder = false}) {
-    if (commentPostProvider != null) {
-      postService = getPostProvider(commentPostProvider);
-    }
-    // IF POSTSERVICE IS NULL IT CAN RELY ON ForeignProfilePostHolder TO UPDAT POSTS IF NEEDED FOR FOREIGN PROFILE COMMENT
-
-    if (swichToForeignProfilePostHolder || postService == null) {
-      postService = Get.find<ForeignProfilePostHolder>();
-    }
-
-    _logger.f(postService);
+  switchPostProviderToForeignProfilePostHolder() {
+    postService = Get.find<ForeignProfilePostHolder>();
   }
 
   void getPostTopComments(int postId, {bool disableLoading = false}) async {
