@@ -26,7 +26,7 @@ class ForeignUserProfileService {
     try {
       if (!disableLoading) {
         _userInfoStreamController.sink.add(null);
-      }
+      } 
 
       final user = await _userService.getUserInfos(userId: userId);
       _userInfoStreamController.sink.add(user);
@@ -71,6 +71,7 @@ class ForeignUserPostsService {
       if (posts.isEmpty) {
         isEmpty.value = true;
       } else {
+        _posts.clear();
         _posts.addAll(posts); // Update the local list
         _postHolder.posts = posts; // Update the post Holder
       }

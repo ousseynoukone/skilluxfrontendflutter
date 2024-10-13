@@ -18,7 +18,6 @@ class CommentComponent extends StatelessWidget {
   final bool displayReply;
   final bool isColorTransparent;
   final Logger _logger = Logger();
-  final CommentService _commentService = Get.find();
 
   CommentComponent({
     super.key,

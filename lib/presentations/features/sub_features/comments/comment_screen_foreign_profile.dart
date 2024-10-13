@@ -11,13 +11,26 @@ import 'package:skilluxfrontendflutter/services/home_services/home_service_contr
 import 'package:skilluxfrontendflutter/services/user_profile_services/foreign_user_profile_service.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
-class CommentScreenForeignUser extends StatelessWidget {
+class CommentScreenForeignUser extends StatefulWidget {
   final int postId;
+
+  CommentScreenForeignUser({super.key, required this.postId});
+
+  @override
+  _CommentScreenForeignUserState createState() =>
+      _CommentScreenForeignUserState();
+}
+
+class _CommentScreenForeignUserState extends State<CommentScreenForeignUser> {
   final CommentService _commentService = Get.find();
   final Logger _logger = Logger();
   final ForeignProfilePostHolder _postHolder = Get.find();
 
-  CommentScreenForeignUser({super.key, required this.postId});
+  @override
+  void initState() {
+    super.initState();
+    _commentService.getPostTopComments(widget.postId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +40,8 @@ class CommentScreenForeignUser extends StatelessWidget {
 
     Widget commentHeaderBuilder() {
       return Obx(() {
-        var updatedPost =
-            _postHolder.posts.firstWhereOrNull((post) => post.id == postId);
-
+        var updatedPost = _postHolder.posts
+            .firstWhereOrNull((post) => post.id == widget.postId);
 
         if (updatedPost == null || updatedPost.commentNumber <= 0) {
           return Center(
@@ -63,10 +75,9 @@ class CommentScreenForeignUser extends StatelessWidget {
         commentHeaderBuilder(),
         GetBuilder<CommentService>(
           init: _commentService,
-          initState: (_) {
-            _commentService.getPostTopComments(postId);
-          },
           builder: (controller) {
+            _logger.f(controller.comments.length);
+
             if (controller.status.isLoading) {
               return Center(
                   child: CircularProgressIndicator(

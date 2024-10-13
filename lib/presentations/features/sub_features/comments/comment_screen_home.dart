@@ -11,7 +11,7 @@ import 'package:skilluxfrontendflutter/services/user_profile_services/user_profi
 class CommentScreenHome extends StatelessWidget {
   final int postId;
   final CommentService _commentService = Get.find();
-  final PostFeedController  postFeedController = Get.find();
+  final PostFeedController postFeedController = Get.find();
 
   final Logger _logger = Logger();
 

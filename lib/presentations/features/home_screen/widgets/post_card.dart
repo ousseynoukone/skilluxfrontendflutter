@@ -39,7 +39,6 @@ class _PostCardState extends State<PostCard> {
   Widget build(BuildContext context) {
     var text = context.localizations;
     var themeText = context.textTheme;
-    var colorScheme = Theme.of(context).colorScheme;
 
     return Container(
         padding: const EdgeInsets.symmetric(

@@ -12,6 +12,7 @@ class ForeignProfilePostHolder extends GetxController {
   List<Post> get posts => _posts;
 
   set posts(List<Post> value) {
+    _posts.clear();
     _posts.assignAll(value);
   }
 

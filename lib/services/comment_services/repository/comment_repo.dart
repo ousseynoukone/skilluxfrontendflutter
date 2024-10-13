@@ -23,6 +23,7 @@ class CommentRepo extends GetxController {
 
     ApiResponse response = await _apiService.getRequest(path);
     if (response.statusCode == 200) {
+      comments.clear();
       for (var comment in response.body["comments"]) {
         Comment newComment = Comment.fromJson(comment);
         comments.add(newComment);
@@ -35,7 +36,7 @@ class CommentRepo extends GetxController {
     return comments;
   }
 
-  Future<List<Comment> ? > loadMoreComment(int postId) async {
+  Future<List<Comment>?> loadMoreComment(int postId) async {
     if (hasMoreComment) {
       String path =
           'basic/post-top-level-comments/$postId/$limitComments/${(comments.length - limitComments) + limitComments}';
@@ -55,11 +56,9 @@ class CommentRepo extends GetxController {
       } else {
         _logger.e(response.message ?? "");
       }
-          return comments;
-
+      return comments;
     }
     return null;
-
   }
 
   Future<List<Comment>> getChildrenComments(int parentId) async {
@@ -91,7 +90,7 @@ class CommentRepo extends GetxController {
     return comments;
   }
 
-  Future<List<Comment> ? > loadChildrenComments(int parentId) async {
+  Future<List<Comment>?> loadChildrenComments(int parentId) async {
     if (!hasMoreChildrenComments) {
       _logger.i("No more children comments to load");
       return null;

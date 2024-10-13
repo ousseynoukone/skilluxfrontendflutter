@@ -6,6 +6,7 @@ import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/persistent_header_delegate.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/post_container.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/user_info.dart';
+import 'package:skilluxfrontendflutter/services/comment_services/comment_service.dart';
 import 'package:skilluxfrontendflutter/services/mainHelpers/comment_post_provider/comment_post_provider.dart';
 import 'package:skilluxfrontendflutter/services/system_services/route_observer_utils/route_observer_utils.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/foreign_user_profile_service.dart';
@@ -15,8 +16,12 @@ import 'package:skilluxfrontendflutter/services/user_profile_services/user_profi
 
 class ForeignProfileScreen extends StatefulWidget {
   final int foreignUserId;
+  final bool switchPostProviderOnCommentService;
 
-  ForeignProfileScreen({super.key, required this.foreignUserId});
+  ForeignProfileScreen(
+      {super.key,
+      required this.foreignUserId,
+      this.switchPostProviderOnCommentService = false});
 
   @override
   _ForeignProfileScreenState createState() => _ForeignProfileScreenState();
@@ -43,6 +48,18 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
     _foreignUserPostsService.getUserPosts();
     _scrollController.addListener(_scrollListener);
     _isPostLoadingOrEmpty();
+
+    _switchPostProviderOnCommentService();
+  }
+
+  _switchPostProviderOnCommentService() {
+    if (widget.switchPostProviderOnCommentService) {
+      _logger.f("_switchPostProviderOnCommentService");
+
+      final CommentService commentService = Get.find();
+
+      commentService.switchPostProvider(swichToForeignProfilePostHolder: true);
+    }
   }
 
   void _isPostLoadingOrEmpty() {

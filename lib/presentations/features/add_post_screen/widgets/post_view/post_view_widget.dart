@@ -118,7 +118,7 @@ class _PostViewWidgetState extends State<PostViewWidget>
             onTap: () {
               if (widget.commentPostProvider != CommentPostProvider.userProfilePostService) {
                 Get.to(() =>
-                    ForeignProfileScreen(foreignUserId: widget.post.userId!));
+                    ForeignProfileScreen(foreignUserId: widget.post.userId!,switchPostProviderOnCommentService: true,));
               }
             },
             child: displayUserPreview(user!,
