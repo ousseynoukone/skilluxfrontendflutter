@@ -147,7 +147,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
       await _commentRepo.deleteComment(comment.id!);
 
       // Remove the deleted comment from the comments array or its children
-      bool removed = removeCommentFromList(comments, comment);
+      bool removed = removeCommentFromList(comments, comment,postService);
 
       if (removed) {
         // Update the state only if a comment was actually removed

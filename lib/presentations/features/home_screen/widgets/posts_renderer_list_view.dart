@@ -4,16 +4,15 @@ import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart'
 import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/presentations/features/home_screen/widgets/post_card.dart';
 import 'package:skilluxfrontendflutter/services/home_services/home_service_controller.dart';
-import 'package:skilluxfrontendflutter/services/system_services/route_observer_utils/route_observer_utils.dart';
 import 'package:logger/logger.dart';
 
 class PostsRendererListView extends StatefulWidget {
   final PostFeedController postFeedController;
 
   const PostsRendererListView({
-    Key? key,
+    super.key,
     required this.postFeedController,
-  }) : super(key: key);
+  });
 
   @override
   _PostsRendererListViewState createState() => _PostsRendererListViewState();
