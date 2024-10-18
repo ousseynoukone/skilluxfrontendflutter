@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/constant/constant.dart';
 import 'package:skilluxfrontendflutter/presentations/features/home_screen/sub_features/switch_feed_mod.dart';
 import 'package:skilluxfrontendflutter/presentations/features/home_screen/widgets/posts_renderer_list_view.dart';
+import 'package:skilluxfrontendflutter/presentations/features/notification/notification_icon.dart';
 import 'package:skilluxfrontendflutter/services/home_services/home_service_controller.dart';
 import 'package:skilluxfrontendflutter/services/home_services/repository/helper/helper.dart';
 
@@ -14,8 +15,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with RouteAware {
-
-
   @override
   Widget build(BuildContext context) {
     var themeText = context.textTheme;
@@ -29,9 +28,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
             APPNAME,
             style: themeText.headlineMedium,
           ),
-          actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.notifications)),
-          ],
+          actions: const [NotificationIcon()],
           bottom: const PreferredSize(
               preferredSize: Size.fromHeight(4.0),
               child: Divider(
