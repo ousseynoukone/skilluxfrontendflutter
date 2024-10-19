@@ -72,9 +72,8 @@ class _UserInfoUserProfilePictureState extends State<UserInfoUserProfilePicture>
               child: InkWell(
                 onTap: () async {
                   await pickImage();
-                  if(pickedImage !=null){
-                  handlingPickedImage();
-
+                  if (pickedImage != null) {
+                    handlingPickedImage();
                   }
                 },
                 child: const Icon(Icons.edit,

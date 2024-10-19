@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
+import 'package:skilluxfrontendflutter/models/notification/notification.dart';
+import 'package:skilluxfrontendflutter/models/notification/sub_models/notification_type.dart';
 import 'package:skilluxfrontendflutter/models/user/dtos/user_dto.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
 
@@ -57,3 +59,5 @@ Widget displayUserPP(String? profilePicture, {double radius = 20}) {
     );
   }
 }
+
+

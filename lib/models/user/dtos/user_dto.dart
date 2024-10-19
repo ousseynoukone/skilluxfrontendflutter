@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class UserDTO {
-  final int id;
+  final int ? id;
   final String fullName;
   final String username;
   final String? email;
@@ -9,7 +9,7 @@ class UserDTO {
   final String? profession; // New profession field
 
   UserDTO({
-    required this.id,
+     this.id,
     required this.fullName,
     required this.username,
     this.email,
@@ -56,12 +56,12 @@ class UserDTO {
   // Clone method to create a deep copy of UserDTO
   UserDTO clone() {
     return UserDTO(
-      id: this.id,
-      fullName: this.fullName,
-      username: this.username,
-      email: this.email,
-      profilePicture: this.profilePicture,
-      profession: this.profession, // Added profession field
+      id: id,
+      fullName: fullName,
+      username: username,
+      email: email,
+      profilePicture: profilePicture,
+      profession: profession, // Added profession field
     );
   }
 
