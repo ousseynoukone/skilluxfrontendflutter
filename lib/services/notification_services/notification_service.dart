@@ -14,6 +14,8 @@ class NotificationService extends GetxController {
   String _cursorNotifications = "";
   List<NotificationModel> notifications = <NotificationModel>[].obs;
 
+  RxBool isLoading = false.obs;
+
   @override
   void onInit() async {
     getNotifications();
@@ -22,13 +24,15 @@ class NotificationService extends GetxController {
 
   getNotifications() async {
     String path = 'basic/notifications/$_limitNotification/0';
+    isLoading.value = true;
 
     ApiResponse response = await _apiService.getRequest(path);
     if (response.statusCode == 200) {
       notifications.clear();
 
       for (var notification in response.body["userNotifications"]) {
-        NotificationModel newNotification = NotificationModel.fromBody(notification);
+        NotificationModel newNotification =
+            NotificationModel.fromBody(notification);
         notifications.add(newNotification);
       }
       _hasMoreNotification = response.body["hasMore"];
@@ -40,6 +44,8 @@ class NotificationService extends GetxController {
     } else {
       _logger.e(response.message);
     }
+        isLoading.value = false;
+
   }
 
   loadMoreNotifications() async {

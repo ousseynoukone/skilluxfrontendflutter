@@ -14,9 +14,12 @@ Widget getCustomChip(
   final colorScheme = Theme.of(Get.context!).colorScheme;
 
   return Container(
-    padding: padding ?? EdgeInsets.symmetric(horizontal: isBackgroundTransparent ? 0 : 8.0, vertical: 4),
+    padding: padding ??
+        EdgeInsets.symmetric(
+            horizontal: isBackgroundTransparent ? 0 : 8.0, vertical: 4),
     decoration: BoxDecoration(
-      color: backgroundColor ?? (isBackgroundTransparent ? Colors.transparent : colorScheme.primary),
+      color: backgroundColor ??
+          (isBackgroundTransparent ? Colors.transparent : colorScheme.primary),
       borderRadius: BorderRadius.circular(8),
     ),
     child: Row(
@@ -31,7 +34,7 @@ Widget getCustomChip(
         if (icon != null) const SizedBox(width: 4),
         Text(
           label,
-          style: themeText.bodySmall?.copyWith(fontSize: fontSize, color: isBackgroundTransparent ? colorScheme.onPrimary : Colors.white),
+          style: themeText.bodySmall?.copyWith(fontSize: fontSize),
         ),
       ],
     ),

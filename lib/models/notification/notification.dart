@@ -7,7 +7,7 @@ import 'package:skilluxfrontendflutter/presentations/features/helpers/time_forma
 
 class NotificationModel {
   final NotificationType type;
-  final Ressource ressource;
+  final Ressource ? ressource;
   final String createdAtNotif;
   final String createdAt;
   final int count;
@@ -37,7 +37,7 @@ class NotificationModel {
 
     return NotificationModel(
         type: getNotificationType(json["type"]),
-        ressource: Ressource.fromBody(json['ressource']),
+        ressource: json['ressource']!=null ? Ressource.fromBody(json['ressource']) : null,
         createdAtNotif: formattedDate,
         count: json['count'] as int,
         userDTOs: List.from(userDTOs),

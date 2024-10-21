@@ -56,7 +56,7 @@ class _UserInfoUserProfilePictureState extends State<UserInfoUserProfilePicture>
     return Stack(
       children: [
         // Profile Picture
-        displayUserPP(widget.profilePictureUrl, radius: 60),
+        displayUserPP(widget.profilePictureUrl, radius: 50),
 
         // Tappable Icon
         Positioned(

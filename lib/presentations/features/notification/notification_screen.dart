@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
+import 'package:skilluxfrontendflutter/core/api_service/token_manager.dart';
 import 'package:skilluxfrontendflutter/presentations/features/notification/widgets/notification_component.dart';
 import 'package:skilluxfrontendflutter/services/notification_services/notification_service.dart';
 
@@ -37,12 +39,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var text = context.localizations;
+    ;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Notifications')),
+      appBar: AppBar(title: Text(text.notification)),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Obx(() {
           if (_notificationService.notifications.isEmpty) {
+            return Center(child: Text(text.noNotification));
+          }
+          if (_notificationService.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
           }
           return ListView.builder(

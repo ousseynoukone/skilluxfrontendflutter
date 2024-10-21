@@ -12,7 +12,7 @@ class InputDecorationAppTheme {
     labelStyle:
         const TextStyle().copyWith(fontSize: 14, color: ColorsTheme.black),
     hintStyle: const TextStyle()
-        .copyWith(fontSize: 12, color: ColorsTheme.black.withOpacity(0.5)),
+        .copyWith(fontSize: 12, color: ColorsTheme.black.withOpacity(0.8)),
     errorStyle: const TextStyle().copyWith(fontStyle: FontStyle.normal),
     floatingLabelStyle:
         const TextStyle().copyWith(color: ColorsTheme.black.withOpacity(0.8)),
@@ -40,9 +40,9 @@ class InputDecorationAppTheme {
     labelStyle:
         const TextStyle().copyWith(fontSize: 14, color: ColorsTheme.white),
     hintStyle: const TextStyle().copyWith(
-        fontSize: 12,
-        color: ColorsTheme.white.withOpacity(0.5),
-        fontWeight: FontWeight.w100),
+      fontSize: 12,
+      color: ColorsTheme.white.withOpacity(0.8),
+    ),
     errorStyle: const TextStyle().copyWith(fontStyle: FontStyle.normal),
     floatingLabelStyle: const TextStyle().copyWith(
         color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.8)),

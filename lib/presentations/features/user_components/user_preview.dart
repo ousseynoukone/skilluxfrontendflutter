@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
@@ -41,23 +43,24 @@ Widget displayUserPreview(dynamic user,
   );
 }
 
-Widget displayUserPP(String? profilePicture, {double radius = 20}) {
+Widget displayUserPP(String? profilePicture, {double? radius}) {
+  final mediaQuery = MediaQuery.of(Get.context!);
+  final defaultRadius = min(40.0, mediaQuery.size.width * 0.12);
+
   if (profilePicture != null && profilePicture.isNotEmpty) {
     return CircleAvatar(
       backgroundImage: NetworkImage(profilePicture),
-      radius: radius,
+      radius: radius ?? defaultRadius,
     );
   } else {
     return CircleAvatar(
       backgroundColor: Colors.grey,
-      radius: radius,
+      radius: radius ?? defaultRadius,
       child: Icon(
         Icons.person,
         color: Colors.white,
-        size: radius * 1.5,
+        size: (radius ?? defaultRadius) * 1.5,
       ),
     );
   }
 }
-
-

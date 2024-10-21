@@ -5,10 +5,10 @@ import 'package:skilluxfrontendflutter/models/notification/sub_models/notificati
 Widget displayNotificationImage(NotificationModel notification,
     {double radius = 20}) {
   if (notification.type == NotificationType.post) {
-    if (notification.ressource.headerImage != null &&
-        notification.ressource.headerImage!.isNotEmpty) {
+    if (notification.ressource!.headerImage != null &&
+        notification.ressource!.headerImage!.isNotEmpty) {
       return CircleAvatar(
-        backgroundImage: NetworkImage(notification.ressource.headerImage!),
+        backgroundImage: NetworkImage(notification.ressource!.headerImage!),
         radius: radius,
       );
     } else {

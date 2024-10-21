@@ -28,7 +28,7 @@ void main() async {
   // Registering some needed getX services
   await registerGetServices();
 
-  runApp(const MyApp( ));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {

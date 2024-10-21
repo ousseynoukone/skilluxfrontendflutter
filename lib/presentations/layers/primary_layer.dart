@@ -37,40 +37,44 @@ class _PrimaryLayerState extends State<PrimaryLayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: FutureBuilder<void>(
-          future: _initStateFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const LoadingAnimation();
-            } else if (snapshot.hasError) {
-              return const Text('Error loading state');
-            } else {
-              FlutterNativeSplash.remove();
+    return SafeArea(
+      child: Scaffold(
+        body: Center(
+          child: FutureBuilder<void>(
+            future: _initStateFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const LoadingAnimation();
+              } else if (snapshot.hasError) {
+                return const Text('Error loading state');
+              } else {
+                FlutterNativeSplash.remove();
 
-              return Obx(() {
-                // IF APP IS LAUNCHED FOR THE FIRST TIME
-                if (controller.appConfigState.value.isAppFirstLaunch == true) {
-                  controller.updateState(isAppFirstLaunch: false);
-                  return const OnBoardingScreen();
-                }
-                // IF USER NOT LOGGED
-                if (controller.appConfigState.value.isUserLogged == false) {
-                  return const Auth();
-                }
+                return Obx(() {
+                  // IF APP IS LAUNCHED FOR THE FIRST TIME
+                  if (controller.appConfigState.value.isAppFirstLaunch ==
+                      true) {
+                    controller.updateState(isAppFirstLaunch: false);
+                    return const OnBoardingScreen();
+                  }
+                  // IF USER NOT LOGGED
+                  if (controller.appConfigState.value.isUserLogged == false) {
+                    return const Auth();
+                  }
 
-                // IF USER TAGS PREFERENCE NOT SAVED YET
+                  // IF USER TAGS PREFERENCE NOT SAVED YET
 
-                if (controller.appConfigState.value.isUserTagsPreferenceSaved ==
-                    false) {
-                  return const TagsPreferencesScreen();
-                }
+                  if (controller
+                          .appConfigState.value.isUserTagsPreferenceSaved ==
+                      false) {
+                    return const TagsPreferencesScreen();
+                  }
 
-                return const SecondaryLayer();
-              });
-            }
-          },
+                  return const SecondaryLayer();
+                });
+              }
+            },
+          ),
         ),
       ),
     );
