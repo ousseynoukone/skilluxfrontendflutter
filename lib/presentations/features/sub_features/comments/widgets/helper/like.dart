@@ -84,10 +84,8 @@ class _LikeWidgetState extends State<LikeWidget> {
     String likeText;
     if (_numberOfLikes == 0) {
       likeText = "";
-    } else if (_numberOfLikes == 1) {
-      likeText = text.oneLike;
     } else {
-      likeText = "${formatLikes(_numberOfLikes)} ${text.likes}";
+      likeText = _numberOfLikes.toString();
     }
 
     return Row(

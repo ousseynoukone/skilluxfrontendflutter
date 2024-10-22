@@ -10,7 +10,7 @@ class NotificationSse {
   final Logger _logger = Logger();
   final APIService _apiService = Get.find();
   final TokenManager _tokenManager = Get.find();
-   RxInt notificationCount = 0.obs; 
+  RxInt notificationCount = 0.obs;
 
   connectToTheStream() async {
     // Checking if token need to be refershed before making the request
@@ -35,8 +35,7 @@ class NotificationSse {
           // Assuming data.data is a string that can be converted to an int
           try {
             // Convert the data to an int and assign it
-            notificationCount.value =
-                int.parse(data.data.toString());
+            notificationCount.value = int.parse(data.data.toString());
           } catch (e) {
             _logger.w('Error converting data to int: $e');
           }
@@ -69,5 +68,10 @@ class NotificationSse {
             // It will only be called when the connection is interupted by the server and eventflux is trying to reconnect.
           }),
     );
+  }
+
+  disconnecFromTheStream() {
+    notificationCount.value = 0;
+    EventFlux.instance.disconnect();
   }
 }

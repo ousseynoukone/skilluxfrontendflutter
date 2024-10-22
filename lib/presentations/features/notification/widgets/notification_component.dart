@@ -19,12 +19,7 @@ class _NotificationComponentState extends State<NotificationComponent> {
   final colorScheme = Theme.of(Get.context!).colorScheme;
   final Logger _logger = Logger();
 
-  Widget basicNotif(NotificationType notifcationType) {
-    String emote = notifcationType == NotificationType.vote ||
-            notifcationType == NotificationType.commentLike
-        ? "👍 "
-        : "✅ ";
-
+  Widget displayNotif() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,11 +38,7 @@ class _NotificationComponentState extends State<NotificationComponent> {
               color: colorScheme.primary),
           child: ListTile(
             leading: displayNotificationImage(widget.notification, radius: 25),
-            title: Text(
-              style: themeText.titleSmall!
-                  .copyWith(fontSize: 14, fontWeight: FontWeight.w500),
-              "$emote${widget.notification.message}",
-            ),
+            title: widget.notification.messageWidget,
             subtitle: Text(
               widget.notification.createdAt,
               style: themeText.bodySmall,
@@ -58,72 +49,10 @@ class _NotificationComponentState extends State<NotificationComponent> {
         )
       ],
     );
-  }
-
-  Widget commentNotif() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 14.0, top: 6),
-          child: Text(
-            widget.notification.createdAtNotif,
-            style: themeText.titleSmall!
-                .copyWith(fontSize: 14, fontWeight: FontWeight.w500),
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: colorScheme.primary),
-          child: ListTile(
-            leading: displayNotificationImage(widget.notification, radius: 25),
-            title: RichText(
-              text: TextSpan(
-                children: <TextSpan>[
-                  TextSpan(
-                    text: widget.notification.message,
-                    style: themeText.titleSmall!
-                        .copyWith(fontSize: 14, fontWeight: FontWeight.w500),
-                  ),
-                  TextSpan(
-                    text: ' : " ${widget.notification.ressource?.text}"',
-                    style: themeText.bodySmall!
-                        .copyWith(fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
-            ),
-            subtitle: Text(
-              widget.notification.createdAt,
-              style: themeText.bodySmall,
-            ),
-            trailing: IconButton(
-                onPressed: () {}, icon: const Icon(Icons.arrow_forward_ios)),
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget renderNotif(NotificationModel notifcation) {
-    switch (notifcation.type) {
-      case NotificationType.vote ||
-            NotificationType.post ||
-            NotificationType.follow:
-        return basicNotif(notifcation.type);
-
-      case NotificationType.comment:
-        return commentNotif();
-
-      default:
-        return const SizedBox.shrink();
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return renderNotif(widget.notification);
+    return displayNotif();
   }
 }

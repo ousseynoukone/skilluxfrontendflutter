@@ -130,7 +130,7 @@ class CommentComponent extends StatelessWidget {
             initialLikes: updatedComment.like,
             comment: updatedComment,
           ),
-        const SizedBox(width: 8),
+        const SizedBox(width: 5),
         displayDeleteCommentButton(updatedComment),
       ],
     );

@@ -195,7 +195,8 @@
   "randomPosts": "Random",
 
   "notification":"Notification",
-  "noNotification":"You've not got any notification lately."
+  "noNotification":"You've not got any notification lately.",
+  "and":"and"
 
 
   

@@ -45,7 +45,7 @@ Widget displayUserPreview(dynamic user,
 
 Widget displayUserPP(String? profilePicture, {double? radius}) {
   final mediaQuery = MediaQuery.of(Get.context!);
-  final defaultRadius = min(40.0, mediaQuery.size.width * 0.12);
+  final defaultRadius = min(30.0, mediaQuery.size.width * 0.12);
 
   if (profilePicture != null && profilePicture.isNotEmpty) {
     return CircleAvatar(

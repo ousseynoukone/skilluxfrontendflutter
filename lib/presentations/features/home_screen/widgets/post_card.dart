@@ -64,7 +64,7 @@ class _PostCardState extends State<PostCard> {
           },
           child: displayUserPreview(widget.user,
               trailing: displayTimeAgoSync(widget.post.createdAt),
-              zeroPadding: true),
+              zeroPadding: true ),
         ),
         _postPreView(themeText), // Display post preview
       ],

@@ -3,14 +3,17 @@ import 'package:skilluxfrontendflutter/core/api_service/token_manager.dart';
 import 'package:skilluxfrontendflutter/core/state_managment/app_state_managment.dart';
 import 'package:skilluxfrontendflutter/core/utils/hive_local_storage.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/auth.dart';
+import 'package:skilluxfrontendflutter/services/notification_services/server_side_event/nontification_sse.dart';
 
 Future<void> localLogout() async {
-  final HiveTokenPersistence _hiveTokenPersistence = Get.find();
-  final AppStateManagment _appStateManagement = Get.find();
-  final TokenManager _tokenManager = Get.find();
+  final HiveTokenPersistence hiveTokenPersistence = Get.find();
+  final AppStateManagment appStateManagement = Get.find();
+  final TokenManager tokenManager = Get.find();
+  final NotificationSse notificationSse = Get.find();
 
-  await _hiveTokenPersistence.deleteToken();
- await  _appStateManagement.updateState(isUserLogged: false);
-  await _tokenManager.reinitializeToken();
+  await hiveTokenPersistence.deleteToken();
+  await appStateManagement.updateState(isUserLogged: false);
+  await tokenManager.reinitializeToken();
+  notificationSse.disconnecFromTheStream();
   Get.off(() => const Auth());
 }
