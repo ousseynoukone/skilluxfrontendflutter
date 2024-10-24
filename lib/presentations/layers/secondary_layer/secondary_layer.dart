@@ -21,12 +21,8 @@ class _SecondaryLayerState extends State<SecondaryLayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: BottomNavigationBarComponent(
-          initialIndex: widget.index ?? 0,
-        ),
-      ),
+    return BottomNavigationBarComponent(
+      initialIndex: widget.index ?? 0,
     );
   }
 }

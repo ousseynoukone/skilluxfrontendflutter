@@ -51,9 +51,10 @@ class _AddSectionState extends State<AddSection> with ImagePickerMixin {
             displayMode: false,
           ),
         ),
-        bottomNavigationBar: SizedBox(
-          height: 60,
-          child: Center(
+        bottomNavigationBar: SafeArea(
+          child: Container(
+            alignment: Alignment.bottomCenter,
+            height: 60,
             child: IconTextButton(
               padding: const EdgeInsets.all(8.0),
               icon: Icons.save,

@@ -14,7 +14,7 @@ Widget bottomNavBar(Future<void> Function() saveDraft,
   AddPostSysService addPostSysService = Get.find();
 
   return Obx(() => Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

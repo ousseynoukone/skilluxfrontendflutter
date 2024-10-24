@@ -26,19 +26,23 @@ class _PostPreviewState extends State<PostPreview> with SectionBuilderMixin {
   Widget build(BuildContext context) {
     var text = context.localizations;
 
-    return SafeArea(
-      child: Scaffold(
-          appBar: AppBar(
-            title: Text(text.preview),
-          ),
-          body: PostViewWidget(post: widget.post,commentPostProvider: CommentPostProvider.userProfilePostService,),
-          bottomNavigationBar: SizedBox(
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(text.preview),
+        ),
+        body: Center(
+            child: PostViewWidget(
+          post: widget.post,
+          commentPostProvider: CommentPostProvider.userProfilePostService,
+        )),
+        bottomNavigationBar: SafeArea(
+          child: SizedBox(
             height: 60,
             child: Center(
               child: Obx(
                 () => IconTextButton(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 16),
                   icon: Icons.publish,
                   label: text.publish,
                   isLoading: _addPostService.isLoading.value,
@@ -48,7 +52,7 @@ class _PostPreviewState extends State<PostPreview> with SectionBuilderMixin {
                 ),
               ),
             ),
-          )),
-    );
+          ),
+        ));
   }
 }

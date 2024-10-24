@@ -17,7 +17,8 @@ import 'package:skilluxfrontendflutter/services/user_profile_services/user_profi
 class PostView extends StatefulWidget {
   final Post post;
   final CommentPostProvider commentPostProvider;
-  const PostView({super.key, required this.post, required this.commentPostProvider});
+  const PostView(
+      {super.key, required this.post, required this.commentPostProvider});
 
   @override
   State<PostView> createState() => _PostViewState();
@@ -32,7 +33,8 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          widget.commentPostProvider == CommentPostProvider.userProfilePostService
+          widget.commentPostProvider ==
+                  CommentPostProvider.userProfilePostService
               ? PopupMenuButtonComponent(
                   menuItems: [
                     CustomPopupMenuItem(
@@ -53,7 +55,7 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
               : const SizedBox.shrink()
         ],
       ),
-      body: PostViewWidget( 
+      body: PostViewWidget(
         commentPostProvider: widget.commentPostProvider,
         post: widget.post,
         allowCommentDiplaying: true,

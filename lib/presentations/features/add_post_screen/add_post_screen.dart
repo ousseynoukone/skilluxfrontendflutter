@@ -167,61 +167,60 @@ class _AddPostScreenState extends State<AddPostScreen>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          appBar: AppBar(
-            title: Text(text.createPublication),
-            actions: const [PoppupMenuButton()],
-          ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Center(
-                child: Column(
-                  children: [
-                    buildImageWidget(context, text.addCoverPhoto),
-                    const SizedBox(height: 22),
-                    Form(
-                      key: _formKey,
-                      child: TextFieldComponent(
-                        focusNode: _titleFocusNode,
-                        controller: _titleController,
-                        labelText: text.title,
-                        validator: (value) {
-                          var message = PostTitleValidator.validate(value);
-                          if (value == null || message != null) {
-                            return message;
-                          }
-                          return null; // Return null if the input is valid
-                        },
-                        onChanged: (value) {
-                          _formKey.currentState!.validate();
-                        },
-                        onFieldSubmitted: (value) {
-                          FocusScope.of(context).requestFocus(_tagFocusNode);
-                        },
-                      ),
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(text.createPublication),
+          actions: const [PoppupMenuButton()],
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Center(
+              child: Column(
+                children: [
+                  buildImageWidget(context, text.addCoverPhoto),
+                  const SizedBox(height: 22),
+                  Form(
+                    key: _formKey,
+                    child: TextFieldComponent(
+                      focusNode: _titleFocusNode,
+                      controller: _titleController,
+                      labelText: text.title,
+                      validator: (value) {
+                        var message = PostTitleValidator.validate(value);
+                        if (value == null || message != null) {
+                          return message;
+                        }
+                        return null; // Return null if the input is valid
+                      },
+                      onChanged: (value) {
+                        _formKey.currentState!.validate();
+                      },
+                      onFieldSubmitted: (value) {
+                        FocusScope.of(context).requestFocus(_tagFocusNode);
+                      },
                     ),
-                    const SizedBox(height: 22),
-                    Obx(() {
-                      Widget tagWidget;
-                      _addPostSysService.rebuildTagField.value
-                          ? tagWidget = TagsTextFieldComponent(
-                              listTags: _addPostSysService.post.value.tags,
-                              focusNode: _tagFocusNode,
-                            )
-                          : tagWidget = const SizedBox.shrink();
+                  ),
+                  const SizedBox(height: 22),
+                  Obx(() {
+                    Widget tagWidget;
+                    _addPostSysService.rebuildTagField.value
+                        ? tagWidget = TagsTextFieldComponent(
+                            listTags: _addPostSysService.post.value.tags,
+                            focusNode: _tagFocusNode,
+                          )
+                        : tagWidget = const SizedBox.shrink();
 
-                      return tagWidget;
-                    }),
-                    const SizedBox(height: 22),
-                    sectionBuilder()
-                  ],
-                ),
+                    return tagWidget;
+                  }),
+                  const SizedBox(height: 22),
+                  sectionBuilder()
+                ],
               ),
             ),
           ),
-          bottomNavigationBar: bottomNavBar(saveDraft, updatePostStream)),
-    );
+        ),
+        bottomNavigationBar:
+            SafeArea(child: bottomNavBar(saveDraft, updatePostStream)));
   }
 }

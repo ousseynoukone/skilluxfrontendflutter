@@ -42,7 +42,7 @@ class _AuthState extends State<Auth> {
                     ? Container(
                         color: Theme.of(context)
                             .primaryColor, // Set background color to primary color
-
+        
                         child: ListTile(
                           title: Text(
                               _getXAuthController.sucessResetEmail.value

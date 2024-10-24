@@ -10,8 +10,7 @@ import 'package:skilluxfrontendflutter/services/user_profile_services/user_profi
 class BottomNavigationBarComponent extends StatefulWidget {
   final int initialIndex;
 
-  const BottomNavigationBarComponent({Key? key, this.initialIndex = 0})
-      : super(key: key);
+  const BottomNavigationBarComponent({super.key, this.initialIndex = 0});
 
   @override
   _BottomNavigationBarComponentState createState() =>
@@ -55,19 +54,25 @@ class _BottomNavigationBarComponentState
       _updateProfileIfNeeded();
 
       return Scaffold(
-        body: IndexedStack(
-          index: _currentIndex.value,
-          children: bnScreensList,
+        body: Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: SafeArea(
+            child: IndexedStack(
+              index: _currentIndex.value,
+              children: bnScreensList,
+            ),
+          ),
         ),
         bottomNavigationBar: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Divider(
-              height: 1,
+              height: 0.5,
               thickness: 0.1,
               color: colorScheme.outlineVariant,
             ),
             BottomAppBar(
+              height: Get.height / 13,
               color: Colors.transparent,
               surfaceTintColor: Colors.transparent,
               child: Row(
@@ -104,7 +109,7 @@ class _BottomNavigationBarComponentState
       }
 
       if (_currentIndex.value == 0) {
-        postFeedController.getPosts(isLoadingDisabled:true);
+        postFeedController.getPosts(isLoadingDisabled: true);
       }
     });
   }

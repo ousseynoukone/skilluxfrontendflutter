@@ -56,11 +56,6 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
   didPopNext() {
     // This stand for helping  the scrollNotification to take effect when user try to scroll down (after didPopNext)
     _scrollToTop();
-
-    // if (!Get.isDialogOpen!) {
-    //   userProfilePostService.getUserPosts(disableLoading: true);
-    //   userProfileService.getUserInfos(disableLoading: true);
-    // }
   }
 
   void _scrollToTop() {
@@ -73,6 +68,8 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
 
   @override
   void dispose() {
+    _scrollController.dispose(); // Dispose the ScrollController
+    ObserverUtils.routeObserver.unsubscribe(this);
     super.dispose();
   }
 

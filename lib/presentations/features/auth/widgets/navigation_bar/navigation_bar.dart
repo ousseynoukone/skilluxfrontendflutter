@@ -36,7 +36,9 @@ class _TopNavigationBarState extends State<TopNavigationBar>
   void listenRegisterState() {
     // Listen to changes in index using obs
     _navigationBarController.index.listen((newIndex) {
-      _tabController.index = newIndex;
+      if (mounted) {
+        _tabController.animateTo(newIndex);
+      }
     });
   }
 
@@ -60,11 +62,10 @@ class _TopNavigationBarState extends State<TopNavigationBar>
       child: Scaffold(
         appBar: AppBar(
           toolbarHeight: 1,
-
           automaticallyImplyLeading: false, // remove back button in appbar.
           bottom: TabBar(
             controller: _tabController,
-            labelStyle:context.textTheme.bodyMedium,
+            labelStyle: context.textTheme.bodyMedium,
             labelColor: context.textTheme.bodyLarge?.color,
             unselectedLabelColor: ColorsTheme.gray,
             indicatorColor: ColorsTheme.primary,
@@ -76,7 +77,7 @@ class _TopNavigationBarState extends State<TopNavigationBar>
         ),
         body: TabBarView(
           controller: _tabController,
-          children: [Login(), Register()],
+          children: const [Login(), Register()],
         ),
       ),
     );

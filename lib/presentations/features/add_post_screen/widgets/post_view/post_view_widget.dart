@@ -192,7 +192,7 @@ class _PostViewWidgetState extends State<PostViewWidget>
           ],
         ),
         bottomNavigationBar:
-            widget.allowCommentDiplaying ? bottomNavBar() : null,
+            widget.allowCommentDiplaying ? SafeArea(child: bottomNavBar()) : null,
       );
     }
 
