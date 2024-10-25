@@ -90,35 +90,4 @@ class HomeServiceRepository {
     return poststFeed;
   }
 
-  Future<bool> likePost(int postId) async {
-    String path = 'basic/posts/vote/$postId';
-
-    try {
-      ApiResponse response = await _apiService.postRequest(path);
-
-      if (response.statusCode == 200) {
-        return true;
-      }
-    } catch (e) {
-      _logger.e(e);
-    }
-
-    return false;
-  }
-
-  Future<bool> unLikePost(int postId) async {
-    String path = 'basic/posts/unvote/$postId';
-
-    try {
-      ApiResponse response = await _apiService.postRequest(path);
-
-      if (response.statusCode == 200) {
-        return true;
-      }
-    } catch (e) {
-      _logger.e(e);
-    }
-
-    return false;
-  }
 }

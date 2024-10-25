@@ -35,7 +35,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
   void onInit() {
     postService = getPostProvider(commentPostProvider);
     // IF POSTSERVICE IS NULL IT CAN RELY ON ForeignProfilePostHolder TO UPDAT POSTS IF NEEDED FOR FOREIGN PROFILE COMMENT
-    postService ??= Get.find<ForeignProfilePostHolder>();
+    // postService ??= Get.find<ForeignProfilePostHolder>();
 
     super.onInit();
   }
@@ -44,7 +44,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
     if (switchBack == false) {
       postService = Get.find<ForeignProfilePostHolder>();
     } else {
-      postService = Get.find<PostFeedController>();
+      postService = Get.find<HomePostService>();
     }
   }
 
@@ -147,7 +147,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
       await _commentRepo.deleteComment(comment.id!);
 
       // Remove the deleted comment from the comments array or its children
-      bool removed = removeCommentFromList(comments, comment,postService);
+      bool removed = removeCommentFromList(comments, comment, postService);
 
       if (removed) {
         // Update the state only if a comment was actually removed
@@ -163,7 +163,6 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
   }
 
   addComment(CommentDto commentDto) async {
-    _logger.w(postService);
     isAddingCommentLoading.value = true;
     CommentDto? response = await _commentRepo.addComment(commentDto);
     if (response != null) {

@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
-import 'package:skilluxfrontendflutter/models/comment/comment.dart';
 import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/comment.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/comment_service.dart';
 import 'package:logger/logger.dart';
-import 'package:skilluxfrontendflutter/services/home_services/home_service_controller.dart';
 import 'package:skilluxfrontendflutter/services/post_service_annexe/post_service.dart';
-import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
-class CommentScreenNoPostFeedController extends StatefulWidget {
+class CommentScreenNoHomePostService extends StatefulWidget {
   final int postId;
 
-  const CommentScreenNoPostFeedController({super.key, required this.postId});
+  const CommentScreenNoHomePostService({super.key, required this.postId});
 
   @override
   _CommentScreenHomeState createState() => _CommentScreenHomeState();
 }
 
-class _CommentScreenHomeState extends State<CommentScreenNoPostFeedController> {
+class _CommentScreenHomeState extends State<CommentScreenNoHomePostService> {
   final CommentService _commentService = Get.find();
   PostService postService = Get.find();
   final Logger _logger = Logger();

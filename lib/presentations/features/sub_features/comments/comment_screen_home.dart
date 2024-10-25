@@ -11,7 +11,7 @@ import 'package:skilluxfrontendflutter/services/user_profile_services/user_profi
 class CommentScreenHome extends StatelessWidget {
   final int postId;
   final CommentService _commentService = Get.find();
-  final PostFeedController postFeedController = Get.find();
+  final HomePostService _homePostService = Get.find();
 
   final Logger _logger = Logger();
 
@@ -24,8 +24,8 @@ class CommentScreenHome extends StatelessWidget {
     var colorScheme = Theme.of(context).colorScheme;
 
     Widget commentHeaderBuilder() {
-      return GetBuilder<PostFeedController>(
-          init: postFeedController,
+      return GetBuilder<HomePostService>(
+          init: _homePostService,
           initState: (_) {},
           builder: (controller) {
             var updatedPost = controller.recommendedPosts.firstWhereOrNull(

@@ -7,19 +7,18 @@ import 'package:skilluxfrontendflutter/services/home_services/home_service_contr
 import 'package:logger/logger.dart';
 
 class PostsRendererListView extends StatefulWidget {
-  final PostFeedController postFeedController;
+  final HomePostService homePostService;
 
   const PostsRendererListView({
     super.key,
-    required this.postFeedController,
+    required this.homePostService,
   });
 
   @override
   _PostsRendererListViewState createState() => _PostsRendererListViewState();
 }
 
-class _PostsRendererListViewState extends State<PostsRendererListView>
-     {
+class _PostsRendererListViewState extends State<PostsRendererListView> {
   final ScrollController _scrollController = ScrollController();
   final Logger _logger = Logger();
 
@@ -29,14 +28,11 @@ class _PostsRendererListViewState extends State<PostsRendererListView>
     _scrollController.addListener(_scrollListener);
   }
 
-
-
-
   void _scrollListener() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 200) {
-      if (!widget.postFeedController.sneakyLoading.value) {
-        widget.postFeedController.loadMorePosts();
+      if (!widget.homePostService.sneakyLoading.value) {
+        widget.homePostService.loadMorePosts();
       }
     }
   }
@@ -49,7 +45,7 @@ class _PostsRendererListViewState extends State<PostsRendererListView>
   }
 
   Future<void> _onRefresh() async {
-    widget.postFeedController.refreshFeed();
+    widget.homePostService.refreshFeed();
   }
 
   @override
@@ -59,7 +55,7 @@ class _PostsRendererListViewState extends State<PostsRendererListView>
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: _onRefresh,
-        child: widget.postFeedController.obx(
+        child: widget.homePostService.obx(
           (posts) {
             if (posts == null || posts.isEmpty) {
               return Center(child: Text(text.noPostAvailable));
@@ -86,7 +82,7 @@ class _PostsRendererListViewState extends State<PostsRendererListView>
 
   Widget _buildLoadingIndicator() {
     return Obx(() {
-      if (widget.postFeedController.sneakyLoading.value) {
+      if (widget.homePostService.sneakyLoading.value) {
         return const Padding(
           padding: EdgeInsets.all(8.0),
           child: Center(child: CircularProgressIndicator()),

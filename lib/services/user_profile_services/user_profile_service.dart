@@ -11,6 +11,7 @@ import 'package:skilluxfrontendflutter/models/user/dtos/user_dto.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:skilluxfrontendflutter/presentations/layers/secondary_layer/secondary_layer.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
+import 'package:skilluxfrontendflutter/services/post_service_annexe/like_service.dart';
 import 'package:skilluxfrontendflutter/services/translator_services/translator_service.dart';
 import 'package:skilluxfrontendflutter/services/user_services/controller/user_service.dart';
 
@@ -203,7 +204,7 @@ class UserProfileFollowService {
 class UserProfilePostService extends GetxController
     with StateMixin<List<Post>> {
   // User API Service
-  final APIService _apiService = Get.find();
+  final LikeService _likeService = Get.find();
   final UserService _userService = Get.put(UserService());
   RxBool isLoading = false.obs;
   final Logger _logger = Logger();
@@ -312,5 +313,34 @@ class UserProfilePostService extends GetxController
     );
     post!.commentNumber -= number;
     change(posts, status: RxStatus.success());
+  }
+
+  Future<bool> likePost(int postId) async {
+    bool response = await _likeService.likePost(postId);
+    if (response) {
+      var index = posts!.indexWhere((post) => post.id == postId);
+      if (index != -1) {
+        posts![index].like();
+
+        change(posts, status: RxStatus.success());
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> unLikePost(int postId) async {
+    bool response = await _likeService.unLikePost(postId);
+    if (response) {
+      var index = posts!.indexWhere((post) => post.id == postId);
+      if (index != -1) {
+        posts![index].unlike();
+        change(posts!, status: RxStatus.success());
+      }
+      return true;
+    } else {
+      return false;
+    }
   }
 }

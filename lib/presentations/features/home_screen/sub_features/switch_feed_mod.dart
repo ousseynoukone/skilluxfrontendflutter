@@ -14,7 +14,7 @@ class SwitchFeedMod extends StatefulWidget {
 
 class _SwitchFeedModState extends State<SwitchFeedMod> {
   FeedType dropdownValue = FeedType.recommendedPosts;
-  PostFeedController recommendedFeedController = Get.find();
+  HomePostService recommendedFeedController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -49,5 +49,4 @@ class _SwitchFeedModState extends State<SwitchFeedMod> {
       }).toList(),
     );
   }
-
 }

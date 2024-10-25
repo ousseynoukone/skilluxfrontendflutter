@@ -4,14 +4,16 @@ import 'package:skilluxfrontendflutter/core/api_service/api_service.dart';
 import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/services/home_services/repository/helper/helper.dart';
 import 'package:skilluxfrontendflutter/services/home_services/repository/home_service_repository.dart';
+import 'package:skilluxfrontendflutter/services/post_service_annexe/like_service.dart';
 
-class PostFeedController extends GetxController with StateMixin<List<Post>> {
+class HomePostService extends GetxController with StateMixin<List<Post>> {
   final APIService _apiService = Get.find();
   FeedType feedType;
   late final HomeServiceRepository _homeServiceRepository;
   final Logger _logger = Logger();
+  final LikeService _likeService = Get.find();
 
-  PostFeedController({required this.feedType});
+  HomePostService({required this.feedType});
 
   // Observable variables
   final RxList<Post> recommendedPosts = <Post>[].obs;
@@ -75,7 +77,7 @@ class PostFeedController extends GetxController with StateMixin<List<Post>> {
   }
 
   Future<bool> likePost(int postId) async {
-    bool response = await _homeServiceRepository.likePost(postId);
+    bool response = await _likeService.likePost(postId);
     if (response) {
       var index = recommendedPosts.indexWhere((post) => post.id == postId);
       if (index != -1) {
@@ -90,7 +92,7 @@ class PostFeedController extends GetxController with StateMixin<List<Post>> {
   }
 
   Future<bool> unLikePost(int postId) async {
-    bool response = await _homeServiceRepository.unLikePost(postId);
+    bool response = await _likeService.unLikePost(postId);
     if (response) {
       var index = recommendedPosts.indexWhere((post) => post.id == postId);
       if (index != -1) {

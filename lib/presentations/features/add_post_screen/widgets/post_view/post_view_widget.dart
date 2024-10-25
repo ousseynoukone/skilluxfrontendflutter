@@ -15,6 +15,7 @@ import 'package:skilluxfrontendflutter/presentations/features/sub_features/comme
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/comment_screen_foreign_profile.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/comment_screen_home.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/comment_field/comment_field.dart';
+import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/helper/like.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/helper/show_comment_input.dart';
 import 'package:skilluxfrontendflutter/presentations/features/user_components/user_preview.dart';
 import 'package:logger/logger.dart';
@@ -177,11 +178,35 @@ class _PostViewWidgetState extends State<PostViewWidget>
             postId: widget.post.id!,
           );
         } else {
-          return  CommentScreenNoPostFeedController(postId: widget.post.id!,);
+          return CommentScreenNoHomePostService(
+            postId: widget.post.id!,
+          );
         }
       }
 
       return const SizedBox.shrink();
+    }
+
+    Widget likeAndComment() {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 8.0),
+          //   child: LikeWidget(
+          //     isForPost: true,
+          //     initialLikes: widget.post.votesNumber ?? 0,
+          //     elementId: widget.post.id!,
+          //     likeFunction:
+          //         getPostProvider(widget.commentPostProvider).likePost,
+          //     unlikeFunction:
+          //         getPostProvider(widget.commentPostProvider).unLikePost,
+          //   ),
+          // ),
+          comments(),
+        ],
+      );
     }
 
     Widget displayPost() {
@@ -196,7 +221,7 @@ class _PostViewWidgetState extends State<PostViewWidget>
                 child: sectionBuilderForViewAndPreview(
                     quillController: controller),
               ),
-            comments()
+            likeAndComment()
           ],
         ),
         bottomNavigationBar: widget.allowCommentDiplaying

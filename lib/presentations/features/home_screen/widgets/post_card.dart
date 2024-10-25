@@ -26,13 +26,13 @@ class PostCard extends StatefulWidget {
 }
 
 class _PostCardState extends State<PostCard> {
-  late PostFeedController _postFeedController;
+  late HomePostService _HomePostService;
 
   @override
   void initState() {
     super.initState();
     // Initialize any required controllers or state here
-    _postFeedController = Get.find(); // Assuming this is necessary
+    _HomePostService = Get.find(); // Assuming this is necessary
   }
 
   @override
@@ -64,7 +64,7 @@ class _PostCardState extends State<PostCard> {
           },
           child: displayUserPreview(widget.user,
               trailing: displayTimeAgoSync(widget.post.createdAt),
-              zeroPadding: true ),
+              zeroPadding: true),
         ),
         _postPreView(themeText), // Display post preview
       ],
@@ -79,8 +79,8 @@ class _PostCardState extends State<PostCard> {
           isForPost: true,
           initialLikes: widget.post.votesNumber ?? 0,
           elementId: widget.post.id!,
-          likeFunction: _postFeedController.likePost,
-          unlikeFunction: _postFeedController.unLikePost,
+          likeFunction: _HomePostService.likePost,
+          unlikeFunction: _HomePostService.unLikePost,
         ),
         Row(
           children: [

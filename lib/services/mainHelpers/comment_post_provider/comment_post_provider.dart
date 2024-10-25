@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/foreign_profile_post_holder/foreign_profile_post_holder.dart';
 import 'package:skilluxfrontendflutter/services/home_services/home_service_controller.dart';
 import 'package:skilluxfrontendflutter/services/home_services/repository/home_service_repository.dart';
 import 'package:skilluxfrontendflutter/services/post_service_annexe/post_service.dart';
@@ -15,9 +16,9 @@ enum CommentPostProvider {
 getPostProvider(CommentPostProvider commentPostProvider, {int userId = -1}) {
   switch (commentPostProvider) {
     case CommentPostProvider.foreignProfilePostService:
-      return null;
+      return Get.find<ForeignProfilePostHolder>();
     case CommentPostProvider.homePostService:
-      return Get.find<PostFeedController>();
+      return Get.find<HomePostService>();
 
     case CommentPostProvider.uniquePostPostService:
       return Get.find<PostService>();

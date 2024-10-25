@@ -21,7 +21,7 @@ class _BottomNavigationBarComponentState
     extends State<BottomNavigationBarComponent> {
   late UserProfilePostService userProfilePostService;
   late UserProfileService userProfileService;
-  late PostFeedController postFeedController;
+  late HomePostService _homePostService;
   final RxInt _currentIndex = 0.obs;
 
   @override
@@ -29,8 +29,8 @@ class _BottomNavigationBarComponentState
     super.initState();
     userProfilePostService = Get.find<UserProfilePostService>();
     userProfileService = Get.find<UserProfileService>();
-    postFeedController =
-        Get.put(PostFeedController(feedType: FeedType.recommendedPosts));
+    _homePostService =
+        Get.put(HomePostService(feedType: FeedType.recommendedPosts));
 
     // Set the initial index
     _currentIndex.value = widget.initialIndex;
@@ -39,7 +39,7 @@ class _BottomNavigationBarComponentState
   @override
   void dispose() {
     // Clean up resources here
-    postFeedController.reinititalizeParams(); // Dispose controller if needed
+    _homePostService.reinititalizeParams(); // Dispose controller if needed
     _currentIndex.close(); // Dispose the RxInt to avoid memory leaks
 
     super.dispose();
@@ -109,7 +109,7 @@ class _BottomNavigationBarComponentState
       }
 
       if (_currentIndex.value == 0) {
-        postFeedController.getPosts(isLoadingDisabled: true);
+        _homePostService.getPosts(isLoadingDisabled: true);
       }
     });
   }

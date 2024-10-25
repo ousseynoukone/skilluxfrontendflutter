@@ -18,8 +18,8 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   @override
   Widget build(BuildContext context) {
     var themeText = context.textTheme;
-    PostFeedController recommendedFeedController =
-        Get.put(PostFeedController(feedType: FeedType.recommendedPosts));
+    HomePostService recommendedFeedController =
+        Get.put(HomePostService(feedType: FeedType.recommendedPosts));
 
     return Scaffold(
         appBar: AppBar(
@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
             ),
             Expanded(
               child: PostsRendererListView(
-                postFeedController: recommendedFeedController,
+                homePostService: recommendedFeedController,
               ),
             ),
           ],

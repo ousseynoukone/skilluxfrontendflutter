@@ -9,6 +9,7 @@ import 'package:skilluxfrontendflutter/services/comment_services/repository/comm
 import 'package:skilluxfrontendflutter/services/home_services/home_service_controller.dart';
 import 'package:skilluxfrontendflutter/services/home_services/repository/helper/helper.dart';
 import 'package:skilluxfrontendflutter/services/notification_services/server_side_event/nontification_sse.dart';
+import 'package:skilluxfrontendflutter/services/post_service_annexe/like_service.dart';
 import 'package:skilluxfrontendflutter/services/profile_services/controllers/settings_controller.dart';
 import 'package:skilluxfrontendflutter/services/translator_services/translator_service.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_update_service.dart';
@@ -53,6 +54,9 @@ Future<void> registerGetServices() async {
 
   // For ForeignProfilePostHolder
   Get.put(ForeignProfilePostHolder());
+
+  // For like
+  Get.put(LikeService());
 
   // For the upcoming notification number of the connected user
   Get.put(NotificationSse());
