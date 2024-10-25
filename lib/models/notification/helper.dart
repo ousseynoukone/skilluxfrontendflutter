@@ -25,9 +25,12 @@ Widget formatNotificationDiplaying(List<UserDTO> userDTOs, String message,
       break;
     case NotificationType.comment:
       emote = "💬 ";
+      ressourceText = ressource?.text;
+
       break;
     default:
       emote = "✅ ";
+      ressourceText = ressource?.title;
   }
 
   // Start building the RichText

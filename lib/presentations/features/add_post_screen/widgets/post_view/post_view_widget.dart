@@ -22,6 +22,8 @@ import 'package:skilluxfrontendflutter/services/comment_services/comment_service
 import 'package:skilluxfrontendflutter/services/mainHelpers/comment_post_provider/comment_post_provider.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
+import '../../../sub_features/comments/comment_screen_no_post_feed_controller.dart';
+
 class PostViewWidget extends StatefulWidget {
   final Post post;
   final bool allowCommentDiplaying;
@@ -112,9 +114,12 @@ class _PostViewWidgetState extends State<PostViewWidget>
         children: [
           InkWell(
             onTap: () {
-              if (widget.commentPostProvider != CommentPostProvider.userProfilePostService) {
-                Get.to(() =>
-                    ForeignProfileScreen(foreignUserId: widget.post.userId!,switchPostProviderOnCommentService: true,));
+              if (widget.commentPostProvider !=
+                  CommentPostProvider.userProfilePostService) {
+                Get.to(() => ForeignProfileScreen(
+                      foreignUserId: widget.post.userId!,
+                      switchPostProviderOnCommentService: true,
+                    ));
               }
             },
             child: displayUserPreview(user!,
@@ -166,10 +171,13 @@ class _PostViewWidgetState extends State<PostViewWidget>
           return CommentScreenForeignUser(
             postId: widget.post.id!,
           );
-        } else {
+        } else if (widget.commentPostProvider ==
+            CommentPostProvider.userProfilePostService) {
           return CommentScreen(
             postId: widget.post.id!,
           );
+        } else {
+          return  CommentScreenNoPostFeedController(postId: widget.post.id!,);
         }
       }
 
@@ -191,8 +199,9 @@ class _PostViewWidgetState extends State<PostViewWidget>
             comments()
           ],
         ),
-        bottomNavigationBar:
-            widget.allowCommentDiplaying ? SafeArea(child: bottomNavBar()) : null,
+        bottomNavigationBar: widget.allowCommentDiplaying
+            ? SafeArea(child: bottomNavBar())
+            : null,
       );
     }
 

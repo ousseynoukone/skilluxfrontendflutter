@@ -6,6 +6,7 @@ import 'package:skilluxfrontendflutter/models/notification/sub_models/notificati
 
 import 'package:skilluxfrontendflutter/presentations/features/notification/helpers/helper.dart';
 import 'package:logger/logger.dart';
+import 'package:skilluxfrontendflutter/presentations/features/notification/helpers/notification_navigator.dart';
 
 class NotificationComponent extends StatefulWidget {
   final GroupedNotification groupedNotification;
@@ -37,20 +38,24 @@ class _NotificationComponentState extends State<NotificationComponent> {
             .map((NotificationModel notification) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: colorScheme.primary),
-          child: ListTile(
-            leading: displayNotificationImage(notification, radius: 25),
-            title: notification.messageWidget,
-            subtitle: Text(
-              notification.createdAt,
-              style: themeText.bodySmall,
+        child: InkWell(
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: colorScheme.primary),
+            child: ListTile(
+              leading: displayNotificationImage(notification, radius: 25),
+              title: notification.messageWidget,
+              subtitle: Text(
+                notification.createdAt,
+                style: themeText.bodySmall,
+              ),
+              trailing: IconButton(
+                  onPressed: () {}, icon: const Icon(Icons.arrow_forward_ios)),
             ),
-            trailing: IconButton(
-                onPressed: () {}, icon: const Icon(Icons.arrow_forward_ios)),
           ),
+          onTap: () =>
+              NotificationNavigator().navigateToRessource(notification),
         ),
       );
     }).toList());
