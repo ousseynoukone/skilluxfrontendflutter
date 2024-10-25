@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/core/api_service/token_manager.dart';
+import 'package:skilluxfrontendflutter/models/notification/grouped_notification.dart';
 import 'package:skilluxfrontendflutter/presentations/features/notification/widgets/notification_component.dart';
 import 'package:skilluxfrontendflutter/services/notification_services/notification_service.dart';
 
@@ -40,14 +41,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     var text = context.localizations;
-    ;
 
     return Scaffold(
       appBar: AppBar(title: Text(text.notification)),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Obx(() {
-          if (_notificationService.notifications.isEmpty) {
+          if (_notificationService.groupedNotifications.isEmpty) {
             return Center(child: Text(text.noNotification));
           }
           if (_notificationService.isLoading.value) {
@@ -55,13 +55,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
           }
           return ListView.builder(
             controller: _scrollController,
-            itemCount: _notificationService.notifications.length + 1,
+            itemCount: _notificationService.groupedNotifications.length + 1,
             itemBuilder: (context, index) {
-              if (index < _notificationService.notifications.length) {
+              if (index < _notificationService.groupedNotifications.length) {
+                GroupedNotification groupedNotification =
+                    _notificationService.groupedNotifications[index];
+
                 return NotificationComponent(
-                  notification: _notificationService.notifications[index],
-                );
+                    groupedNotification: groupedNotification);
               }
+              return null;
             },
           );
         }),

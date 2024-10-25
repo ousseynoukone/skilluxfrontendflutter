@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/core/api_service/api_service.dart';
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/core/api_service/response_data_structure.dart';
+import 'package:skilluxfrontendflutter/models/notification/grouped_notification.dart';
 import 'package:skilluxfrontendflutter/models/notification/notification.dart';
 
 class NotificationService extends GetxController {
@@ -12,7 +13,8 @@ class NotificationService extends GetxController {
   final _limitNotification = 10;
   bool _hasMoreNotification = false;
   String _cursorNotifications = "";
-  List<NotificationModel> notifications = <NotificationModel>[].obs;
+  final List<NotificationModel> _notifications = <NotificationModel>[].obs;
+  List<GroupedNotification> groupedNotifications = <GroupedNotification>[].obs;
 
   RxBool isLoading = false.obs;
 
@@ -28,12 +30,12 @@ class NotificationService extends GetxController {
 
     ApiResponse response = await _apiService.getRequest(path);
     if (response.statusCode == 200) {
-      notifications.clear();
+      _notifications.clear();
 
       for (var notification in response.body["userNotifications"]) {
         NotificationModel newNotification =
             NotificationModel.fromBody(notification);
-        notifications.add(newNotification);
+        _notifications.add(newNotification);
       }
       _hasMoreNotification = response.body["hasMore"];
 
@@ -41,11 +43,11 @@ class NotificationService extends GetxController {
         String nextCursor = response.body["nextCursor"];
         _cursorNotifications = nextCursor;
       }
+      groupNotificationByDate();
     } else {
       _logger.e(response.message);
     }
-        isLoading.value = false;
-
+    isLoading.value = false;
   }
 
   loadMoreNotifications() async {
@@ -63,14 +65,31 @@ class NotificationService extends GetxController {
         }
 
         if (notificationsList.isNotEmpty) {
-          notifications.addAll(notificationsList);
+          _notifications.addAll(notificationsList);
         }
-
+        groupNotificationByDate();
         String nextCursor = response.body["nextCursor"] ?? '0';
         _cursorNotifications = nextCursor;
       } else {
         _logger.e(response.message);
       }
     }
+  }
+
+  groupNotificationByDate() {
+    Map<String, List<NotificationModel>> notificationsMap = new Map();
+
+    for (var notification in _notifications) {
+      String createdAt = notification.createdAtNotif;
+      notificationsMap.putIfAbsent(createdAt, () => []);
+      notificationsMap[createdAt]!.add(notification);
+    }
+
+    groupedNotifications.clear();
+
+    notificationsMap.forEach((date, notification) {
+      groupedNotifications.add(
+          GroupedNotification(createdAt: date, notification: notification));
+    });
   }
 }
