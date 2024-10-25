@@ -192,18 +192,18 @@ class _PostViewWidgetState extends State<PostViewWidget>
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Padding(
-          //   padding: const EdgeInsets.only(left: 8.0),
-          //   child: LikeWidget(
-          //     isForPost: true,
-          //     initialLikes: widget.post.votesNumber ?? 0,
-          //     elementId: widget.post.id!,
-          //     likeFunction:
-          //         getPostProvider(widget.commentPostProvider).likePost,
-          //     unlikeFunction:
-          //         getPostProvider(widget.commentPostProvider).unLikePost,
-          //   ),
-          // ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: LikeWidget(
+              isForPost: true,
+              initialLikes: widget.post.votesNumber ?? 0,
+              elementId: widget.post.id!,
+              likeFunction:
+                  getPostProvider(widget.commentPostProvider).likePost,
+              unlikeFunction:
+                  getPostProvider(widget.commentPostProvider).unLikePost,
+            ),
+          ),
           comments(),
         ],
       );

@@ -29,7 +29,9 @@ class _CommentScreenForeignUserState extends State<CommentScreenForeignUser> {
   @override
   void initState() {
     super.initState();
-    _commentService.getPostTopComments(widget.postId);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _commentService.getPostTopComments(widget.postId);
+    });
   }
 
   @override
