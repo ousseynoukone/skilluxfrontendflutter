@@ -78,7 +78,6 @@ class _LikeWidgetState extends State<LikeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var text = context.localizations;
     var themeText = context.textTheme;
 
     String likeText;

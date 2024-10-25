@@ -33,15 +33,12 @@ Widget displayTimeAgoSync(
     return const SizedBox.shrink();
   }
 
-  return SizedBox(
-    width: Get.width * 0.10,
-    child: Text(
-      getTimeAgoSync(createdAt),
-      style: themeText.bodySmall?.copyWith(fontSize: fontSize),
-      overflow: TextOverflow.ellipsis,
-      maxLines: maxLines ?? 1,
-      softWrap: false,
-    ),
+  return Text(
+    getTimeAgoSync(createdAt),
+    style: themeText.bodySmall?.copyWith(fontSize: fontSize),
+    overflow: TextOverflow.ellipsis,
+    maxLines: maxLines ?? 1,
+    softWrap: false,
   );
 }
 

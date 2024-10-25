@@ -30,7 +30,7 @@ class CommentActionsWidget extends StatelessWidget {
           unlikeFunction: _commentService.unLikeComment,
         ),
         const SizedBox(width: 16),
-        ReplyButton(comment:comment),
+        ReplyButton(comment: comment),
       ],
     );
   }
