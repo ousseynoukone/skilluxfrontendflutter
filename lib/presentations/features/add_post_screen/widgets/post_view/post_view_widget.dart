@@ -120,14 +120,29 @@ class _PostViewWidgetState extends State<PostViewWidget>
     }
   }
 
+  displayLike() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0),
+      child: widget.allowCommentDiplaying == true
+          ? LikeWidget(
+              isForPost: true,
+              initialLikes: widget.post.votesNumber ?? 0,
+              elementId: widget.post.id!,
+              likeFunction:
+                  getPostProvider(widget.commentPostProvider).likePost,
+              unlikeFunction:
+                  getPostProvider(widget.commentPostProvider).unLikePost,
+            )
+          : const SizedBox.shrink(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var text = context.localizations;
     var themeText = context.textTheme;
     var colorScheme = Theme.of(context).colorScheme;
     bool allowCommentDiplaying = widget.allowCommentDiplaying;
-
-    scrollToComment();
 
     Widget displayReadingTime() {
       int documentLength = controller.document.length;
@@ -171,7 +186,9 @@ class _PostViewWidgetState extends State<PostViewWidget>
           if (widget.post.headerImageUrl != null &&
               widget.post.headerImageUrl!.isNotEmpty)
             displayImageFromURL(widget.post.headerImageUrl!),
-          displayReadingTime()
+          Row(
+            children: [displayReadingTime(), displayLike()],
+          )
         ],
       );
     }
@@ -194,6 +211,8 @@ class _PostViewWidgetState extends State<PostViewWidget>
 
 // Render the appropriate Comment Screen
     Widget comments() {
+      scrollToComment();
+
       if (allowCommentDiplaying) {
         if (widget.commentPostProvider == CommentPostProvider.homePostService) {
           return CommentScreenHome(
@@ -230,30 +249,6 @@ class _PostViewWidgetState extends State<PostViewWidget>
       return const SizedBox.shrink();
     }
 
-    Widget likeAndComment() {
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: allowCommentDiplaying == true
-                ? LikeWidget(
-                    isForPost: true,
-                    initialLikes: widget.post.votesNumber ?? 0,
-                    elementId: widget.post.id!,
-                    likeFunction:
-                        getPostProvider(widget.commentPostProvider).likePost,
-                    unlikeFunction:
-                        getPostProvider(widget.commentPostProvider).unLikePost,
-                  )
-                : const SizedBox.shrink(),
-          ),
-          comments(),
-        ],
-      );
-    }
-
     Widget displayPost() {
       return Scaffold(
         body: ListView(
@@ -266,7 +261,7 @@ class _PostViewWidgetState extends State<PostViewWidget>
                 child: sectionBuilderForViewAndPreview(
                     quillController: controller),
               ),
-            likeAndComment(),
+            comments(),
           ],
         ),
         bottomNavigationBar: widget.allowCommentDiplaying
