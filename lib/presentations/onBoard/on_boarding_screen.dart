@@ -40,7 +40,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             ),
           ),
           Container(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.symmetric(vertical: 30),
               color: ColorsTheme.primary,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

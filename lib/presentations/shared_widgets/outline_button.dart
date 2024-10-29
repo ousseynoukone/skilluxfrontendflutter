@@ -8,6 +8,7 @@ class OutlineButtonComponent extends StatelessWidget {
   final bool isLoading;
   final IconData? icon;
   final Color? iconColor;
+  final bool fullWidth; // Added parameter for width control
 
   const OutlineButtonComponent({
     super.key,
@@ -17,13 +18,14 @@ class OutlineButtonComponent extends StatelessWidget {
     required this.isLoading,
     this.icon,
     this.iconColor,
+    this.fullWidth = false, // Default to true to maintain existing behavior
   });
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return OutlinedButton(
+    Widget button = OutlinedButton(
       onPressed: isLoading ? null : onPressed,
       style: ButtonStyle(padding: WidgetStatePropertyAll(edgeInsets)),
       child: isLoading
@@ -48,5 +50,15 @@ class OutlineButtonComponent extends StatelessWidget {
               ],
             ),
     );
+
+    // Wrap with SizedBox only if fullWidth is true
+    if (fullWidth) {
+      return SizedBox(
+        width: double.infinity,
+        child: button,
+      );
+    }
+
+    return button;
   }
 }

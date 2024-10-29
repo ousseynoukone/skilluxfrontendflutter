@@ -93,6 +93,8 @@ dependencies:
 
   # Efficient handling of server-sent event streams with easy connectivity and data management.
   eventflux: ^2.2.1
+  #A package provides an easy way to add shimmer effect in Flutter project
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

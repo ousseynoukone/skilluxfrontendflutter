@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
+import 'package:skilluxfrontendflutter/models/comment/comment.dart';
+import 'package:skilluxfrontendflutter/models/notification/sub_models/comment_notification.dart';
 
 import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/post_view/post_view_widget.dart';
@@ -16,9 +18,15 @@ import 'package:skilluxfrontendflutter/services/user_profile_services/user_profi
 
 class PostView extends StatefulWidget {
   final Post post;
+  final CommentNotification? commentNotification;
+  final bool allowCommentDiplaying;
   final CommentPostProvider commentPostProvider;
   const PostView(
-      {super.key, required this.post, required this.commentPostProvider});
+      {super.key,
+      required this.post,
+      required this.commentPostProvider,
+      this.allowCommentDiplaying = true,
+      this.commentNotification});
 
   @override
   State<PostView> createState() => _PostViewState();
@@ -58,7 +66,9 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
       body: PostViewWidget(
         commentPostProvider: widget.commentPostProvider,
         post: widget.post,
-        allowCommentDiplaying: true,
+        allowCommentDiplaying: widget.allowCommentDiplaying,
+        commentNotification: widget.commentNotification,
+        scrollToComment: widget.commentNotification != null,
       ),
     );
   }

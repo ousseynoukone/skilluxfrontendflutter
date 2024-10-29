@@ -22,7 +22,6 @@ class PostService {
       return null;
     }
 
-    // Assuming response.body contains the data to create a Post
     Post fetchedPost = Post.fromBody(response.body);
     post.value = fetchedPost; // Update the observable
     return fetchedPost;

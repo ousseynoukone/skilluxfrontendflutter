@@ -1,15 +1,18 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/models/comment/sub_models/commentDto.dart';
+import 'package:skilluxfrontendflutter/models/notification/sub_models/comment_notification.dart';
 import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/helpers/display_time_ago.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_image.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_section_builder.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/preview/chip.dart';
 import 'package:skilluxfrontendflutter/presentations/features/helpers/reading_time_calculator/reading_time_calculator.dart';
+import 'package:skilluxfrontendflutter/presentations/features/notification/widgets/sub_components/comment_component_for_notification.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/foreign_profile_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/comment_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/comment_screen_foreign_profile.dart';
@@ -19,6 +22,7 @@ import 'package:skilluxfrontendflutter/presentations/features/sub_features/comme
 import 'package:skilluxfrontendflutter/presentations/features/sub_features/comments/widgets/helper/show_comment_input.dart';
 import 'package:skilluxfrontendflutter/presentations/features/user_components/user_preview.dart';
 import 'package:logger/logger.dart';
+import 'package:skilluxfrontendflutter/presentations/shared_widgets/button.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/comment_service.dart';
 import 'package:skilluxfrontendflutter/services/mainHelpers/comment_post_provider/comment_post_provider.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
@@ -27,14 +31,18 @@ import '../../../sub_features/comments/comment_screen_no_post_feed_controller.da
 
 class PostViewWidget extends StatefulWidget {
   final Post post;
+  final CommentNotification? commentNotification;
   final bool allowCommentDiplaying;
+  final bool scrollToComment;
   final CommentPostProvider commentPostProvider;
 
   const PostViewWidget(
       {super.key,
       required this.post,
       this.allowCommentDiplaying = false,
-      required this.commentPostProvider});
+      this.commentNotification,
+      required this.commentPostProvider,
+      this.scrollToComment = false});
 
   @override
   State<PostViewWidget> createState() => _PostViewWidgetState();
@@ -49,9 +57,10 @@ class _PostViewWidgetState extends State<PostViewWidget>
   late QuillController controller;
   final Logger _logger = Logger();
   final ScrollController _scrollController = ScrollController();
-
   late final CommentService _commentService;
+  final commentKey = GlobalKey();
 
+//  Get the user information
   void _getUser() {
     // IF THIS IS CALLED FROM HOME SCREEN USER INFORMATION SHOULD BE THE ONE WITHIN THE POST
     user =
@@ -76,6 +85,7 @@ class _PostViewWidgetState extends State<PostViewWidget>
     _scrollController.addListener(_scrollListener);
   }
 
+// To load more Top comment
   void _scrollListener() {
     if (widget.allowCommentDiplaying &&
         _scrollController.offset >=
@@ -86,9 +96,28 @@ class _PostViewWidgetState extends State<PostViewWidget>
     }
   }
 
+// Display comment input
   void _showCommentField() {
     showCommentInput(
         CommentField(commentDTO: CommentDto(postId: (widget.post.id))));
+  }
+
+// Scroll to comment
+  scrollToComment() {
+    if (widget.scrollToComment) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        final context = commentKey.currentContext;
+        if (context != null) {
+          Scrollable.ensureVisible(
+            context,
+            duration: const Duration(milliseconds: 100),
+            curve: Curves.easeOut,
+          );
+        } else {
+          _logger.d(context);
+        }
+      });
+    }
   }
 
   @override
@@ -97,6 +126,8 @@ class _PostViewWidgetState extends State<PostViewWidget>
     var themeText = context.textTheme;
     var colorScheme = Theme.of(context).colorScheme;
     bool allowCommentDiplaying = widget.allowCommentDiplaying;
+
+    scrollToComment();
 
     Widget displayReadingTime() {
       int documentLength = controller.document.length;
@@ -161,25 +192,37 @@ class _PostViewWidgetState extends State<PostViewWidget>
       );
     }
 
+// Render the appropriate Comment Screen
     Widget comments() {
       if (allowCommentDiplaying) {
         if (widget.commentPostProvider == CommentPostProvider.homePostService) {
           return CommentScreenHome(
+            key: commentKey,
             postId: widget.post.id!,
           );
         } else if (widget.commentPostProvider ==
             CommentPostProvider.foreignProfilePostService) {
           return CommentScreenForeignUser(
+            key: commentKey,
             postId: widget.post.id!,
           );
         } else if (widget.commentPostProvider ==
             CommentPostProvider.userProfilePostService) {
           return CommentScreen(
+            key: commentKey,
             postId: widget.post.id!,
           );
         } else {
           return CommentScreenNoHomePostService(
+            key: commentKey,
             postId: widget.post.id!,
+          );
+        }
+      } else {
+        if (widget.commentNotification != null) {
+          return CommentComponentForNotification(
+            key: commentKey,
+            commentNotification: widget.commentNotification,
           );
         }
       }
@@ -194,15 +237,17 @@ class _PostViewWidgetState extends State<PostViewWidget>
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
-            child: LikeWidget(
-              isForPost: true,
-              initialLikes: widget.post.votesNumber ?? 0,
-              elementId: widget.post.id!,
-              likeFunction:
-                  getPostProvider(widget.commentPostProvider).likePost,
-              unlikeFunction:
-                  getPostProvider(widget.commentPostProvider).unLikePost,
-            ),
+            child: allowCommentDiplaying == true
+                ? LikeWidget(
+                    isForPost: true,
+                    initialLikes: widget.post.votesNumber ?? 0,
+                    elementId: widget.post.id!,
+                    likeFunction:
+                        getPostProvider(widget.commentPostProvider).likePost,
+                    unlikeFunction:
+                        getPostProvider(widget.commentPostProvider).unLikePost,
+                  )
+                : const SizedBox.shrink(),
           ),
           comments(),
         ],
@@ -221,7 +266,7 @@ class _PostViewWidgetState extends State<PostViewWidget>
                 child: sectionBuilderForViewAndPreview(
                     quillController: controller),
               ),
-            likeAndComment()
+            likeAndComment(),
           ],
         ),
         bottomNavigationBar: widget.allowCommentDiplaying

@@ -2,10 +2,12 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/core/api_service/api_service.dart';
+import 'package:skilluxfrontendflutter/core/api_service/response_data_structure.dart';
 import 'package:skilluxfrontendflutter/models/comment/comment.dart';
 import 'package:skilluxfrontendflutter/models/comment/sub_models/commentDto.dart';
 import 'package:skilluxfrontendflutter/models/user/dtos/user_dto.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
+import 'package:skilluxfrontendflutter/presentations/features/notification/helpers/helper.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/foreign_profile_post_holder/foreign_profile_post_holder.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
 import 'package:skilluxfrontendflutter/services/comment_services/repository/comment_repo.dart';
@@ -34,8 +36,6 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
   @override
   void onInit() {
     postService = getPostProvider(commentPostProvider);
-    // IF POSTSERVICE IS NULL IT CAN RELY ON ForeignProfilePostHolder TO UPDAT POSTS IF NEEDED FOR FOREIGN PROFILE COMMENT
-    // postService ??= Get.find<ForeignProfilePostHolder>();
 
     super.onInit();
   }
@@ -56,6 +56,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
       }
       var fetchedComments = await _commentRepo.getTopLevelComments(postId);
       comments.assignAll(fetchedComments);
+
       if (comments.isEmpty) {
         change(comments, status: RxStatus.empty());
       } else {
@@ -237,5 +238,17 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
     } else {
       return false;
     }
+  }
+
+  Future<Comment?> getOneComment({required int commentId}) async {
+    String path = 'basic/comments/$commentId';
+    ApiResponse response = await _apiService.getRequest(path);
+
+    if (response.statusCode != 200) {
+      _logger.e('Failed to fetch comment: ${response.message}');
+      return null;
+    }
+    Comment fetchedComment = Comment.fromJson(response.body);
+    return fetchedComment;
   }
 }
