@@ -12,6 +12,7 @@ QuillSimpleToolbarConfigurations getQuillSimpleToolbarConfigurations(
   return QuillSimpleToolbarConfigurations(
       toolbarSectionSpacing: BorderSide.strokeAlignCenter,
       controller: controller,
+      showHeaderStyle: false,
       showBoldButton: true,
       showItalicButton: true,
       showUnderLineButton: true, // Removed
