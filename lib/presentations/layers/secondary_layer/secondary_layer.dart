@@ -20,6 +20,15 @@ class _SecondaryLayerState extends State<SecondaryLayer> {
   UserProfileFollowService service = Get.put(UserProfileFollowService());
 
   @override
+  void initState() {
+    super.initState();
+    // Load user info
+    userProfileService.getUserInfos();
+  }
+
+
+
+  @override
   Widget build(BuildContext context) {
     return BottomNavigationBarComponent(
       initialIndex: widget.index ?? 0,

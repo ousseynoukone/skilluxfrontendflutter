@@ -20,10 +20,12 @@ class PostView extends StatefulWidget {
   final Post post;
   final CommentNotification? commentNotification;
   final bool allowCommentDiplaying;
+  final bool ? scrollToComment;
   final CommentPostProvider commentPostProvider;
   const PostView(
       {super.key,
       required this.post,
+      this.scrollToComment,
       required this.commentPostProvider,
       this.allowCommentDiplaying = true,
       this.commentNotification});
@@ -68,7 +70,7 @@ class _PostViewState extends State<PostView> with SectionBuilderMixin {
         post: widget.post,
         allowCommentDiplaying: widget.allowCommentDiplaying,
         commentNotification: widget.commentNotification,
-        scrollToComment: widget.commentNotification != null,
+        scrollToComment: widget.scrollToComment ??  widget.commentNotification != null,
       ),
     );
   }

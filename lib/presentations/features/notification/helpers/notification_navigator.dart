@@ -5,6 +5,7 @@ import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/post_view.dart';
 import 'package:skilluxfrontendflutter/presentations/features/notification/helpers/helper.dart';
 import 'package:skilluxfrontendflutter/presentations/features/notification/widgets/sub_components/comment_notif_screen.dart';
+import 'package:skilluxfrontendflutter/presentations/features/profile_screen/foreign_profile_screen.dart';
 import 'package:skilluxfrontendflutter/services/mainHelpers/comment_post_provider/comment_post_provider.dart';
 import 'package:skilluxfrontendflutter/services/post_service_annexe/post_service.dart';
 import 'package:logger/logger.dart';
@@ -13,7 +14,6 @@ class NotificationNavigator {
   final Logger _logger = Logger();
   navigateToRessource(NotificationModel notification) async {
     PostService postService = Get.put(PostService());
-
 
     switch (notification.type) {
       case NotificationType.post || NotificationType.vote:
@@ -31,6 +31,12 @@ class NotificationNavigator {
         Get.to(() => CommentNotifScreen(
               post: post,
               commentId: notification.ressource!.id,
+            ));
+        break;
+
+      case NotificationType.follow:
+        Get.to(() => ForeignProfileScreen(
+              foreignUserId: notification.ressource!.id,
             ));
 
         break;
