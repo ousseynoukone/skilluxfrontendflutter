@@ -6,7 +6,8 @@ import 'package:flutter_quill_extensions/models/config/video/toolbar/video_confi
 import 'package:get/get.dart';
 
 QuillSimpleToolbarConfigurations getQuillSimpleToolbarConfigurations(
-    QuillController controller) {
+    QuillController controller,
+    {bool isRounded = true}) {
   var colorScheme = Theme.of(Get.context!).colorScheme;
   return QuillSimpleToolbarConfigurations(
       toolbarSectionSpacing: BorderSide.strokeAlignCenter,
@@ -43,7 +44,8 @@ QuillSimpleToolbarConfigurations getQuillSimpleToolbarConfigurations(
         videoButtonOptions: null,
       ),
       decoration: BoxDecoration(
-          color: colorScheme.primary, borderRadius: BorderRadius.circular(12)));
+          color: colorScheme.primary,
+          borderRadius: isRounded ? BorderRadius.circular(12) : null));
 }
 
 DefaultStyles getDefaultStyles() {

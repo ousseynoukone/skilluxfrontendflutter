@@ -12,10 +12,12 @@ class Quilleditor extends StatelessWidget {
   final bool expanded;
   final bool scrollable;
   final Color? bgColor;
+  final bool displayToolsBar;
 
   const Quilleditor({
     super.key,
     required this.controller,
+    this.displayToolsBar = false,
     this.bgColor,
     this.displayMode = false,
     this.scrollable = true,
@@ -61,12 +63,14 @@ class Quilleditor extends StatelessWidget {
   }
 
   Widget _buildToolbar() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: QuillToolbar.simple(
-        configurations: getQuillSimpleToolbarConfigurations(controller),
-      ),
-    );
+    return displayToolsBar
+        ? Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: QuillToolbar.simple(
+              configurations: getQuillSimpleToolbarConfigurations(controller),
+            ),
+          )
+        : const SizedBox.shrink();
   }
 
   Widget _buildEditor(

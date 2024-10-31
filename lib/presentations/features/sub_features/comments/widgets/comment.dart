@@ -122,7 +122,7 @@ class CommentComponent extends StatelessWidget {
 
   Widget bottomComment(Comment updatedComment) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         displayTimeAgoSync(updatedComment.createdAt),
         if (updatedComment.id != null)
