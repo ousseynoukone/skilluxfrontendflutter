@@ -197,7 +197,16 @@
   "notification":"Notification",
   "noNotification":"You've not got any notification lately.",
   "and":"and",
-  "viewOtherComment":"View other comments"
+  "viewOtherComment":"View other comments",
+  "searchHint":"Search for skills, topics, or people",
+
+  "user":"User",
+  "content":"Content",
+
+  "post":"Post"
+
+
+
 
 
   

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/constant/bottom_navigation_screen.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/add_post_screen.dart';
+import 'package:skilluxfrontendflutter/presentations/features/search_screen/search_screen.dart';
 import 'package:skilluxfrontendflutter/services/home_services/home_service_controller.dart';
 import 'package:skilluxfrontendflutter/services/home_services/repository/helper/helper.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
@@ -49,53 +50,57 @@ class _BottomNavigationBarComponentState
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final text = context.localizations;
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+    final isKeyboardVisible = bottomInset > 0;
 
     return Obx(() {
       _updateProfileIfNeeded();
 
-      return Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: SafeArea(
-            child: IndexedStack(
-              index: _currentIndex.value,
-              children: bnScreensList,
-            ),
-          ),
-        ),
-        bottomNavigationBar: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Divider(
-              height: 0.5,
-              thickness: 0.1,
-              color: colorScheme.outlineVariant,
-            ),
-            BottomAppBar(
-              height: Get.height / 13,
-              color: Colors.transparent,
-              surfaceTintColor: Colors.transparent,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  _buildNavItem(Icons.home_outlined, Icons.home, text.home, 0,
-                      colorScheme),
-                  _buildNavItem(
-                      Icons.compass_calibration_outlined,
-                      Icons.compass_calibration,
-                      text.discovery,
-                      1,
-                      colorScheme),
-                  _buildAddButton(colorScheme),
-                  _buildNavItem(Icons.search_outlined, Icons.search,
-                      text.search, 2, colorScheme),
-                  _buildNavItem(Icons.person_outline, Icons.person,
-                      text.profile, 3, colorScheme),
-                ],
+      return Visibility(
+        visible: !isKeyboardVisible,
+        child: Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: SafeArea(
+              child: IndexedStack(
+                index: _currentIndex.value,
+                children: bnScreensList,
               ),
             ),
-          ],
+          ),
+          bottomNavigationBar: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Divider(
+                height: 0.5,
+                thickness: 0.1,
+                color: colorScheme.outlineVariant,
+              ),
+              BottomAppBar(
+                height: Get.height / 13,
+                color: Colors.transparent,
+                surfaceTintColor: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _buildNavItem(Icons.home_outlined, Icons.home, text.home, 0,
+                        colorScheme),
+                    // _buildNavItem(
+                    //     Icons.compass_calibration_outlined,
+                    //     Icons.compass_calibration,
+                    //     text.discovery,
+                    //     1,
+                    //     colorScheme),
+                    _buildAddButton(colorScheme, text.post),
+                    _buildSearchButton(colorScheme, text.search),
+                    _buildNavItem(Icons.person_outline, Icons.person,
+                        text.profile, 3, colorScheme),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       );
     });
@@ -143,19 +148,53 @@ class _BottomNavigationBarComponentState
     );
   }
 
-  Widget _buildAddButton(ColorScheme colorScheme) {
-    return GestureDetector(
+  Widget _buildAddButton(ColorScheme colorScheme, String label) {
+    return InkWell(
       onTap: () => Get.to(() => const AddPostScreen()),
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: colorScheme.primary,
-          shape: BoxShape.circle,
-        ),
-        child: Icon(Icons.add_circle_rounded,
-            color: colorScheme.onPrimary, size: 40),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            fill: 1,
+            Icons.add,
+            color: colorScheme.onPrimary,
+            size: Get.width * 0.05,
+          ),
+          Text(
+            label,
+            style: TextStyle(
+              color: colorScheme.onPrimary,
+              fontSize: 12,
+            ),
+          ),
+        ],
       ),
     );
   }
+}
+
+Widget _buildSearchButton(ColorScheme colorScheme, String label) {
+  return InkWell(
+    onTap: () => Get.to(() => const SearchScreen()),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          fill: 1,
+          Icons.search,
+          color: colorScheme.onPrimary,
+          size: Get.width * 0.05,
+        ),
+        Text(
+          label,
+          style: TextStyle(
+            color: colorScheme.onPrimary,
+            fontSize: 12,
+          ),
+        ),
+      ],
+    ),
+  );
 }

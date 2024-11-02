@@ -196,7 +196,15 @@
   "notification":"Notification",
   "noNotification":"Vous n'avez pas encore de notification.",
   "and":"et",
-  "viewOtherComment":"Voir les autres commentaires"
+  "viewOtherComment":"Voir les autres commentaires",
+  "searchHint":"Rechercher des sujets ou des personnes",
+  "user":"Utilisateur",
+  "content":"Contenu",
+  "post":"Post"
+
+
+
+
 
 
 

@@ -85,7 +85,7 @@ class Post {
       readNumber: body['readNumber'],
       votesNumber: body['votesNumber'],
       isPublished: body['isPublished'],
-      commentNumber: body['commentCount'],
+      commentNumber: body['commentCount'] ?? 0,
       headerImageUrl: body['headerImage'],
       tags: List<String>.from(body['tags']),
       createdAt:
