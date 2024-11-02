@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/models/comment/comment.dart';
 import 'package:skilluxfrontendflutter/models/notification/sub_models/comment_notification.dart';
 import 'package:skilluxfrontendflutter/models/post/post.dart';
@@ -33,6 +34,7 @@ class _CommentNotifScreenState extends State<CommentNotifScreen> {
   Future<void> fetchComment() async {
     final fetchedComment =
         await commentService.getOneComment(commentId: widget.commentId);
+
     setState(() {
       comment = fetchedComment;
     });
@@ -40,14 +42,17 @@ class _CommentNotifScreenState extends State<CommentNotifScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var text = context.localizations;
+
     if (comment == null || widget.post == null) {
-      return const Center(child: CircularProgressIndicator());
+      return Center(child: Text(text.noLongerAvailable));
     }
 
     return PostView(
       post: widget.post!,
       allowCommentDiplaying: false,
-      commentNotification: CommentNotification(post: widget.post!, comment: comment!),
+      commentNotification:
+          CommentNotification(post: widget.post!, comment: comment!),
       commentPostProvider: CommentPostProvider.uniquePostPostService,
     );
   }

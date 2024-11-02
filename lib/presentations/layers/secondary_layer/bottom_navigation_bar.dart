@@ -95,7 +95,7 @@ class _BottomNavigationBarComponentState
                     _buildAddButton(colorScheme, text.post),
                     _buildSearchButton(colorScheme, text.search),
                     _buildNavItem(Icons.person_outline, Icons.person,
-                        text.profile, 3, colorScheme),
+                        text.profile, 1, colorScheme),
                   ],
                 ),
               ),
@@ -108,7 +108,7 @@ class _BottomNavigationBarComponentState
 
   void _updateProfileIfNeeded() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_currentIndex.value == 3) {
+      if (_currentIndex.value == bnScreensList.length - 1) {
         userProfilePostService.getUserPosts(disableLoading: true);
         userProfileService.getUserInfos(disableLoading: true);
       }

@@ -203,7 +203,10 @@
   "user":"User",
   "content":"Content",
 
-  "post":"Post"
+  "post":"Post",
+
+  "noLongerAvailable":"This content is no longer available."
+
 
 
 

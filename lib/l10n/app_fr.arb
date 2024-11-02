@@ -200,7 +200,9 @@
   "searchHint":"Rechercher des sujets ou des personnes",
   "user":"Utilisateur",
   "content":"Contenu",
-  "post":"Post"
+  "post":"Post",
+
+  "noLongerAvailable":"Ce contenu n'est plus disponible."
 
 
 

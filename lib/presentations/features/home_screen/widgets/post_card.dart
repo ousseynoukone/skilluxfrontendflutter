@@ -86,7 +86,13 @@ class _PostCardState extends State<PostCard> {
           children: [
             IconButton(
               icon: const Icon(Icons.comment),
-              onPressed: () {},
+              onPressed: () {
+                Get.to(() => PostView(
+                      post: widget.post,
+                      commentPostProvider: CommentPostProvider.homePostService,
+                      scrollToComment: true,
+                    ));
+              },
             ),
             SizedBox(width: Get.width * 0.01),
             Text(widget.post.commentNumber.toString(),
