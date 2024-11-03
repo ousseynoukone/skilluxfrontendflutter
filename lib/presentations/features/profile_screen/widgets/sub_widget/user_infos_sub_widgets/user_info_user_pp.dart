@@ -56,17 +56,17 @@ class _UserInfoUserProfilePictureState extends State<UserInfoUserProfilePicture>
     return Stack(
       children: [
         // Profile Picture
-        displayUserPP(widget.profilePictureUrl, radius: 50),
+        displayUserPP(widget.profilePictureUrl, radius: 40),
 
         // Tappable Icon
         Positioned(
           top: 0,
           right: 0,
-          height: 35,
-          width: 35,
+          height: 30,
+          width: 30,
           child: Container(
             decoration: BoxDecoration(
-                color: colorScheme.primary,
+                color: colorScheme.onPrimaryContainer.withOpacity(0.8),
                 borderRadius: BorderRadius.circular(30)),
             child: Center(
               child: InkWell(

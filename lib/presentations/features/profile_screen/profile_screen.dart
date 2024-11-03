@@ -54,8 +54,9 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
   //If this screen pop again
   @override
   didPopNext() {
+  // !!! HAVE COMMENTED IT BUT DO NOT KNOW THE REPERCUSION LOL ,  DUE TO THE UGLY GLITCH SIDE EFFECT WHILE LOGIN OFF
     // This stand for helping  the scrollNotification to take effect when user try to scroll down (after didPopNext)
-    _scrollToTop();
+    // _scrollToTop();
   }
 
   void _scrollToTop() {

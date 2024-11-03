@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
+import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/user_followers/user_followers.dart';
@@ -108,8 +109,17 @@ class _UserInfoState extends State<UserInfo> {
       User user, AppLocalizations text, ColorScheme colorScheme) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(user.fullName, style: Theme.of(context).textTheme.titleSmall),
+        Container(
+          decoration: BoxDecoration(
+              color: colorScheme.primary,
+              borderRadius: BorderRadius.circular(10)),
+          padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 4),
+          child: Text('@${user.username}',
+              style: Theme.of(context).textTheme.bodySmall!),
+        ),
         if (user.profession != null)
           Text(user.profession!, style: Theme.of(context).textTheme.bodySmall),
         _buildFollowUnfollowButton(user, text),
