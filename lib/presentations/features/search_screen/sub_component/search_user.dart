@@ -37,7 +37,6 @@ class _SearchUserState extends State<SearchUser> {
     return Obx(() => ListView.builder(
         controller: _scrollController,
         itemCount: _searchService.users.length,
-        padding: const EdgeInsets.symmetric(vertical: 8),
         itemBuilder: (context, int index) {
           User user = _searchService.users[index];
           return InkWell(
@@ -45,7 +44,7 @@ class _SearchUserState extends State<SearchUser> {
               Get.to(() => ForeignProfileScreen(foreignUserId: user.id));
             },
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding: const EdgeInsets.only(top: 10.0),
               child: Container(
                 decoration: BoxDecoration(
                     color: colorScheme.primary,
