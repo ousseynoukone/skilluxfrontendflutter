@@ -54,9 +54,16 @@ class _SearchUserState extends State<SearchUser> {
                   padding: const EdgeInsets.all(8.0),
                   child: displayUserPreview(user,
                       zeroPadding: true,
-                      trailing: Text(
-                        '@${user.username}',
-                        style: themeText.bodySmall,
+                      trailing: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 2, horizontal: 4),
+                        decoration: BoxDecoration(
+                            color: colorScheme.secondary.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Text(
+                          '@${user.username}',
+                          style: themeText.bodySmall,
+                        ),
                       )),
                 ),
               ),
