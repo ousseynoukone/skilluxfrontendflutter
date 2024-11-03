@@ -14,6 +14,20 @@ class SearchUser extends StatefulWidget {
 
 class _SearchUserState extends State<SearchUser> {
   final SearchService _searchService = Get.find();
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 50) {
+      _searchService.loadMoreUsers();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,26 +35,30 @@ class _SearchUserState extends State<SearchUser> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Obx(() => ListView.builder(
+        controller: _scrollController,
         itemCount: _searchService.users.length,
+        padding: const EdgeInsets.symmetric(vertical: 8),
         itemBuilder: (context, int index) {
           User user = _searchService.users[index];
           return InkWell(
             onTap: () {
               Get.to(() => ForeignProfileScreen(foreignUserId: user.id));
             },
-            child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 10.0),
-              decoration: BoxDecoration(
-                  color: colorScheme.primary,
-                  borderRadius: BorderRadius.circular(10)),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: displayUserPreview(user,
-                    zeroPadding: true,
-                    trailing: Text(
-                      '@${user.username}',
-                      style: themeText.bodySmall,
-                    )),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: colorScheme.primary,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: displayUserPreview(user,
+                      zeroPadding: true,
+                      trailing: Text(
+                        '@${user.username}',
+                        style: themeText.bodySmall,
+                      )),
+                ),
               ),
             ),
           );

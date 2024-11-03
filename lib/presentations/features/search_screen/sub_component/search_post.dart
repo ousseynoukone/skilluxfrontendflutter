@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/models/post/post.dart';
@@ -18,16 +20,34 @@ class SearchPost extends StatefulWidget {
 
 class _SearchUserState extends State<SearchPost> {
   final SearchService _searchService = Get.find();
+  final ScrollController _scrollController = ScrollController();
+  late StreamSubscription<String> stream;
 
   @override
   void initState() {
     _searchService.searchPost(searchTerm.value);
 
-    searchTerm.listen((search) {
+    stream = searchTerm.listen((search) {
       _searchService.searchPost(search);
     });
 
+    _scrollController.addListener(_scrollListener);
+
     super.initState();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 50) {
+      _searchService.loadMorePosts();
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    stream.cancel();
+    super.dispose();
   }
 
   @override
@@ -36,6 +56,7 @@ class _SearchUserState extends State<SearchPost> {
           child: Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: ListView.builder(
+              controller: _scrollController,
                 itemCount: _searchService.posts.length,
                 itemBuilder: (context, int index) {
                   Post post = _searchService.posts[index];

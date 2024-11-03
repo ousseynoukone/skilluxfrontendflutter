@@ -18,7 +18,7 @@ class ForeignProfileScreen extends StatefulWidget {
   final int foreignUserId;
   final bool switchPostProviderOnCommentService;
 
-  ForeignProfileScreen(
+  const ForeignProfileScreen(
       {super.key,
       required this.foreignUserId,
       this.switchPostProviderOnCommentService = false});
@@ -122,12 +122,12 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
-    final AppLocalizations? text = context.localizations;
+    final AppLocalizations text = context.localizations;
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(text?.profile ?? 'Profile'),
+        title: Text(text.profile),
       ),
       body: CustomScrollView(
         controller: _scrollController,
@@ -217,7 +217,7 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
                     padding: const EdgeInsets.all(16),
                     child: Center(
                       child: Text(
-                        text!.noPostPosted,
+                        text.noPostPosted,
                         style: textTheme.bodySmall,
                       ),
                     ),

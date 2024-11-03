@@ -11,7 +11,7 @@ class PostRepository {
 
   // Variables for pagination
   var cursorPost = "0";
-  var limitPost = 3;
+  var limitPost = 20;
   bool hasMorePost = false;
   final RxList<Post> posts = <Post>[].obs;
   String searchString = "";
@@ -59,13 +59,12 @@ class PostRepository {
   Future<void> loadMorePost() async {
     if (hasMorePost) {
       String path = "basic/search-posts/$searchString/$limitPost/$cursorPost";
-
       ApiResponse response = await _apiService.getRequest(path);
 
       if (response.statusCode == 200) {
         List<Post> postList = [];
 
-        for (var user in response.body["post"]) {
+        for (var user in response.body["posts"]) {
           Post fetchPost = Post.fromBody(user);
           postList.add(fetchPost);
         }
@@ -80,8 +79,6 @@ class PostRepository {
       } else {
         _logger.e(response.message);
       }
-    } else {
-      posts.value = [];
     }
   }
 }
