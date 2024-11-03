@@ -46,6 +46,7 @@ class NotificationNavigator {
         Get.to(() => CommentNotifScreen(
               post: post,
               commentId: notification.ressource!.id,
+              parentComment: notification.ressource?.parentComment,
             ));
         break;
 

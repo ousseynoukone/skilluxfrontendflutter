@@ -29,7 +29,7 @@ class ReplyButton extends StatelessWidget {
               commentDTO: CommentDto(
                   postId: comment.postId!,
                   parentId: comment.parentId ?? comment.id,
-                  targetId: comment.parentId == null ? null : comment.userId)),
+                  targetId: comment.parentId == null ? comment.userId : null)),
           hardenColor: true,
           targetUsername: comment.user.username);
     }
