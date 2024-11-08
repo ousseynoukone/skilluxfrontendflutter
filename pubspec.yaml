@@ -95,6 +95,9 @@ dependencies:
   eventflux: ^2.2.1
   #A package provides an easy way to add shimmer effect in Flutter project
   shimmer: ^3.0.0
+  
+  #A Flutter package that notifies when no internet connection as well as providing simple tools that help tracking the internet connection status.
+  connection_notifier: ^2.0.1
 
 dev_dependencies:
   flutter_test:

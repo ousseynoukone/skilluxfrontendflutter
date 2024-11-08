@@ -202,7 +202,9 @@
   "content":"Contenu",
   "post":"Post",
 
-  "noLongerAvailable":"Ce contenu n'est plus disponible."
+  "noLongerAvailable":"Ce contenu n'est plus disponible.",
+  "noInternet":"Aucune Connexion Internet"
+
 
 
 

@@ -10,6 +10,7 @@ import 'package:skilluxfrontendflutter/presentations/layers/secondary_layer/seco
 import 'package:skilluxfrontendflutter/presentations/onBoard/on_boarding_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/loading.dart';
 import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_controller.dart';
+import 'package:skilluxfrontendflutter/services/internet/internet_checker.dart';
 import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_post_sys_service.dart';
 
 class PrimaryLayer extends StatefulWidget {
@@ -26,11 +27,13 @@ class _PrimaryLayerState extends State<PrimaryLayer> {
       Get.put(GetXAuthController(), permanent: true);
   late Future<void> _initStateFuture;
   final AddPostSysService _addPostSysService = Get.put(AddPostSysService());
+    var x  = Get.put(InternetChecker());
 
   @override
   void initState() {
     super.initState();
     _initStateFuture = controller.onInit();
+
   }
 
   @override

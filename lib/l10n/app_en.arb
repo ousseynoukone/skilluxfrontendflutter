@@ -205,7 +205,8 @@
 
   "post":"Post",
 
-  "noLongerAvailable":"This content is no longer available."
+  "noLongerAvailable":"This content is no longer available.",
+  "noInternet":"No Internet Connexion"
 
 
 
