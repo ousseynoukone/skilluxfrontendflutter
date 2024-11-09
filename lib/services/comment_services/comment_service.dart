@@ -180,6 +180,7 @@ class CommentService extends GetxController with StateMixin<RxList<Comment>> {
       if (commentDto.parentId == null) {
         comment = Comment.createNewComment(response, userDto);
         comments.insert(0, comment);
+        _commentRepo.comments.insert(0, comment);
       } else {
         User? fUser;
 

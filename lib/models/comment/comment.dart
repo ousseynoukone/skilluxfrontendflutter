@@ -44,7 +44,7 @@ class Comment {
       isModified: json['isModified'],
       createdAt: DateTime.parse(json['createdAt']),
       like: json['like'],
-      user: UserDTO.fromBody(json['user']),
+      user:  UserDTO.fromBody(json['user']),
       target: json['target'] == null ? null : UserDTO.fromBody(json['target']),
       descendantCount: json['descendantCount'] ?? 0,
       postId: json['postId'],
