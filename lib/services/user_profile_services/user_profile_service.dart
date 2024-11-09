@@ -49,7 +49,7 @@ class UserProfileService extends GetxController with StateMixin<User> {
       }
     } catch (e) {
       _logger.e(e);
-      change(user, status: RxStatus.error(e.toString()));
+      
     }
   }
 

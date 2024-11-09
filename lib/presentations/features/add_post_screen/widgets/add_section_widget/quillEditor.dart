@@ -54,6 +54,7 @@ class Quilleditor extends StatelessWidget {
       ),
       child: QuillEditor.basic(
         configurations: _getEditorConfigurations(
+            colorScheme: colorScheme,
             scrollable: false,
             expands: false,
             showCursor: false,
@@ -83,6 +84,7 @@ class Quilleditor extends StatelessWidget {
       ),
       child: QuillEditor.basic(
         configurations: _getEditorConfigurations(
+          colorScheme: colorScheme,
           context: context,
           scrollable: scrollable,
           expands: expanded,
@@ -97,6 +99,7 @@ class Quilleditor extends StatelessWidget {
       {required bool scrollable,
       required bool expands,
       required bool showCursor,
+      required ColorScheme colorScheme,
       String? placeholder,
       required BuildContext context}) {
     var embedBuilders = kIsWeb
@@ -104,16 +107,14 @@ class Quilleditor extends StatelessWidget {
         : FlutterQuillEmbeds.editorBuilders();
 
     return QuillEditorConfigurations(
-        embedBuilders: embedBuilders,
-        controller: controller,
-        autoFocus: false,
-        expands: expands,
-        scrollable: scrollable,
-        showCursor: showCursor,
-        placeholder: placeholder,
-        customStyles: getDefaultStyles(),
-        textSelectionThemeData: Theme.of(context)
-            .textSelectionTheme
-            .copyWith(selectionColor: ColorsTheme.secondary.withOpacity(0.3)));
+      embedBuilders: embedBuilders,
+      controller: controller,
+      autoFocus: false,
+      expands: expands,
+      scrollable: scrollable,
+      showCursor: showCursor,
+      placeholder: placeholder,
+      customStyles: getDefaultStyles(),
+    );
   }
 }

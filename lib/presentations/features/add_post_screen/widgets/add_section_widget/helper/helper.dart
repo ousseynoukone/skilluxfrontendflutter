@@ -45,7 +45,7 @@ QuillSimpleToolbarConfigurations getQuillSimpleToolbarConfigurations(
         videoButtonOptions: null,
       ),
       decoration: BoxDecoration(
-          color: colorScheme.primary,
+          color: colorScheme.primaryContainer,
           borderRadius: isRounded ? BorderRadius.circular(12) : null));
 }
 

@@ -26,9 +26,10 @@ class AppTheme {
 
   static ThemeData lightTheme = ThemeData(
       textSelectionTheme: const TextSelectionThemeData(
-          selectionHandleColor: ColorsTheme.primary,
-          cursorColor: ColorsTheme.tertiaryDark,
-          selectionColor: ColorsTheme.secondary),
+        selectionHandleColor: Colors.green,
+        cursorColor: ColorsTheme.tertiaryDark,
+        selectionColor: Color.fromARGB(40, 0, 0, 0),
+      ),
       colorScheme: AppColorScheme.light,
       splashColor: Colors.transparent,
       useMaterial3: true,
@@ -51,15 +52,14 @@ class AppTheme {
       dropdownMenuTheme: DropdownMenuAppTheme.lightDropdownMenuThemeData,
       dialogTheme: DialogAppTheme.lightDialogButtonTheme,
       highlightColor: Colors.transparent,
-
       listTileTheme: ListTileThemeAppTheme.listTileThemeDataLight,
       textButtonTheme: TextAppButtonTheme.lightTextButtonTheme);
 
   static ThemeData darkTheme = ThemeData(
       textSelectionTheme: const TextSelectionThemeData(
-          selectionHandleColor: ColorsTheme.primary,
+          selectionHandleColor: Colors.red,
           cursorColor: ColorsTheme.white,
-          selectionColor: ColorsTheme.secondary),
+          selectionColor: Color.fromARGB(49, 255, 255, 255)),
       colorScheme: AppColorScheme.dark,
       splashColor: Colors.transparent,
       useMaterial3: true,

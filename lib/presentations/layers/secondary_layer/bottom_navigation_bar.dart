@@ -77,7 +77,7 @@ class _BottomNavigationBarComponentState
                 color: colorScheme.outlineVariant,
               ),
               BottomAppBar(
-                height: Get.height / 13,
+                height: Get.height / 12.7,
                 color: Colors.transparent,
                 surfaceTintColor: Colors.transparent,
                 child: Row(
@@ -132,7 +132,7 @@ class _BottomNavigationBarComponentState
             color: _currentIndex.value == index
                 ? colorScheme.onPrimary
                 : colorScheme.primaryFixed,
-            size: Get.width * 0.05,
+            size: Get.width * 0.06,
           ),
           Text(
             label,
@@ -159,7 +159,7 @@ class _BottomNavigationBarComponentState
             fill: 1,
             Icons.add,
             color: colorScheme.onPrimary,
-            size: Get.width * 0.05,
+            size: Get.width * 0.06,
           ),
           Text(
             label,
@@ -185,7 +185,7 @@ Widget _buildSearchButton(ColorScheme colorScheme, String label) {
           fill: 1,
           Icons.search,
           color: colorScheme.onPrimary,
-          size: Get.width * 0.05,
+          size: Get.width * 0.06,
         ),
         Text(
           label,

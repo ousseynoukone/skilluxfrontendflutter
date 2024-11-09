@@ -117,9 +117,9 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                   alignment: Alignment.center,
                   child: Obx(
                     () => OutlineButtonComponent(
+                      fullWidth: true,
                       iconColor: ColorsTheme.secondary,
-                      edgeInsets: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 8.0),
+
                       icon: Icons.publish,
                       onPressed: () {
                         // Validate the form before submitting

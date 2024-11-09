@@ -56,7 +56,15 @@ class _UserInfoUserProfilePictureState extends State<UserInfoUserProfilePicture>
     return Stack(
       children: [
         // Profile Picture
-        displayUserPP(widget.profilePictureUrl, radius: 40),
+        InkWell(
+          child: displayUserPP(widget.profilePictureUrl, radius: 40),
+          onTap: () async {
+            await pickImage();
+            if (pickedImage != null) {
+              handlingPickedImage();
+            }
+          },
+        ),
 
         // Tappable Icon
         Positioned(

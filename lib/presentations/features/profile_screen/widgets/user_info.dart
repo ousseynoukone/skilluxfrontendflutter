@@ -206,6 +206,15 @@ class _UserInfoState extends State<UserInfo> {
             child: OutlineButtonComponent(
               onPressed: () {
                 Get.bottomSheet(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                        // Bottom corners are square (0 radius)
+                        bottomLeft: Radius.circular(0),
+                        bottomRight: Radius.circular(0),
+                      ),
+                    ),
                     backgroundColor: colorScheme.primary,
                     UpdateUserInfoScreen(user: widget.user));
               },
