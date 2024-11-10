@@ -26,9 +26,12 @@ class AppTheme {
 
   static ThemeData lightTheme = ThemeData(
       textSelectionTheme: const TextSelectionThemeData(
-        selectionHandleColor: Colors.green,
+        selectionHandleColor: ColorsTheme.tertiaryDarker,
         cursorColor: ColorsTheme.tertiaryDark,
         selectionColor: Color.fromARGB(40, 0, 0, 0),
+      ),
+      cupertinoOverrideTheme: const CupertinoThemeData(
+        primaryColor: ColorsTheme.tertiaryDarker, // For iOS selection handle color
       ),
       colorScheme: AppColorScheme.light,
       splashColor: Colors.transparent,
@@ -57,9 +60,12 @@ class AppTheme {
 
   static ThemeData darkTheme = ThemeData(
       textSelectionTheme: const TextSelectionThemeData(
-          selectionHandleColor: Colors.red,
+          selectionHandleColor: ColorsTheme.tertiary,
           cursorColor: ColorsTheme.white,
           selectionColor: Color.fromARGB(49, 255, 255, 255)),
+                cupertinoOverrideTheme: const CupertinoThemeData(
+        primaryColor: ColorsTheme.tertiary, // For iOS selection handle color
+      ),
       colorScheme: AppColorScheme.dark,
       splashColor: Colors.transparent,
       useMaterial3: true,
