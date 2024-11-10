@@ -8,6 +8,7 @@ class IconTextButton extends StatelessWidget {
   final String? label;
   final VoidCallback? onPressed;
   final Color? textColor;
+  final TextStyle? textStyle;
   final EdgeInsets? padding;
   final double? iconSize;
   final double? fontSize;
@@ -17,6 +18,7 @@ class IconTextButton extends StatelessWidget {
     super.key,
     required this.icon,
     this.label,
+    this.textStyle,
     this.iconColor,
     required this.onPressed,
     this.textColor,
@@ -45,7 +47,7 @@ class IconTextButton extends StatelessWidget {
             )
           : Text(
               label ?? "",
-              style: TextStyle(
+              style: textStyle?? TextStyle(
                 color: textColor ??
                     Theme.of(context).textTheme.labelSmall?.backgroundColor,
                 fontSize: fontSize,

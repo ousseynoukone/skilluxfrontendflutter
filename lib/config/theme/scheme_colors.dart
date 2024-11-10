@@ -16,6 +16,7 @@ class AppColorScheme {
     surface: Color.fromARGB(255, 181, 179, 179),
     onSurface: Colors.black,
     tertiary: ColorsTheme.white,
+  
   );
 
   static const ColorScheme dark = ColorScheme(

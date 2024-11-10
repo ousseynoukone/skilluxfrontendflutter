@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
+import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/user_followers/user_followers.dart';
@@ -79,6 +80,9 @@ class _UserInfoState extends State<UserInfo> {
                 }
               },
             ),
+            SizedBox(
+              width: Get.width * 0.015,
+            ),
             _buildStatColumn(
               count: user.nbFollowings,
               label: context.localizations.following,
@@ -87,6 +91,9 @@ class _UserInfoState extends State<UserInfo> {
                   Get.to(() => UserFollowing(userId: widget.userId));
                 }
               },
+            ),
+            SizedBox(
+              width: Get.width * 0.015,
             ),
             _buildStatColumn(
               count: user.nbPosts,
@@ -101,13 +108,20 @@ class _UserInfoState extends State<UserInfo> {
   Widget _buildUserStats(
       User user, AppLocalizations text, ColorScheme colorScheme) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 5),
         Text(user.fullName, style: Theme.of(context).textTheme.titleSmall),
-        const SizedBox(height: 5),
+        Container(
+          decoration: BoxDecoration(
+              color: colorScheme.primary,
+              borderRadius: BorderRadius.circular(10)),
+          padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 4),
+          child: Text('@${user.username}',
+              style: Theme.of(context).textTheme.bodySmall!),
+        ),
         if (user.profession != null)
           Text(user.profession!, style: Theme.of(context).textTheme.bodySmall),
-        const SizedBox(height: 10),
         _buildFollowUnfollowButton(user, text),
         _buildEditProfileButton(text, colorScheme),
       ],
@@ -122,15 +136,12 @@ class _UserInfoState extends State<UserInfo> {
     return InkWell(
       hoverColor: Colors.transparent,
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            Text(count.toString()),
-            const SizedBox(height: 8),
-            Text(label, style: Theme.of(context).textTheme.bodySmall),
-          ],
-        ),
+      child: Column(
+        children: [
+          Text(count.toString()),
+          const SizedBox(height: 8),
+          Text(label, style: Theme.of(context).textTheme.bodySmall),
+        ],
       ),
     );
   }
@@ -191,16 +202,29 @@ class _UserInfoState extends State<UserInfo> {
   Widget _buildEditProfileButton(
       AppLocalizations text, ColorScheme colorScheme) {
     return !widget.isForOtherUser
-        ? OutlineButtonComponent(
-          
-            onPressed: () {
-              Get.bottomSheet(
-                  backgroundColor: colorScheme.primary,
-                  UpdateUserInfoScreen(user: widget.user));
-            },
-            text: text.editProfile,
-            isLoading: false,
-            icon: Icons.edit,
+        ? SizedBox(
+            child: OutlineButtonComponent(
+              onPressed: () {
+                Get.bottomSheet(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                        // Bottom corners are square (0 radius)
+                        bottomLeft: Radius.circular(0),
+                        bottomRight: Radius.circular(0),
+                      ),
+                    ),
+                    backgroundColor: colorScheme.primary,
+                    barrierColor: colorScheme.onSurface.withOpacity(0.8),
+                    UpdateUserInfoScreen(user: widget.user));
+              },
+              text: text.editProfile,
+              isLoading: false,
+              icon: Icons.edit,
+              edgeInsets:
+                  const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            ),
           )
         : const SizedBox.shrink();
   }

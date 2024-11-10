@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 
 class UserDTO {
-  final int id;
+  final int ? id;
   final String fullName;
   final String username;
-  final String email;
-  final String profilePicture;
+  final String? email;
+  final String? profilePicture;
+  final String? profession; // New profession field
 
   UserDTO({
-    required this.id,
+     this.id,
     required this.fullName,
     required this.username,
-    required this.email,
-    required this.profilePicture,
+    this.email,
+    this.profilePicture,
+    this.profession, // Added in the constructor
   });
 
   // Factory constructor to create a UserDTO from a Map
@@ -23,6 +25,7 @@ class UserDTO {
       username: json['username'],
       email: json['email'],
       profilePicture: json['profilePicture'],
+      profession: json['profession'], // Added profession field
     );
   }
 
@@ -34,6 +37,7 @@ class UserDTO {
       username: json['username'],
       email: json['email'],
       profilePicture: json['profilePicture'],
+      profession: json['profession'], // Added profession field
     );
   }
 
@@ -45,22 +49,24 @@ class UserDTO {
       'username': username,
       'email': email,
       'profilePicture': profilePicture,
+      'profession': profession, // Added profession field
     };
   }
 
   // Clone method to create a deep copy of UserDTO
   UserDTO clone() {
     return UserDTO(
-      id: this.id,
-      fullName: this.fullName,
-      username: this.username,
-      email: this.email,
-      profilePicture: this.profilePicture,
+      id: id,
+      fullName: fullName,
+      username: username,
+      email: email,
+      profilePicture: profilePicture,
+      profession: profession, // Added profession field
     );
   }
 
   @override
   String toString() {
-    return 'UserDTO(id: $id, fullName: $fullName, username: $username, email: $email, profilePicture: $profilePicture)';
+    return 'UserDTO(id: $id, fullName: $fullName, username: $username, email: $email, profilePicture: $profilePicture, profession: $profession)';
   }
 }

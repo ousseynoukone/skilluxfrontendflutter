@@ -15,7 +15,6 @@ class OutlineButtonAppTheme {
         color: ColorsTheme.black,
         fontWeight: FontWeight.w600,
       ),
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
     ),
   );
@@ -30,7 +29,6 @@ class OutlineButtonAppTheme {
         color: ColorsTheme.white,
         fontWeight: FontWeight.w600,
       ),
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
     ),
   );

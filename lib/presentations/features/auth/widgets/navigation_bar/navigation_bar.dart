@@ -7,7 +7,10 @@ import 'package:skilluxfrontendflutter/presentations/features/auth/register.dart
 import 'package:skilluxfrontendflutter/presentations/features/auth/widgets/navigation_bar/navigation_bar_controller.dart';
 
 class TopNavigationBar extends StatefulWidget {
-  const TopNavigationBar({super.key});
+  final List<Widget> screenList;
+  final List<Tab> tabList;
+  const TopNavigationBar(
+      {super.key, required this.screenList, required this.tabList});
 
   @override
   State<TopNavigationBar> createState() => _TopNavigationBarState();
@@ -23,7 +26,7 @@ class _TopNavigationBarState extends State<TopNavigationBar>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
-    listenRegisterState();
+    listenIndexState();
     listenTabController();
   }
 
@@ -33,10 +36,12 @@ class _TopNavigationBarState extends State<TopNavigationBar>
     super.dispose();
   }
 
-  void listenRegisterState() {
+  void listenIndexState() {
     // Listen to changes in index using obs
     _navigationBarController.index.listen((newIndex) {
-      _tabController.index = newIndex;
+      if (mounted) {
+        _tabController.animateTo(newIndex);
+      }
     });
   }
 
@@ -60,23 +65,19 @@ class _TopNavigationBarState extends State<TopNavigationBar>
       child: Scaffold(
         appBar: AppBar(
           toolbarHeight: 1,
-
           automaticallyImplyLeading: false, // remove back button in appbar.
           bottom: TabBar(
             controller: _tabController,
-            labelStyle:context.textTheme.bodyMedium,
+            labelStyle: context.textTheme.bodyMedium,
             labelColor: context.textTheme.bodyLarge?.color,
             unselectedLabelColor: ColorsTheme.gray,
             indicatorColor: ColorsTheme.primary,
-            tabs: [
-              Tab(text: text.login),
-              Tab(text: text.register),
-            ],
+            tabs: [...widget.tabList],
           ),
         ),
         body: TabBarView(
           controller: _tabController,
-          children: [Login(), Register()],
+          children: [...widget.screenList],
         ),
       ),
     );

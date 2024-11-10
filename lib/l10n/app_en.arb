@@ -54,7 +54,7 @@
 
   "alert":"Alert",
   "error":"Error",
-  "errorUnexpected":"An unexpected error occurred",
+  "errorUnexpected":"An unexpected error occurred, please, try again.",
 
   "emailMessage":"E-mail message has been sent, please follow thoses instructions.",
   "activateAccount":"Activate your account.",
@@ -170,7 +170,50 @@
 
   "confirm":"Are you sure of this operation ? It is irreversible.",
   
-  "sucess": "Operation completed successfully!"
+  "sucess": "Operation completed successfully!",
+
+  "comments":"Comments",
+
+  "makeComment":"Add a comment here...",
+
+  "oneLike":"1 like",
+  "likes":"likes",
+  "reply":"reply",
+
+  "noComment":"No comment has been posted yet.",
+  "showReplies":"Show replies",
+  "showReply":"Show reply",
+  
+  "answerTo" : "Answer to",
+  "camera": "Camera",
+  "gallery": "Gallery",
+  "chooseImageSource": "Choose Image Source",
+  "noPostAvailable": "No posts available",
+
+  "recommendedPosts": "For you",
+  "followedUserPosts": "Following",
+  "randomPosts": "Random",
+
+  "notification":"Notification",
+  "noNotification":"You've not got any notification lately.",
+  "and":"and",
+  "viewOtherComment":"View other comments",
+  "searchHint":"Search for skills, topics, or people",
+
+  "user":"User",
+  "content":"Content",
+
+  "post":"Post",
+
+  "noLongerAvailable":"This content is no longer available.",
+  "noInternet":"No Internet Connexion"
+
+
+
+
+
+
+  
 
 
 

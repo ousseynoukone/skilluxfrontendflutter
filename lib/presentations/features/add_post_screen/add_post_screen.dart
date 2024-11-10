@@ -14,7 +14,6 @@ import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_field.d
 import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_post_sys_service.dart';
 import 'package:skilluxfrontendflutter/services/system_services/route_observer_utils/route_observer_utils.dart';
 import 'package:logger/logger.dart';
-import 'package:textfield_tags/textfield_tags.dart';
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({super.key});
@@ -35,8 +34,8 @@ class _AddPostScreenState extends State<AddPostScreen>
   final List<String> tagsListe = [];
   AddPostSysService addPostSysService = Get.find();
 
-  FocusNode _titleFocusNode = FocusNode();
-  FocusNode _tagFocusNode = FocusNode();
+  final FocusNode _titleFocusNode = FocusNode();
+  final FocusNode _tagFocusNode = FocusNode();
 
   @override
   void didChangeDependencies() {
@@ -98,7 +97,6 @@ class _AddPostScreenState extends State<AddPostScreen>
   disposeAll() {
     _addPostSysService.clearPost();
     _addPostSysService.clearContent();
-    _titleController.dispose();
   }
 
   // Create a new post and broadcast it
@@ -222,6 +220,7 @@ class _AddPostScreenState extends State<AddPostScreen>
             ),
           ),
         ),
-        bottomNavigationBar: bottomNavBar(saveDraft, updatePostStream));
+        bottomNavigationBar:
+            SafeArea(child: bottomNavBar(saveDraft, updatePostStream)));
   }
 }

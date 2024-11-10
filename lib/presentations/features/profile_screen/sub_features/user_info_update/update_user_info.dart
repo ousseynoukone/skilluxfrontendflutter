@@ -5,11 +5,8 @@ import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/config/validators/email_validator.dart';
 import 'package:skilluxfrontendflutter/config/validators/full_name_validator.dart';
 
-import 'package:skilluxfrontendflutter/models/user/dtos/user_dto.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
-import 'package:skilluxfrontendflutter/presentations/features/auth/helper/resend_activation_email.dart';
-import 'package:skilluxfrontendflutter/presentations/features/auth/reset_password.dart';
-import 'package:skilluxfrontendflutter/presentations/shared_widgets/button.dart';
+
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/outline_button.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/text_form_field.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_update_service.dart';
@@ -112,33 +109,35 @@ class _UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
                   },
                 ),
               ),
-              Container(
-                  margin: const EdgeInsets.symmetric(vertical: 8.0),
-                  alignment: Alignment.center,
-                  child: Obx(
-                    () => OutlineButtonComponent(
-                      iconColor: ColorsTheme.secondary,
-                      edgeInsets: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 8.0),
-                      icon: Icons.publish,
-                      onPressed: () {
-                        // Validate the form before submitting
-                        if (_formKey.currentState!.validate()) {
-                          FocusScope.of(context).unfocus();
-                          // FocusManager.instance.primaryFocus?.unfocus();
+              SafeArea(
+                child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    alignment: Alignment.center,
+                    child: Obx(
+                      () => OutlineButtonComponent(
+                        fullWidth: true,
+                        iconColor: ColorsTheme.secondary,
+                        icon: Icons.publish,
+                        onPressed: () {
+                          // Validate the form before submitting
+                          if (_formKey.currentState!.validate()) {
+                            FocusScope.of(context).unfocus();
+                            // FocusManager.instance.primaryFocus?.unfocus();
 
-                          String email = _emailController.text.trim();
-                          String fullName = _fullNameController.text.trim();
-                          String profession = _professionController.text.trim();
+                            String email = _emailController.text.trim();
+                            String fullName = _fullNameController.text.trim();
+                            String profession =
+                                _professionController.text.trim();
 
-                          _userUpdateService.updateUserInfos(
-                              fullName, profession, email);
-                        }
-                      },
-                      text: text.update,
-                      isLoading: _userUpdateService.isLoading.value,
-                    ),
-                  )),
+                            _userUpdateService.updateUserInfos(
+                                fullName, profession, email);
+                          }
+                        },
+                        text: text.update,
+                        isLoading: _userUpdateService.isLoading.value,
+                      ),
+                    )),
+              ),
             ],
           ),
         ),

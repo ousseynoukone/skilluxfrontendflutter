@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
@@ -6,26 +7,26 @@ import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/he
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/helpers/display_time_ago.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/post_view.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/preview/chip.dart';
-import 'package:skilluxfrontendflutter/presentations/features/helpers/time_format/time_ago_format.dart';
-import 'package:skilluxfrontendflutter/presentations/shared_widgets/glass_neuphormism.dart';
+import 'package:logger/logger.dart';
+import 'package:skilluxfrontendflutter/services/mainHelpers/comment_post_provider/comment_post_provider.dart';
 
 class PostContainer extends StatefulWidget {
   final Post post;
-    final bool isForOther;
+  final CommentPostProvider commentPostProvider;
 
-
-  const PostContainer({super.key, required this.post,this.isForOther = false});
+  const PostContainer(
+      {super.key, required this.post, required this.commentPostProvider});
 
   @override
   _PostContainerState createState() => _PostContainerState();
 }
 
-class _PostContainerState extends State<PostContainer> {
+class _PostContainerState extends State<PostContainer> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     // Access the post object from the widget
     final post = widget.post;
-
+    final Logger _logger = Logger();
     // Retrieve localizations and text theme
     final text = context.localizations;
     final textTheme = Theme.of(context).textTheme;
@@ -34,16 +35,18 @@ class _PostContainerState extends State<PostContainer> {
 // Method to build the post image or icon
     Widget buildPostImage() {
       const double size = 50.0; // Define the size of the image and icon
-
       if (post.headerImageUrl != null && post.headerImageUrl!.isNotEmpty) {
         return SizedBox(
-          width: size,
-          height: size,
-          child: Image.network(
-            post.headerImageUrl!,
-            fit: BoxFit.cover, // Ensures the image covers the whole space
-          ),
-        );
+            width: size,
+            height: size,
+            child: CachedNetworkImage(
+              imageUrl: post.headerImageUrl!,
+              fit: BoxFit.cover, // Ensures the image covers the whole space
+              placeholder: (context, url) =>
+                  const CircularProgressIndicator(), // Optional: shows a loading indicator
+              errorWidget: (context, url, error) => const Icon(Icons
+                  .error), // Optional: shows an error icon if the image fails to load
+            ));
       } else {
         return SizedBox(
           width: size,
@@ -68,8 +71,8 @@ class _PostContainerState extends State<PostContainer> {
       child: ListTile(
         onTap: () {
           Get.to(() => PostView(
-            isForOther: widget.isForOther,
                 post: post,
+                commentPostProvider: widget.commentPostProvider,
               ));
         },
         tileColor: colorScheme.primary.withOpacity(0.3),
@@ -95,4 +98,7 @@ class _PostContainerState extends State<PostContainer> {
       ),
     );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
+import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/add_post_widget/add_media.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/widgets/display_section/display_image.dart';
 
@@ -11,18 +13,44 @@ mixin ImagePickerMixin<T extends StatefulWidget> on State<T> {
 
   Future<void> pickImage() async {
     try {
-      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-      if (image != null) {
-        setState(() {
-          String? mimeType = _getMimeTypeFromExtension(image.path);
-          pickedImage = XFile(image.path,
-              mimeType: mimeType ?? image.mimeType,
-              name: image.name); // Create a new XFile instance
-        });
+      final ImageSource? source = await _showImageSourceDialog();
+      if (source != null) {
+        final XFile? image = await picker.pickImage(source: source);
+        if (image != null) {
+          setState(() {
+            String? mimeType = _getMimeTypeFromExtension(image.path);
+            pickedImage = XFile(image.path,
+                mimeType: mimeType ?? image.mimeType,
+                name: image.name); // Create a new XFile instance
+          });
+        }
       }
     } catch (e) {
       _logger.d('Error picking image: ${e.toString()}');
     }
+  }
+
+  Future<ImageSource?> _showImageSourceDialog() async {
+    var text = Get.context!.localizations;
+
+    return showDialog<ImageSource>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(text.chooseImageSource),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(ImageSource.camera),
+              child: Text(text.camera),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(ImageSource.gallery),
+              child: Text(text.gallery),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   String? _getMimeTypeFromExtension(String path) {

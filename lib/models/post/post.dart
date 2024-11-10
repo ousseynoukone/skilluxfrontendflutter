@@ -4,6 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:skilluxfrontendflutter/models/post/sub_models/content/content.dart';
 import 'package:skilluxfrontendflutter/models/post/sub_models/post/binary_media.dart';
+import 'package:skilluxfrontendflutter/models/user/dtos/user_dto.dart';
 import 'package:skilluxfrontendflutter/presentations/features/helpers/image_handling/image_converter.dart';
 import 'package:logger/logger.dart';
 import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/image_document_handling.dart';
@@ -24,7 +25,7 @@ class Post {
   final int? readNumber;
 
   @HiveField(3)
-  final int? votesNumber;
+  int? votesNumber;
 
   @HiveField(4)
   final bool? isPublished;
@@ -50,6 +51,11 @@ class Post {
   @HiveField(11)
   BinaryMedia? headerBinaryImage;
 
+  @HiveField(12)
+  int commentNumber;
+
+  // User information of fetched post
+  UserDTO? user;
   // For implementation purpose
   XFile? headerImageIMG;
 
@@ -58,6 +64,7 @@ class Post {
     required this.title,
     this.readNumber = 0,
     this.votesNumber = 0,
+    this.commentNumber = 0,
     this.isPublished = false,
     this.headerImageUrl,
     required this.tags,
@@ -67,15 +74,18 @@ class Post {
     required this.content,
     this.headerImageIMG,
     this.headerBinaryImage,
+    this.user,
   });
 
   factory Post.fromBody(Map<String, dynamic> body) {
+    var userJson = body['User'];
     return Post(
       id: body['id'],
       title: body['title'],
       readNumber: body['readNumber'],
       votesNumber: body['votesNumber'],
       isPublished: body['isPublished'],
+      commentNumber: body['commentCount'] ?? 0,
       headerImageUrl: body['headerImage'],
       tags: List<String>.from(body['tags']),
       createdAt:
@@ -85,6 +95,7 @@ class Post {
       userId: body['userId'],
       content: Content(content: body['content']),
       headerImageIMG: null, // Populate this as necessary
+      user: userJson != null ? UserDTO.fromJson(userJson) : null,
     );
   }
 
@@ -144,6 +155,7 @@ class Post {
     String? title,
     int? readNumber,
     int? votesNumber,
+    int? commentNumber,
     bool? isPublished,
     String? headerImageUrl,
     List<String>? tags,
@@ -158,6 +170,7 @@ class Post {
       id: id ?? this.id,
       title: title ?? this.title,
       readNumber: readNumber ?? this.readNumber,
+      commentNumber: commentNumber ?? this.commentNumber,
       votesNumber: votesNumber ?? this.votesNumber,
       isPublished: isPublished ?? this.isPublished,
       headerImageUrl: headerImageUrl ?? this.headerImageUrl,
@@ -266,6 +279,7 @@ class Post {
       id: id,
       title: title,
       readNumber: readNumber,
+      commentNumber: commentNumber,
       votesNumber: votesNumber,
       isPublished: isPublished,
       headerImageUrl: headerImageUrl,
@@ -283,11 +297,22 @@ class Post {
     );
   }
 
+  // Method to like the post
+  void like() {
+    votesNumber = (votesNumber ?? 0) + 1; // Increment likes
+  }
+
+  // Method to unlike the post
+  void unlike() {
+    votesNumber = (votesNumber ?? 1) - 1; // Decrement likes
+  }
+
   void dump() {
     _logger.d('Post Dump:');
     _logger.d('ID: $id');
     _logger.d('Title: $title');
     _logger.d('Read Number: $readNumber');
+    _logger.d('Comment Number: $commentNumber');
     _logger.d('Votes Number: $votesNumber');
     _logger.d('Is Published: $isPublished');
     _logger.d('Header Image URL: $headerImageUrl');

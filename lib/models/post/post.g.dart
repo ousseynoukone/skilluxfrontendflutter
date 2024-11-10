@@ -21,6 +21,7 @@ class PostAdapter extends TypeAdapter<Post> {
       title: fields[1] as String,
       readNumber: fields[2] as int?,
       votesNumber: fields[3] as int?,
+      commentNumber: fields[12] as int,
       isPublished: fields[4] as bool?,
       headerImageUrl: fields[5] as String?,
       tags: (fields[6] as List).cast<String>(),
@@ -35,7 +36,7 @@ class PostAdapter extends TypeAdapter<Post> {
   @override
   void write(BinaryWriter writer, Post obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -59,7 +60,9 @@ class PostAdapter extends TypeAdapter<Post> {
       ..writeByte(10)
       ..write(obj.content)
       ..writeByte(11)
-      ..write(obj.headerBinaryImage);
+      ..write(obj.headerBinaryImage)
+      ..writeByte(12)
+      ..write(obj.commentNumber);
   }
 
   @override

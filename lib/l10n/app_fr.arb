@@ -171,7 +171,48 @@
 
   "confirm":"Êtes-vous sûr de vouloir continuer cette opération ? Elle sera irréversible.",
 
-  "sucess": "Operation effectuée avec succès !"
+  "sucess": "Operation effectuée avec succès !",
+
+  "comments":"Commentaires",
+  "makeComment":"Ajouter un commentaire ici...",
+  "oneLike":"1 aime",
+  "likes":"aimes",
+  "reply":"repondre",
+
+  "noComment":"Cette publication n'a pas encore de commentaire.",
+  "showReplies":"afficher les reponses",
+  "showReply":"afficher la reponse",
+
+  "answerTo" : "réponse à",
+  "camera": "Appareil photo",
+  "gallery": "Galerie",
+  "chooseImageSource": "Choisir la source de l'image",
+
+  "noPostAvailable": "Pas encore de postes qui vous plairait",
+
+  "recommendedPosts": "Pour toi",
+  "followedUserPosts": "Suivi(e)s",
+  "randomPosts": "Aléatoire",
+  "notification":"Notification",
+  "noNotification":"Vous n'avez pas encore de notification.",
+  "and":"et",
+  "viewOtherComment":"Voir les autres commentaires",
+  "searchHint":"Rechercher des sujets ou des personnes",
+  "user":"Utilisateur",
+  "content":"Contenu",
+  "post":"Post",
+
+  "noLongerAvailable":"Ce contenu n'est plus disponible.",
+  "noInternet":"Aucune Connexion Internet"
+
+
+
+
+
+
+
+
+
 
 
 

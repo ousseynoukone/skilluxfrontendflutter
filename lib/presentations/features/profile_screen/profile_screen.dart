@@ -6,11 +6,12 @@ import 'package:skilluxfrontendflutter/presentations/features/profile_screen/wid
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/persistent_header_delegate.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/post_container.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/user_info.dart';
+import 'package:skilluxfrontendflutter/services/STATE/auth_state/user_state.dart';
+import 'package:skilluxfrontendflutter/services/mainHelpers/comment_post_provider/comment_post_provider.dart';
 import 'package:skilluxfrontendflutter/services/system_services/route_observer_utils/route_observer_utils.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:skilluxfrontendflutter/services/user_profile_services/user_update_service.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -25,7 +26,6 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
   final UserProfileService userProfileService = Get.find();
   final AppLocalizations? text = Get.context?.localizations;
   final ScrollController _scrollController = ScrollController();
-  final UserUpdateService _userUpdateService = Get.put(UserUpdateService());
 
   @override
   void didChangeDependencies() {
@@ -55,18 +55,37 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
   //If this screen pop again
   @override
   didPopNext() {
-    userProfilePostService.getUserPosts(disableLoading: true);
-    userProfileService.getUserInfos(disableLoading: true);
+    // !!! HAVE COMMENTED IT BUT DO NOT KNOW THE REPERCUSION LOL ,  DUE TO THE UGLY GLITCH SIDE EFFECT WHILE LOGIN OFF
+    // This stand for helping  the scrollNotification to take effect when user try to scroll down (after didPopNext)
+    // _scrollToTop();
+    isUserLogginOut.listen((bool isUserLogginOut) {
+      if (!isUserLogginOut) {
+        // Defer the post provider switching
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          userProfileService.getUserInfos(disableLoading: true);
+          userProfilePostService.getUserPosts(disableLoading: true);
+        });
+      }
+    });
+  }
+
+  void _scrollToTop() {
+    _scrollController.animateTo(
+      _scrollController.offset - 50, // Scroll a little bit to the top
+      duration: const Duration(milliseconds: 10), // Duration of the animation
+      curve: Curves.easeInOut, // Animation curve
+    );
   }
 
   @override
   void dispose() {
+    _scrollController.dispose(); // Dispose the ScrollController
+    ObserverUtils.routeObserver.unsubscribe(this);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
@@ -134,7 +153,11 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
               return controller.obx(
                 (state) => SliverList(
                   delegate: SliverChildBuilderDelegate(
-                    (context, index) => PostContainer(post: state![index]),
+                    (context, index) => PostContainer(
+                      post: state![index],
+                      commentPostProvider:
+                          CommentPostProvider.userProfilePostService,
+                    ),
                     childCount: state?.length ?? 0,
                   ),
                 ),

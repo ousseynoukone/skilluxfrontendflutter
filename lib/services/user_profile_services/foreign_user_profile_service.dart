@@ -6,8 +6,8 @@ import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart'
 import 'package:skilluxfrontendflutter/core/api_service/api_service.dart';
 import 'package:skilluxfrontendflutter/models/post/post.dart';
 import 'package:skilluxfrontendflutter/models/user/user.dart';
+import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/foreign_profile_post_holder/foreign_profile_post_holder.dart';
 import 'package:skilluxfrontendflutter/services/user_services/controller/user_service.dart';
-import 'package:skilluxfrontendflutter/presentations/shared_widgets/get_x_snackbar.dart';
 
 // ForeignUserProfileService.dart
 class ForeignUserProfileService {
@@ -26,7 +26,7 @@ class ForeignUserProfileService {
     try {
       if (!disableLoading) {
         _userInfoStreamController.sink.add(null);
-      }
+      } 
 
       final user = await _userService.getUserInfos(userId: userId);
       _userInfoStreamController.sink.add(user);
@@ -51,8 +51,11 @@ class ForeignUserPostsService {
   bool hasMorePost = true;
   RxBool isLoading = false.obs;
   RxBool isEmpty = false.obs;
+  final List<Post> _posts = []; // Maintain a local list of posts
   final _postsStreamController = StreamController<List<Post>?>.broadcast();
   Stream<List<Post>?> get postsStream => _postsStreamController.stream;
+
+  final ForeignProfilePostHolder _postHolder = Get.find();
 
   ForeignUserPostsService({required this.userId});
 
@@ -67,9 +70,13 @@ class ForeignUserPostsService {
       hasMorePost = _userService.hasMorePosts;
       if (posts.isEmpty) {
         isEmpty.value = true;
+      } else {
+        _posts.clear();
+        _posts.addAll(posts); // Update the local list
+        _postHolder.posts = posts; // Update the post Holder
       }
 
-      _postsStreamController.sink.add(posts);
+      _postsStreamController.sink.add(_posts);
     } catch (e) {
       _logger.e(e);
       _postsStreamController.sink.addError(e.toString());
@@ -94,13 +101,33 @@ class ForeignUserPostsService {
       hasMorePost = _userService.hasMorePosts;
 
       if (newPosts.isNotEmpty) {
-        _postsStreamController.sink.add(newPosts);
+        _posts.addAll(newPosts); // Update the local list
+        _postHolder.posts = newPosts; // Update the post Holder
+
+        _postsStreamController.sink.add(_posts);
       }
     } catch (e) {
       _logger.e(e);
       _postsStreamController.sink.addError(e.toString());
     }
     isLoading.value = false;
+  }
+
+  // Update the comment number locally
+  void localUpdateIncrementCommentNumber(int postId, {int number = 1}) {
+    final post = _posts.firstWhereOrNull((post) => post.id == postId);
+    if (post != null) {
+      post.commentNumber += number;
+      _postsStreamController.sink.add(_posts); // Emit the updated list
+    }
+  }
+
+  void localUpdateDecrementCommentNumber(int postId, {int number = 1}) {
+    final post = _posts.firstWhereOrNull((post) => post.id == postId);
+    if (post != null) {
+      post.commentNumber -= number;
+      _postsStreamController.sink.add(_posts); // Emit the updated list
+    }
   }
 
   void dispose() {

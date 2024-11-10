@@ -55,6 +55,7 @@ mixin SectionBuilderMixin<T extends StatefulWidget> on State<T> {
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
       child: Quilleditor(
+        
         controller: controller,
         scrollable: false,
         // bgColor: colorScheme.primaryFixed,

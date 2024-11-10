@@ -22,7 +22,7 @@ class UserInfoUserProfilePicture extends StatefulWidget {
 
 class _UserInfoUserProfilePictureState extends State<UserInfoUserProfilePicture>
     with ImagePickerMixin {
-  final UserUpdateService _userUpdateService = Get.find();
+  final UserUpdateService _userUpdateService = Get.put(UserUpdateService());
 
   @override
   Widget build(BuildContext context) {
@@ -56,29 +56,35 @@ class _UserInfoUserProfilePictureState extends State<UserInfoUserProfilePicture>
     return Stack(
       children: [
         // Profile Picture
-        displayUserPP(widget.profilePictureUrl, radius: 60),
+        InkWell(
+          child: displayUserPP(widget.profilePictureUrl, radius: 40),
+          onTap: () async {
+            await pickImage();
+            if (pickedImage != null) {
+              handlingPickedImage();
+            }
+          },
+        ),
 
         // Tappable Icon
         Positioned(
           top: 0,
           right: 0,
-          height: 35,
-          width: 35,
+          height: 30,
+          width: 30,
           child: Container(
             decoration: BoxDecoration(
-                color: colorScheme.primary,
+                color: colorScheme.onSurface,
                 borderRadius: BorderRadius.circular(30)),
             child: Center(
               child: InkWell(
                 onTap: () async {
                   await pickImage();
-                  if(pickedImage !=null){
-                  handlingPickedImage();
-
+                  if (pickedImage != null) {
+                    handlingPickedImage();
                   }
                 },
-                child: const Icon(Icons.edit,
-                    size: 20, color: ColorsTheme.secondary),
+                child: Icon(Icons.edit, size: 20, color: colorScheme.primary),
               ),
             ),
           ),

@@ -87,7 +87,19 @@ dependencies:
   #Flutter plugin for selecting images from the Android and iOS image library, and taking new pictures with the camera.
   image_picker: ^1.1.2
   flutter_quill_extensions: ^9.3.4
+
+  # For Reading Time computing
   reading_time: ^2.0.0
+
+  # Efficient handling of server-sent event streams with easy connectivity and data management.
+  eventflux: ^2.2.1
+  #A package provides an easy way to add shimmer effect in Flutter project
+  shimmer: ^3.0.0
+  
+  #A Flutter package that notifies when no internet connection as well as providing simple tools that help tracking the internet connection status.
+  connection_notifier: ^2.0.1
+
+
 
 dev_dependencies:
   flutter_test:

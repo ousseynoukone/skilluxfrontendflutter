@@ -73,7 +73,7 @@ class _UserFollowersState extends State<UserFollowers> {
                   trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
                     Get.to(() => ForeignProfileScreen(
-                          foreignUserId: user.id,
+                          foreignUserId: user.id!,
                         ));
                   },
                 ),

@@ -12,15 +12,15 @@ class UserService extends GetxController {
 
   // Variables for pagination
   var cursorPosts = "0";
-  var limitPosts = 4;
+  var limitPosts = 10;
   bool hasMorePosts = false;
 
   var cursorFollowers = "0";
-  var limitFollowers = 20;
+  var limitFollowers = 30;
   bool hasMoreFollowers = false;
 
   var cursorFollowing = "0";
-  var limitFollowing = 20;
+  var limitFollowing = 30;
   bool hasMoreFollowing = false;
 
   List<Post> userPosts = [];
@@ -43,7 +43,6 @@ class UserService extends GetxController {
 
   Future<List<Post>> getUserPosts({int userId = 0}) async {
     String path = "basic/users/post/$limitPosts/0/$userId";
-    _logger.d("REQUEST MADE : getUserPosts");
     List<Post> posts = [];
     userPosts = [];
     cursorPosts = '0';
@@ -77,12 +76,10 @@ class UserService extends GetxController {
       {int userId = 0, bool isFirstLoading = false}) async {
     if (hasMorePosts || isFirstLoading) {
       String path = "basic/users/post/$limitPosts/$cursorPosts/$userId";
-      _logger.f(path);
       ApiResponse response = await _apiService.getRequest(path);
 
       if (response.statusCode == 200) {
         hasMorePosts = response.body["hasMore"];
-        _logger.d(hasMorePosts);
         List<Post> posts = [];
 
         for (var post in response.body["posts"]) {
@@ -278,6 +275,26 @@ class UserService extends GetxController {
       } else {
         return null;
       }
+    } catch (e) {
+      _logger.e(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<List<int>> getUserLikesId({bool isForPost = false}) async {
+    var ressourceType = isForPost ? "post" : "comment";
+    List<int> likedElementId = [];
+
+    String path = "basic/user-likes-ids/$ressourceType";
+    try {
+      ApiResponse response = await _apiService.getRequest(path);
+      if (response.statusCode == 200) {
+        for (var id in response.body) {
+          likedElementId.add(id);
+        }
+      }
+
+      return likedElementId;
     } catch (e) {
       _logger.e(e.toString());
       rethrow;

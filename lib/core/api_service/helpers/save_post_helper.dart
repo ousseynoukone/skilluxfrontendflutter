@@ -19,7 +19,7 @@ Map<String, String> buildRequestFieldsForPost(Post post) {
     fields['headerImageUrl'] = post.headerImageUrl ?? '';
     // Add tags to the map with indexed keys
     for (int i = 0; i < post.tags.length; i++) {
-      fields['tags[$i]'] = post.tags[i];
+      fields['tags[$i]'] = post.tags[i].toLowerCase();
     }
 
     fields['createdAt'] = post.createdAt?.toIso8601String() ?? '';

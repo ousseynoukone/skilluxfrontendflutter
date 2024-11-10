@@ -1,107 +1,143 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:skilluxfrontendflutter/config/constant/bottom_navigation_screen.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
-import 'package:skilluxfrontendflutter/config/theme/colors.dart';
 import 'package:skilluxfrontendflutter/presentations/features/add_post_screen/add_post_screen.dart';
-import 'package:skilluxfrontendflutter/presentations/features/discovery_screen/discovery_screen.dart';
-import 'package:skilluxfrontendflutter/presentations/features/home_screen/home_screen.dart';
-import 'package:skilluxfrontendflutter/presentations/features/profile_screen/profile_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/features/search_screen/search_screen.dart';
+import 'package:skilluxfrontendflutter/services/home_services/home_service_controller.dart';
+import 'package:skilluxfrontendflutter/services/home_services/repository/helper/helper.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
 class BottomNavigationBarComponent extends StatefulWidget {
-  const BottomNavigationBarComponent({super.key});
+  final int initialIndex;
+
+  const BottomNavigationBarComponent({super.key, this.initialIndex = 0});
 
   @override
-  State<BottomNavigationBarComponent> createState() =>
+  _BottomNavigationBarComponentState createState() =>
       _BottomNavigationBarComponentState();
 }
 
 class _BottomNavigationBarComponentState
     extends State<BottomNavigationBarComponent> {
-  int _currentIndex = 0;
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const DiscoveryScreen(),
-    const SearchScreen(),
-    const ProfileScreen(),
-  ];
+  late UserProfilePostService userProfilePostService;
+  late UserProfileService userProfileService;
+  late HomePostService _homePostService;
+  final RxInt _currentIndex = 0.obs;
+
+  @override
+  void initState() {
+    super.initState();
+    userProfilePostService = Get.find<UserProfilePostService>();
+    userProfileService = Get.find<UserProfileService>();
+    _homePostService =
+        Get.put(HomePostService(feedType: FeedType.recommendedPosts));
+
+    // Set the initial index
+    _currentIndex.value = widget.initialIndex;
+  }
+
+  @override
+  void dispose() {
+    // Clean up resources here
+    _homePostService.reinititalizeParams(); // Dispose controller if needed
+    _currentIndex.close(); // Dispose the RxInt to avoid memory leaks
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    TextTheme textTheme = Theme.of(context).textTheme;
-    ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
+    final text = context.localizations;
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+    final isKeyboardVisible = bottomInset > 0;
 
-    UserProfilePostService userProfilePostService = Get.find();
-    UserProfileService userProfileService = Get.find();
+    return Obx(() {
+      _updateProfileIfNeeded();
 
-
-    var text = context.localizations;
-    if (_currentIndex == 3) {
-      userProfilePostService.getUserPosts(disableLoading: true);
-      userProfileService.getUserInfos(disableLoading: true);
-    }
-
-    return Scaffold(
-      body: _screens[_currentIndex],
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Divider(
-            height: 1,
-            thickness: 0.1,
-            color: colorScheme.outlineVariant,
-          ),
-          BottomAppBar(
-            color: Colors.transparent,
-            surfaceTintColor: Colors.transparent,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _buildNavItem(
-                    Icons.home_outlined, Icons.home, text.home, 0, colorScheme),
-                _buildNavItem(Icons.compass_calibration_outlined,
-                    Icons.compass_calibration, text.discovery, 1, colorScheme),
-                _buildAddButton(colorScheme),
-                _buildNavItem(Icons.search_outlined, Icons.search, text.search,
-                    2, colorScheme),
-                _buildNavItem(Icons.person_outline, Icons.person, text.profile,
-                    3, colorScheme),
-              ],
+      return Visibility(
+        visible: !isKeyboardVisible,
+        child: Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: SafeArea(
+              child: IndexedStack(
+                index: _currentIndex.value,
+                children: bnScreensList,
+              ),
             ),
           ),
-        ],
-      ),
-    );
+          bottomNavigationBar: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Divider(
+                height: 0.5,
+                thickness: 0.1,
+                color: colorScheme.outlineVariant,
+              ),
+              BottomAppBar(
+                height: Get.height / 12.4,
+                color: Colors.transparent,
+                surfaceTintColor: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _buildNavItem(Icons.home_outlined, Icons.home, text.home, 0,
+                        colorScheme),
+                    // _buildNavItem(
+                    //     Icons.compass_calibration_outlined,
+                    //     Icons.compass_calibration,
+                    //     text.discovery,
+                    //     1,
+                    //     colorScheme),
+                    _buildAddButton(colorScheme, text.post),
+                    _buildSearchButton(colorScheme, text.search),
+                    _buildNavItem(Icons.person_outline, Icons.person,
+                        text.profile, 1, colorScheme),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    });
+  }
+
+  void _updateProfileIfNeeded() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_currentIndex.value == bnScreensList.length - 1) {
+        userProfilePostService.getUserPosts(disableLoading: true);
+        userProfileService.getUserInfos(disableLoading: true);
+      }
+
+      if (_currentIndex.value == 0) {
+        _homePostService.getPosts(isLoadingDisabled: true);
+      }
+    });
   }
 
   Widget _buildNavItem(IconData icon, IconData activeIcon, String label,
       int index, ColorScheme colorScheme) {
     return InkWell(
-      splashColor: Colors.transparent,
-      hoverColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      focusColor: Colors.transparent,
-      enableFeedback: false,
-      onTap: () => setState(() => _currentIndex = index),
+      onTap: () => _currentIndex.value = index,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            size: Get.width * 0.05,
-            _currentIndex == index ? activeIcon : icon,
-            color: _currentIndex == index
+            _currentIndex.value == index ? activeIcon : icon,
+            color: _currentIndex.value == index
                 ? colorScheme.onPrimary
                 : colorScheme.primaryFixed,
+            size: Get.width * 0.06,
           ),
           Text(
             label,
             style: TextStyle(
-              color: _currentIndex == index
+              color: _currentIndex.value == index
                   ? colorScheme.onPrimary
                   : colorScheme.primaryFixed,
               fontSize: 12,
@@ -112,24 +148,53 @@ class _BottomNavigationBarComponentState
     );
   }
 
-  Widget _buildAddButton(ColorScheme colorScheme) {
+  Widget _buildAddButton(ColorScheme colorScheme, String label) {
     return InkWell(
-      splashColor: Colors.transparent,
-      hoverColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      focusColor: Colors.transparent,
-      enableFeedback: false,
       onTap: () => Get.to(() => const AddPostScreen()),
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: colorScheme.primary,
-          shape: BoxShape.circle,
-        ),
-        child: Icon(Icons.add_circle_rounded,
-            color: colorScheme.onPrimary, size: 40),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            fill: 1,
+            Icons.add,
+            color: colorScheme.onPrimary,
+            size: Get.width * 0.06,
+          ),
+          Text(
+            label,
+            style: TextStyle(
+              color: colorScheme.onPrimary,
+              fontSize: 12,
+            ),
+          ),
+        ],
       ),
     );
   }
+}
+
+Widget _buildSearchButton(ColorScheme colorScheme, String label) {
+  return InkWell(
+    onTap: () => Get.to(() => const SearchScreen()),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          fill: 1,
+          Icons.search,
+          color: colorScheme.onPrimary,
+          size: Get.width * 0.06,
+        ),
+        Text(
+          label,
+          style: TextStyle(
+            color: colorScheme.onPrimary,
+            fontSize: 12,
+          ),
+        ),
+      ],
+    ),
+  );
 }

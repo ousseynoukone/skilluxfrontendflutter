@@ -7,6 +7,13 @@
 			<key>NSAllowsArbitraryLoads</key>
 			<true/>
 		</dict>
+		<key>NSCameraUsageDescription</key>
+		<string>This app requires access to the camera to take photos.</string>
+
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>This app requires access to the photo library to pick up photos.</string>
+		
+
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>

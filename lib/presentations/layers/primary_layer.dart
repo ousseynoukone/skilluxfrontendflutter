@@ -2,8 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
-import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
-import 'package:skilluxfrontendflutter/config/theme/colors.dart';
+
 import 'package:skilluxfrontendflutter/core/state_managment/app_state_managment.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/auth.dart';
 import 'package:skilluxfrontendflutter/presentations/features/custom_tags_preferences/tags_preferences_screen.dart';
@@ -11,8 +10,8 @@ import 'package:skilluxfrontendflutter/presentations/layers/secondary_layer/seco
 import 'package:skilluxfrontendflutter/presentations/onBoard/on_boarding_screen.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/loading.dart';
 import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_controller.dart';
+import 'package:skilluxfrontendflutter/services/internet/internet_checker.dart';
 import 'package:skilluxfrontendflutter/services/system_services/add_post_sys_services/add_post_sys_service.dart';
-import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
 
 class PrimaryLayer extends StatefulWidget {
   const PrimaryLayer({super.key});
@@ -28,11 +27,13 @@ class _PrimaryLayerState extends State<PrimaryLayer> {
       Get.put(GetXAuthController(), permanent: true);
   late Future<void> _initStateFuture;
   final AddPostSysService _addPostSysService = Get.put(AddPostSysService());
+    var x  = Get.put(InternetChecker());
 
   @override
   void initState() {
     super.initState();
     _initStateFuture = controller.onInit();
+
   }
 
   @override

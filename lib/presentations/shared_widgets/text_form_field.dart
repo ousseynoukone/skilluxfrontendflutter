@@ -8,6 +8,7 @@ class TextFormFieldComponent extends StatelessWidget {
   final TextEditingController controller;
   final FormFieldValidator<String>? validator;
   final VoidCallback? ontap;
+  final void Function (String)? onChange;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final bool readOnly;
@@ -24,6 +25,7 @@ class TextFormFieldComponent extends StatelessWidget {
     required this.controller,
     this.validator,
     this.ontap,
+    this.onChange,
     this.readOnly = false,
     this.focusNode,
     this.onFieldSubmitted,
@@ -39,6 +41,7 @@ class TextFormFieldComponent extends StatelessWidget {
       validator: validator,
       focusNode: focusNode,
       onFieldSubmitted: onFieldSubmitted,
+      onChanged: onChange,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,

@@ -70,7 +70,7 @@ class _UserFollowingState extends State<UserFollowing> {
                 padding: const EdgeInsets.only(bottom: 4),
                 child: ListTile(
                   tileColor: colorScheme.primary.withOpacity(0.3),
-                  leading:displayUserPP(user.profilePicture),
+                  leading: displayUserPP(user.profilePicture),
                   title: Text(user.fullName),
                   subtitle: Text(
                     user.username,
@@ -78,8 +78,8 @@ class _UserFollowingState extends State<UserFollowing> {
                   ),
                   trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
-                                   Get.to(()=>ForeignProfileScreen(
-                          foreignUserId: user.id,
+                    Get.to(() => ForeignProfileScreen(
+                          foreignUserId: user.id!,
                         ));
                   },
                 ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
 import 'package:skilluxfrontendflutter/config/theme/colors.dart';
+import 'package:skilluxfrontendflutter/presentations/features/auth/login.dart';
+import 'package:skilluxfrontendflutter/presentations/features/auth/register.dart';
 import 'package:skilluxfrontendflutter/presentations/features/auth/widgets/navigation_bar/navigation_bar.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/skillux.dart';
 import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_controller.dart';
@@ -21,6 +23,7 @@ class _AuthState extends State<Auth> {
     final GetXAuthController _getXAuthController = Get.find();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(8.0),
@@ -68,7 +71,11 @@ class _AuthState extends State<Auth> {
                       )
                     : const SizedBox.shrink()),
               ),
-              const Expanded(child: TopNavigationBar())
+              Expanded(
+                  child: TopNavigationBar(
+                screenList: const [Login(), Register()],
+                tabList: [Tab(text: text.login), Tab(text: text.register)],
+              ))
             ],
           ),
         ),

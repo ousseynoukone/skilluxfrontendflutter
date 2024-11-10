@@ -6,6 +6,8 @@ import 'package:skilluxfrontendflutter/models/user/user.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/persistent_header_delegate.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/post_container.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/user_info.dart';
+import 'package:skilluxfrontendflutter/services/comment_services/comment_service.dart';
+import 'package:skilluxfrontendflutter/services/mainHelpers/comment_post_provider/comment_post_provider.dart';
 import 'package:skilluxfrontendflutter/services/system_services/route_observer_utils/route_observer_utils.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/foreign_user_profile_service.dart';
 import 'package:logger/logger.dart';
@@ -14,8 +16,12 @@ import 'package:skilluxfrontendflutter/services/user_profile_services/user_profi
 
 class ForeignProfileScreen extends StatefulWidget {
   final int foreignUserId;
+  final bool switchPostProviderOnCommentService;
 
-  ForeignProfileScreen({super.key, required this.foreignUserId});
+  const ForeignProfileScreen(
+      {super.key,
+      required this.foreignUserId,
+      this.switchPostProviderOnCommentService = false});
 
   @override
   _ForeignProfileScreenState createState() => _ForeignProfileScreenState();
@@ -42,6 +48,24 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
     _foreignUserPostsService.getUserPosts();
     _scrollController.addListener(_scrollListener);
     _isPostLoadingOrEmpty();
+
+    // Defer the post provider switching
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _switchPostProviderOnCommentService();
+    });
+  }
+
+//WE NEED TO SWITCH THE POST PROVIDER IN COMMENT SERVICE TO PostProviderToForeignProfilePostHolder because , if not , it would take the posts provider of Home HomePostService which would not work for loading and adding comment because posts that are in HomePostService are different of the post that is loaded from the target user
+  _switchPostProviderOnCommentService({bool switchBack = false}) {
+    if (widget.switchPostProviderOnCommentService) {
+      final CommentService commentService = Get.find();
+      if (switchBack) {
+        commentService.switchPostProviderToForeignProfilePostHolder(
+            switchBack: true);
+      } else {
+        commentService.switchPostProviderToForeignProfilePostHolder();
+      }
+    }
   }
 
   void _isPostLoadingOrEmpty() {
@@ -89,6 +113,8 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
   void dispose() {
     _foreignUserPostsService.dispose();
     _foreignUserProfileService.dispose();
+
+    _switchPostProviderOnCommentService(switchBack: true);
     super.dispose();
   }
 
@@ -96,12 +122,12 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
-    final AppLocalizations? text = context.localizations;
+    final AppLocalizations text = context.localizations;
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(text?.profile ?? 'Profile'),
+        title: Text(text.profile),
       ),
       body: CustomScrollView(
         controller: _scrollController,
@@ -162,8 +188,9 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
                 return SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) => PostContainer(
+                      commentPostProvider:
+                          CommentPostProvider.foreignProfilePostService,
                       post: snapshot.data![index],
-                      isForOther: true,
                     ),
                     childCount: snapshot.data?.length ?? 0,
                   ),
@@ -190,7 +217,7 @@ class _ForeignProfileScreenState extends State<ForeignProfileScreen>
                     padding: const EdgeInsets.all(16),
                     child: Center(
                       child: Text(
-                        text!.noPostPosted,
+                        text.noPostPosted,
                         style: textTheme.bodySmall,
                       ),
                     ),

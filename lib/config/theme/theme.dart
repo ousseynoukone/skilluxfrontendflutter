@@ -26,9 +26,13 @@ class AppTheme {
 
   static ThemeData lightTheme = ThemeData(
       textSelectionTheme: const TextSelectionThemeData(
-          selectionHandleColor: ColorsTheme.primary,
-          cursorColor: ColorsTheme.tertiaryDark,
-          selectionColor: ColorsTheme.secondary),
+        selectionHandleColor: ColorsTheme.tertiaryDarker,
+        cursorColor: ColorsTheme.tertiaryDark,
+        selectionColor: Color.fromARGB(40, 0, 0, 0),
+      ),
+      cupertinoOverrideTheme: const CupertinoThemeData(
+        primaryColor: ColorsTheme.tertiaryDarker, // For iOS selection handle color
+      ),
       colorScheme: AppColorScheme.light,
       splashColor: Colors.transparent,
       useMaterial3: true,
@@ -51,15 +55,17 @@ class AppTheme {
       dropdownMenuTheme: DropdownMenuAppTheme.lightDropdownMenuThemeData,
       dialogTheme: DialogAppTheme.lightDialogButtonTheme,
       highlightColor: Colors.transparent,
-
       listTileTheme: ListTileThemeAppTheme.listTileThemeDataLight,
       textButtonTheme: TextAppButtonTheme.lightTextButtonTheme);
 
   static ThemeData darkTheme = ThemeData(
       textSelectionTheme: const TextSelectionThemeData(
-          selectionHandleColor: ColorsTheme.primary,
+          selectionHandleColor: ColorsTheme.tertiary,
           cursorColor: ColorsTheme.white,
-          selectionColor: ColorsTheme.secondary),
+          selectionColor: Color.fromARGB(49, 255, 255, 255)),
+                cupertinoOverrideTheme: const CupertinoThemeData(
+        primaryColor: ColorsTheme.tertiary, // For iOS selection handle color
+      ),
       colorScheme: AppColorScheme.dark,
       splashColor: Colors.transparent,
       useMaterial3: true,

@@ -29,7 +29,7 @@ class APIService {
             .replace(queryParameters: queryParameters);
         final response = await http.get(
           uri,
-          headers: _setHeadersToken(),
+          headers: setHeadersToken(),
         );
         return _handleResponse(response);
       } else {
@@ -58,7 +58,7 @@ class APIService {
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            ..._setHeadersToken(),
+            ...setHeadersToken(),
           },
           body: data == null ? null : jsonEncode(data),
         );
@@ -90,7 +90,7 @@ class APIService {
         request.headers.addAll({
           'Content-Type': 'multipart/form-data',
           'Accept': 'application/json',
-          ..._setHeadersToken(),
+          ...setHeadersToken(),
         });
 
         if (post.headerImageIMG != null) {
@@ -152,7 +152,7 @@ class APIService {
         request.headers.addAll({
           'Content-Type': 'multipart/form-data',
           'Accept': 'application/json',
-          ..._setHeadersToken(),
+          ...setHeadersToken(),
         });
 
         //Isolating coverImage
@@ -202,7 +202,7 @@ class APIService {
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            ..._setHeadersToken(),
+            ...setHeadersToken(),
           },
           body: jsonEncode(data),
         );
@@ -234,7 +234,7 @@ class APIService {
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            ..._setHeadersToken(),
+            ...setHeadersToken(),
           },
           body: jsonEncode(data),
         );
@@ -263,7 +263,7 @@ class APIService {
             .replace(queryParameters: queryParameters);
         final response = await http.delete(
           uri,
-          headers: _setHeadersToken(),
+          headers: setHeadersToken(),
           body: jsonEncode(data),
         );
         return _handleResponse(response);
@@ -278,7 +278,7 @@ class APIService {
     }
   }
 
-  Map<String, String> _setHeadersToken() {
+  Map<String, String> setHeadersToken() {
     return {'authorization': 'Bearer ${_tokenManager.token.accessToken}'};
   }
 
