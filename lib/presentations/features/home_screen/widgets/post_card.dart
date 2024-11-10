@@ -25,7 +25,8 @@ class PostCard extends StatefulWidget {
   _PostCardState createState() => _PostCardState();
 }
 
-class _PostCardState extends State<PostCard> {
+class _PostCardState extends State<PostCard>
+    with AutomaticKeepAliveClientMixin {
   late HomePostService _HomePostService;
 
   @override
@@ -140,4 +141,7 @@ class _PostCardState extends State<PostCard> {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

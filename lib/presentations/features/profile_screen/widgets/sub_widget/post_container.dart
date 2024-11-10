@@ -21,7 +21,7 @@ class PostContainer extends StatefulWidget {
   _PostContainerState createState() => _PostContainerState();
 }
 
-class _PostContainerState extends State<PostContainer> {
+class _PostContainerState extends State<PostContainer> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     // Access the post object from the widget
@@ -98,4 +98,7 @@ class _PostContainerState extends State<PostContainer> {
       ),
     );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }
