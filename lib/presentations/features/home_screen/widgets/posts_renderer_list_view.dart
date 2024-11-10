@@ -73,7 +73,7 @@ class _PostsRendererListViewState extends State<PostsRendererListView> {
             );
           },
           onLoading: const Center(child: CircularProgressIndicator()),
-          onEmpty: const Center(child: Text('No posts available')),
+          onEmpty: Center(child: Text(text.noPostAvailable)),
           onError: (error) => Center(child: Text(error ?? 'Unknown error')),
         ),
       ),

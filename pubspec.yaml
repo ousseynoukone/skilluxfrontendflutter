@@ -99,6 +99,8 @@ dependencies:
   #A Flutter package that notifies when no internet connection as well as providing simple tools that help tracking the internet connection status.
   connection_notifier: ^2.0.1
 
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -6,6 +6,7 @@ import 'package:skilluxfrontendflutter/presentations/features/profile_screen/wid
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/persistent_header_delegate.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/sub_widget/post_container.dart';
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/widgets/user_info.dart';
+import 'package:skilluxfrontendflutter/services/STATE/auth_state/user_state.dart';
 import 'package:skilluxfrontendflutter/services/mainHelpers/comment_post_provider/comment_post_provider.dart';
 import 'package:skilluxfrontendflutter/services/system_services/route_observer_utils/route_observer_utils.dart';
 import 'package:skilluxfrontendflutter/services/user_profile_services/user_profile_service.dart';
@@ -57,11 +58,14 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
     // !!! HAVE COMMENTED IT BUT DO NOT KNOW THE REPERCUSION LOL ,  DUE TO THE UGLY GLITCH SIDE EFFECT WHILE LOGIN OFF
     // This stand for helping  the scrollNotification to take effect when user try to scroll down (after didPopNext)
     // _scrollToTop();
-
-    // Defer the post provider switching
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      userProfileService.getUserInfos(disableLoading: true);
-      userProfilePostService.getUserPosts(disableLoading: true);
+    isUserLogginOut.listen((bool isUserLogginOut) {
+      if (!isUserLogginOut) {
+        // Defer the post provider switching
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          userProfileService.getUserInfos(disableLoading: true);
+          userProfilePostService.getUserPosts(disableLoading: true);
+        });
+      }
     });
   }
 

@@ -21,11 +21,13 @@ class _SwitchFeedModState extends State<SwitchFeedMod> {
     var themeText = context.textTheme;
     var colorScheme = Theme.of(context).colorScheme;
     var text = context.localizations;
+    Color dropDownColor =
+        Get.isDarkMode ? colorScheme.primary : colorScheme.tertiary;
 
     return DropdownButton<FeedType>(
       value: dropdownValue,
       elevation: 16,
-      dropdownColor: colorScheme.tertiary,
+      dropdownColor: dropDownColor,
       style: themeText.bodySmall,
       underline: Container(
         height: 2,

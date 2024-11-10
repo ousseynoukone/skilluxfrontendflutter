@@ -216,6 +216,7 @@ class _UserInfoState extends State<UserInfo> {
                       ),
                     ),
                     backgroundColor: colorScheme.primary,
+                    barrierColor: colorScheme.onSurface.withOpacity(0.8),
                     UpdateUserInfoScreen(user: widget.user));
               },
               text: text.editProfile,

@@ -4,6 +4,7 @@ import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart'
 import 'package:skilluxfrontendflutter/presentations/features/profile_screen/sub_features/settings/settings.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/confirm_dialog.dart';
 import 'package:skilluxfrontendflutter/presentations/shared_widgets/poppup_menu_button.dart';
+import 'package:skilluxfrontendflutter/services/STATE/auth_state/user_state.dart';
 import 'package:skilluxfrontendflutter/services/auh_services/controller/auth_controller.dart';
 
 class PoppupMenuButton extends StatelessWidget {
@@ -33,6 +34,7 @@ class PoppupMenuButton extends StatelessWidget {
                 content: text.areYouSureLogOut,
                 onConfirm: () {
                   authController.logout();
+                  isUserLogginOut.value = true;
                 },
               ),
             );

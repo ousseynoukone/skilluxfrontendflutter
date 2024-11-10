@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
@@ -36,13 +37,16 @@ class _PostContainerState extends State<PostContainer> {
       const double size = 50.0; // Define the size of the image and icon
       if (post.headerImageUrl != null && post.headerImageUrl!.isNotEmpty) {
         return SizedBox(
-          width: size,
-          height: size,
-          child: Image.network(
-            post.headerImageUrl!,
-            fit: BoxFit.cover, // Ensures the image covers the whole space
-          ),
-        );
+            width: size,
+            height: size,
+            child: CachedNetworkImage(
+              imageUrl: post.headerImageUrl!,
+              fit: BoxFit.cover, // Ensures the image covers the whole space
+              placeholder: (context, url) =>
+                  const CircularProgressIndicator(), // Optional: shows a loading indicator
+              errorWidget: (context, url, error) => const Icon(Icons
+                  .error), // Optional: shows an error icon if the image fails to load
+            ));
       } else {
         return SizedBox(
           width: size,

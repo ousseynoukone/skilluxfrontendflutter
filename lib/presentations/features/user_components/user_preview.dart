@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
@@ -49,7 +50,7 @@ Widget displayUserPP(String? profilePicture, {double? radius}) {
 
   if (profilePicture != null && profilePicture.isNotEmpty) {
     return CircleAvatar(
-      backgroundImage: NetworkImage(profilePicture),
+      backgroundImage: CachedNetworkImageProvider(profilePicture),
       radius: radius ?? defaultRadius,
     );
   } else {
