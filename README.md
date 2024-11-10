@@ -47,7 +47,7 @@ Skillux is a mobile application designed to connect learners and experts in vari
 - Flutter (V3.22.1 • channel stable • || Tools • Dart 3.4.1 • DevTools 2.34.3)
 
 ### Endpoints (Swagger-autogen)
-Swagger autogen used : You might have as well a glimpse of all endpoints and some additional informations , but since it's auto-genarated , you might not have all effective informations. Reffer to, mostly, on  PostMan collection.
+Swagger autogen used : You might have as well a glimpse of all endpoints and some additional informations , but since it's auto-genarated , you might not have all effective informations. Refer to, mostly, on  PostMan collection.
 
 #### SWGGER IS RUNNING AT  {host}/api-docs:{server_port}
 
@@ -57,7 +57,6 @@ Swagger autogen used : You might have as well a glimpse of all endpoints and som
 ### Installation
 
 1. Clone the repository
-    https://github.com/ousseynoukone/SkilluxNodeJsBackEnd.git
     https://github.com/ousseynoukone/skilluxfrontendflutter.git
 
 2. Install dependencies
@@ -82,7 +81,9 @@ Swagger autogen used : You might have as well a glimpse of all endpoints and som
 
 4. (Optional) Seed the database
         npx sequelize-cli db:seed:all
+   
 
+### FOR THE BACK END REFER TO : https://github.com/ousseynoukone/SkilluxNodeJsBackEnd.git
 
 
 
