@@ -77,7 +77,7 @@ class _BottomNavigationBarComponentState
                 color: colorScheme.outlineVariant,
               ),
               BottomAppBar(
-                height: Get.height / 12.7,
+                height: Get.height / 12.4,
                 color: Colors.transparent,
                 surfaceTintColor: Colors.transparent,
                 child: Row(

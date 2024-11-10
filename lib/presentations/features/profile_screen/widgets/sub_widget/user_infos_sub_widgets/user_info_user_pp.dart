@@ -74,7 +74,7 @@ class _UserInfoUserProfilePictureState extends State<UserInfoUserProfilePicture>
           width: 30,
           child: Container(
             decoration: BoxDecoration(
-                color: colorScheme.onPrimaryContainer.withOpacity(0.8),
+                color: colorScheme.onSurface,
                 borderRadius: BorderRadius.circular(30)),
             child: Center(
               child: InkWell(
@@ -84,8 +84,7 @@ class _UserInfoUserProfilePictureState extends State<UserInfoUserProfilePicture>
                     handlingPickedImage();
                   }
                 },
-                child: const Icon(Icons.edit,
-                    size: 20, color: ColorsTheme.secondary),
+                child: Icon(Icons.edit, size: 20, color: colorScheme.primary),
               ),
             ),
           ),

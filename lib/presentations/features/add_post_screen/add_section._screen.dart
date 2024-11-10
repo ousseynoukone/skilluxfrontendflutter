@@ -29,6 +29,8 @@ class _AddSectionState extends State<AddSection> with ImagePickerMixin {
   final QuillController _controller = QuillController.basic();
   final AddPostSysService _addPostSysService = Get.find();
   bool isKeyboardVisible = false;
+  final FocusNode _editorFocusNode =
+      FocusNode(); // <-- Define the FocusNode here
 
   @override
   void initState() {
@@ -38,6 +40,12 @@ class _AddSectionState extends State<AddSection> with ImagePickerMixin {
       _controller.document = Document.fromJson(
           jsonDecode(_addPostSysService.post.value.content.content!));
     }
+  }
+
+  @override
+  void dispose() {
+    _editorFocusNode.dispose();
+    super.dispose();
   }
 
   addSection() {
@@ -87,6 +95,7 @@ class _AddSectionState extends State<AddSection> with ImagePickerMixin {
         child: Quilleditor(
           displayToolsBar: true,
           controller: _controller,
+          scrollable: false,
           displayMode: false,
         ),
       );
@@ -98,6 +107,11 @@ class _AddSectionState extends State<AddSection> with ImagePickerMixin {
     var text = context.localizations;
     final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     isKeyboardVisible = keyboardHeight > 0; // Update keyboard visibility
+
+    // if (isKeyboardVisible) {
+    //   _logger.d("called");
+    //   _editorFocusNode.requestFocus(); // <-- Request focus here
+    // }
 
     return Scaffold(
         appBar: AppBar(
