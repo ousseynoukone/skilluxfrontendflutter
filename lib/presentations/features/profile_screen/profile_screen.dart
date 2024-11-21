@@ -26,6 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
   final UserProfileService userProfileService = Get.find();
   final AppLocalizations? text = Get.context?.localizations;
   final ScrollController _scrollController = ScrollController();
+  bool isLoginOff = false;
 
   @override
   void didChangeDependencies() {
@@ -37,6 +38,14 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
   void initState() {
     super.initState();
     _scrollController.addListener(_scrollListener);
+
+    isUserLogginOut.listen((bool isUserLogginOut) {
+      if (isUserLogginOut) {
+        setState(() {
+          isLoginOff = isUserLogginOut;
+        });
+      }
+    });
   }
 
   void _scrollListener() {
@@ -55,18 +64,16 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
   //If this screen pop again
   @override
   didPopNext() {
-    // !!! HAVE COMMENTED IT BUT DO NOT KNOW THE REPERCUSION LOL ,  DUE TO THE UGLY GLITCH SIDE EFFECT WHILE LOGIN OFF
     // This stand for helping  the scrollNotification to take effect when user try to scroll down (after didPopNext)
     // _scrollToTop();
-    isUserLogginOut.listen((bool isUserLogginOut) {
-      if (!isUserLogginOut) {
-        // Defer the post provider switching
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          userProfileService.getUserInfos(disableLoading: true);
-          userProfilePostService.getUserPosts(disableLoading: true);
-        });
-      }
-    });
+
+    if (!isLoginOff) {
+      // Defer the post provider switching
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        userProfileService.getUserInfos(disableLoading: true);
+        userProfilePostService.getUserPosts(disableLoading: true);
+      });
+    }
   }
 
   void _scrollToTop() {
