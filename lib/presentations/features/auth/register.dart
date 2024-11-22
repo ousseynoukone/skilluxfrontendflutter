@@ -86,6 +86,7 @@ class _RegisterState extends State<Register> {
                   controller: _fullNameController,
                   focusNode: _fullNameFocusNode,
                   hintText: text.enterFullName,
+                  textInputAction: TextInputAction.next,
                   prefixIcon: const Icon(Icons.person_outlined),
                   labelText: text.fullName,
                   validator: (value) {
@@ -107,6 +108,7 @@ class _RegisterState extends State<Register> {
                   focusNode: _usernameFocusNode,
                   hintText: text.enterUsername,
                   prefixIcon: const Icon(Icons.person_outlined),
+                  textInputAction: TextInputAction.next,
                   labelText: text.username,
                   validator: (value) {
                     var message = UsernameValidator.validate(value);
@@ -143,6 +145,7 @@ class _RegisterState extends State<Register> {
                   controller: _emailController,
                   focusNode: _emailFocusNode,
                   hintText: text.existingEmail,
+                  textInputAction: TextInputAction.next,
                   prefixIcon: const Icon(Icons.email_outlined),
                   labelText: text.email,
                   validator: (value) {

@@ -76,6 +76,7 @@ class _LoginState extends State<Login> {
                   controller: _loginController,
                   hintText: text.enterYourEmailOrUsername,
                   labelText: text.login,
+                  textInputAction: TextInputAction.next,
                   prefixIcon: const Icon(Icons.login_outlined),
                   validator: (value) {
                     var message = LoginValidator.validate(value);
@@ -83,6 +84,9 @@ class _LoginState extends State<Login> {
                       return message;
                     }
                     return null; // Return null if the input is valid
+                  },
+                  onFieldSubmitted: (String value) {
+                    FocusScope.of(context).requestFocus(_passwordFocus);
                   },
                 ),
               ),

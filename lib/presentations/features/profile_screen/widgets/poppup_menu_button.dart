@@ -33,8 +33,12 @@ class PoppupMenuButton extends StatelessWidget {
                 title: text.confirmLogOut,
                 content: text.areYouSureLogOut,
                 onConfirm: () {
-                  authController.logout();
                   isUserLogginOut.value = true;
+
+                  // Add a small delay to ensure state propagation
+                  Future.microtask(() {
+                    authController.logout();
+                  });
                 },
               ),
             );

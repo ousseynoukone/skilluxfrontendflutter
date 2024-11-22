@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skilluxfrontendflutter/config/extensions/context_extension.dart';
@@ -26,7 +28,6 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
   final UserProfileService userProfileService = Get.find();
   final AppLocalizations? text = Get.context?.localizations;
   final ScrollController _scrollController = ScrollController();
-  bool isLoginOff = false;
 
   @override
   void didChangeDependencies() {
@@ -38,14 +39,6 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
   void initState() {
     super.initState();
     _scrollController.addListener(_scrollListener);
-
-    isUserLogginOut.listen((bool isUserLogginOut) {
-      if (isUserLogginOut) {
-        setState(() {
-          isLoginOff = isUserLogginOut;
-        });
-      }
-    });
   }
 
   void _scrollListener() {
@@ -67,7 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
     // This stand for helping  the scrollNotification to take effect when user try to scroll down (after didPopNext)
     // _scrollToTop();
 
-    if (!isLoginOff) {
+    if (!isUserLogginOut.value) {
       // Defer the post provider switching
       WidgetsBinding.instance.addPostFrameCallback((_) {
         userProfileService.getUserInfos(disableLoading: true);
@@ -86,7 +79,8 @@ class _ProfileScreenState extends State<ProfileScreen> with RouteAware {
 
   @override
   void dispose() {
-    _scrollController.dispose(); // Dispose the ScrollController
+    _scrollController.dispose();
+
     ObserverUtils.routeObserver.unsubscribe(this);
     super.dispose();
   }
